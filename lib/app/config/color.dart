@@ -8,7 +8,7 @@ class AppColor {
   static Color headingColor = const Color(0xff3C3C3C);
   static Color paragraphColor = const Color(0xff555555);
   static Color nonactiveColor = const Color(0xff868686);
-  static Color disableColor = const Color(0xff868686);
+  static Color disableColor = const Color(0xffCACACA);
 
   static Color lightColor = const Color(0xffFEFEFE);
   static Color success = const Color(0xff43936c);

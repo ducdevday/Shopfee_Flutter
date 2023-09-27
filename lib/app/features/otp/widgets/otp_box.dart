@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shopfee/app/config/color.dart';
@@ -31,7 +30,11 @@ class _OtpBoxState extends State<OtpBox> {
         });
       } else {
         setState(() {
-          _color = Color(0xffF0F0F0);
+          if (_controller.text.isEmpty) {
+            _color = Color(0xffF0F0F0);
+          } else {
+            _color = Colors.white;
+          }
         });
       }
     });
@@ -48,7 +51,9 @@ class _OtpBoxState extends State<OtpBox> {
       child: TextField(
         onChanged: (value) => {
           widget._cubit.addOTP(_controller.text, widget.index),
-          if (widget.isLast == false && _controller.text.isNotEmpty) {FocusScope.of(context).nextFocus()}
+          // context.read<OtpCubit>().a
+          if (widget.isLast == false && _controller.text.isNotEmpty)
+            {FocusScope.of(context).nextFocus()}
         },
         focusNode: _textFieldFocus,
         style: TextStyle(fontSize: 24),
@@ -63,12 +68,14 @@ class _OtpBoxState extends State<OtpBox> {
           fillColor: _color,
           filled: true,
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16.0),
-            borderSide: BorderSide.none,
+            borderRadius: BorderRadius.circular(8.0),
+            borderSide: _controller.text.isEmpty
+                ? BorderSide.none
+                : BorderSide(color: AppColor.primaryColor),
           ),
           border: OutlineInputBorder(
               borderSide: BorderSide(color: AppColor.primaryColor),
-              borderRadius: BorderRadius.circular(16)),
+              borderRadius: BorderRadius.circular(8)),
         ),
       ),
     );
