@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopfee/app/config/routes.dart';
 import 'package:shopfee/app/config/theme.dart';
+import 'package:shopfee/app/features/cart/bloc/cart_bloc.dart';
 import 'package:shopfee/app/utils/SimpleBlocObserver.dart';
 
 void main() async {
@@ -16,14 +17,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      themeMode: ThemeMode.light,
-      theme: AppTheme.lightTheme,
-      onGenerateRoute: (settings) {
-        return AppRouter.onGenerateRoute(settings);
-      },
-      initialRoute: "/home",
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => CartBloc()..add(LoadCart()))
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        themeMode: ThemeMode.light,
+        theme: AppTheme.lightTheme,
+        onGenerateRoute: (settings) {
+          return AppRouter.onGenerateRoute(settings);
+        },
+        initialRoute: "/home",
+      ),
     );
   }
 }

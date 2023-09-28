@@ -1,11 +1,15 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shopfee/app/common/data/global_data.dart';
 import 'package:shopfee/app/common/widgets/my_bottom_navigationbar.dart';
 import 'package:shopfee/app/config/color.dart';
 import 'package:shopfee/app/config/dimens.dart';
 import 'package:shopfee/app/config/style.dart';
+import 'package:shopfee/app/features/cart/bloc/cart_bloc.dart';
 import 'package:shopfee/app/features/home/widgets/home_filter.dart';
+import 'package:shopfee/app/features/home/widgets/home_float_action.dart';
 import 'package:shopfee/app/features/home/widgets/home_product.dart';
 import 'package:shopfee/app/features/home/widgets/home_slider.dart';
 import 'package:shopfee/data/models/product.dart';
@@ -94,8 +98,9 @@ class HomeScreen extends StatelessWidget {
                             alignment: Alignment.topLeft, child: HomeFilter()),
                         SizedBox(
                           height: Product.products.length * 70 +
-                              Product.products.length * 8 +
-                              kBottomNavigationBarHeight,
+                              Product.products.length * 16 +
+                              kBottomNavigationBarHeight +
+                              70,
                           child: TabBarView(
                             children: [
                               ListView.separated(
@@ -104,7 +109,7 @@ class HomeScreen extends StatelessWidget {
                                 physics: NeverScrollableScrollPhysics(),
                                 itemCount: Product.products.length,
                                 itemBuilder: (context, index) =>
-                                    HomeProduct(index),
+                                    HomeProduct(Product.products[index]),
                                 separatorBuilder: (context, int index) =>
                                     SizedBox(
                                   height: 8,
@@ -115,7 +120,7 @@ class HomeScreen extends StatelessWidget {
                                 physics: NeverScrollableScrollPhysics(),
                                 itemCount: Product.products.length,
                                 itemBuilder: (context, index) =>
-                                    HomeProduct(index),
+                                    HomeProduct(Product.products[index]),
                                 separatorBuilder: (context, int index) =>
                                     SizedBox(
                                   height: 8,
@@ -126,7 +131,7 @@ class HomeScreen extends StatelessWidget {
                                 physics: NeverScrollableScrollPhysics(),
                                 itemCount: Product.products.length,
                                 itemBuilder: (context, index) =>
-                                    HomeProduct(index),
+                                    HomeProduct(Product.products[index]),
                                 separatorBuilder: (context, int index) =>
                                     SizedBox(
                                   height: 8,
@@ -142,7 +147,11 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ),
+      floatingActionButtonLocation:
+          FloatingActionButtonLocation.miniCenterFloat,
+      floatingActionButton: HomeFloatAction(),
       bottomNavigationBar: myBottomNavigationBar,
     );
   }
 }
+

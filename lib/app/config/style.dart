@@ -25,7 +25,6 @@ class AppStyle {
     color: AppColor.paragraphColor,
     fontSize: AppDimen.normalText,
     fontWeight: FontWeight.w500,
-
   );
   static final normalTextStyleDark = TextStyle(
     color: AppColor.paragraphColor,
@@ -92,4 +91,8 @@ class AppStyle {
     color: AppColor.primaryColor,
     fontSize: AppDimen.smallText,
   );
+
+  static final elevatedButtonStylePrimary = ElevatedButton.styleFrom(
+      padding: EdgeInsets.symmetric(vertical: 14, horizontal: 24),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)));
 }
