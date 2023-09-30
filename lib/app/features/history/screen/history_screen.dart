@@ -33,40 +33,45 @@ class HistoryScreen extends StatelessWidget {
               ListView.separated(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) => Row(children: [
-                        SvgPicture.asset(
-                          "assets/icons/ic_delivery.svg",
-                          width: 70,
-                          height: 70,
-                        ),
-                        SizedBox(
-                          width: 4,
-                        ),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                  itemBuilder: (context, index) => InkWell(
+                    onTap: (){
+                      Navigator.pushNamed(context, "/tracking");
+                    },
+                    child: Row(children: [
+                          SvgPicture.asset(
+                            "assets/icons/ic_delivery.svg",
+                            width: 70,
+                            height: 70,
+                          ),
+                          SizedBox(
+                            width: 4,
+                          ),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Coffee milk",
+                                  style: AppStyle.mediumTextStyleDark.copyWith(color: AppColor.headingColor, height: 2),
+                                ),
+                                Text(
+                                  "12:30 - 30/9/2023",
+                                  style: AppStyle.normalTextStyleDark,
+                                ),
+                              ],
+                            ),
+                          ),
+                          Column(
                             children: [
                               Text(
-                                "Coffee milk",
-                                style: AppStyle.mediumTextStyleDark.copyWith(color: AppColor.headingColor, height: 2),
+                                "25,000đ",
+                                style: AppStyle.mediumTextStyleDark.copyWith(color: AppColor.headingColor,height: 2),
                               ),
-                              Text(
-                                "12:30 - 30/9/2023",
-                                style: AppStyle.normalTextStyleDark,
-                              ),
+                              SvgPicture.asset("assets/icons/ic_pending.svg")
                             ],
-                          ),
-                        ),
-                        Column(
-                          children: [
-                            Text(
-                              "25,000đ",
-                              style: AppStyle.mediumTextStyleDark.copyWith(color: AppColor.headingColor,height: 2),
-                            ),
-                            SvgPicture.asset("assets/icons/ic_pending.svg")
-                          ],
-                        )
-                      ]),
+                          )
+                        ]),
+                  ),
                   separatorBuilder: (context, index) => Divider(
                         height: 10,
                       ),

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:shopfee/app/common/widgets/my_bottom_navigationbar.dart';
 import 'package:shopfee/app/common/widgets/my_page_route.dart';
@@ -13,12 +12,14 @@ import 'package:shopfee/app/features/receipt/screen/receipt_screen.dart';
 import 'package:shopfee/app/features/register/screen/register_screen.dart';
 import 'package:shopfee/app/features/search/screens/search_screen.dart';
 import 'package:shopfee/app/features/splash/screen/splash_screen.dart';
+import 'package:shopfee/app/features/tracking/screen/tracking_screen.dart';
 import 'package:shopfee/app/features/voucher/screen/voucher_screen.dart';
 
 class AppRouter {
   static final myBottomNavigationBar = MyBottomNavigationBar();
-  static onGenerateRoute(RouteSettings settings){
-    switch(settings.name) {
+
+  static onGenerateRoute(RouteSettings settings) {
+    switch (settings.name) {
       case "/splash":
         return MaterialPageRoute(builder: (context) => SplashScreen());
       case "/onboarding":
@@ -28,11 +29,14 @@ class AppRouter {
       case "/login":
         return MaterialPageRoute(builder: (context) => LoginScreen());
       case "/home":
-        return UnanimatedPageRoute(builder: (context) => HomeScreen(myBottomNavigationBar));
+        return UnanimatedPageRoute(
+            builder: (context) => HomeScreen(myBottomNavigationBar));
       case "/history":
-        return UnanimatedPageRoute(builder: (context) => HistoryScreen(myBottomNavigationBar));
+        return UnanimatedPageRoute(
+            builder: (context) => HistoryScreen(myBottomNavigationBar));
       case "/account":
-        return UnanimatedPageRoute(builder: (context) => AccountScreen(myBottomNavigationBar));
+        return UnanimatedPageRoute(
+            builder: (context) => AccountScreen(myBottomNavigationBar));
       case "/search":
         return MaterialPageRoute(builder: (context) => SearchScreen());
       case "/otp":
@@ -42,18 +46,20 @@ class AppRouter {
       case "/voucher":
         return MaterialPageRoute(builder: (context) => VoucherScreen());
       case "/receipt":
-        return  MaterialPageRoute(builder: (context) => ReceiptScreen());
+        return MaterialPageRoute(builder: (context) => ReceiptScreen());
+      case "/tracking":
+        return MaterialPageRoute(builder: (context) => TrackingScreen());
       default:
         return _errorRoute();
     }
   }
+
   static Route _errorRoute() {
     return MaterialPageRoute(
         builder: (context) => Scaffold(
-          appBar: AppBar(
-            title: Text("Some thing went wrong"),
-          ),
-        ));
+              appBar: AppBar(
+                title: Text("Some thing went wrong"),
+              ),
+            ));
   }
 }
-
