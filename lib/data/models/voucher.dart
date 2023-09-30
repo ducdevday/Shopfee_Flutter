@@ -4,13 +4,13 @@ enum TypeVoucher { Money, Percent }
 
 class Voucher extends Equatable {
   final String id;
-  final String name;
-  final String code;
-  final TypeVoucher type;
-  final double value;
-  final double minium;
-  final double upto;
-
+  final String name; // Tên hiển thị của voucher
+  final String code; // Mã code voucher
+  final TypeVoucher type; // Loại voucher, giá trị giảm tiền mặt hoặc giảm theo phần trăm
+  final double value; // 20,000đ hoặc 20%
+  final double minium; // Giá trị đơn hàng tối thiểu để áp dụng
+  final double upto; // Tiền mặt được giảm tối đa khi sử dụng loại voucher theo %
+  //! final DateTime expiry // Hạn sử dụng của vouchcer, có thể cân nhắc đưa cái này vô
   const Voucher({
     required this.id,
     required this.name,

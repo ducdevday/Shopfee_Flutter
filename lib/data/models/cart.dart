@@ -5,7 +5,7 @@ import 'package:shopfee/data/models/voucher.dart';
 
 enum TypeDelivery { TakeAway, HomeDelivery }
 
-enum TypePayment { COD }
+enum TypePayment { CASH, VNPAY  }
 
 class Cart extends Equatable {
   final List<Order> orders;

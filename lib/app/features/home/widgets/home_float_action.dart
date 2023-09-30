@@ -19,51 +19,56 @@ class HomeFloatAction extends StatelessWidget {
           if (state.cart.orders.isEmpty) {
             return SizedBox();
           }
-          return Container(
-            width: double.infinity,
-            height: 56,
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            margin: EdgeInsets.symmetric(horizontal: AppDimen.screenPadding),
-            decoration: BoxDecoration(
-                color: AppColor.primaryColor,
-                borderRadius: BorderRadius.circular(16)),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        state.cart.quantityTotalString,
-                        style: AppStyle.mediumTitleStyle
-                            .copyWith(fontWeight: FontWeight.w500),
-                      ),
-                      Text(
-                        state.cart.nameOrderString,
-                        style: AppStyle.smallTextStyle,
-                        overflow: TextOverflow.ellipsis,
-                      )
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  width: 25,
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(state.cart.totalPriceString,
-                        style: AppStyle.mediumTitleStyle
-                            .copyWith(fontWeight: FontWeight.w500)),
-                    SizedBox(
-                      width: 4,
+          return InkWell(
+            onTap: (){
+              Navigator.pushNamed(context, "/cart");
+            },
+            child: Container(
+              width: double.infinity,
+              height: 56,
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              margin: EdgeInsets.symmetric(horizontal: AppDimen.screenPadding),
+              decoration: BoxDecoration(
+                  color: AppColor.primaryColor,
+                  borderRadius: BorderRadius.circular(16)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          state.cart.quantityTotalString,
+                          style: AppStyle.mediumTitleStyle
+                              .copyWith(fontWeight: FontWeight.w500),
+                        ),
+                        Text(
+                          state.cart.nameOrderString,
+                          style: AppStyle.smallTextStyle,
+                          overflow: TextOverflow.ellipsis,
+                        )
+                      ],
                     ),
-                    SvgPicture.asset("assets/icons/ic_shopping_bag.svg")
-                  ],
-                )
-              ],
+                  ),
+                  SizedBox(
+                    width: 25,
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(state.cart.totalPriceString,
+                          style: AppStyle.mediumTitleStyle
+                              .copyWith(fontWeight: FontWeight.w500)),
+                      SizedBox(
+                        width: 4,
+                      ),
+                      SvgPicture.asset("assets/icons/ic_shopping_bag.svg")
+                    ],
+                  )
+                ],
+              ),
             ),
           );
         } else {

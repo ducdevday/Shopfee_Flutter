@@ -33,6 +33,12 @@ class Order extends Equatable {
 
   String get totalString => "${NumberFormat.decimalPattern().format(total)}đ";
 
+  String get toppingOrderString {
+    List<String> results = [];
+    toppings.map((t) => t.name).forEach((name) {results.add(name); });
+    return results.join(", ");
+  }
+
   @override
   List<Object?> get props =>
       [product, quantity, variant, size, sugar, toppings, note];
