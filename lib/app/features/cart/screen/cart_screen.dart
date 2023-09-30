@@ -368,7 +368,9 @@ class CartScreen extends StatelessWidget {
                       vertical: 10, horizontal: AppDimen.screenPadding),
                   child: ElevatedButton(
                     child: Text("Order (130,000đ)"),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, "/receipt");
+                    },
                     style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(40))),

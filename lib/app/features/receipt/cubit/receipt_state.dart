@@ -1,20 +1,20 @@
-part of 'checkout_cubit.dart';
+part of 'receipt_cubit.dart';
 
-abstract class CheckoutState extends Equatable {
-  const CheckoutState();
+abstract class ReceiptState extends Equatable {
+  const ReceiptState();
 }
 
-class CheckoutInitial extends CheckoutState {
+class ReceiptInitial extends ReceiptState {
   @override
   List<Object> get props => [];
 }
 
-class CheckoutLoading extends CheckoutState{
+class ReceiptLoading extends ReceiptState{
   @override
   List<Object> get props => [];
 }
 
-class CheckoutLoaded extends CheckoutState{
+class ReceiptLoaded extends ReceiptState{
   @override
   List<Object> get props => [];
 }

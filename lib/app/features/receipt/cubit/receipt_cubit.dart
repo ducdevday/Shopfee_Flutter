@@ -1,16 +1,15 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-part 'checkout_state.dart';
+part 'receipt_state.dart';
 
-class CheckoutCubit extends Cubit<CheckoutState> {
-  CheckoutCubit() : super(CheckoutInitial());
+class ReceiptCubit extends Cubit<ReceiptState> {
+  ReceiptCubit() : super(ReceiptInitial());
 
-  Future<void> initCheckout() async{
-    emit(CheckoutLoading());
-    Future.delayed(Duration(milliseconds: 3000));
-    emit(CheckoutLoaded());
+  Future<void> initCheckout() async {
+    emit(ReceiptLoading());
+    Future.delayed(Duration(milliseconds: 3000), () {
+      emit(ReceiptLoaded());
+    });
   }
-  
-
 }
