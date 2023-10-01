@@ -64,7 +64,9 @@ class AccountScreen extends StatelessWidget {
                         SettingItem(
                           iconData: Icons.account_circle_outlined,
                           content: "Personal Information",
-                          callback: () {},
+                          callback: () {
+                            Navigator.pushNamed(context, "/personal_information");
+                          },
                         ),
                         Divider(
                           height: 1,
@@ -168,19 +170,19 @@ class AccountScreen extends StatelessWidget {
 class SettingItem extends StatelessWidget {
   final IconData iconData;
   final String content;
-  final void callback;
+  final VoidCallback callback;
 
   const SettingItem({
     super.key,
     required this.iconData,
     required this.content,
-    this.callback,
+    required this.callback,
   });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => callback,
+      onTap: callback,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8.0),
         child: Row(

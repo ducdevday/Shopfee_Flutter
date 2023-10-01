@@ -8,6 +8,7 @@ import 'package:shopfee/app/features/home/screen/home_screen.dart';
 import 'package:shopfee/app/features/login/screen/login_screen.dart';
 import 'package:shopfee/app/features/onboarding/screen/onboarding_screen.dart';
 import 'package:shopfee/app/features/otp/screen/otp_screen.dart';
+import 'package:shopfee/app/features/personal_information/screen/personal_information_screen.dart';
 import 'package:shopfee/app/features/receipt/screen/receipt_screen.dart';
 import 'package:shopfee/app/features/register/screen/register_screen.dart';
 import 'package:shopfee/app/features/review/screen/review_screen.dart';
@@ -52,6 +53,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (context) => TrackingScreen());
       case "/review":
         return MaterialPageRoute(builder: (context) => ReviewScreen());
+      case "/personal_information":
+        return MaterialPageRoute(builder: (context) => PersonalInformation());
       default:
         return _errorRoute();
     }
