@@ -160,7 +160,8 @@ class TrackingScreen extends StatelessWidget {
                         onPressed: () {},
                         child: Text("Cancel Order"),
                         style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.symmetric(vertical: 14, horizontal: 24),
+                            padding: EdgeInsets.symmetric(
+                                vertical: 14, horizontal: 24),
                             backgroundColor: AppColor.error,
                             disabledBackgroundColor: const Color(0xffCACACA),
                             disabledForegroundColor: AppColor.lightColor,

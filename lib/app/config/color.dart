@@ -5,6 +5,7 @@ class AppColor {
   static Color primaryColor = const Color(0xff5D4037);
   static Color primaryColorLight = const Color(0xffA1887F);
 
+
   static Color headingColor = const Color(0xff3C3C3C);
   static Color paragraphColor = const Color(0xff555555);
   static Color nonactiveColor = const Color(0xff868686);
