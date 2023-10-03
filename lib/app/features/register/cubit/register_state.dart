@@ -9,6 +9,12 @@ class RegisterInitial extends RegisterState {
   List<Object> get props => [];
 }
 
+class RegisterLoading extends RegisterState{
+  @override
+  List<Object?> get props => [];
+
+}
+
 class RegisterLoaded extends RegisterState {
    final String firstName;
    final String lastName;

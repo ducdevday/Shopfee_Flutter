@@ -119,7 +119,9 @@ class CartScreen extends StatelessWidget {
                                 Icons.map_outlined,
                                 color: AppColor.primaryColor,
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.pushNamed(context, "/geolocation");
+                              },
                             ),
                           ],
                         ),

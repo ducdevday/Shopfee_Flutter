@@ -3,6 +3,7 @@ import 'package:shopfee/app/common/widgets/my_bottom_navigationbar.dart';
 import 'package:shopfee/app/common/widgets/my_page_route.dart';
 import 'package:shopfee/app/features/account/screen/account_screen.dart';
 import 'package:shopfee/app/features/cart/screen/cart_screen.dart';
+import 'package:shopfee/app/features/geolocation/screen/geolocation_screen.dart';
 import 'package:shopfee/app/features/history/screen/history_screen.dart';
 import 'package:shopfee/app/features/home/screen/home_screen.dart';
 import 'package:shopfee/app/features/login/screen/login_screen.dart';
@@ -54,7 +55,9 @@ class AppRouter {
       case "/review":
         return MaterialPageRoute(builder: (context) => ReviewScreen());
       case "/personal_information":
-        return MaterialPageRoute(builder: (context) => PersonalInformation());
+        return MaterialPageRoute(builder: (context) => PersonalInformationScreen());
+      case "/geolocation":
+        return MaterialPageRoute(builder: (context) => GeolocationScreen());
       default:
         return _errorRoute();
     }

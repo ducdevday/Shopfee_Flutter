@@ -3,14 +3,14 @@ import 'package:shopfee/app/config/color.dart';
 import 'package:shopfee/app/config/dimens.dart';
 import 'package:shopfee/app/config/style.dart';
 
-class PersonalInformation extends StatefulWidget {
-  const PersonalInformation({Key? key}) : super(key: key);
+class PersonalInformationScreen extends StatefulWidget {
+  const PersonalInformationScreen({Key? key}) : super(key: key);
 
   @override
-  State<PersonalInformation> createState() => _PersonalInformationState();
+  State<PersonalInformationScreen> createState() => _PersonalInformationScreenState();
 }
 
-class _PersonalInformationState extends State<PersonalInformation> {
+class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
   DateTime selectedDate = DateTime.now();
 
   _selectDate(BuildContext context) async {

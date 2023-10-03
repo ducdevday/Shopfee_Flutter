@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shopfee/app/config/color.dart';
 import 'package:shopfee/app/config/dimens.dart';
 import 'package:shopfee/app/config/style.dart';
 import 'package:shopfee/app/features/register/cubit/register_cubit.dart';
 import 'package:shopfee/app/features/register/widgets/input_field.dart';
+import 'package:shopfee/data/repositories/auth/auth_repository.dart';
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -15,7 +17,7 @@ class RegisterScreen extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: BlocProvider(
-        create: (context) => RegisterCubit()..initField(),
+        create: (context) => RegisterCubit(authRepository: context.read<AuthRepository>())..initField(),
         child: Container(
           padding: const EdgeInsets.all(AppDimen.screenPadding),
           child: Column(
@@ -35,6 +37,7 @@ class RegisterScreen extends StatelessWidget {
                     height: 28,
                   ),
                   const Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(
                         flex: 1,
@@ -131,7 +134,9 @@ class RegisterScreen extends StatelessWidget {
                       builder: (context, state) {
                         if(state is RegisterLoaded) {
                           return ElevatedButton(
-                            onPressed: state.isValid() ? () {} : null,
+                            onPressed: state.isValid() ? () {
+                              context.read<RegisterCubit>().doRegister(context);
+                            } : null,
                             child: const Text("Register"),
                             style: ElevatedButton.styleFrom(
                                 disabledBackgroundColor: const Color(0xffCACACA),
@@ -186,7 +191,8 @@ class RegisterScreen extends StatelessWidget {
                         padding: EdgeInsets.zero,
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                      },
                       child: Text(
                         "or ",
                         style: AppStyle.normalTextStyleDark,
