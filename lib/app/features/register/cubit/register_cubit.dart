@@ -12,8 +12,8 @@ class RegisterCubit extends Cubit<RegisterState> {
   final AuthRepository authRepository;
   RegisterCubit({required this.authRepository}) : super(RegisterInitial());
 
-  Future<void> initField() async {
-    emit(RegisterLoaded());
+  Future<void> initField(String email) async {
+    emit(RegisterLoaded(email: email));
   }
 
   Future<void> addField(String field, String value) async {
@@ -56,7 +56,6 @@ class RegisterCubit extends Cubit<RegisterState> {
         EasyLoading.dismiss();
         if(response){
           print("doRegister Success");
-          // NavigationUtil.pushNamed(route: "/home");
           Navigator.pushNamed(context, "/home");
         }
         else{
@@ -68,7 +67,5 @@ class RegisterCubit extends Cubit<RegisterState> {
         EasyLoading.showToast(e.toString());
       }
     }
-
   }
-
 }

@@ -1,7 +1,7 @@
 import 'package:geolocator/geolocator.dart';
-import 'package:shopfee/data/repositories/geolocation/base_geolocation_respository.dart';
+import 'package:shopfee/data/repositories/geolocation/geolocation_respository_base.dart';
 
-class GeolocationRepository extends BaseGeolocationRepository {
+class GeolocationRepository extends GeolocationRepositoryBase {
   GeolocationRepository();
 
   @override

@@ -15,8 +15,8 @@ class SplashScreen extends StatelessWidget {
       body: Stack(
         children: [
           Center(
-            child: SvgPicture.asset(
-              'assets/images/onboarding_one.svg', // Path to your image
+            child: Image.asset(
+              'assets/images/img_logo_one.png', // Path to your image
               width: 274, // Adjust the image size as needed
               height: 202,
             ),

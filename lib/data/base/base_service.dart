@@ -16,8 +16,8 @@ class BaseService {
     dio = Dio(
       BaseOptions(
         baseUrl: BASE_PATH,
-        connectTimeout: const Duration(milliseconds: 10000),
-        receiveTimeout: const Duration(milliseconds: 10000),
+        connectTimeout: const Duration(milliseconds: 15000),
+        receiveTimeout: const Duration(milliseconds: 15000),
         responseType: ResponseType.json,
         contentType: Headers.jsonContentType,
       ),

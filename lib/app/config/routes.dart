@@ -17,6 +17,7 @@ import 'package:shopfee/app/features/search/screens/search_screen.dart';
 import 'package:shopfee/app/features/splash/screen/splash_screen.dart';
 import 'package:shopfee/app/features/tracking/screen/tracking_screen.dart';
 import 'package:shopfee/app/features/voucher/screen/voucher_screen.dart';
+import 'package:shopfee/app/features/welcome/screen/welcome_screen.dart';
 
 class AppRouter {
   static final myBottomNavigationBar = MyBottomNavigationBar();
@@ -28,7 +29,9 @@ class AppRouter {
       case "/onboarding":
         return MaterialPageRoute(builder: (context) => OnBoardingScreen());
       case "/register":
-        return MaterialPageRoute(builder: (context) => RegisterScreen());
+        return MaterialPageRoute(builder: (context) => RegisterScreen(email: settings.arguments as String));
+      case "/welcome":
+        return MaterialPageRoute(builder: (context) => WelcomeScreen());
       case "/login":
         return MaterialPageRoute(builder: (context) => LoginScreen());
       case "/home":
@@ -43,7 +46,7 @@ class AppRouter {
       case "/search":
         return MaterialPageRoute(builder: (context) => SearchScreen());
       case "/otp":
-        return MaterialPageRoute(builder: (context) => OtpScreen());
+        return MaterialPageRoute(builder: (context) => OtpScreen(email: settings.arguments as String));
       case "/cart":
         return MaterialPageRoute(builder: (context) => CartScreen());
       case "/voucher":

@@ -51,6 +51,7 @@ dependencies:
   flutter_typeahead: ^4.8.0
   dio: ^5.1.1
   flutter_easyloading: ^3.0.5
+  email_validator: ^2.1.16
 dev_dependencies:
   flutter_test:
     sdk: flutter

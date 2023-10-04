@@ -6,6 +6,7 @@ import 'package:shopfee/app/config/theme.dart';
 import 'package:shopfee/app/features/cart/bloc/cart_bloc.dart';
 import 'package:shopfee/app/features/geolocation/bloc/geolocation_bloc.dart';
 import 'package:shopfee/app/features/register/cubit/register_cubit.dart';
+import 'package:shopfee/app/features/welcome/cubit/welcome_cubit.dart';
 import 'package:shopfee/app/utils/SimpleBlocObserver.dart';
 import 'package:shopfee/data/repositories/auth/auth_repository.dart';
 import 'package:shopfee/data/repositories/geolocation/geolocation_repository.dart';
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider(create: (context) => GeolocationBloc(
               geolocationRepository: context.read<GeolocationRepository>())..add(LoadGeolocation())),
+          BlocProvider(create: (context) => WelcomeCubit(authRepository: context.read<AuthRepository>())..initCubit()),
           BlocProvider(create: (context) =>
           CartBloc()
             ..add(LoadCart()))
@@ -43,7 +45,7 @@ class MyApp extends StatelessWidget {
           onGenerateRoute: (settings) {
             return AppRouter.onGenerateRoute(settings);
           },
-          initialRoute: "/splash",
+          initialRoute: "/welcome",
           builder: EasyLoading.init(),
         ),
       ),

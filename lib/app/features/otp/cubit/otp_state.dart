@@ -21,4 +21,6 @@ class OtpLoaded extends OtpState {
     if (otps.contains("")) return false;
     return true;
   }
+
+  String get otpsSting => otps.join("");
 }
