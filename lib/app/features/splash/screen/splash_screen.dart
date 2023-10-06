@@ -2,13 +2,20 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shopfee/app/common/data/global_data.dart';
 
 class SplashScreen extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     Timer(Duration(milliseconds: 3000), () {
-      Navigator.pushReplacementNamed(context, "/onboarding");
+      if (GlobalData.ins.isFirstTime) {
+        Navigator.pushReplacementNamed(context, "/onboarding");
+      } else if (GlobalData.ins.userId != null) {
+        Navigator.pushReplacementNamed(context, "/home");
+      } else {
+        Navigator.pushReplacementNamed(context, "/welcome");
+      }
     });
     return Scaffold(
       backgroundColor: Colors.white, // Change to your desired background color

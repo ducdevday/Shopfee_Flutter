@@ -3,6 +3,8 @@ import 'package:shopfee/app/common/widgets/my_bottom_navigationbar.dart';
 import 'package:shopfee/app/common/widgets/my_page_route.dart';
 import 'package:shopfee/app/features/account/screen/account_screen.dart';
 import 'package:shopfee/app/features/cart/screen/cart_screen.dart';
+import 'package:shopfee/app/features/change_password/screen/change_password_screen.dart';
+import 'package:shopfee/app/features/forgot_password/screen/forgot_password_screen.dart';
 import 'package:shopfee/app/features/geolocation/screen/geolocation_screen.dart';
 import 'package:shopfee/app/features/history/screen/history_screen.dart';
 import 'package:shopfee/app/features/home/screen/home_screen.dart';
@@ -29,11 +31,28 @@ class AppRouter {
       case "/onboarding":
         return MaterialPageRoute(builder: (context) => OnBoardingScreen());
       case "/register":
-        return MaterialPageRoute(builder: (context) => RegisterScreen(email: settings.arguments as String));
+        return MaterialPageRoute(
+            builder: (context) =>
+                RegisterScreen(email: settings.arguments as String));
       case "/welcome":
         return MaterialPageRoute(builder: (context) => WelcomeScreen());
       case "/login":
-        return MaterialPageRoute(builder: (context) => LoginScreen());
+        return MaterialPageRoute(
+            builder: (context) => LoginScreen(
+                email: settings.arguments == null
+                    ? null
+                    : settings.arguments as String));
+      case "/otp":
+        final args = settings.arguments as Map<String, String>;
+        return MaterialPageRoute(
+            builder: (context) => OtpScreen(
+                routeName: args["routeName"]!, email: args["email"]!));
+      case "/forgot_password":
+        return MaterialPageRoute(builder: (context) => ForgotPasswordScreen());
+      case "/change_password":
+        return MaterialPageRoute(
+            builder: (context) =>
+                ChangePasswordScreen(email: settings.arguments as String));
       case "/home":
         return UnanimatedPageRoute(
             builder: (context) => HomeScreen(myBottomNavigationBar));
@@ -45,8 +64,6 @@ class AppRouter {
             builder: (context) => AccountScreen(myBottomNavigationBar));
       case "/search":
         return MaterialPageRoute(builder: (context) => SearchScreen());
-      case "/otp":
-        return MaterialPageRoute(builder: (context) => OtpScreen(email: settings.arguments as String));
       case "/cart":
         return MaterialPageRoute(builder: (context) => CartScreen());
       case "/voucher":
@@ -58,7 +75,8 @@ class AppRouter {
       case "/review":
         return MaterialPageRoute(builder: (context) => ReviewScreen());
       case "/personal_information":
-        return MaterialPageRoute(builder: (context) => PersonalInformationScreen());
+        return MaterialPageRoute(
+            builder: (context) => PersonalInformationScreen());
       case "/geolocation":
         return MaterialPageRoute(builder: (context) => GeolocationScreen());
       default:

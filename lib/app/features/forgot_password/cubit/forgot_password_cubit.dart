@@ -1,45 +1,44 @@
 import 'package:bloc/bloc.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:shopfee/data/repositories/auth/auth_repository.dart';
 
-part 'welcome_state.dart';
+part 'forgot_password_state.dart';
 
-class WelcomeCubit extends Cubit<WelcomeState> {
+class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
   final AuthRepository authRepository;
 
-  WelcomeCubit({required this.authRepository}) : super(WelcomeInitial());
+  ForgotPasswordCubit({required this.authRepository})
+      : super(ForgotPasswordInitial());
 
   Future<void> initCubit() async {
-    emit(WelcomeLoaded());
+    emit(ForgotPasswordLoaded());
   }
 
   Future<void> addEmail(String email) async {
-    if (state is WelcomeLoaded) {
-      emit(WelcomeLoaded(email: email));
+    if (state is ForgotPasswordLoaded) {
+      emit(ForgotPasswordLoaded(email: email));
     }
   }
 
   Future<void> sendOTP(BuildContext context) async {
-    if (state is WelcomeLoaded) {
-      final currentState = state as WelcomeLoaded;
+    if (state is ForgotPasswordLoaded) {
+      final currentState = state as ForgotPasswordLoaded;
       try {
         if (currentState.errorString() != "") {
           throw (currentState.errorString());
         }
-        EasyLoading.show(
-            status: 'Loading...', maskType: EasyLoadingMaskType.black);
-        var response = await authRepository.sendCode(currentState.email);
+        EasyLoading.show(maskType: EasyLoadingMaskType.black);
+        var response =
+            await authRepository.passwordSendCode(currentState.email);
         EasyLoading.dismiss();
         if (response.success) {
           Navigator.pushNamed(context, "/otp", arguments: {
-            "routeName": "/register",
+            "routeName": "/change_password",
             "email": currentState.email
           });
-        } else if (response.message == "Email account registered") {
-          showExistEmailBottomSheet(currentState.email);
         } else {
           EasyLoading.showError('Something went wrong');
         }
@@ -48,10 +47,5 @@ class WelcomeCubit extends Cubit<WelcomeState> {
         EasyLoading.showError(e.toString());
       }
     }
-  }
-
-  Future<void> showExistEmailBottomSheet(String email) async{
-    emit(WelcomeExistEmail(email: email));
-    emit(WelcomeLoaded(email: email));
   }
 }

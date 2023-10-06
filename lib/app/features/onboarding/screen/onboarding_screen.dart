@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shopfee/app/common/data/global_data.dart';
 import 'package:shopfee/app/config/color.dart';
 import 'package:shopfee/app/config/dimens.dart';
 import 'package:shopfee/app/config/style.dart';
@@ -117,7 +119,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                         ),
                         onPressed: () {
                           if (currentIndex == widget.contents.length - 1) {
-                            Navigator.pushReplacementNamed(context, "/register");
+                            _setFistTime();
+                            Navigator.pushReplacementNamed(context, "/welcome");
                           }
                           _controller.nextPage(
                             duration: Duration(milliseconds: 100),
@@ -151,5 +154,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             : AppColor.disableColor,
       ),
     );
+  }
+
+  Future<void> _setFistTime() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool("isFirstTime", false);
   }
 }

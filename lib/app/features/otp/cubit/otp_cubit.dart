@@ -27,7 +27,7 @@ class OtpCubit extends Cubit<OtpState> {
     }
   }
 
-  Future<void> verityOTP(BuildContext context, String email ) async{
+  Future<void> verityOTP(BuildContext context, String routeName, String email ) async{
     if(state is OtpLoaded){
       final currentState = state as OtpLoaded;
       try{
@@ -35,7 +35,7 @@ class OtpCubit extends Cubit<OtpState> {
         var response = await authRepository.verifyCode(email, currentState.otpsSting);
         EasyLoading.dismiss();
         if(response){
-          Navigator.pushNamed(context, "/register", arguments: email);
+          Navigator.pushNamed(context, routeName, arguments: email);
         }
         else{
           EasyLoading.showError('OTP incorrect');
@@ -48,11 +48,13 @@ class OtpCubit extends Cubit<OtpState> {
     }
   }
 
-  Future<void> resendOTP(BuildContext context, String email) async {
+  Future<void> resendOTP(BuildContext context, String email, ) async {
     if (state is OtpLoaded) {
       try{
-        var response = await authRepository.sendCode(email);
-        if(response){
+        EasyLoading.show(maskType: EasyLoadingMaskType.black);
+        var response = await authRepository.resendCode(email);
+        EasyLoading.dismiss();
+        if(response.success){
           EasyLoading.showSuccess("Resend OTP to your email");
         }
         else{
@@ -65,5 +67,4 @@ class OtpCubit extends Cubit<OtpState> {
       }
     }
   }
-
 }

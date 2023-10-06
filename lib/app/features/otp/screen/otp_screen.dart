@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopfee/app/config/color.dart';
@@ -8,9 +10,14 @@ import 'package:shopfee/app/features/otp/widgets/otp_box.dart';
 import 'package:shopfee/data/repositories/auth/auth_repository.dart';
 
 class OtpScreen extends StatelessWidget {
+  final String routeName;
   final String email;
 
-  const OtpScreen({Key? key, required this.email}) : super(key: key);
+  const OtpScreen({
+    Key? key,
+    required this.routeName,
+    required this.email,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -86,33 +93,13 @@ class OtpScreen extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        TextButton(
-                            style: TextButton.styleFrom(
-                              minimumSize: Size.zero,
-                              padding: EdgeInsets.zero,
-                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            ),
-                            onPressed: () {},
-                            child: Text(
-                              "Haven't got the confirmation code yet? ",
-                              style: AppStyle.normalTextStyleDark,
-                            )),
-                        TextButton(
-                            style: TextButton.styleFrom(
-                              minimumSize: Size.zero,
-                              padding: EdgeInsets.zero,
-                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            ),
-                            onPressed: () {
-                              context
-                                  .read<OtpCubit>()
-                                  .resendOTP(context, email);
-                            },
-                            child: Text(
-                              "Resend",
-                              style: AppStyle.normalTextStylePrimary
-                                  .copyWith(color: AppColor.info),
-                            )),
+                        Text(
+                          "Haven't got the confirmation code yet? ",
+                          style: AppStyle.normalTextStyleDark,
+                        ),
+                        CountdownText(
+                          email: email,
+                        ),
                       ],
                     ),
                     const Spacer(
@@ -126,7 +113,7 @@ class OtpScreen extends StatelessWidget {
                               ? () {
                                   context
                                       .read<OtpCubit>()
-                                      .verityOTP(context, email);
+                                      .verityOTP(context, routeName, email);
                                 }
                               : null,
                           child: const Text("Confirm"),
@@ -148,5 +135,61 @@ class OtpScreen extends StatelessWidget {
         },
       ),
     );
+  }
+}
+
+class CountdownText extends StatefulWidget {
+  final String email;
+
+  const CountdownText({Key? key, required this.email}) : super(key: key);
+
+  @override
+  State<CountdownText> createState() => _CountdownTextState();
+}
+
+class _CountdownTextState extends State<CountdownText> {
+  int _secondsLeft = 30;
+
+  @override
+  void initState() {
+    super.initState();
+    _startTimer();
+  }
+
+  void _startTimer() {
+    Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        _secondsLeft--;
+      });
+      if (_secondsLeft == 0) {
+        timer.cancel();
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_secondsLeft != 0) {
+      if (_secondsLeft >= 10) {
+        return Text("00:${_secondsLeft.toString()}",
+            style: AppStyle.normalTextStylePrimary);
+      } else {
+        return Text("00:0${_secondsLeft.toString()}",
+            style: AppStyle.normalTextStylePrimary);
+      }
+    }
+    return TextButton(
+        style: TextButton.styleFrom(
+          minimumSize: Size.zero,
+          padding: EdgeInsets.zero,
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        ),
+        onPressed: () {
+          context.read<OtpCubit>().resendOTP(context, widget.email);
+        },
+        child: Text(
+          "Resend",
+          style: AppStyle.normalTextStylePrimary,
+        ));
   }
 }

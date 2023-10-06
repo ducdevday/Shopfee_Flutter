@@ -1,10 +1,16 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shopfee/data/repositories/auth/auth_repository.dart';
 
 part 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
-  LoginCubit() : super(LoginInitial());
+  final AuthRepository authRepository;
+
+  LoginCubit({required this.authRepository}) : super(LoginInitial());
 
   Future<void> initField() async {
     emit(LoginLoaded());
@@ -17,6 +23,32 @@ class LoginCubit extends Cubit<LoginState> {
         emit(LoginLoaded(email: value, password: currentState.password));
       } else if (field == 'Password') {
         emit(LoginLoaded(email: currentState.email, password: value));
+      }
+    }
+  }
+
+  Future<void> doLogin(BuildContext context) async {
+    if (state is LoginLoaded) {
+      final currentState = state as LoginLoaded;
+      try {
+        EasyLoading.show(maskType: EasyLoadingMaskType.black);
+        var response = await authRepository.login(
+            currentState.email, currentState.password);
+        EasyLoading.dismiss();
+        if (response.success) {
+          print("doLogin Success");
+          print(response.data);
+
+          final SharedPreferences prefs = await SharedPreferences.getInstance();
+          await prefs.setString('userId', response.data!["userId"]);
+          await prefs.setString('accessToken', response.data!["accessToken"]);
+          Navigator.pushNamed(context, "/home");
+        } else {
+          EasyLoading.showError('Something went wrong');
+        }
+      } catch (e) {
+        print(e);
+        EasyLoading.showToast(e.toString());
       }
     }
   }

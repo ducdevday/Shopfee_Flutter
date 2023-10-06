@@ -54,7 +54,13 @@ class WelcomeScreen extends StatelessWidget {
                   Container(
                     height: 48,
                     width: double.infinity,
-                    child: BlocBuilder<WelcomeCubit, WelcomeState>(
+                    child: BlocConsumer<WelcomeCubit, WelcomeState>(
+                      listener: (context, state) {
+                        if (state is WelcomeExistEmail) {
+                          buildShowExistEmailBottomSheet(context, state.email);
+                        }
+                      },
+                      buildWhen: (previous, current) => current is! WelcomeExistEmail,
                       builder: (context, state) {
                         if (state is WelcomeLoaded) {
                           return ElevatedButton(
@@ -142,5 +148,104 @@ class WelcomeScreen extends StatelessWidget {
             ],
           ),
         ));
+  }
+}
+
+Future<void> buildShowExistEmailBottomSheet(BuildContext context, String email) {
+  return showModalBottomSheet<void>(
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+    ),
+    context: context,
+    builder: (BuildContext context) {
+      return ExistEmailBottomSheet(email: email);
+    },
+  );
+}
+
+class ExistEmailBottomSheet extends StatelessWidget {
+  final String email;
+  const ExistEmailBottomSheet( {
+    super.key, required this.email,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 300,
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Visibility(
+                visible: false,
+                maintainSize: true,
+                maintainAnimation: true,
+                maintainState: true,
+                child: IconButton(
+                    onPressed: () {
+                    }, icon: Icon(Icons.close_rounded)),
+              ),
+              Text(
+                "Account Already Exist",
+                style: AppStyle.mediumTitleStyleDark,
+              ),
+              IconButton(
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(Icons.close_rounded))
+            ],
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Text(
+            "It looks like you already have an account.\nPlease log in instead.",
+            style: AppStyle.normalTextStyleDark,
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(
+            height: AppDimen.spacing,
+          ),
+          Container(
+            child: Image.asset(
+              "assets/images/img_default_user.png",
+              height: 100,
+              width: 100,
+              fit: BoxFit.cover,
+            ),
+          ),
+          // Text(
+          //   "User Name",
+          //   style: AppStyle.mediumTitleStyleDark.copyWith(height: 1.75),
+          // ),
+          Spacer(
+            flex: 1,
+          ),
+          Container(
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(horizontal: AppDimen.screenPadding),
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, "/login", arguments: email);
+                },
+                child: Text(
+                  "Continue with this email",
+                  style: AppStyle.normalTextStyle,
+                ),
+                style: AppStyle.elevatedButtonStylePrimary,
+              )),
+          SizedBox(
+            height: AppDimen.screenPadding,
+          )
+        ],
+        // ),
+      ),
+    );
   }
 }

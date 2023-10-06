@@ -1,14 +1,9 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:shopfee/app/common/data/global_data.dart';
 import 'package:shopfee/app/common/widgets/my_bottom_navigationbar.dart';
 import 'package:shopfee/app/config/color.dart';
 import 'package:shopfee/app/config/dimens.dart';
 import 'package:shopfee/app/config/style.dart';
-import 'package:shopfee/app/features/cart/bloc/cart_bloc.dart';
 import 'package:shopfee/app/features/home/widgets/home_filter.dart';
 import 'package:shopfee/app/features/home/widgets/home_float_action.dart';
 import 'package:shopfee/app/features/home/widgets/home_product.dart';
@@ -70,34 +65,65 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             children: [
               const SizedBox(
-                height: 10,
+                height: AppDimen.spacing,
               ),
               const HomeSlider(),
+              const SizedBox(
+                height:AppDimen.spacing,
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(
                     horizontal: AppDimen.screenPadding),
                 child: DefaultTabController(
-                    length: 3,
+                    length: 4,
                     child: Column(
                       children: [
                         TabBar(
+                          isScrollable: true,
                           unselectedLabelColor: AppColor.disableColor,
                           indicatorColor: AppColor.primaryColor,
                           labelColor: AppColor.primaryColor,
                           tabs: [
-                            const Tab(
-                              text: "Home",
+                            Tab(
+                              height: 80,
+                              child: Column(
+                                children: [
+                                  const Image(image: AssetImage("assets/icons/ic_cappuccino.png"), width: 60,height: 60,),
+                                  Text("Cappuccino", style: AppStyle.mediumTextStyleDark,)
+                                ],
+                              ),
                             ),
-                            const Tab(
-                              text: "Non Coffee",
+                            Tab(
+                              height: 80,
+                              child: Column(
+                                children: [
+                                  const Image(image: AssetImage("assets/icons/ic_cappuccino.png"), width: 60,height: 60,),
+                                  Text("Cappuccino", style: AppStyle.mediumTextStyleDark,)
+                                ],
+                              ),
                             ),
-                            const Tab(
-                              text: "Pastry",
+                            Tab(
+                              height: 80,
+                              child: Column(
+                                children: [
+                                  const Image(image: AssetImage("assets/icons/ic_cappuccino.png"), width: 60,height: 60,),
+                                  Text("Cappuccino", style: AppStyle.mediumTextStyleDark,)
+                                ],
+                              ),
+                            ),
+                            Tab(
+                              height: 80,
+                              child: Column(
+                                children: [
+                                  const Image(image: AssetImage("assets/icons/ic_cappuccino.png"), width: 60,height: 60,),
+                                  Text("Cappuccino", style: AppStyle.mediumTextStyleDark,)
+                                ],
+                              ),
                             ),
                           ],
                         ),
-                        const Align(
-                            alignment: Alignment.topLeft, child: HomeFilter()),
+                        // const Align(
+                        //     alignment: Alignment.topLeft, child: HomeFilter()),
                         SizedBox(
                           height: Product.products.length * 70 +
                               Product.products.length * 16 +
@@ -138,6 +164,17 @@ class HomeScreen extends StatelessWidget {
                                     SizedBox(
                                   height: 8,
                                 ),
+                              ),
+                              ListView.separated(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: Product.products.length,
+                                itemBuilder: (context, index) =>
+                                    HomeProduct(Product.products[index]),
+                                separatorBuilder: (context, int index) =>
+                                    SizedBox(
+                                      height: 8,
+                                    ),
                               )
                             ],
                           ),

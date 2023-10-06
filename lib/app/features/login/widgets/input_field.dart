@@ -4,19 +4,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopfee/app/config/style.dart';
 import 'package:shopfee/app/features/login/cubit/login_cubit.dart';
 
-class InputField extends StatefulWidget {
+class InputField extends StatelessWidget {
   final String title;
   final String hint;
+  final String? email;
   final bool isPassword;
 
-  const InputField(
-      {required this.title, required this.hint, this.isPassword = false});
+  InputField(
+      {required this.title, required this.hint, this.email, this.isPassword = false});
 
-  @override
-  State<InputField> createState() => _InputFieldState();
-}
-
-class _InputFieldState extends State<InputField> {
   TextEditingController _controller = TextEditingController();
 
   @override
@@ -26,7 +22,7 @@ class _InputFieldState extends State<InputField> {
         Align(
           alignment: Alignment.topLeft,
           child: Text(
-            widget.title,
+            title,
             style: AppStyle.normalTextStyle.copyWith(color: Color(0xff3C3C3C)),
           ),
         ),
@@ -34,20 +30,23 @@ class _InputFieldState extends State<InputField> {
           height: 10,
         ),
         TextFormField(
+          enabled: email == null,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           validator: (value) {
-            context.read<LoginCubit>()
-                .addField(widget.title, _controller.text);
+            context
+                .read<LoginCubit>()
+                .addField(title, _controller.text);
             if (value!.isEmpty) {
               return 'Please fill this section';
             }
             return null;
           },
-          obscureText: widget.isPassword,
+          obscureText: isPassword,
           controller: _controller,
           decoration: InputDecoration(
+            contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
-            hintText: widget.hint,
+            hintText: email ?? hint,
           ),
         ),
       ],
