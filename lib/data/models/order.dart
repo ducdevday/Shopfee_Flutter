@@ -1,56 +1,61 @@
 import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
+import 'package:shopfee/data/models/product.dart';
+import 'package:shopfee/data/models/size.dart';
 import 'package:shopfee/data/models/topping.dart';
+import 'package:shopfee/data/models/topping_temp.dart';
 
-import 'product.dart';
+import 'product_temp.dart';
 
-enum Variant { Ice, Hot }
-
-enum Size { Small, Medium, Large }
-
-enum Sugar { Normal, Less }
+// enum Size { Small, Medium, Large }
 
 class Order extends Equatable {
   final Product product;
   final int quantity;
-  final Variant? variant;
-  final Size? size;
-  final Sugar? sugar;
+  final SizeModel? size;
   final List<Topping> toppings;
   final String note;
-
 
   const Order(
       {required this.product,
       this.quantity = 1,
-      this.variant,
       this.size,
-      this.sugar,
       this.toppings = const <Topping>[],
       this.note = ""});
 
-  double get total => quantity * product.price + toppings.fold(0, (total, current) => total + current.price);
+  double get total =>
+      quantity * size!.price +
+      quantity * toppings.fold(0, (total, current) => total + current.price);
 
   String get totalString => "${NumberFormat.decimalPattern().format(total)}đ";
 
   String get toppingOrderString {
     List<String> results = [];
-    toppings.map((t) => t.name).forEach((name) {results.add(name); });
+    toppings.map((t) => t.name).forEach((name) {
+      results.add(name);
+    });
     return results.join(", ");
   }
 
+  bool isEqualExceptQuantity(Order order) {
+    if (product.id == order.product.id &&
+        size == order.size &&
+        toppings == order.toppings &&
+        note == order.note) {
+      return true;
+    }
+    return false;
+  }
+
   @override
-  List<Object?> get props =>
-      [product, quantity, variant, size, sugar, toppings, note];
+  List<Object?> get props => [product.id, quantity, size, toppings, note];
 
   @override
   String toString() {
     return 'Order{' +
         ' productID: $product,' +
         ' quantity: $quantity,' +
-        ' variant: $variant,' +
         ' size: $size,' +
-        ' sugar: $sugar,' +
         ' toppings: $toppings,' +
         ' note: $note,' +
         '}';
@@ -59,18 +64,14 @@ class Order extends Equatable {
   Order copyWith({
     String? productID,
     int? quantity,
-    Variant? variant,
-    Size? size,
-    Sugar? sugar,
+    SizeModel? size,
     List<Topping>? toppings,
     String? note,
   }) {
     return Order(
-      product: product ?? this.product,
+      product: product,
       quantity: quantity ?? this.quantity,
-      variant: variant ?? this.variant,
       size: size ?? this.size,
-      sugar: sugar ?? this.sugar,
       toppings: toppings ?? this.toppings,
       note: note ?? this.note,
     );
@@ -80,10 +81,19 @@ class Order extends Equatable {
     return {
       'product': this.product,
       'quantity': this.quantity,
-      'variant': this.variant,
       'size': this.size,
-      'sugar': this.sugar,
       'toppings': this.toppings,
+      'note': this.note,
+    };
+  }
+
+  Map<String, dynamic> toMapOrder() {
+    return {
+      'productId': this.product.id,
+      'quantity': this.quantity,
+      'toppings': this.toppings.map((topping) => topping.toMap()).toList(),
+      'price': this.size!.price,
+      'size': this.size!.size,
       'note': this.note,
     };
   }
@@ -92,9 +102,7 @@ class Order extends Equatable {
     return Order(
       product: map['product'] as Product,
       quantity: map['quantity'] as int,
-      variant: map['variant'] as Variant,
-      size: map['size'] as Size,
-      sugar: map['sugar'] as Sugar,
+      size: map['size'] as SizeModel,
       toppings: map['toppings'] as List<Topping>,
       note: map['note'] as String,
     );

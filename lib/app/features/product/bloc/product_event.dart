@@ -5,10 +5,24 @@ abstract class ProductEvent extends Equatable {
 }
 
 class LoadProduct extends ProductEvent {
-  final Product product;
+  final String productId;
 
-  LoadProduct(this.product);
+  LoadProduct(this.productId);
 
+  @override
+  List<Object?> get props => [productId];
+}
+
+class LoadUpdatingProduct extends ProductEvent {
+  final Order order;
+
+  LoadUpdatingProduct(this.order);
+
+  @override
+  List<Object?> get props => [order];
+}
+
+class DecreaseQuantityAndDelete extends ProductEvent{
   List<Object?> get props => [];
 }
 
@@ -20,29 +34,13 @@ class DecreaseQuantity extends ProductEvent {
   List<Object?> get props => [];
 }
 
-class ChooseVariant extends ProductEvent {
-  final Variant variant;
-
-  ChooseVariant(this.variant);
-
-  List<Object?> get props => [variant];
-}
-
 class ChooseSize extends ProductEvent {
-  final Size size;
+  final SizeModel size;
 
   ChooseSize(this.size);
 
-  List<Object?> get props => [size];
-}
-
-class ChooseSugar extends ProductEvent {
-  final Sugar sugar;
-
-  ChooseSugar(this.sugar);
-
   @override
-  List<Object> get props => [sugar];
+  List<Object?> get props => [size];
 }
 
 class ChooseTopping extends ProductEvent {

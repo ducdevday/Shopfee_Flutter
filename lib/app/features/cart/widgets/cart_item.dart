@@ -7,8 +7,9 @@ import 'package:shopfee/app/features/cart/bloc/cart_bloc.dart';
 
 class CartItem extends StatelessWidget {
   final int index;
+  final VoidCallback callback;
 
-  const CartItem({Key? key, required this.index}) : super(key: key);
+  const CartItem({Key? key, required this.index, required this.callback}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,9 @@ class CartItem extends StatelessWidget {
               children: [
                 Center(
                   child: TextButton.icon(
-                    onPressed: () {},
+                    onPressed: () {
+                      callback();
+                    },
                     icon: SvgPicture.asset(
                       "assets/icons/ic_edit.svg",
                       color: AppColor.primaryColor,
@@ -33,27 +36,27 @@ class CartItem extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  width: 8,
+                  width: 4,
                 ),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(state.cart.orders[index].product.name,
+                      Text("${state.cart.orders[index].quantity}x ${state.cart.orders[index].product.name!}",
                           style: AppStyle.mediumTitleStyleDark
-                              .copyWith(color: AppColor.headingColor)),
+                              .copyWith(color: AppColor.headingColor).copyWith(fontWeight: FontWeight.w500)),
                       SizedBox(
                         height: 6,
                       ),
                       Text(
-                        state.cart.orders[index].size.toString().split(".")[1],
+                        state.cart.orders[index].size!.size,
                         style: AppStyle.normalTextStyleDark,
                       ),
                       state.cart.orders[index].toppings.isNotEmpty
                           ? Text(state.cart.orders[index].toppingOrderString,
                               style: AppStyle.normalTextStyleDark)
                           : SizedBox(),
-                      state.cart.orders[index].toppings.isNotEmpty
+                      state.cart.orders[index].note.isNotEmpty
                           ? Row(
                               children: [
                                 Icon(
@@ -83,11 +86,6 @@ class CartItem extends StatelessWidget {
                       Text(state.cart.orders[index].totalString,
                           style: AppStyle.mediumTitleStyleDark
                               .copyWith(color: AppColor.headingColor)),
-                      SizedBox(
-                        height: 6,
-                      ),
-                      Text("x${state.cart.orders[index].quantity}",
-                          style: AppStyle.normalTextStyleDark)
                     ],
                   ),
                 )

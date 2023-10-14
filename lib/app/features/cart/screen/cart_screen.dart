@@ -6,379 +6,526 @@ import 'package:shopfee/app/config/dimens.dart';
 import 'package:shopfee/app/config/style.dart';
 import 'package:shopfee/app/features/cart/bloc/cart_bloc.dart';
 import 'package:shopfee/app/features/cart/widgets/cart_item.dart';
-import 'package:shopfee/app/features/cart/widgets/time_setter.dart';
-import 'package:shopfee/data/models/cart.dart';
+import 'package:shopfee/app/features/cart/widgets/delivery_bottom_sheet.dart';
+import 'package:shopfee/app/features/cart/widgets/payment_bottom_sheet.dart';
+import 'package:shopfee/app/features/product/bloc/product_bloc.dart';
+import 'package:shopfee/app/features/product/widgets/note_opt.dart';
+import 'package:shopfee/app/features/product/widgets/size_filter.dart';
+import 'package:shopfee/app/features/product/widgets/topping_filter.dart';
+import 'package:shopfee/data/models/address.dart';
+import 'package:shopfee/data/models/order.dart';
+import 'package:shopfee/data/repositories/product/product_repository.dart';
 
-class CartScreen extends StatelessWidget {
+class CartScreen extends StatefulWidget {
   const CartScreen({Key? key}) : super(key: key);
 
   @override
+  State<CartScreen> createState() => _CartScreenState();
+}
+
+class _CartScreenState extends State<CartScreen> {
+  @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CartBloc, CartState>(
+    return BlocConsumer<CartBloc, CartState>(
+      listener: (context, state) {
+        if (state is CartFinished) {
+          Navigator.pushNamed(context, "/receipt");
+        }
+      },
       builder: (context, state) {
         if (state is CartLoaded) {
-          return Scaffold(
-            appBar: AppBar(
-              title: Text("Cart"),
-              centerTitle: true,
-              actions: [
-                IconButton(
-                    splashColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.delete_outline_rounded,
-                      color: AppColor.primaryColor,
-                    ))
-              ],
-            ),
-            body: SingleChildScrollView(
-              child: Column(
+          if (state.cart.orders.isEmpty) {
+            return Scaffold(
+              body: Stack(
                 children: [
                   Container(
-                    height: 4,
-                    color: Color(0xffEFEBE9),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(AppDimen.screenPadding),
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          "Product list",
-                          style: AppStyle.mediumTitleStyleDark.copyWith(
-                              color: AppColor.headingColor,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        SizedBox(
-                          height: 12,
-                        ),
-                        ListView.separated(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: state.cart.orders.length,
-                          itemBuilder: (context, index) {
-                            return CartItem(index: index);
-                          },
-                          separatorBuilder: (BuildContext context, int index) {
-                            return Divider(
-                              height: 10,
-                            );
-                          },
-                        ),
-                        // state.cart.orders.map((e) => ).toList(),
-                        TextButton.icon(
-                            onPressed: () {},
-                            icon: Icon(Icons.keyboard_arrow_left_rounded),
-                            label: Text(
-                              "Add more product",
-                              style: AppStyle.normalTextStylePrimary
-                                  .copyWith(fontWeight: FontWeight.w500),
-                            ))
-                      ],
-                    ),
-                  ),
-                  Container(
-                    height: 4,
-                    color: Color(0xffEFEBE9),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        vertical: 10, horizontal: AppDimen.screenPadding),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text("Home Delivery",
-                                style: AppStyle.mediumTitleStyleDark
-                                    .copyWith(color: AppColor.headingColor)),
-                            TextButton(
-                              child: Text(
-                                "Change",
-                                style: AppStyle.normalTextStylePrimary,
-                              ),
-                              onPressed: () {
-                                buildShowDeliveryBottomSheet(context);
-                              },
-                            )
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text("KTX khu B Đại học Quốc gia",
-                                style: AppStyle.normalTextStyleDark),
-                            IconButton(
-                              splashColor: Colors.transparent,
-                              highlightColor: Colors.transparent,
-                              padding: EdgeInsets.only(right: 5),
-                              constraints: BoxConstraints(),
-                              icon: Icon(
-                                Icons.map_outlined,
-                                color: AppColor.primaryColor,
-                              ),
-                              onPressed: () {
-                                Navigator.pushNamed(context, "/geolocation");
-                              },
+                        Container(
+                          width: 120,
+                          height: 120,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                  width: 1, color: AppColor.primaryColor)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: SvgPicture.asset(
+                              "assets/icons/ic_shopping_bag.svg",
+                              width: 120,
+                              height: 120,
+                              color: AppColor.primaryColor,
                             ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 4,
-                        ),
-                        TextField(
-                          onChanged: (value) => {},
-                          style: TextStyle(fontSize: 14),
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.all(8),
-                            enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Color(0xffCCCCCC)),
-                                borderRadius: BorderRadius.circular(8)),
-                            focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Color(0xffCCCCCC)),
-                                borderRadius: BorderRadius.circular(8)),
-                            hintText: "Add introduction for delivery...",
                           ),
                         ),
-                        Divider(
-                          height: 20,
+                        SizedBox(
+                          height: 10,
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "When do you want order?",
-                              style: AppStyle.mediumTitleStyleDark
-                                  .copyWith(color: AppColor.headingColor),
-                            ),
-                            SizedBox(
-                              height: 4,
-                            ),
-                            Text(
-                              "*We are open from 08:00 AM - 20:00 PM",
-                              style: AppStyle.normalTextStyleDark,
-                            ),
-                          ],
+                        Text(
+                          "Your cart is empty",
+                          style: AppStyle.largeTitleStyleDark,
                         ),
                         SizedBox(
-                          height: 16,
+                          height: 10,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "As soon as posible",
-                                  style: AppStyle.mediumTitleStyleDark.copyWith(
-                                      color: AppColor.headingColor,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                                SizedBox(
-                                  height: 4,
-                                ),
-                                Row(
-                                  children: [
-                                    Icon(Icons.access_time_filled_rounded, color: AppColor.primaryColor,),
-                                    SizedBox(width: 4,),
-                                    Text("Now - 10 Minute",
-                                        style: AppStyle.normalTextStyleDark),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            TimeSetter()
-                          ],
-                        ),
-                        Divider(
-                          height: 20,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Payment Method",
-                                  style: AppStyle.mediumTitleStyleDark.copyWith(
-                                      color: AppColor.headingColor,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                                SizedBox(
-                                  height: 4,
-                                ),
-                                Row(
-                                  children: [
-                                    Image.asset(
-                                      "assets/icons/ic_cash.jpg",
-                                      width: 24,
-                                      height: 24,
-                                    ),
-                                    SizedBox(width: 4,),
-                                    Text("Cash",
-                                        style: AppStyle.normalTextStyleDark),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            InkWell(
-                                onTap: () {
-                                  buildShowPaymentBottomSheet(context);
-                                },
-                                child: Icon(Icons.keyboard_arrow_right_rounded))
-                          ],
-                        ),
-                        Divider(
-                          height: 20,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Voucher",
-                                  style: AppStyle.mediumTitleStyleDark.copyWith(
-                                      color: AppColor.headingColor,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                                SizedBox(
-                                  height: 4,
-                                ),
-                                Row(
-                                  children: [
-                                    Icon(Icons.discount,color: AppColor.primaryColor,),
-                                    SizedBox(width: 4,),
-                                    Text("no voucher added",
-                                        style: AppStyle.normalTextStyleDark),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            InkWell(
-                                onTap: () {
-                                  Navigator.pushNamed(context, "/voucher");
-                                },
-                                child: Icon(Icons.keyboard_arrow_right_rounded))
-                          ],
-                        ),
-                        Divider(
-                          height: 20,
+                        Text(
+                          "You didn't add any product into your cart",
+                          style: AppStyle.mediumTextStyleDark,
                         ),
                       ],
                     ),
                   ),
-                  Container(
-                    height: 4,
-                    color: Color(0xffEFEBE9),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(AppDimen.screenPadding),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Payment Summary",
-                            style: AppStyle.mediumTitleStyleDark
-                                .copyWith(color: AppColor.headingColor)),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Price",
-                              style: AppStyle.normalTextStyleDark
-                                  .copyWith(fontWeight: FontWeight.w400),
-                            ),
-                            Text(
-                              state.cart.totalPriceString,
-                              style: AppStyle.normalTextStyleDark
-                                  .copyWith(fontWeight: FontWeight.w400),
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Shipping fee",
-                              style: AppStyle.normalTextStyleDark
-                                  .copyWith(fontWeight: FontWeight.w400),
-                            ),
-                            Text(
-                              "20,000đ",
-                              style: AppStyle.normalTextStyleDark
-                                  .copyWith(fontWeight: FontWeight.w400),
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Voucher",
-                              style: AppStyle.normalTextStyleDark
-                                  .copyWith(fontWeight: FontWeight.w400),
-                            ),
-                            Text(
-                              "-30,000đ",
-                              style: AppStyle.normalTextStyleDark
-                                  .copyWith(fontWeight: FontWeight.w400),
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Total",
-                              style: AppStyle.mediumTitleStyleDark,
-                            ),
-                            Text(
-                              "130,000đ",
-                              style: AppStyle.mediumTitleStyleDark,
-                            )
-                          ],
-                        )
-                      ],
+                  Positioned(
+                    bottom: 0,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      padding: EdgeInsets.all(AppDimen.screenPadding),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Text("Order now"),
+                        style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 12, horizontal: 24),
+                            disabledBackgroundColor: const Color(0xffCACACA),
+                            disabledForegroundColor: AppColor.lightColor,
+                            textStyle: AppStyle.mediumTextStyleDark,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            )),
+                      ),
                     ),
                   )
                 ],
               ),
-            ),
-            bottomNavigationBar: BottomAppBar(
-                height: 70,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 10, horizontal: AppDimen.screenPadding),
-                  child: ElevatedButton(
-                    child: Text("Order (130,000đ)"),
-                    onPressed: () {
-                      Navigator.pushNamed(context, "/receipt");
-                    },
-                    style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(40))),
-                  ),
-                )),
-          );
+            );
+          } else {
+            return Scaffold(
+              appBar: AppBar(
+                title: Text("Cart"),
+                centerTitle: true,
+                bottom: const PreferredSize(
+                  preferredSize: Size.fromHeight(1),
+                  child: Divider(height: 1),
+                ),
+                actions: [
+                  IconButton(
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onPressed: () {},
+                      icon: Icon(
+                        Icons.delete_outline_rounded,
+                        color: AppColor.primaryColor,
+                      ))
+                ],
+              ),
+              body: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Container(
+                      height: 4,
+                      color: Color(0xffEFEBE9),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(AppDimen.screenPadding),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Product list",
+                            style: AppStyle.mediumTitleStyleDark.copyWith(
+                                color: AppColor.headingColor,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          SizedBox(
+                            height: 12,
+                          ),
+                          ListView.separated(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: state.cart.orders.length,
+                            itemBuilder: (context, index) {
+                              return CartItem(
+                                  index: index,
+                                  callback: () {
+                                    buildShowEditOrderBottomSheet(context,
+                                        state.cart.orders[index], index);
+                                  });
+                            },
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return Divider(
+                                height: 15,
+                              );
+                            },
+                          ),
+                          // state.cart.orders.map((e) => ).toList(),
+                          TextButton.icon(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              icon: Icon(Icons.keyboard_arrow_left_rounded),
+                              label: Text(
+                                "Add more product",
+                                style: AppStyle.normalTextStylePrimary
+                                    .copyWith(fontWeight: FontWeight.w500),
+                              ))
+                        ],
+                      ),
+                    ),
+                    Container(
+                      height: 4,
+                      color: Color(0xffEFEBE9),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          vertical: 10, horizontal: AppDimen.screenPadding),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("Home Delivery",
+                                  style: AppStyle.mediumTitleStyleDark
+                                      .copyWith(color: AppColor.headingColor)),
+                              TextButton(
+                                child: Text(
+                                  "Change",
+                                  style: AppStyle.normalTextStylePrimary,
+                                ),
+                                onPressed: () {
+                                  buildShowDeliveryBottomSheet(context);
+                                },
+                              )
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text(
+                                          state.cart.address!.recipientName!,
+                                          style: AppStyle.mediumTextStyleDark
+                                              .copyWith(
+                                                  color: AppColor.headingColor),
+                                        ),
+                                        Text(
+                                          "  |  ",
+                                          style: AppStyle.normalTextStyleDark,
+                                        ),
+                                        Text(
+                                          state.cart.address!.phoneNumber!,
+                                          style: AppStyle.normalTextStyleDark,
+                                        ),
+                                      ],
+                                    ),
+                                    Text(
+                                      state.cart.address!.details!,
+                                      style: AppStyle.normalTextStyleDark,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                width: 40,
+                              ),
+                              InkWell(
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                            context, "/saved_address",
+                                            arguments: true)
+                                        .then((value) => context
+                                            .read<CartBloc>()
+                                            .add(ChooseAddress(value as String)));
+                                  },
+                                  child:
+                                      Icon(Icons.keyboard_arrow_right_rounded)),
+                            ],
+                          ),
+                          Divider(
+                            height: 20,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Time order",
+                                style: AppStyle.mediumTitleStyleDark
+                                    .copyWith(color: AppColor.headingColor),
+                              ),
+                              SizedBox(
+                                height: 4,
+                              ),
+                              Text(
+                                "*We are open from 08:00 AM - 20:00 PM",
+                                style: AppStyle.normalTextStyleDark,
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 16,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "As soon as posible",
+                                    style: AppStyle.mediumTextStyleDark
+                                        .copyWith(
+                                            color: AppColor.headingColor,
+                                            fontWeight: FontWeight.w500),
+                                  ),
+                                  SizedBox(
+                                    height: 4,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        Icons.access_time_filled_rounded,
+                                        color: AppColor.primaryColor,
+                                      ),
+                                      SizedBox(
+                                        width: 4,
+                                      ),
+                                      Text("Now - 10 Minute",
+                                          style: AppStyle.normalTextStyleDark),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              // TimeSetter()
+                            ],
+                          ),
+                          Divider(
+                            height: 20,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Payment Method",
+                                    style: AppStyle.mediumTitleStyleDark
+                                        .copyWith(
+                                            color: AppColor.headingColor,
+                                            fontWeight: FontWeight.w500),
+                                  ),
+                                  SizedBox(
+                                    height: 4,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Image.asset(
+                                        "assets/icons/ic_cash.jpg",
+                                        width: 24,
+                                        height: 24,
+                                      ),
+                                      SizedBox(
+                                        width: 4,
+                                      ),
+                                      Text("Cash",
+                                          style: AppStyle.normalTextStyleDark),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              InkWell(
+                                  onTap: () {
+                                    buildShowPaymentBottomSheet(context);
+                                  },
+                                  child:
+                                      Icon(Icons.keyboard_arrow_right_rounded))
+                            ],
+                          ),
+                          Divider(
+                            height: 20,
+                          ),
+                          TextFormField(
+                            onChanged: (value) =>
+                                {context.read<CartBloc>().add(AddNote(value))},
+                            style: TextStyle(fontSize: 14),
+                            decoration: InputDecoration(
+                              contentPadding: EdgeInsets.all(8),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Color(0xffCCCCCC)),
+                                  borderRadius: BorderRadius.circular(8)),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Color(0xffCCCCCC)),
+                                  borderRadius: BorderRadius.circular(8)),
+                              hintText: "Additional note for shop...",
+                            ),
+                          ),
+
+                          // Divider(
+                          //   height: 20,
+                          // ),
+                          // Row(
+                          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //   children: [
+                          //     Column(
+                          //       crossAxisAlignment: CrossAxisAlignment.start,
+                          //       children: [
+                          //         Text(
+                          //           "Voucher",
+                          //           style: AppStyle.mediumTitleStyleDark
+                          //               .copyWith(
+                          //                   color: AppColor.headingColor,
+                          //                   fontWeight: FontWeight.w500),
+                          //         ),
+                          //         SizedBox(
+                          //           height: 4,
+                          //         ),
+                          //         Row(
+                          //           children: [
+                          //             Icon(
+                          //               Icons.discount,
+                          //               color: AppColor.primaryColor,
+                          //             ),
+                          //             SizedBox(
+                          //               width: 4,
+                          //             ),
+                          //             Text("no voucher added",
+                          //                 style: AppStyle.normalTextStyleDark),
+                          //           ],
+                          //         ),
+                          //       ],
+                          //     ),
+                          //     InkWell(
+                          //         onTap: () {
+                          //           Navigator.pushNamed(context, "/voucher");
+                          //         },
+                          //         child:
+                          //             Icon(Icons.keyboard_arrow_right_rounded))
+                          //   ],
+                          // ),
+                          // Divider(
+                          //   height: 20,
+                          // ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      height: 4,
+                      color: Color(0xffEFEBE9),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(AppDimen.screenPadding),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Payment Summary",
+                              style: AppStyle.mediumTitleStyleDark
+                                  .copyWith(color: AppColor.headingColor)),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Price",
+                                style: AppStyle.normalTextStyleDark
+                                    .copyWith(fontWeight: FontWeight.w400),
+                              ),
+                              Text(
+                                state.cart.totalPriceString,
+                                style: AppStyle.normalTextStyleDark
+                                    .copyWith(fontWeight: FontWeight.w400),
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Shipping fee",
+                                style: AppStyle.normalTextStyleDark
+                                    .copyWith(fontWeight: FontWeight.w400),
+                              ),
+                              Text(
+                                "0đ",
+                                style: AppStyle.normalTextStyleDark
+                                    .copyWith(fontWeight: FontWeight.w400),
+                              )
+                            ],
+                          ),
+                          // SizedBox(
+                          //   height: 8,
+                          // ),
+                          // Row(
+                          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //   children: [
+                          //     Text(
+                          //       "Voucher",
+                          //       style: AppStyle.normalTextStyleDark
+                          //           .copyWith(fontWeight: FontWeight.w400),
+                          //     ),
+                          //     Text(
+                          //       "-30,000đ",
+                          //       style: AppStyle.normalTextStyleDark
+                          //           .copyWith(fontWeight: FontWeight.w400),
+                          //     )
+                          //   ],
+                          // ),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Total",
+                                style: AppStyle.mediumTitleStyleDark,
+                              ),
+                              Text(
+                                state.cart.totalPriceString,
+                                style: AppStyle.mediumTitleStyleDark,
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              bottomNavigationBar: BottomAppBar(
+                  height: 70,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: AppDimen.screenPadding),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        context.read<CartBloc>().add(CreateShippingOrder());
+                      },
+                      style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(40))),
+                      child: Text("Order (${state.cart.totalPriceString})"),
+                    ),
+                  )),
+            );
+          }
         } else {
           return SizedBox();
         }
@@ -387,30 +534,42 @@ class CartScreen extends StatelessWidget {
   }
 }
 
-Future<void> buildShowDeliveryBottomSheet(BuildContext context) {
+Future<void> buildShowEditOrderBottomSheet(
+    BuildContext context, Order order, int index) {
   return showModalBottomSheet<void>(
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-    ),
-    context: context,
-    builder: (BuildContext context) {
-      return Wrap(
+      isScrollControlled: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+      ),
+      context: context,
+      builder: (BuildContext context) {
+        return EditOrderBottomSheet(order: order, index: index);
+      });
+}
+
+class EditOrderBottomSheet extends StatelessWidget {
+  final Order order;
+  final int index;
+
+  EditOrderBottomSheet({required this.order, Key? key, required this.index})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) =>
+          ProductBloc(productRepository: context.read<ProductRepository>())
+            ..add(LoadUpdatingProduct(order)),
+      child: Wrap(
         // child: Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Visibility(
-                visible: false,
-                maintainSize: true,
-                maintainAnimation: true,
-                maintainState: true,
-                child: IconButton(
-                    onPressed: () {}, icon: Icon(Icons.close_rounded)),
-              ),
+              IconButton(onPressed: () {}, icon: Icon(Icons.delete_rounded)),
               Text(
-                "Choose Order Method",
+                order.product.name!,
                 style: AppStyle.mediumTitleStyleDark,
               ),
               IconButton(
@@ -426,97 +585,188 @@ Future<void> buildShowDeliveryBottomSheet(BuildContext context) {
             height: 10,
           ),
           Container(
-            padding: EdgeInsets.all(10),
-            color: AppColor.primaryColor.withAlpha(30),
-            child: Row(
-              children: [
-                SvgPicture.asset(
-                  "assets/icons/ic_delivery.svg",
-                  width: 60,
-                  height: 60,
-                ),
-                SizedBox(
-                  width: 4,
-                ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+            height: 4,
+            color: Color(0xffEFEBE9),
+          ),
+          Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.white,
+              ),
+              child: Column(
+                children: [
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text("Customize",
+                        style: AppStyle.mediumTextStyleDark.copyWith(
+                            color: AppColor.headingColor,
+                            fontWeight: FontWeight.bold)),
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        "Home Delivery",
-                        style: AppStyle.mediumTitleStyleDark
-                            .copyWith(fontSize: 14),
-                      ),
-                      SizedBox(
-                        height: 4,
-                      ),
-                      Text("KTX khu B Đại học Quốc gia",
-                          style: AppStyle.normalTextStyleDark),
+                      Text("Size",
+                          style: AppStyle.normalTextStyleDark
+                              .copyWith(color: AppColor.headingColor)),
+                      const SizeFilter()
                     ],
                   ),
+                ],
+              )),
+          Container(
+            height: 4,
+            color: Color(0xffEFEBE9),
+          ),
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.white,
+            ),
+            child: Column(
+              children: [
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text("Topping",
+                      style: AppStyle.mediumTextStyleDark.copyWith(
+                          color: AppColor.headingColor,
+                          fontWeight: FontWeight.bold)),
                 ),
-                ElevatedButton(
-                    onPressed: () {},
-                    child: Text(
-                      "Change",
-                      style: AppStyle.normalTextStyle,
-                    ),
-                    style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16))))
+                ToppingFilter()
               ],
             ),
           ),
           Container(
-            padding: EdgeInsets.all(10),
-            child: Row(
+            height: 4,
+            color: Color(0xffEFEBE9),
+          ),
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.white,
+            ),
+            child: Column(
               children: [
-                SvgPicture.asset(
-                  "assets/icons/ic_take_away.svg",
-                  width: 60,
-                  height: 60,
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text("Note",
+                      style: AppStyle.mediumTextStyleDark.copyWith(
+                          color: AppColor.headingColor,
+                          fontWeight: FontWeight.bold)),
                 ),
-                SizedBox(
-                  width: 4,
+                const SizedBox(
+                  height: 16,
                 ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Take Away",
-                        style: AppStyle.mediumTitleStyleDark
-                            .copyWith(fontSize: 14),
-                      ),
-                      SizedBox(
-                        height: 4,
-                      ),
-                      Text("Shopfee, No 1 Võ Văn Ngân",
-                          style: AppStyle.normalTextStyleDark),
-                    ],
-                  ),
-                ),
-                Visibility(
-                  visible: false,
-                  maintainSize: true,
-                  maintainAnimation: true,
-                  maintainState: true,
-                  child: ElevatedButton(
-                      onPressed: () {},
-                      child: Text(
-                        "Change",
-                        style: AppStyle.normalTextStyle,
-                      ),
-                      style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16)))),
-                )
+                const NoteOpt(),
               ],
             ),
-          )
+          ),
+          Container(
+            height: 12,
+            color: Color(0xffEFEBE9),
+          ),
+          BlocBuilder<ProductBloc, ProductState>(
+            builder: (context, state) {
+              if (state is ProductLoaded) {
+                return Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                  ),
+                  child: Row(
+                    children: [
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {
+                              context
+                                  .read<ProductBloc>()
+                                  .add(DecreaseQuantityAndDelete());
+                            },
+                            style: ElevatedButton.styleFrom(
+                              elevation: 0,
+                              shape: CircleBorder(),
+                              padding: EdgeInsets.all(4),
+                              backgroundColor:
+                                  Color(0xffBCAAA4), // <-- Button color
+                            ),
+                            child: Icon(
+                              Icons.remove,
+                              color: AppColor.primaryColor,
+                              size: 18,
+                            ),
+                          ),
+                          BlocBuilder<ProductBloc, ProductState>(
+                            builder: (context, state) {
+                              if (state is ProductLoaded) {
+                                return Text(state.order.quantity.toString(),
+                                    style: AppStyle.mediumTitleStyleDark);
+                              } else {
+                                return SizedBox();
+                              }
+                            },
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              context
+                                  .read<ProductBloc>()
+                                  .add(IncreaseQuantity());
+                            },
+                            style: ElevatedButton.styleFrom(
+                              elevation: 0,
+                              shape: CircleBorder(),
+                              padding: EdgeInsets.all(4),
+                              backgroundColor:
+                                  Color(0xffBCAAA4), // <-- Button color
+                            ),
+                            child: Icon(
+                              Icons.add,
+                              color: AppColor.primaryColor,
+                              size: 18,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Expanded(
+                        child: ElevatedButton(
+                            onPressed: () {
+                              context.read<CartBloc>().add(UpdateItemInCart(
+                                  updatedOrder: state.order, index: index));
+                              Navigator.pop(context);
+                            },
+                            style: AppStyle.elevatedButtonStylePrimary,
+                            child: Text(state.order.quantity == 0
+                                ? "Remove this product"
+                                : "Update ${state.order.totalString}")),
+                      )
+                    ],
+                  ),
+                );
+              } else {
+                return SizedBox();
+              }
+            },
+          ),
         ],
         // ),
-      );
+      ),
+    );
+    ;
+  }
+}
+
+Future<void> buildShowDeliveryBottomSheet(BuildContext context) {
+  return showModalBottomSheet<void>(
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+    ),
+    context: context,
+    builder: (BuildContext context) {
+      return DeliveryBottomSheet();
     },
   );
 }
@@ -532,109 +782,4 @@ Future<void> buildShowPaymentBottomSheet(BuildContext context) {
       return PaymentBottomSheet();
     },
   );
-}
-
-class PaymentBottomSheet extends StatefulWidget {
-  const PaymentBottomSheet({
-    super.key,
-  });
-
-  @override
-  State<PaymentBottomSheet> createState() => _PaymentBottomSheetState();
-}
-
-class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
-  TypePayment? typePayment = TypePayment.CASH;
-
-  @override
-  Widget build(BuildContext context) {
-    return Wrap(
-      // child: Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Visibility(
-              visible: false,
-              maintainSize: true,
-              maintainAnimation: true,
-              maintainState: true,
-              child:
-                  IconButton(onPressed: () {}, icon: Icon(Icons.close_rounded)),
-            ),
-            Text(
-              "Choose Payment Method",
-              style: AppStyle.mediumTitleStyleDark,
-            ),
-            IconButton(
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: Icon(Icons.close_rounded))
-          ],
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: Row(
-            children: [
-              Image.asset(
-                "assets/icons/ic_cash.jpg",
-                width: 24,
-                height: 24,
-              ),
-              SizedBox(
-                width: 4,
-              ),
-              Expanded(child: Text("Cash")),
-              Radio(
-                  activeColor: AppColor.primaryColor,
-                  value: TypePayment.CASH,
-                  groupValue: typePayment,
-                  onChanged: (TypePayment? value) {
-                    setState(() {
-                      typePayment = value;
-                    });
-                  })
-            ],
-          ),
-        ),
-        Divider(
-          height: 10,
-          indent: 10,
-          endIndent: 10,
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: Row(
-            children: [
-              Image.asset(
-                "assets/icons/ic_vnpay.png",
-                width: 24,
-                height: 24,
-              ),
-              SizedBox(
-                width: 4,
-              ),
-              Expanded(child: Text("VNPAY")),
-              Radio(
-                  activeColor: AppColor.primaryColor,
-                  value: TypePayment.VNPAY,
-                  groupValue: typePayment,
-                  onChanged: (TypePayment? value) {
-                    setState(() {
-                      typePayment = value;
-                    });
-                  })
-            ],
-          ),
-        ),
-      ],
-      // ),
-    );
-  }
 }

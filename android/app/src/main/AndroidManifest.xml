@@ -5,8 +5,11 @@
     <application
         android:label="shopfee"
         android:usesCleartextTraffic="true"
+        android:enableOnBackInvokedCallback="true"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        >
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -34,6 +37,6 @@
             android:name="flutterEmbedding"
             android:value="2" />
         <meta-data android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCXVcs89cMCo5UeFhgs4gLinGsSIOxI-_s"/>
+            android:value="AIzaSyAwrjMSoOWuNo9tbhsGyjslpRpAjQwcAyE"/>
     </application>
 </manifest>

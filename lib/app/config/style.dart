@@ -93,6 +93,8 @@ class AppStyle {
   );
 
   static final elevatedButtonStylePrimary = ElevatedButton.styleFrom(
+      disabledBackgroundColor: const Color(0xffCACACA),
+      disabledForegroundColor: AppColor.lightColor,
       padding: EdgeInsets.symmetric(vertical: 14, horizontal: 24),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)));
 }

@@ -2,21 +2,29 @@ import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
 
 class Topping extends Equatable {
-  final String id;
   final String name;
   final double price;
 
-  Topping(this.id, this.name, this.price);
+  Topping({required this.name, required this.price});
 
   @override
-  List<Object> get props => [id, name, price];
+  List<Object> get props => [name, price];
 
   String get priceString => '${NumberFormat.decimalPattern().format(price)}đ';
 
-  static List<Topping> toppings =[
-    Topping("1", "Extra Espresso", 5000),
-    Topping("2", "Cincau", 5000),
-    Topping("3", "Coffee Jelly", 5000),
-    Topping("4", "Chocolate Ice Cream", 5000),
-  ];
+  Map<String, dynamic> toMap() {
+    return {
+      'name': this.name,
+      'price': this.price,
+    };
+  }
+
+  factory Topping.fromMap(Map<String, dynamic> map) {
+    return Topping(
+      name: map['name'] as String,
+      price: map['price'] as double,
+    );
+  }
+
+
 }

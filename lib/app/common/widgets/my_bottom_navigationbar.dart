@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shopfee/app/config/color.dart';
-import 'package:shopfee/app/config/dimens.dart';
 import 'package:shopfee/app/config/style.dart';
 import 'package:shopfee/app/config/theme.dart';
 

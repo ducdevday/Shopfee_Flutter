@@ -20,6 +20,19 @@ class AddItemIntoCart extends CartEvent {
   List<Object> get props => [order];
 }
 
+class UpdateItemInCart extends CartEvent {
+  final Order updatedOrder;
+  final int index;
+
+  const UpdateItemInCart({
+    required this.updatedOrder,
+    required this.index,
+  });
+
+  @override
+  List<Object> get props => [updatedOrder, index];
+}
+
 class ChooseTypeDelivery extends CartEvent {
   final TypeDelivery typeDelivery;
 
@@ -30,21 +43,21 @@ class ChooseTypeDelivery extends CartEvent {
 }
 
 class ChooseAddress extends CartEvent {
-  final String address;
+  final String addressId;
 
-  ChooseAddress(this.address);
+  ChooseAddress(this.addressId);
 
   @override
-  List<Object> get props => [address];
+  List<Object> get props => [addressId];
 }
 
-class WriteInstruction extends CartEvent {
-  final String instruction;
+class AddNote extends CartEvent {
+  final String note;
 
-  WriteInstruction(this.instruction);
+  AddNote(this.note);
 
   @override
-  List<Object> get props => [instruction];
+  List<Object> get props => [note];
 }
 
 class ChooseDeliveryTime extends CartEvent {
@@ -81,4 +94,9 @@ class SetShippingFee extends CartEvent {
 
   @override
   List<Object> get props => [shippingFee];
+}
+
+class CreateShippingOrder extends CartEvent {
+  @override
+  List<Object> get props => [];
 }

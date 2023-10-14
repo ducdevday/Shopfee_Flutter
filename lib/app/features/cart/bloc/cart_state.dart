@@ -9,6 +9,11 @@ class CartInitial extends CartState {
   List<Object> get props => [];
 }
 
+class CartLoading extends CartState {
+  @override
+  List<Object> get props => [];
+}
+
 class CartLoaded extends CartState {
   final Cart cart;
 
@@ -18,4 +23,15 @@ class CartLoaded extends CartState {
 
   @override
   List<Object> get props => [cart];
+}
+
+class CartFinished extends CartState {
+  final String orderId;
+  const CartFinished({
+    required this.orderId,
+  });
+  @override
+  List<Object> get props => [];
+
+
 }

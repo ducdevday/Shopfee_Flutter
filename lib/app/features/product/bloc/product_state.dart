@@ -9,6 +9,11 @@ class ProductInitial extends ProductState {
   List<Object> get props => [];
 }
 
+class ProductLoading extends ProductState {
+  @override
+  List<Object> get props => [];
+}
+
 class ProductLoaded extends ProductState {
   final Order order;
 
@@ -18,6 +23,9 @@ class ProductLoaded extends ProductState {
 
   @override
   List<Object> get props => [order];
+}
 
-
+class ProductError extends ProductState{
+  @override
+  List<Object> get props => [];
 }

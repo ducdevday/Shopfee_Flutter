@@ -9,17 +9,20 @@ import 'package:shopfee/app/features/geolocation/screen/geolocation_screen.dart'
 import 'package:shopfee/app/features/history/screen/history_screen.dart';
 import 'package:shopfee/app/features/home/screen/home_screen.dart';
 import 'package:shopfee/app/features/login/screen/login_screen.dart';
+import 'package:shopfee/app/features/new_address/screens/new_address_screen.dart';
 import 'package:shopfee/app/features/onboarding/screen/onboarding_screen.dart';
 import 'package:shopfee/app/features/otp/screen/otp_screen.dart';
 import 'package:shopfee/app/features/personal_information/screen/personal_information_screen.dart';
 import 'package:shopfee/app/features/receipt/screen/receipt_screen.dart';
 import 'package:shopfee/app/features/register/screen/register_screen.dart';
 import 'package:shopfee/app/features/review/screen/review_screen.dart';
+import 'package:shopfee/app/features/saved_address/screens/saved_address_screen.dart';
 import 'package:shopfee/app/features/search/screens/search_screen.dart';
 import 'package:shopfee/app/features/splash/screen/splash_screen.dart';
 import 'package:shopfee/app/features/tracking/screen/tracking_screen.dart';
 import 'package:shopfee/app/features/voucher/screen/voucher_screen.dart';
 import 'package:shopfee/app/features/welcome/screen/welcome_screen.dart';
+import 'package:shopfee/data/models/user.dart';
 
 class AppRouter {
   static final myBottomNavigationBar = MyBottomNavigationBar();
@@ -76,7 +79,15 @@ class AppRouter {
         return MaterialPageRoute(builder: (context) => ReviewScreen());
       case "/personal_information":
         return MaterialPageRoute(
-            builder: (context) => PersonalInformationScreen());
+            builder: (context) => PersonalInformationScreen(user: settings.arguments as User));
+      case "/saved_address":
+        final isFromCart = settings.arguments != null ? settings.arguments as bool : null;
+        return MaterialPageRoute(
+            builder: (context) => SavedAddressScreen(isFromCart: isFromCart));
+      case "/new_address":
+        final addressId = settings.arguments != null ? settings.arguments as String : null;
+        return MaterialPageRoute(
+            builder: (context) => NewAddressScreen(addressId: addressId,));
       case "/geolocation":
         return MaterialPageRoute(builder: (context) => GeolocationScreen());
       default:

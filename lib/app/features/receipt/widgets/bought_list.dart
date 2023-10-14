@@ -79,7 +79,7 @@ class BoughtItem extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(state.cart.orders[index].product.name,
+                      Text(state.cart.orders[index].product.name!,
                           style: AppStyle.mediumTitleStyleDark
                               .copyWith(color: AppColor.headingColor)),
                       SizedBox(

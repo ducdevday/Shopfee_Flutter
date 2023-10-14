@@ -1,118 +1,61 @@
 import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
+import 'package:shopfee/data/models/image.dart';
+import 'package:shopfee/data/models/size.dart';
+import 'package:shopfee/data/models/topping.dart';
 
 class Product extends Equatable {
-  final String id;
-  final String name;
-  final String description;
-  final double price;
-  final double oldPrice;
-  final double rating;
-  final String image;
+  final String? id;
+  final String? name;
+  final List<ImageModel>? imageList;
+  final List<SizeModel>? sizeList;
+  final String? description;
+  final List<Topping>? toppingList;
+  final String categoryId;
 
-  Product(
-      {required this.id,
-      required this.name,
-      required this.description,
-      required this.price,
-      required this.oldPrice,
-      required this.rating,
-      required this.image});
+  const Product({
+    this.id,
+    this.name,
+    this.imageList,
+    this.sizeList,
+    this.description,
+    this.toppingList,
+    required this.categoryId,
+  });
 
-  String get priceString => '${NumberFormat.decimalPattern().format(price)}đ';
+  // String get priceString => '${NumberFormat.decimalPattern().format(price)}đ';
 
   @override
-  List<Object> get props => [
-        id,
-        name,
-        description,
-        price,
-        oldPrice,
-        rating,
-        image,
-      ];
+  List<Object?> get props =>
+      [id, name, imageList, sizeList, description, toppingList, categoryId,];
 
-  static List<Product> products = [
-    Product(
-        id: '1',
-        name: "Coffee Milk",
-        description: "Ice americano + fresh milk ",
-        price: 25000,
-        oldPrice: 28000,
-        rating: 4.9,
-        image:
-            "https://firebasestorage.googleapis.com/v0/b/shopfee-12b03.appspot.com/o/product%2Fcoffee_big_1.png?alt=media&token=7b0b233d-f8d4-453d-8e17-bc8c39b4ae9e"),
-    Product(
-        id: '2',
-        name: "Coffee Milk",
-        description: "Ice americano + fresh milk ",
-        price: 25000,
-        oldPrice: 28000,
-        rating: 4.9,
-        image:
-            "https://firebasestorage.googleapis.com/v0/b/shopfee-12b03.appspot.com/o/product%2Fcoffee1.png?alt=media&token=274503e4-9efd-4649-aba5-781e457932cb"),
-    Product(
-        id: '3',
-        name: "Coffee Milk",
-        description: "Ice americano + fresh milk ",
-        price: 25000,
-        oldPrice: 28000,
-        rating: 4.9,
-        image:
-            "https://firebasestorage.googleapis.com/v0/b/shopfee-12b03.appspot.com/o/product%2Fcoffee1.png?alt=media&token=274503e4-9efd-4649-aba5-781e457932cb"),
-    Product(
-        id: '4',
-        name: "Coffee Milk",
-        description: "Ice americano + fresh milk ",
-        price: 25000,
-        oldPrice: 28000,
-        rating: 4.9,
-        image:
-            "https://firebasestorage.googleapis.com/v0/b/shopfee-12b03.appspot.com/o/product%2Fcoffee1.png?alt=media&token=274503e4-9efd-4649-aba5-781e457932cb"),
-    Product(
-        id: '5',
-        name: "Coffee Milk",
-        description: "Ice americano + fresh milk ",
-        price: 25000,
-        oldPrice: 28000,
-        rating: 4.9,
-        image:
-            "https://firebasestorage.googleapis.com/v0/b/shopfee-12b03.appspot.com/o/product%2Fcoffee1.png?alt=media&token=274503e4-9efd-4649-aba5-781e457932cb"),
-    Product(
-        id: '6',
-        name: "Coffee Milk",
-        description: "Ice americano + fresh milk ",
-        price: 25000,
-        oldPrice: 28000,
-        rating: 4.9,
-        image:
-            "https://firebasestorage.googleapis.com/v0/b/shopfee-12b03.appspot.com/o/product%2Fcoffee1.png?alt=media&token=274503e4-9efd-4649-aba5-781e457932cb"),
-    Product(
-        id: '7',
-        name: "Coffee Milk",
-        description: "Ice americano + fresh milk ",
-        price: 25000,
-        oldPrice: 28000,
-        rating: 4.9,
-        image:
-            "https://firebasestorage.googleapis.com/v0/b/shopfee-12b03.appspot.com/o/product%2Fcoffee1.png?alt=media&token=274503e4-9efd-4649-aba5-781e457932cb"),
-    Product(
-        id: '8',
-        name: "Coffee Milk",
-        description: "Ice americano + fresh milk ",
-        price: 25000,
-        oldPrice: 28000,
-        rating: 4.9,
-        image:
-            "https://firebasestorage.googleapis.com/v0/b/shopfee-12b03.appspot.com/o/product%2Fcoffee1.png?alt=media&token=274503e4-9efd-4649-aba5-781e457932cb"),
-    Product(
-        id: '9',
-        name: "Coffee Milk",
-        description: "Ice americano + fresh milk ",
-        price: 25000,
-        oldPrice: 28000,
-        rating: 4.9,
-        image:
-            "https://firebasestorage.googleapis.com/v0/b/shopfee-12b03.appspot.com/o/product%2Fcoffee1.png?alt=media&token=274503e4-9efd-4649-aba5-781e457932cb")
-  ];
+  Map<String, dynamic> toMap() {
+    return {
+      'id': this.id,
+      'name': this.name,
+      'imageList': this.imageList,
+      'sizeList': this.sizeList,
+      'description': this.description,
+      'toppingList': this.toppingList,
+      'categoryId': this.categoryId,
+    };
+  }
+
+  factory Product.fromMap(Map<String, dynamic> map) {
+    return Product(
+      id: map['id'] as String,
+      name: map["name"] as String,
+      imageList: (map['imageList'] as List<dynamic>?)
+          ?.map((e) => ImageModel.fromMap(e as Map<String, dynamic>))
+          .toList(),
+      sizeList: (map['sizeList'] as List<dynamic>?)
+          ?.map((e) => SizeModel.fromMap(e as Map<String, dynamic>))
+          .toList(),
+      description: map['description'] as String,
+      toppingList: (map['toppingList'] as List<dynamic>?)
+          ?.map((e) => Topping.fromMap(e as Map<String, dynamic>))
+          .toList(),
+      categoryId: map['categoryId'] as String,
+    );
+  }
 }

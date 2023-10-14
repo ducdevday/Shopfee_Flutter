@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shopfee/app/common/data/global_data.dart';
 import 'package:shopfee/data/models/user.dart';
 import 'package:shopfee/data/repositories/auth/auth_repository.dart';
 
@@ -66,6 +67,9 @@ class RegisterCubit extends Cubit<RegisterState> {
           final SharedPreferences prefs = await SharedPreferences.getInstance();
           await prefs.setString('userId', response.data!["id"]);
           await prefs.setString('accessToken', response.data!["accessToken"]);
+          GlobalData.ins.userId = prefs.getString('userId');
+          GlobalData.ins.accessToken = prefs.getString('accessToken');
+
           Navigator.pushNamed(context, "/home");
 
         } else {

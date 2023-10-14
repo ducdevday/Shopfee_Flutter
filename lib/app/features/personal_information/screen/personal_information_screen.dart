@@ -1,228 +1,283 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:shopfee/app/config/color.dart';
 import 'package:shopfee/app/config/dimens.dart';
 import 'package:shopfee/app/config/style.dart';
+import 'package:shopfee/app/features/personal_information/cubit/personal_information_cubit.dart';
+import 'package:shopfee/data/models/user.dart';
+import 'package:shopfee/data/repositories/user/user_repository.dart';
 
-class PersonalInformationScreen extends StatefulWidget {
-  const PersonalInformationScreen({Key? key}) : super(key: key);
+class PersonalInformationScreen extends StatelessWidget {
+  final User user;
 
-  @override
-  State<PersonalInformationScreen> createState() => _PersonalInformationScreenState();
-}
-
-class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
-  DateTime selectedDate = DateTime.now();
-
-  _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2025),
-    );
-    if (picked != null && picked != selectedDate)
-      setState(() {
-        selectedDate = picked;
-      });
-  }
+  const PersonalInformationScreen({Key? key, required this.user})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Update Information"),
-        bottom: const PreferredSize(
-          preferredSize: Size.fromHeight(1),
-          child: Divider(height: 1),
-        ),
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(AppDimen.screenPadding),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Align(
-                alignment: Alignment.center,
-                child: Stack(
-                  children: [
-                    Container(
-                      width: 110,
-                      height: 110,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: NetworkImage(
-                                "https://scontent.fsgn2-7.fna.fbcdn.net/v/t39.30808-6/336771326_220248634014600_7812303016188866708_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=49d041&_nc_ohc=oqP_l9CXr7AAX-HbVWV&_nc_ht=scontent.fsgn2-7.fna&oh=00_AfBkCGmhOd2F8Xti8G5xRuw3ePENsmCkCIATrNqG8QRtQg&oe=651D26ED",
-                              ))),
-                    ),
-                    Container(
-                        margin: EdgeInsets.only(top: 85, left: 75),
-                        padding: EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.circle,
-                            border: Border.fromBorderSide(
-                                BorderSide(color: AppColor.nonactiveColor))),
-                        child: Icon(
-                          Icons.camera_alt,
-                          size: 16,
-                        )),
-                  ],
+    return BlocProvider(
+      create: (context) => PersonalInformationCubit(
+          userRepository: context.read<UserRepository>())
+        ..initField(user),
+      child: BlocBuilder<PersonalInformationCubit, PersonalInformationState>(
+        builder: (context, state) {
+          if (state is PersonalInformationLoaded) {
+            return Scaffold(
+              appBar: AppBar(
+                title: Text("Update Information"),
+                bottom: const PreferredSize(
+                  preferredSize: Size.fromHeight(1),
+                  child: Divider(height: 1),
                 ),
               ),
-              const SizedBox(
-                height: 20,
-              ),
-              const Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: InputField(
-                      title: "First Name",
-                      hint: "Input Your First Name",
-                    ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: InputField(
-                      title: "Last Name",
-                      hint: "Input Your Last Name",
-                    ),
-                  )
-                ],
-              ),
-              const SizedBox(
-                height: AppDimen.spacing,
-              ),
-              const InputField(
-                title: "Email",
-                hint: "mingduc17082002@gmail.com",
-                isEnable: false,
-              ),
-              const SizedBox(
-                height: AppDimen.spacing,
-              ),
-              const InputField(
-                title: "Phone",
-                hint: "033901237",
-                isEnable: false,
-              ),
-              const SizedBox(
-                height: AppDimen.spacing,
-              ),
-              Column(
-                children: [
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      "Birthday",
-                      style: AppStyle.normalTextStyle
-                          .copyWith(color: Color(0xff3C3C3C)),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  InkWell(
-                    highlightColor: Colors.transparent,
-                    splashColor: Colors.transparent,
-                    onTap: () {
-                      _selectDate(context);
-                    },
-                    child: TextField(
-                      enabled: false,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(
-                            vertical: 8, horizontal: 12),
-                        suffixIcon: const Icon(Icons.calendar_month_outlined),
-                        disabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey),
-                            borderRadius: BorderRadius.circular(16)),
-                        hintText: "Choose your birthday",
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: AppDimen.spacing,
-              ),
-              Column(
-                children: [
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      "Gender",
-                      style: AppStyle.normalTextStyle
-                          .copyWith(color: Color(0xff3C3C3C)),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  InkWell(
-                    highlightColor: Colors.transparent,
-                    splashColor: Colors.transparent,
-                    onTap: () {
-                      showDialog(
-                          context: context, builder: (BuildContext context) {
-                        return SimpleDialog(
-                          title: const Text('Select your gender'),
-                          children: <Widget>[
-                            SimpleDialogOption(
-                              onPressed: () {
-                              },
-                              child: const Text('Male   ♂️'),
+              body: Padding(
+                padding: EdgeInsets.all(AppDimen.screenPadding),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Align(
+                        alignment: Alignment.center,
+                        child: Stack(
+                          children: [
+                            Container(
+                              width: 110,
+                              height: 110,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: AssetImage(
+                                        "assets/images/img_default_user.png",
+                                      ))),
                             ),
-                            SimpleDialogOption(
-                              onPressed: () {
-                              },
-                              child: const Text('Female   ♀️'),
-                            ),
+                            Container(
+                                margin: EdgeInsets.only(top: 85, left: 75),
+                                padding: EdgeInsets.all(4),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    shape: BoxShape.circle,
+                                    border: Border.fromBorderSide(BorderSide(
+                                        color: AppColor.nonactiveColor))),
+                                child: Icon(
+                                  Icons.camera_alt,
+                                  size: 16,
+                                )),
                           ],
-                        );
-                      });
-                    },
-                    child: TextField(
-                      enabled: false,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(
-                            vertical: 8, horizontal: 12),
-                        suffixIcon: const Icon(Icons.arrow_drop_down),
-                        disabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey),
-                            borderRadius: BorderRadius.circular(16)),
-                        hintText: "Male",
+                        ),
                       ),
-                    ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: InputField(
+                                title: "First Name",
+                                value: user.firstName,
+                                hint: "Input Your First Name",
+                                callback: (String firstName) {
+                                  context
+                                      .read<PersonalInformationCubit>()
+                                      .updateFirstName(firstName);
+                                }),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: InputField(
+                                title: "Last Name",
+                                value: user.lastName,
+                                hint: "Input Your Last Name",
+                                callback: (String lastName) {
+                                  context
+                                      .read<PersonalInformationCubit>()
+                                      .updateLastName(lastName);
+                                }),
+                          )
+                        ],
+                      ),
+                      const SizedBox(
+                        height: AppDimen.spacing,
+                      ),
+                      InputField(
+                        title: "Email",
+                        hint: user.email,
+                        isEnable: false,
+                      ),
+                      const SizedBox(
+                        height: AppDimen.spacing,
+                      ),
+                      InputField(
+                          title: "Phone",
+                          hint: user.phoneNumber != null
+                              ? user.phoneNumber!
+                              : "Input your Phone Number",
+                          callback: (String phoneNumber) {
+                            context
+                                .read<PersonalInformationCubit>()
+                                .updatePhoneNumber(phoneNumber);
+                          }),
+                      const SizedBox(
+                        height: AppDimen.spacing,
+                      ),
+                      Column(
+                        children: [
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              "Birthday",
+                              style: AppStyle.normalTextStyle
+                                  .copyWith(color: Color(0xff3C3C3C)),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          InkWell(
+                            highlightColor: Colors.transparent,
+                            splashColor: Colors.transparent,
+                            onTap: () async {
+                              // Capture the current context in a local variable
+                              BuildContext currentContext = context;
+
+                              DateTime initialDate =
+                              user.birthDate != null ? user.birthDate! : DateTime.now();
+                              final DateTime? picked = await showDatePicker(
+                                context: currentContext, // Use the local variable here
+                                initialDate: initialDate,
+                                firstDate: DateTime(2000),
+                                lastDate: DateTime(2025),
+                              );
+                              if (picked != null && picked != initialDate) {
+                                context
+                                    .read<PersonalInformationCubit>()
+                                    .updateBirthday(picked);
+                              }
+                            },
+                            child: TextField(
+                              enabled: false,
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: 8, horizontal: 12),
+                                suffixIcon:
+                                    const Icon(Icons.calendar_month_outlined),
+                                disabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(16)),
+                                hintText: state.user.birthDate != null
+                                    ? DateFormat('dd/MM/yyyy')
+                                        .format(state.user.birthDate!)
+                                    : "Choose your birthday",
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: AppDimen.spacing,
+                      ),
+                      Column(
+                        children: [
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              "Gender",
+                              style: AppStyle.normalTextStyle
+                                  .copyWith(color: Color(0xff3C3C3C)),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          InkWell(
+                            highlightColor: Colors.transparent,
+                            splashColor: Colors.transparent,
+                            onTap: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext contextDialog) {
+                                    return SimpleDialog(
+                                      title: const Text('Select your gender'),
+                                      children: <Widget>[
+                                        SimpleDialogOption(
+                                          onPressed: () {
+                                            context.read<PersonalInformationCubit>().updateGender(Gender.MALE);
+                                            Navigator.pop(contextDialog);
+                                          },
+                                          child: const Text('Male   ♂️'),
+                                        ),
+                                        SimpleDialogOption(
+                                          onPressed: () {
+                                            context.read<PersonalInformationCubit>().updateGender(Gender.FEMALE);
+                                            Navigator.pop(contextDialog);
+                                          },
+                                          child: const Text('Female   ♀️'),
+                                        ),
+                                        SimpleDialogOption(
+                                          onPressed: () {
+                                            context.read<PersonalInformationCubit>().updateGender(Gender.OTHER);
+                                            Navigator.pop(contextDialog);
+                                          },
+                                          child: const Text('Other 💫'),
+                                        ),
+                                      ],
+                                    );
+                                  });
+                            },
+                            child: TextField(
+                              enabled: false,
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: 8, horizontal: 12),
+                                suffixIcon: const Icon(Icons.arrow_drop_down),
+                                disabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(16)),
+                                hintText:state.user.gender != null ? state.user.gender!.name : "Choose your gender" ,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 40,
+                      ),
+                      Align(
+                          alignment: Alignment.center,
+                          child: Container(
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  context.read<PersonalInformationCubit>().updateUser(context);
+                                },
+                                child: Text("Update"),
+                                style: ElevatedButton.styleFrom(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 16, horizontal: 24),
+                                    disabledBackgroundColor:
+                                        const Color(0xffCACACA),
+                                    disabledForegroundColor:
+                                        AppColor.lightColor,
+                                    textStyle: AppStyle.mediumTextStyleDark,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    )),
+                              )))
+                    ],
                   ),
-                ],
+                ),
               ),
-              SizedBox(height: 40,),
-              Align(
-                  alignment: Alignment.center,
-                  child: Container(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        child: Text("Update"),
-                        style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 16, horizontal: 24),
-                            disabledBackgroundColor: const Color(0xffCACACA),
-                            disabledForegroundColor: AppColor.lightColor,
-                            textStyle: AppStyle.mediumTextStyleDark,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            )),
-                      )))
-            ],
-          ),
-        ),
+            );
+          }
+          else {
+            return SizedBox();
+          }
+        },
       ),
     );
   }
@@ -231,12 +286,16 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
 class InputField extends StatefulWidget {
   final String title;
   final String hint;
+  final String? value;
   final bool isEnable;
+  final Function(String)? callback;
 
   const InputField({
     required this.title,
     required this.hint,
+    this.value,
     this.isEnable = true,
+    this.callback,
   });
 
   @override
@@ -244,7 +303,14 @@ class InputField extends StatefulWidget {
 }
 
 class _InputFieldState extends State<InputField> {
-  TextEditingController _controller = TextEditingController();
+  late TextEditingController _controller;
+
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: widget.value != null ? widget.value! : "");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -261,10 +327,10 @@ class _InputFieldState extends State<InputField> {
           height: 10,
         ),
         TextFormField(
+          keyboardType: widget.title == "Phone" ? TextInputType.phone : null,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           validator: (value) {
-            // context.read<RegisterCubit>()
-            //     .addField(widget.title, _controller.text);
+            widget.callback!(_controller.text);
             if (value!.isEmpty) {
               return 'Please fill this section';
             }

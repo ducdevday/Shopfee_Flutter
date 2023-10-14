@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:shopfee/app/common/widgets/my_bottom_navigationbar.dart';
-import 'package:shopfee/app/config/color.dart';
+import 'package:shopfee/app/common/widgets/my_loading.dart';
 import 'package:shopfee/app/config/dimens.dart';
 import 'package:shopfee/app/config/style.dart';
-import 'package:shopfee/app/features/home/widgets/home_filter.dart';
+import 'package:shopfee/app/features/home/bloc/home_bloc.dart';
 import 'package:shopfee/app/features/home/widgets/home_float_action.dart';
 import 'package:shopfee/app/features/home/widgets/home_product.dart';
 import 'package:shopfee/app/features/home/widgets/home_slider.dart';
-import 'package:shopfee/data/models/product.dart';
+import 'package:shopfee/app/features/product_by_category_id/screen/product_by_category_id_screen.dart';
+import 'package:shopfee/data/repositories/category/category_repository.dart';
+import 'package:shopfee/data/repositories/product/product_repository.dart';
 
 class HomeScreen extends StatelessWidget {
   final MyBottomNavigationBar myBottomNavigationBar;
@@ -18,178 +21,176 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _determinePosition();
-    return Scaffold(
-      body: NestedScrollView(
-        floatHeaderSlivers: true,
-        headerSliverBuilder: (BuildContext context, bool isScrolled) {
-          return [
-            SliverAppBar(
-              snap: true,
-              automaticallyImplyLeading: false,
-              floating: true,
-              title: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.pushNamed(context, "/search");
-                        },
-                        child: TextField(
-                          enabled: false,
-                          style: AppStyle.smallTextStyleDark,
-                          decoration: InputDecoration(
-                            contentPadding: const EdgeInsets.all(8),
-                            suffixIcon: const Icon(Icons.search),
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(16)),
-                            hintText: "What would you like to drink today?",
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    const Icon(Icons.notifications_none_outlined)
-                  ],
-                ),
-              ),
-              bottom: const PreferredSize(
-                preferredSize: Size.fromHeight(1),
-                child: Divider(height: 1),
-              ),
-            )
-          ];
-        },
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              const SizedBox(
-                height: AppDimen.spacing,
-              ),
-              const HomeSlider(),
-              const SizedBox(
-                height:AppDimen.spacing,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: AppDimen.screenPadding),
-                child: DefaultTabController(
-                    length: 4,
-                    child: Column(
-                      children: [
-                        TabBar(
-                          isScrollable: true,
-                          unselectedLabelColor: AppColor.disableColor,
-                          indicatorColor: AppColor.primaryColor,
-                          labelColor: AppColor.primaryColor,
-                          tabs: [
-                            Tab(
-                              height: 80,
-                              child: Column(
-                                children: [
-                                  const Image(image: AssetImage("assets/icons/ic_cappuccino.png"), width: 60,height: 60,),
-                                  Text("Cappuccino", style: AppStyle.mediumTextStyleDark,)
-                                ],
+    return BlocProvider(
+      create: (context) =>
+      HomeBloc(
+          categoryRepository: context.read<CategoryRepository>(),
+          productRepository: context.read<ProductRepository>())
+        ..add(LoadHome()),
+      child: BlocBuilder<HomeBloc, HomeState>(
+        builder: (context, state) {
+          if (state is HomeLoading) {
+            return MyLoading();
+          } else if (state is HomeLoaded) {
+            return Scaffold(
+              body: NestedScrollView(
+                floatHeaderSlivers: true,
+                headerSliverBuilder: (BuildContext context, bool isScrolled) {
+                  return [
+                    SliverAppBar(
+                      snap: true,
+                      automaticallyImplyLeading: false,
+                      floating: true,
+                      title: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.pushNamed(context, "/search");
+                                },
+                                child: TextField(
+                                  enabled: false,
+                                  style: AppStyle.smallTextStyleDark,
+                                  decoration: InputDecoration(
+                                    contentPadding: const EdgeInsets.all(8),
+                                    suffixIcon: const Icon(Icons.search),
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                        BorderRadius.circular(16)),
+                                    hintText:
+                                    "What would you like to drink today?",
+                                  ),
+                                ),
                               ),
                             ),
-                            Tab(
-                              height: 80,
-                              child: Column(
-                                children: [
-                                  const Image(image: AssetImage("assets/icons/ic_cappuccino.png"), width: 60,height: 60,),
-                                  Text("Cappuccino", style: AppStyle.mediumTextStyleDark,)
-                                ],
-                              ),
-                            ),
-                            Tab(
-                              height: 80,
-                              child: Column(
-                                children: [
-                                  const Image(image: AssetImage("assets/icons/ic_cappuccino.png"), width: 60,height: 60,),
-                                  Text("Cappuccino", style: AppStyle.mediumTextStyleDark,)
-                                ],
-                              ),
-                            ),
-                            Tab(
-                              height: 80,
-                              child: Column(
-                                children: [
-                                  const Image(image: AssetImage("assets/icons/ic_cappuccino.png"), width: 60,height: 60,),
-                                  Text("Cappuccino", style: AppStyle.mediumTextStyleDark,)
-                                ],
-                              ),
-                            ),
+                            const SizedBox(width: 10),
+                            const Icon(Icons.notifications_none_outlined)
                           ],
                         ),
-                        // const Align(
-                        //     alignment: Alignment.topLeft, child: HomeFilter()),
-                        SizedBox(
-                          height: Product.products.length * 70 +
-                              Product.products.length * 16 +
-                              kBottomNavigationBarHeight +
-                              70,
-                          child: TabBarView(
-                            children: [
-                              ListView.separated(
-                                padding: EdgeInsets.zero,
-                                shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
-                                itemCount: Product.products.length,
-                                itemBuilder: (context, index) =>
-                                    HomeProduct(Product.products[index]),
-                                separatorBuilder: (context, int index) =>
-                                    SizedBox(
-                                  height: 8,
-                                ),
-                              ),
-                              ListView.separated(
-                                shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
-                                itemCount: Product.products.length,
-                                itemBuilder: (context, index) =>
-                                    HomeProduct(Product.products[index]),
-                                separatorBuilder: (context, int index) =>
-                                    SizedBox(
-                                  height: 8,
-                                ),
-                              ),
-                              ListView.separated(
-                                shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
-                                itemCount: Product.products.length,
-                                itemBuilder: (context, index) =>
-                                    HomeProduct(Product.products[index]),
-                                separatorBuilder: (context, int index) =>
-                                    SizedBox(
-                                  height: 8,
-                                ),
-                              ),
-                              ListView.separated(
-                                shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
-                                itemCount: Product.products.length,
-                                itemBuilder: (context, index) =>
-                                    HomeProduct(Product.products[index]),
-                                separatorBuilder: (context, int index) =>
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                              )
-                            ],
+                      ),
+                      bottom: const PreferredSize(
+                        preferredSize: Size.fromHeight(1),
+                        child: Divider(height: 1),
+                      ),
+                    )
+                  ];
+                },
+                body: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: AppDimen.spacing,
+                      ),
+                      const HomeSlider(),
+                      const SizedBox(
+                        height: AppDimen.spacing,
+                      ),
+
+                      Column(
+                        children: [
+                          Container(
+                            height: 80,
+                            child: Scrollbar(
+                              thickness: 1,
+                              child: ListView.separated(
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder: (context, index) =>
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.push(context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ProductByCategoryIdScreen(
+                                                          categoryId: state
+                                                              .categories[index]
+                                                              .id!,
+                                                          categoryName: state
+                                                              .categories[index]
+                                                              .name!)));
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: AppDimen.spacing),
+                                          child: Column(
+                                            children: [
+                                              Image(
+                                                image: NetworkImage(state
+                                                    .categories[index].image!
+                                                    .url!),
+                                                width: 60,
+                                                height: 60,
+                                              ),
+                                              Text(
+                                                state.categories[index].name!,
+                                                style: AppStyle
+                                                    .mediumTextStyleDark,
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                  separatorBuilder: (context, index) =>
+                                      SizedBox(
+                                      ),
+                                  itemCount: state.categories.length),
+                            ),
                           ),
-                        ),
-                      ],
-                    )),
-              )
-            ],
-          ),
-        ),
+                          SizedBox(
+                            height: 16,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: AppDimen.screenPadding),
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "Outstanding Products",
+                                style: AppStyle.mediumTitleStyleDark,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          ListView.separated(
+                            padding: EdgeInsets.zero,
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: state.products.length,
+                            itemBuilder: (context, index) =>
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: AppDimen.screenPadding),
+                                  child: HomeProduct(state.products[index]),
+                                ),
+                            separatorBuilder: (context, int index) =>
+                                Divider(
+                                  height: 8,
+                                  thickness: 0.75,
+                                ),
+                          ),
+                          SizedBox(
+                            height: 68,
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterFloat,
+              floatingActionButton: HomeFloatAction(),
+              bottomNavigationBar: myBottomNavigationBar,
+            );
+          } else {
+            return Center(
+              child: Text("Something went wront"),
+            );
+          }
+        },
       ),
-      floatingActionButtonLocation:
-          FloatingActionButtonLocation.miniCenterFloat,
-      floatingActionButton: HomeFloatAction(),
-      bottomNavigationBar: myBottomNavigationBar,
     );
   }
 }
@@ -230,4 +231,3 @@ Future<Position> _determinePosition() async {
   // continue accessing the position of the device.
   return await Geolocator.getCurrentPosition();
 }
-

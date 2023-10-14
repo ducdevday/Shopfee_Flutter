@@ -2,14 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopfee/app/features/product/bloc/product_bloc.dart';
 
-class NoteOpt extends StatefulWidget {
+class NoteOpt extends StatelessWidget {
   const NoteOpt({Key? key}) : super(key: key);
-
-  @override
-  State<NoteOpt> createState() => _NoteOptState();
-}
-
-class _NoteOptState extends State<NoteOpt> {
 
   @override
   Widget build(BuildContext context) {

@@ -17,7 +17,22 @@ class HomeFloatAction extends StatelessWidget {
       builder: (context, state) {
         if (state is CartLoaded) {
           if (state.cart.orders.isEmpty) {
-            return SizedBox();
+            return Container(
+              margin: EdgeInsets.only(left: MediaQuery.of(context).size.width / 2 +120),
+              child: FloatingActionButton(
+                splashColor: Colors.transparent,
+                highlightElevation: 0,
+                backgroundColor: AppColor.primaryColor,
+                onPressed: (){
+                  Navigator.pushNamed(context, "/cart");
+                }, child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  // Icon(Icons.shopping_bag_rounded, color: Colors.white,size: 38,),
+                  SvgPicture.asset("assets/icons/ic_shopping_bag.svg", width: 38,height: 38,),
+                  Positioned(top:16, child: Text("0", style: AppStyle.normalTextStyle,textAlign: TextAlign.center,))
+                ],),),
+            );
           }
           return InkWell(
             onTap: (){

@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shopfee/app/common/data/global_data.dart';
 import 'package:shopfee/data/repositories/auth/auth_repository.dart';
 
 part 'login_state.dart';
@@ -42,9 +43,12 @@ class LoginCubit extends Cubit<LoginState> {
           final SharedPreferences prefs = await SharedPreferences.getInstance();
           await prefs.setString('userId', response.data!["userId"]);
           await prefs.setString('accessToken', response.data!["accessToken"]);
+          GlobalData.ins.userId = prefs.getString('userId');
+          GlobalData.ins.accessToken = prefs.getString('accessToken');
+
           Navigator.pushNamed(context, "/home");
         } else {
-          EasyLoading.showError('Something went wrong');
+          EasyLoading.showError('Invalid Email or Password');
         }
       } catch (e) {
         print(e);

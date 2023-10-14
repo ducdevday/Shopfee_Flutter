@@ -1,17 +1,18 @@
 import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
+import 'package:shopfee/data/models/address.dart';
 import 'package:shopfee/data/models/order.dart';
 import 'package:shopfee/data/models/voucher.dart';
 
 enum TypeDelivery { TakeAway, HomeDelivery }
 
-enum TypePayment { CASH, VNPAY  }
+enum TypePayment { CASHING, BANKING  }
 
 class Cart extends Equatable {
   final List<Order> orders;
   final TypeDelivery? typeDelivery;
-  final String? address;
-  final String? instruction;
+  final Address? address;
+  final String? note;
   final DateTime? deliveryTime;
   final TypePayment? typePayment;
   final Voucher? voucher;
@@ -21,7 +22,7 @@ class Cart extends Equatable {
     this.orders = const <Order>[],
     this.typeDelivery,
     this.address,
-    this.instruction,
+    this.note,
     this.deliveryTime,
     this.typePayment,
     this.voucher,
@@ -39,7 +40,7 @@ class Cart extends Equatable {
 
   String get nameOrderString {
     List<String> results = [];
-    orders.map((order) => order.product.name).forEach((name) {results.add(name); });
+    orders.map((order) => order.product.name).forEach((name) {results.add(name!); });
     return results.join(", ");
   }
 
@@ -48,7 +49,7 @@ class Cart extends Equatable {
         orders,
         typeDelivery,
         address,
-        instruction,
+        note,
         deliveryTime,
         typePayment,
         voucher,
@@ -61,7 +62,7 @@ class Cart extends Equatable {
         ' orders: $orders,' +
         ' typeDelivery: $typeDelivery,' +
         ' address: $address,' +
-        ' instruction: $instruction,' +
+        ' note: $note,' +
         ' deliveryTime: $deliveryTime,' +
         ' typePayment: $typePayment,' +
         ' voucher: $voucher,' +
@@ -72,8 +73,8 @@ class Cart extends Equatable {
   Cart copyWith({
     List<Order>? orders,
     TypeDelivery? typeDelivery,
-    String? address,
-    String? instruction,
+    Address? address,
+    String? note,
     DateTime? deliveryTime,
     TypePayment? typePayment,
     Voucher? voucher,
@@ -83,7 +84,7 @@ class Cart extends Equatable {
       orders: orders ?? this.orders,
       typeDelivery: typeDelivery ?? this.typeDelivery,
       address: address ?? this.address,
-      instruction: instruction ?? this.instruction,
+      note: note ?? this.note,
       deliveryTime: deliveryTime ?? this.deliveryTime,
       typePayment: typePayment ?? this.typePayment,
       voucher: voucher ?? this.voucher,
@@ -96,7 +97,7 @@ class Cart extends Equatable {
       'orders': this.orders,
       'typeDelivery': this.typeDelivery,
       'address': this.address,
-      'instruction': this.instruction,
+      'note': this.note,
       'deliveryTime': this.deliveryTime,
       'typePayment': this.typePayment,
       'voucher': this.voucher,
@@ -108,8 +109,8 @@ class Cart extends Equatable {
     return Cart(
       orders: map['orders'] as List<Order>,
       typeDelivery: map['typeDelivery'] as TypeDelivery,
-      address: map['address'] as String,
-      instruction: map['instruction'] as String,
+      address: map['address'] as Address,
+      note: map['note'] as String,
       deliveryTime: map['deliveryTime'] as DateTime,
       typePayment: map['typePayment'] as TypePayment,
       voucher: map['voucher'] as Voucher,
