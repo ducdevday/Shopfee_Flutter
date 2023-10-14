@@ -1,6 +1,10 @@
 import 'package:equatable/equatable.dart';
 
-enum TypeVoucher { Money, Percent }
+enum TypeVoucher { Money, Percent;
+  String toJson() => name;
+
+  static TypeVoucher fromJson(String json) => values.byName(json);
+}
 
 class Voucher extends Equatable {
   final String id;
@@ -50,4 +54,28 @@ class Voucher extends Equatable {
         minium: 100000,
         upto: 0),
   ];
+
+  factory Voucher.fromJson(Map<String, dynamic> json) {
+    return Voucher(
+      id: json["id"],
+      name: json["name"],
+      code: json["code"],
+      type: TypeVoucher.fromJson(json["type"]),
+      value: json["value"] as double,
+      minium:json["minium"] as double,
+      upto: json["upto"] as double,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "id": this.id,
+      "name": this.name,
+      "code": this.code,
+      "type": this.type,
+      "value": this.value,
+      "minium": this.minium,
+      "upto": this.upto,
+    };
+  }
 }

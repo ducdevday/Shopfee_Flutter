@@ -25,4 +25,18 @@ class SizeModel extends Equatable {
       price: map['price'] as double,
     );
   }
+
+  factory SizeModel.fromJson(Map<String, dynamic> json) {
+    return SizeModel(
+      size: json["size"],
+      price: json["price"] as double,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "size": this.size,
+      "price": this.price,
+    };
+  }
 }

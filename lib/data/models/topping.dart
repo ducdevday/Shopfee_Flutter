@@ -26,5 +26,17 @@ class Topping extends Equatable {
     );
   }
 
+  factory Topping.fromJson(Map<String, dynamic> json) {
+    return Topping(
+      name: json["name"],
+      price: json["price"] as double,
+    );
+  }
 
+  Map<String, dynamic> toJson() {
+    return {
+      "name": this.name,
+      "price": this.price,
+    };
+  }
 }

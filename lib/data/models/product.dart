@@ -58,4 +58,34 @@ class Product extends Equatable {
       categoryId: map['categoryId'] as String,
     );
   }
+
+  factory Product.fromJson(Map<String, dynamic> json) {
+    return Product(
+      id: json['id'] as String,
+      name: json["name"] as String,
+      imageList: (json['imageList'] as List<dynamic>?)
+          ?.map((e) => ImageModel.fromMap(e as Map<String, dynamic>))
+          .toList(),
+      sizeList: (json['sizeList'] as List<dynamic>?)
+          ?.map((e) => SizeModel.fromMap(e as Map<String, dynamic>))
+          .toList(),
+      description: json['description'] as String,
+      toppingList: (json['toppingList'] as List<dynamic>?)
+          ?.map((e) => Topping.fromMap(e as Map<String, dynamic>))
+          .toList(),
+      categoryId: json['categoryId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': this.id,
+      'name': this.name,
+      'imageList': this.imageList,
+      'sizeList': this.sizeList,
+      'description': this.description,
+      'toppingList': this.toppingList,
+      'categoryId': this.categoryId,
+    };
+  }
 }

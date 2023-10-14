@@ -1,13 +1,28 @@
 import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:shopfee/data/models/address.dart';
 import 'package:shopfee/data/models/order.dart';
 import 'package:shopfee/data/models/voucher.dart';
 
-enum TypeDelivery { TakeAway, HomeDelivery }
+part 'cart.g.dart';
 
-enum TypePayment { CASHING, BANKING  }
+enum TypeDelivery { TakeAway, HomeDelivery;
+  String toJson() => name;
 
+  static TypeDelivery fromJson(String json) => values.byName(json);
+}
+
+enum TypePayment {
+  CASHING,
+  BANKING;
+
+  String toJson() => name;
+
+  static TypePayment fromJson(String json) => values.byName(json);
+}
+
+@JsonSerializable()
 class Cart extends Equatable {
   final List<Order> orders;
   final TypeDelivery? typeDelivery;
@@ -34,13 +49,17 @@ class Cart extends Equatable {
 
   String get quantityTotalString => "${totalQuantity} item";
 
-  double get totalPrice => orders.fold(0, (total, current) => total + current.total);
+  double get totalPrice =>
+      orders.fold(0, (total, current) => total + current.total);
 
-  String get totalPriceString => "${NumberFormat.decimalPattern().format(totalPrice)}đ";
+  String get totalPriceString =>
+      "${NumberFormat.decimalPattern().format(totalPrice)}đ";
 
   String get nameOrderString {
     List<String> results = [];
-    orders.map((order) => order.product.name).forEach((name) {results.add(name!); });
+    orders.map((order) => order.product.name).forEach((name) {
+      results.add(name!);
+    });
     return results.join(", ");
   }
 
@@ -92,29 +111,33 @@ class Cart extends Equatable {
     );
   }
 
-  Map<String, dynamic> toMap() {
-    return {
-      'orders': this.orders,
-      'typeDelivery': this.typeDelivery,
-      'address': this.address,
-      'note': this.note,
-      'deliveryTime': this.deliveryTime,
-      'typePayment': this.typePayment,
-      'voucher': this.voucher,
-      'shippingFee': this.shippingFee,
-    };
-  }
+  factory Cart.fromJson(Map<String, dynamic> json)=>_$CartFromJson(json);
 
-  factory Cart.fromMap(Map<String, dynamic> map) {
-    return Cart(
-      orders: map['orders'] as List<Order>,
-      typeDelivery: map['typeDelivery'] as TypeDelivery,
-      address: map['address'] as Address,
-      note: map['note'] as String,
-      deliveryTime: map['deliveryTime'] as DateTime,
-      typePayment: map['typePayment'] as TypePayment,
-      voucher: map['voucher'] as Voucher,
-      shippingFee: map['shippingFee'] as double,
-    );
-  }
+  Map<String, dynamic> toJson() => _$CartToJson(this);
+
+  // Map<String, dynamic> toJson() {
+  //   return {
+  //     'orders': this.orders,
+  //     'typeDelivery': this.typeDelivery,
+  //     'address': this.address,
+  //     'note': this.note,
+  //     'deliveryTime': this.deliveryTime,
+  //     'typePayment': this.typePayment,
+  //     'voucher': this.voucher,
+  //     'shippingFee': this.shippingFee,
+  //   };
+  // }
+  //
+  // factory Cart.fromJson(Map<String, dynamic> map) {
+  //   return Cart(
+  //     orders: map['orders'] as List<Order>,
+  //     typeDelivery: map['typeDelivery'] as TypeDelivery,
+  //     address: map['address'] as Address,
+  //     note: map['note'] as String,
+  //     deliveryTime: map['deliveryTime'] as DateTime,
+  //     typePayment: map['typePayment'] as TypePayment,
+  //     voucher: map['voucher'] as Voucher,
+  //     shippingFee: map['shippingFee'] as double,
+  //   );
+  // }
 }

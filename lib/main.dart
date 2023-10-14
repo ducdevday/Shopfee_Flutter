@@ -1,6 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shopfee/app/common/data/global_data.dart';
 import 'package:shopfee/app/config/routes.dart';
@@ -23,6 +26,10 @@ import 'package:shopfee/data/repositories/user/user_repository.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  HydratedBloc.storage = await HydratedStorage.build(
+      storageDirectory: kIsWeb
+          ? HydratedStorage.webStorageDirectory
+          : await getTemporaryDirectory());
   Bloc.observer = SimpleBlocObserver();
   _initData();
   runApp(const MyApp());
@@ -55,7 +62,11 @@ class MyApp extends StatelessWidget {
       ],
       child: MultiBlocProvider(
         providers: [
-          BlocProvider(create: (context) => CartBloc(orderRepository: context.read<OrderRepository>(), addressRepository: context.read<AddressRepository>())..add(LoadCart())),
+          BlocProvider(
+              create: (context) => CartBloc(
+                  orderRepository: context.read<OrderRepository>(),
+                  addressRepository: context.read<AddressRepository>())
+                ..add(LoadCart())),
           BlocProvider(
               create: (context) =>
                   AccountBloc(userRepository: context.read<UserRepository>())

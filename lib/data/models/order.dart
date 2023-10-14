@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:shopfee/data/models/product.dart';
 import 'package:shopfee/data/models/size.dart';
 import 'package:shopfee/data/models/topping.dart';
@@ -8,7 +9,9 @@ import 'package:shopfee/data/models/topping_temp.dart';
 import 'product_temp.dart';
 
 // enum Size { Small, Medium, Large }
+part 'order.g.dart';
 
+@JsonSerializable()
 class Order extends Equatable {
   final Product product;
   final int quantity;
@@ -107,4 +110,30 @@ class Order extends Equatable {
       note: map['note'] as String,
     );
   }
+
+  factory Order.fromJson(Map<String, dynamic> json) => _$OrderFromJson(json);
+  Map<String, dynamic> toJson() => _$OrderToJson(this);
+
+
+  // factory Order.fromJson(Map<String, dynamic> json) {
+  //   return Order(
+  //     product: Product.fromMap(json["product"]),
+  //     quantity: json["quantity"] as int,
+  //     size: SizeModel.fromMap(json["size"]),
+  //     toppings: json['toppings'] as List<Topping>,
+  //     note: json["note"],
+  //   );
+  // }
+  //
+  // Map<String, dynamic> toJson() {
+  //   return {
+  //     'product': this.product,
+  //     'quantity': this.quantity,
+  //     'size': this.size,
+  //     'toppings': this.toppings.map((topping) => topping.toMap()).toList(),
+  //     'note': this.note,
+  //   };
+  // }
+
+
 }

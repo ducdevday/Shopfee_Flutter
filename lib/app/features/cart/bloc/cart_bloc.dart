@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:shopfee/app/common/data/global_data.dart';
 import 'package:shopfee/data/models/address.dart';
 import 'package:shopfee/data/models/cart.dart';
@@ -15,7 +16,7 @@ part 'cart_event.dart';
 
 part 'cart_state.dart';
 
-class CartBloc extends Bloc<CartEvent, CartState> {
+class CartBloc extends HydratedBloc<CartEvent, CartState> {
   final OrderRepository orderRepository;
   final AddressRepository addressRepository;
 
@@ -31,31 +32,33 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   }
 
   FutureOr<void> _onLoadCart(LoadCart event, Emitter<CartState> emit) async {
-    emit(CartLoading());
-    try {
-      var response =
-          await addressRepository.getAllAddress(GlobalData.ins.userId!);
-      if (response.success) {
-        final List<Address> addressList =
-            response.data!.map((e) => Address.fromMap(e)).toList();
-        final Address defaultAddress =
-            addressList.firstWhere((address) => address.isDefault == true);
-        var responseDefaultAddress =
-            await addressRepository.getAddress(defaultAddress.id!);
-        late Address address;
-        if (responseDefaultAddress.success) {
-          address = Address.fromMapFull(responseDefaultAddress.data!);
+    if (state is! CartLoaded){
+      emit(CartLoading());
+      try {
+        var response =
+        await addressRepository.getAllAddress(GlobalData.ins.userId!);
+        if (response.success) {
+          final List<Address> addressList =
+          response.data!.map((e) => Address.fromMap(e)).toList();
+          final Address defaultAddress =
+          addressList.firstWhere((address) => address.isDefault == true);
+          var responseDefaultAddress =
+          await addressRepository.getAddress(defaultAddress.id!);
+          late Address address;
+          if (responseDefaultAddress.success) {
+            address = Address.fromMapFull(responseDefaultAddress.data!);
+          }
+          emit(CartLoaded(
+              cart: Cart(address: address, typePayment: TypePayment.CASHING)));
         }
-        emit(CartLoaded(
-            cart: Cart(address: address, typePayment: TypePayment.CASHING)));
+      } catch (e) {
+        print(e);
       }
-    } catch (e) {
-      print(e);
     }
   }
 
-  FutureOr<void> _onAddItemIntoCart(
-      AddItemIntoCart event, Emitter<CartState> emit) {
+  FutureOr<void> _onAddItemIntoCart(AddItemIntoCart event,
+      Emitter<CartState> emit) {
     if (state is CartLoaded) {
       final successState = state as CartLoaded;
       List<Order> orders = List.from(successState.cart.orders);
@@ -66,7 +69,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         // Nếu "event.order" đã tồn tại trong danh sách "orders"
         orders[existingOrderIndex] = orders[existingOrderIndex].copyWith(
             quantity:
-                orders[existingOrderIndex].quantity + event.order.quantity);
+            orders[existingOrderIndex].quantity + event.order.quantity);
       } else {
         // Nếu "event.order" chưa tồn tại trong danh sách "orders"
         orders.add(event.order);
@@ -80,8 +83,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     }
   }
 
-  FutureOr<void> _onUpdateItemInCart(
-      UpdateItemInCart event, Emitter<CartState> emit) {
+  FutureOr<void> _onUpdateItemInCart(UpdateItemInCart event,
+      Emitter<CartState> emit) {
     if (state is CartLoaded) {
       final successState = state as CartLoaded;
       List<Order> orders = List.from(successState.cart.orders);
@@ -89,7 +92,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         orders.removeAt(event.index);
       } else {
         final existingOrderIndex = orders.indexWhere(
-            (order) => order.isEqualExceptQuantity(event.updatedOrder));
+                (order) => order.isEqualExceptQuantity(event.updatedOrder));
         if (existingOrderIndex != -1) {
           orders[existingOrderIndex] = orders[existingOrderIndex].copyWith(
               quantity: orders[existingOrderIndex].quantity +
@@ -107,8 +110,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     }
   }
 
-  FutureOr<void> _onChooseAddress(
-      ChooseAddress event, Emitter<CartState> emit) async {
+  FutureOr<void> _onChooseAddress(ChooseAddress event,
+      Emitter<CartState> emit) async {
     if (state is CartLoaded) {
       try {
         final successState = state as CartLoaded;
@@ -120,14 +123,12 @@ class CartBloc extends Bloc<CartEvent, CartState> {
           address = Address.fromMapFull(response.data!);
           emit(CartLoaded(cart: successState.cart.copyWith(address: address)));
         }
-      } catch (e) {
-
-      }
+      } catch (e) {}
     }
   }
 
-  FutureOr<void> _onChooseTypePayment(
-      ChooseTypePayment event, Emitter<CartState> emit) {
+  FutureOr<void> _onChooseTypePayment(ChooseTypePayment event,
+      Emitter<CartState> emit) {
     if (state is CartLoaded) {
       final successState = state as CartLoaded;
       emit(CartLoaded(
@@ -142,8 +143,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     }
   }
 
-  FutureOr<void> _onCreateShippingOrder(
-      CreateShippingOrder event, Emitter<CartState> emit) async {
+  FutureOr<void> _onCreateShippingOrder(CreateShippingOrder event,
+      Emitter<CartState> emit) async {
     if (state is CartLoaded) {
       final successState = state as CartLoaded;
       try {
@@ -163,5 +164,24 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         EasyLoading.showError(e.toString());
       }
     }
+  }
+
+  @override
+  CartState? fromJson(Map<String, dynamic> json) {
+    return CartLoaded.fromJson(json);
+  }
+
+  @override
+  Map<String, dynamic>? toJson(CartState state) {
+    if (state is CartInitial) {
+      return state.toJson();
+    } else if (state is CartLoading) {
+      return state.toJson();
+    } else if (state is CartLoaded) {
+      return state.toJson();
+    } else if (state is CartFinished) {
+      return state.toJson();
+    }
+    return null;
   }
 }

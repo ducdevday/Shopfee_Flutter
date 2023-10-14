@@ -119,4 +119,33 @@ class Address extends Equatable {
       phoneNumber: map["phoneNumber"] as String,
       isDefault: map["default"] as bool,);
   }
+
+
+  factory Address.fromJson(Map<String, dynamic> json) {
+    return Address(
+      id: json["id"],
+      details: json["details"],
+      latitude: json["latitude"] as double,
+      longitude: json["longitude"] as double,
+      note: json["note"],
+      recipientName: json["recipientName"],
+      phoneNumber: json["phoneNumber"],
+      userId: json["userId"],
+      isDefault: json["isDefault"] as bool,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "id": this.id,
+      "details": this.details,
+      "latitude": this.latitude,
+      "longitude": this.longitude,
+      "note": this.note,
+      "recipientName": this.recipientName,
+      "phoneNumber": this.phoneNumber,
+      "userId": this.userId,
+      "isDefault": this.isDefault,
+    };
+  }
 }

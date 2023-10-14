@@ -17,4 +17,18 @@ class ImageModel{
       url: map['url'] as String,
     );
   }
+
+  factory ImageModel.fromJson(Map<String, dynamic> json) {
+    return ImageModel(
+      id: json["id"],
+      url: json["url"],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "id": this.id,
+      "url": this.url,
+    };
+  }
 }
