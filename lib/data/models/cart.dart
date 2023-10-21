@@ -3,23 +3,18 @@ import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:shopfee/data/models/address.dart';
 import 'package:shopfee/data/models/order.dart';
+import 'package:shopfee/data/models/type_payment.dart';
 import 'package:shopfee/data/models/voucher.dart';
 
 part 'cart.g.dart';
 
-enum TypeDelivery { TakeAway, HomeDelivery;
+enum TypeDelivery {
+  TakeAway,
+  HomeDelivery;
+
   String toJson() => name;
 
   static TypeDelivery fromJson(String json) => values.byName(json);
-}
-
-enum TypePayment {
-  CASHING,
-  BANKING;
-
-  String toJson() => name;
-
-  static TypePayment fromJson(String json) => values.byName(json);
 }
 
 @JsonSerializable()
@@ -39,7 +34,7 @@ class Cart extends Equatable {
     this.address,
     this.note,
     this.deliveryTime,
-    this.typePayment,
+    this.typePayment = TypePayment.CASHING,
     this.voucher,
     this.shippingFee = 18000,
   });
@@ -111,33 +106,7 @@ class Cart extends Equatable {
     );
   }
 
-  factory Cart.fromJson(Map<String, dynamic> json)=>_$CartFromJson(json);
+  factory Cart.fromJson(Map<String, dynamic> json) => _$CartFromJson(json);
 
   Map<String, dynamic> toJson() => _$CartToJson(this);
-
-  // Map<String, dynamic> toJson() {
-  //   return {
-  //     'orders': this.orders,
-  //     'typeDelivery': this.typeDelivery,
-  //     'address': this.address,
-  //     'note': this.note,
-  //     'deliveryTime': this.deliveryTime,
-  //     'typePayment': this.typePayment,
-  //     'voucher': this.voucher,
-  //     'shippingFee': this.shippingFee,
-  //   };
-  // }
-  //
-  // factory Cart.fromJson(Map<String, dynamic> map) {
-  //   return Cart(
-  //     orders: map['orders'] as List<Order>,
-  //     typeDelivery: map['typeDelivery'] as TypeDelivery,
-  //     address: map['address'] as Address,
-  //     note: map['note'] as String,
-  //     deliveryTime: map['deliveryTime'] as DateTime,
-  //     typePayment: map['typePayment'] as TypePayment,
-  //     voucher: map['voucher'] as Voucher,
-  //     shippingFee: map['shippingFee'] as double,
-  //   );
-  // }
 }

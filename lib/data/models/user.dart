@@ -1,13 +1,20 @@
 import 'package:equatable/equatable.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:shopfee/data/models/address.dart';
+
+part 'user.g.dart';
 
 enum Gender {
   FEMALE,
   MALE,
-  OTHER,
+  OTHER;
 
+  String toJson() => name;
+
+  static Gender fromJson(String json) => values.byName(json);
 }
 
+@JsonSerializable()
 class User extends Equatable {
   final String? id;
   final String firstName;
@@ -67,30 +74,7 @@ class User extends Equatable {
     );
   }
 
-  Map<String, dynamic> toMap() {
-    return {
-      'id': this.id,
-      'firstName': this.firstName,
-      'lastName': this.lastName,
-      // 'email': this.email,
-      // 'password': this.password,
-      'gender': this.gender?.name,
-      'birthDate': this.birthDate?.toIso8601String(),
-      'phoneNumber': this.phoneNumber,
-      // 'address': this.address,
-    };
-  }
+  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
-  factory User.fromMap(Map<String, dynamic> map) {
-    return User(
-      id: map['id'] as String,
-      firstName: map['firstName'] as String,
-      lastName: map['lastName'] as String,
-      email: map['email'] as String,
-      gender: map['gender'] as Gender?,
-      birthDate: map['birthDate'] as DateTime?,
-      phoneNumber: map['phoneNumber'] as String?,
-      // address: map['address'] as List<Address>,
-    );
-  }
+  Map<String, dynamic> toJson() => _$UserToJson(this);
 }

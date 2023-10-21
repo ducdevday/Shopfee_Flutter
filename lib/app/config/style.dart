@@ -97,4 +97,12 @@ class AppStyle {
       disabledForegroundColor: AppColor.lightColor,
       padding: EdgeInsets.symmetric(vertical: 14, horizontal: 24),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)));
+
+  static final outlineInputBorderDefault = OutlineInputBorder(
+      borderSide: const BorderSide(color: Color(0xffCCCCCC)),
+      borderRadius: BorderRadius.circular(8));
+
+  static final outlineInputBorderPrimary = OutlineInputBorder(
+      borderSide: BorderSide(color: AppColor.primaryColor),
+      borderRadius: BorderRadius.circular(8));
 }

@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:shopfee/data/models/category.dart';
 import 'package:shopfee/data/models/product.dart';
-import 'package:shopfee/data/models/product_by_category_id_model.dart';
+import 'package:shopfee/data/models/product_information.dart';
 import 'package:shopfee/data/repositories/category/category_repository.dart';
 import 'package:shopfee/data/repositories/product/product_repository.dart';
 
@@ -31,10 +31,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       if (responseCategory.success && responseProduct.success) {
         List<Category> categories =
             responseCategory.data!.map((c) => Category.fromMap(c)).toList();
-        List<ProductByCategoryIdModel> products = responseProduct.data!
-            .map((p) => ProductByCategoryIdModel.fromMap(p))
+        List<ProductInformation> products = responseProduct.data!
+            .map((p) => ProductInformation.fromMap(p))
             .toList();
-        List<ProductByCategoryIdModel> outStandingProduct =
+        List<ProductInformation> outStandingProduct =
             products.sublist(0, 8);
 
         emit(HomeLoaded(categories: categories, products: outStandingProduct));

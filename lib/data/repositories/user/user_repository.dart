@@ -27,7 +27,7 @@ class UserRepository extends UserRepositoryBase {
   @override
   Future<Result> updateUser(User user) async {
     try {
-      var response = await dio.put("${BaseService.userPath}/update/${user.id}", data: user.toMap());
+      var response = await dio.put("${BaseService.userPath}/update/${user.id}", data: user.toJson());
       return Result(
           success: response.data["success"],
           message: response.data["message"],

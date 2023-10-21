@@ -4,6 +4,7 @@ class GlobalData{
 
   String? userId;
   String? accessToken;
+  String? refreshToken;
   bool isFirstTime = true;
   final List<String> imgList = [
     'https://firebasestorage.googleapis.com/v0/b/shopfee-12b03.appspot.com/o/sample%2Fslider1.png?alt=media&token=1b7c8576-2471-44ff-a4c8-e0149ab7cb2e',

@@ -9,6 +9,12 @@ class LoadCart extends CartEvent {
   List<Object> get props => [];
 }
 
+class InitAddress extends CartEvent {
+  @override
+  List<Object> get props => [];
+}
+
+
 class AddItemIntoCart extends CartEvent {
   final Order order;
 

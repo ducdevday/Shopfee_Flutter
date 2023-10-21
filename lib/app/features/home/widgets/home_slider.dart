@@ -20,7 +20,7 @@ class _HomeSliderState extends State<HomeSlider> {
       CarouselSlider(
           items: GlobalData.ins.imgList
               .map((item) => Container(
-            margin: EdgeInsets.symmetric(horizontal: 10),
+            margin: const EdgeInsets.symmetric(horizontal: 10),
             child: Center(
                 child: Image.network(item,
                     fit: BoxFit.cover,
@@ -43,7 +43,7 @@ class _HomeSliderState extends State<HomeSlider> {
         child: Align(
           alignment: Alignment.bottomCenter,
           child: Container(
-            margin: EdgeInsets.only(bottom: 4),
+            margin: const EdgeInsets.only(bottom: 4),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: GlobalData.ins.imgList.asMap().entries.map((entry) {
@@ -52,7 +52,7 @@ class _HomeSliderState extends State<HomeSlider> {
                   child: Container(
                     width: 12.0,
                     height: 12.0,
-                    margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                    margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
                     decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: _current == entry.key ? AppColor.primaryColor : Colors.white),

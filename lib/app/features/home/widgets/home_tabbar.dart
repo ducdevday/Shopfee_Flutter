@@ -6,7 +6,7 @@ class HomeTabBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox();
+    return const SizedBox();
       // Padding(
       //   padding: const EdgeInsets.symmetric(
       //       horizontal: AppDimen.screenPadding),

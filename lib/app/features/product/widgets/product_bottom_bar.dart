@@ -42,14 +42,14 @@ class ProductBottomBar extends StatelessWidget {
                         context.read<CartBloc>()..add(AddItemIntoCart(order: state.order));
                         Navigator.pop(context);
                       },
-                      child: Text("Add To Cart"),
-                      style: AppStyle.elevatedButtonStylePrimary)
+                      style: AppStyle.elevatedButtonStylePrimary,
+                      child: const Text("Add To Cart"))
                 ],
               ),
             ),
           );
         } else {
-          return SizedBox();
+          return const SizedBox();
         }
       },
     );

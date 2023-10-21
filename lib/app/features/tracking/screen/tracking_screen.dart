@@ -1,33 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shopfee/app/common/widgets/my_error.dart';
+import 'package:shopfee/app/common/widgets/my_loading.dart';
 import 'package:shopfee/app/config/color.dart';
 import 'package:shopfee/app/config/dimens.dart';
 import 'package:shopfee/app/config/style.dart';
+import 'package:shopfee/app/features/tracking/cubit/tracking_cubit.dart';
+import 'package:shopfee/app/utils/my_converter.dart';
+import 'package:shopfee/data/models/status_order.dart';
+import 'package:shopfee/data/repositories/order/order_repository.dart';
 import 'package:timelines/timelines.dart';
 
 class TrackingScreen extends StatelessWidget {
-  const TrackingScreen({Key? key}) : super(key: key);
+  final String orderId;
+
+  const TrackingScreen({Key? key, required this.orderId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, String>> tracks = [
-      {
-        "title": "Your order was success. Wait for the coffee shop to accept",
-        "time": "8:00 AM 17/08/2023",
-      },
-      {
-        "title": "Coffee shop took your order. Wait for the coffee shop to do",
-        "time": "8:15 AM 17/08/2023",
-      },
-      {
-        "title": "Your order is ready. Shipper is on its way to you",
-        "time": "8:30 AM 17/08/2023",
-      },
-      {
-        "title": "You take your order",
-        "time": "8:45 AM 17/08/2023",
-      },
-    ];
+    // final List<Map<String, String>> tracks = [
+    //   {
+    //     "title": "Your order was success. Wait for the coffee shop to accept",
+    //     "time": "8:00 AM 17/08/2023",
+    //   },
+    //   {
+    //     "title": "Coffee shop took your order. Wait for the coffee shop to do",
+    //     "time": "8:15 AM 17/08/2023",
+    //   },
+    //   {
+    //     "title": "Your order is ready. Shipper is on its way to you",
+    //     "time": "8:30 AM 17/08/2023",
+    //   },
+    //   {
+    //     "title": "You take your order",
+    //     "time": "8:45 AM 17/08/2023",
+    //   },
+    // ];
     return Scaffold(
       appBar: AppBar(
           title: Text("Tracking"),
@@ -36,141 +45,207 @@ class TrackingScreen extends StatelessWidget {
             preferredSize: Size.fromHeight(1),
             child: Divider(height: 1),
           )),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(AppDimen.screenPadding),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(children: [
-                SvgPicture.asset(
-                  "assets/icons/ic_delivery.svg",
-                  width: 70,
-                  height: 70,
-                ),
-                SizedBox(
-                  width: 4,
-                ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Coffee milk",
-                        style: AppStyle.mediumTextStyleDark
-                            .copyWith(color: AppColor.headingColor, height: 2),
-                      ),
-                      Text(
-                        "12:30 - 30/9/2023",
-                        style: AppStyle.normalTextStyleDark,
-                      ),
-                    ],
-                  ),
-                ),
-                Column(
+      body: BlocProvider(
+        create: (context) =>
+            TrackingCubit(orderRepository: context.read<OrderRepository>())
+              ..loadTracking(orderId),
+        child: BlocBuilder<TrackingCubit, TrackingState>(
+          builder: (context, state) {
+            if (state is TrackingLoading) {
+              return SizedBox();
+            } else if (state is TrackingLoaded) {
+              return Padding(
+                padding: EdgeInsets.all(AppDimen.screenPadding),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "25,000đ",
-                      style: AppStyle.mediumTextStyleDark
-                          .copyWith(color: AppColor.headingColor, height: 2),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "ID Transaction",
+                          style: AppStyle.mediumTitleStyleDark,
+                        ),
+                        Text(
+                          orderId,
+                          style: AppStyle.normalTextStyleDark,
+                        )
+                      ],
                     ),
-                    SvgPicture.asset("assets/icons/ic_pending.svg")
-                  ],
-                )
-              ]),
-              Directionality(
-                textDirection: TextDirection.rtl,
-                child: TextButton.icon(
-                    onPressed: () {},
-                    icon: Icon(Icons.keyboard_arrow_right_rounded),
-                    label: Text(
-                      "Receipt",
-                      style: AppStyle.normalTextStylePrimary
-                          .copyWith(fontWeight: FontWeight.w500),
-                    )),
-              ),
-              Divider(
-                height: 10,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: FixedTimeline.tileBuilder(
-                  theme: TimelineThemeData(
-                    nodePosition: 0,
-                    color: Color(0xff989898),
-                    indicatorTheme: IndicatorThemeData(
-                      position: 0,
-                      size: 20.0,
+                    SizedBox(
+                      height: 8,
                     ),
-                    connectorTheme: ConnectorThemeData(
-                      thickness: 2.5,
-                    ),
-                  ),
-                  builder: TimelineTileBuilder.connected(
-                    itemExtent: 80.0,
-                    connectionDirection: ConnectionDirection.before,
-                    itemCount: tracks.length,
-                    contentsBuilder: (context, index) => Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            tracks[index]["title"]!,
-                            style: AppStyle.mediumTextStyleDark
-                                .copyWith(color: AppColor.headingColor),
-                          ),
-                          SizedBox(
-                            height: 4,
-                          ),
-                          Text(
-                            tracks[index]["time"]!,
-                            style: AppStyle.smallTextStyleDark,
-                          )
-                        ],
-                      ),
-                    ),
-                    indicatorBuilder: (_, index) {
-                      if (index <= 2) {
-                        return DotIndicator(
-                          color: Color(0xff66c97f),
-                          child: Icon(
-                            Icons.check,
-                            color: Colors.white,
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: FixedTimeline.tileBuilder(
+                        theme: TimelineThemeData(
+                          nodePosition: 0,
+                          color: Color(0xff989898),
+                          indicatorTheme: IndicatorThemeData(
+                            position: 0,
                             size: 12.0,
                           ),
-                        );
-                      } else {
-                        return OutlinedDotIndicator(
-                          borderWidth: 2.5,
-                        );
-                      }
-                    },
-                    connectorBuilder: (_, index, ___) => SolidLineConnector(
-                      color: index <= 2 ? Color(0xff66c97f) : null,
+                          connectorTheme: ConnectorThemeData(
+                            thickness: 1,
+                          ),
+                        ),
+                        builder: TimelineTileBuilder.connected(
+                          itemExtent: 100.0,
+                          connectionDirection: ConnectionDirection.before,
+                          itemCount: state.eventlogs.length,
+                          contentsBuilder: (context, index) => Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 16),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      state.eventlogs[index].orderStatus.name,
+                                      style: AppStyle.mediumTextStyleDark
+                                          .copyWith(
+                                              color: AppColor.primaryColor),
+                                    ),
+                                    SizedBox(
+                                      width: 4,
+                                    ),
+                                    Text(
+                                      "${MyConverter.formattedTime(state.eventlogs[index].time)} - ${MyConverter.formattedDate(state.eventlogs[index].time)}",
+                                      style: AppStyle.smallTextStyleDark,
+                                    )
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 4,
+                                ),
+                                Text(
+                                  "${state.eventlogs[index].descriptionString}",
+                                  style: AppStyle.normalTextStyleDark,
+                                ),
+                              ],
+                            ),
+                          ),
+                          indicatorBuilder: (_, index) {
+                            if (state.eventlogs[index].orderStatus !=
+                                OrderStatus.SUCCEED) {
+                              return DotIndicator(
+                                color: AppColor.primaryColor,
+                              );
+                            } else {
+                              return DotIndicator(
+                                color: AppColor.primaryColor,
+                                child: const Icon(
+                                  Icons.check,
+                                  color: Colors.white,
+                                  size: 10.0,
+                                ),
+                              );
+                            }
+                          },
+                          connectorBuilder: (_, index, ___) =>
+                              DashedLineConnector(
+                            color: AppColor.primaryColor,
+                            thickness: 1.5,
+                            dash: 1,
+                            gap: 2,
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
+                    Spacer(
+                      flex: 1,
+                    ),
+                    Align(
+                        alignment: Alignment.center,
+                        child: Container(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text("See Order Detail"),
+                              style: AppStyle
+                                  .elevatedButtonStylePrimary),
+                        ))
+                  ],
                 ),
-              ),
-              Align(
-                  alignment: Alignment.center,
-                  child: Container(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        child: Text("Cancel Order"),
-                        style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 14, horizontal: 24),
-                            backgroundColor: AppColor.error,
-                            disabledBackgroundColor: const Color(0xffCACACA),
-                            disabledForegroundColor: AppColor.lightColor,
-                            textStyle: AppStyle.mediumTextStyleDark,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                            )),
-                      )))
-            ],
+              );
+            } else {
+              return MyError();
+            }
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class TrackingTimeline extends StatelessWidget {
+  const TrackingTimeline({
+    super.key,
+    required this.tracks,
+  });
+
+  final List<Map<String, String>> tracks;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: FixedTimeline.tileBuilder(
+        theme: TimelineThemeData(
+          nodePosition: 0,
+          color: Color(0xff989898),
+          indicatorTheme: IndicatorThemeData(
+            position: 0,
+            size: 20.0,
+          ),
+          connectorTheme: ConnectorThemeData(
+            thickness: 2.5,
+          ),
+        ),
+        builder: TimelineTileBuilder.connected(
+          itemExtent: 80.0,
+          connectionDirection: ConnectionDirection.before,
+          itemCount: tracks.length,
+          contentsBuilder: (context, index) => Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  tracks[index]["title"]!,
+                  style: AppStyle.mediumTextStyleDark
+                      .copyWith(color: AppColor.headingColor),
+                ),
+                SizedBox(
+                  height: 4,
+                ),
+                Text(
+                  tracks[index]["time"]!,
+                  style: AppStyle.smallTextStyleDark,
+                )
+              ],
+            ),
+          ),
+          indicatorBuilder: (_, index) {
+            if (index <= 2) {
+              return DotIndicator(
+                color: Color(0xff66c97f),
+                child: Icon(
+                  Icons.check,
+                  color: Colors.white,
+                  size: 12.0,
+                ),
+              );
+            } else {
+              return OutlinedDotIndicator(
+                borderWidth: 2.5,
+              );
+            }
+          },
+          connectorBuilder: (_, index, ___) => SolidLineConnector(
+            color: index <= 2 ? Color(0xff66c97f) : null,
           ),
         ),
       ),
@@ -178,14 +253,14 @@ class TrackingScreen extends StatelessWidget {
   }
 }
 
-class TrackingTimeline extends StatefulWidget {
-  const TrackingTimeline({Key? key}) : super(key: key);
+class TrackingTimeline2 extends StatefulWidget {
+  const TrackingTimeline2({Key? key}) : super(key: key);
 
   @override
-  State<TrackingTimeline> createState() => _TrackingTimelineState();
+  State<TrackingTimeline2> createState() => _TrackingTimeline2State();
 }
 
-class _TrackingTimelineState extends State<TrackingTimeline> {
+class _TrackingTimeline2State extends State<TrackingTimeline2> {
   bool isEdgeIndex(int index) {
     return index == 0 || index == 1;
   }
@@ -230,8 +305,8 @@ class _TrackingTimelineState extends State<TrackingTimeline> {
   }
 }
 
-class TempTrackingTimeline extends StatelessWidget {
-  const TempTrackingTimeline({Key? key}) : super(key: key);
+class TrackingTimeline3 extends StatelessWidget {
+  const TrackingTimeline3({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -16,8 +16,21 @@ class PersonalInformationCubit extends Cubit<PersonalInformationState> {
   PersonalInformationCubit({required this.userRepository})
       : super(PersonalInformationInitial());
 
-  Future<void> initField(User user) async {
-    emit(PersonalInformationLoaded(user: user));
+  Future<void> initField() async {
+    try{
+      if(GlobalData.ins.userId!.isNotEmpty){
+        // var response = await userRepository.getUser(GlobalData.ins.userId!, GlobalData.ins.accessToken!);
+        var response = await userRepository.getUser(GlobalData.ins.userId!);
+
+        if(response.success){
+          final User user = User.fromJson(response.data!);
+          emit(PersonalInformationLoaded(user: user));
+        }
+      }
+    }
+    catch(e){
+      print(e);
+    }
   }
 
   Future<void> updateFirstName(String firstName) async {
@@ -68,9 +81,14 @@ class PersonalInformationCubit extends Cubit<PersonalInformationState> {
         var response = await userRepository.updateUser(currentState.user);
         EasyLoading.dismiss();
         if (response.success) {
-          Navigator.pop(context);
+          EasyLoading.showInfo("Update Information Successfully",
+              duration: Duration(milliseconds: 3000));
+          Future.delayed(Duration(milliseconds: 3000), () {
+            Navigator.pop(context);
+          });
         } else {
-          EasyLoading.showError('Something went wrong');
+          EasyLoading.showError('Something went wrong',
+              duration: Duration(milliseconds: 3000));
         }
       } catch (e) {
         print(e);

@@ -9,6 +9,11 @@ class AccountInitial extends AccountState {
   List<Object> get props => [];
 }
 
+class AccountLoading extends AccountState {
+  @override
+  List<Object?> get props => [];
+}
+
 class AccountLoaded extends AccountState {
   final User user;
 
@@ -18,4 +23,9 @@ class AccountLoaded extends AccountState {
 
   @override
   List<Object?> get props => [user];
+}
+
+class AccountNoAuth extends AccountState {
+  @override
+  List<Object?> get props => [];
 }

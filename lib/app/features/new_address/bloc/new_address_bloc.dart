@@ -37,7 +37,7 @@ class NewAddressBloc extends Bloc<NewAddressEvent, NewAddressState> {
         EasyLoading.dismiss();
         if (response.success) {
           final address = Address.fromMapFull(response.data!);
-          emit(NewAddressLoaded(address: address, currentDefault: address.isDefault));
+          emit(NewAddressLoaded(address: address, currentDefault: address.isDefault!));
         }
       } else {
         emit(NewAddressLoaded(address: const Address()));

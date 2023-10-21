@@ -8,9 +8,11 @@ part 'change_password_state.dart';
 
 class ChangePasswordCubit extends Cubit<ChangePasswordState> {
   final AuthRepository authRepository;
-  ChangePasswordCubit({required this.authRepository }) : super(ChangePasswordInitial());
 
-  void initField(){
+  ChangePasswordCubit({required this.authRepository})
+      : super(ChangePasswordInitial());
+
+  void initField() {
     emit(ChangePasswordLoaded());
   }
 
@@ -33,18 +35,20 @@ class ChangePasswordCubit extends Cubit<ChangePasswordState> {
           throw (currentState.errorString());
         }
         EasyLoading.show(maskType: EasyLoadingMaskType.black);
-        var response = await authRepository.changePassword(email, currentState.newPassword);
+        var response = await authRepository.changePassword(
+            email, currentState.newPassword);
         EasyLoading.dismiss();
-        EasyLoading.showSuccess("Change Password Success");
         if (response.success) {
-          print("changePassword Success");
-          emit(ChangePasswordSuccess());
+          EasyLoading.showSuccess("Change Password Success",
+              duration: Duration(milliseconds: 1000));
+          Future.delayed(Duration(milliseconds: 1000), () {
+            emit(ChangePasswordSuccess());
+          });
         } else {
           EasyLoading.showError('Something went wrong');
         }
       } catch (e) {
         print(e);
-        EasyLoading.showToast(e.toString());
       }
     }
   }

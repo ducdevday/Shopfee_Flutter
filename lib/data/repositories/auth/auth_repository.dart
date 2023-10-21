@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:shopfee/app/common/data/global_data.dart';
 import 'package:shopfee/data/base/base_service.dart';
 import 'package:shopfee/data/models/result.dart';
 import 'package:shopfee/data/models/user.dart';
@@ -132,6 +133,39 @@ class AuthRepository extends AuthRepositoryBase {
     };
     try {
       var response = await dio.patch("${BaseService.authPath}/change-password",
+          data: body);
+      print(response.data);
+      return Result(
+          success: response.data["success"], message: response.data["message"]);
+    } catch (e) {
+      return Result(success: false, message: e.toString());
+    }
+  }
+
+  @override
+  Future<Result> changePasswordInAccount(String oldPassword, String newPassword) async{
+    Map<String, dynamic> body = {
+      "oldPassword": oldPassword,
+      "newPassword": newPassword,
+    };
+    try {
+      var response = await dio.patch("${BaseService.userPath}/change-password/${GlobalData.ins.userId}",
+          data: body);
+      print(response.data);
+      return Result(
+          success: response.data["success"], message: response.data["message"]);
+    } catch (e) {
+      return Result(success: false, message: e.toString());
+    }
+  }
+
+  @override
+  Future<Result> refreshToken() async{
+    Map<String, dynamic> body = {
+      "refreshToken": GlobalData.ins.refreshToken,
+    };
+    try {
+      var response = await dio.patch("${BaseService.authPath}/refresh-token",
           data: body);
       print(response.data);
       return Result(

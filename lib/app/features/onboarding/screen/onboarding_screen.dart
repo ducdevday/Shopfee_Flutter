@@ -66,7 +66,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 100,
                       ),
                       SvgPicture.asset(
@@ -78,7 +78,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                         widget.contents[i].title,
                         style: AppStyle.largeTitleStyleDark,
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       Text(
                         widget.contents[i].discription,
                         style: AppStyle.mediumTextStyleDark,
@@ -90,7 +90,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.all(32),
+            padding: const EdgeInsets.all(32),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -109,7 +109,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   child: Directionality(
                     textDirection: TextDirection.rtl,
                     child: ElevatedButton.icon(
-                        icon: Icon(Icons.arrow_back_outlined),
+                        icon: const Icon(Icons.arrow_back_outlined),
                         label: Text(
                           currentIndex == widget.contents.length - 1
                               ? "START"
@@ -122,7 +122,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                             Navigator.pushReplacementNamed(context, "/welcome");
                           }
                           _controller.nextPage(
-                            duration: Duration(milliseconds: 100),
+                            duration: const Duration(milliseconds: 100),
                             curve: Curves.bounceIn,
                           );
                         },
@@ -145,7 +145,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     return Container(
       height: 10,
       width: currentIndex == index ? 25 : 10,
-      margin: EdgeInsets.only(right: 5),
+      margin: const EdgeInsets.only(right: 5),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: currentIndex == index

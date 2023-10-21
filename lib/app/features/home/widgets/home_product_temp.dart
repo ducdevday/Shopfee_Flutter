@@ -71,7 +71,7 @@ class HomeProductTemp extends StatelessWidget {
                 // )
               ],
             ),
-            SizedBox(width: 20,),
+            const SizedBox(width: 20,),
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.only(top: 8.0),
@@ -84,8 +84,8 @@ class HomeProductTemp extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: AppStyle.mediumTextStyleDark
                             .copyWith(
-                            color: Color(0xff555555))),
-                    SizedBox(
+                            color: const Color(0xff555555))),
+                    const SizedBox(
                       height: 4,
                     ),
                     Text(product.description,
@@ -93,12 +93,12 @@ class HomeProductTemp extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: AppStyle.normalTextStyleDark
                             .copyWith(
-                            color: Color(0xff555555))),
+                            color: const Color(0xff555555))),
                   ],
                 ),
               ),
             ),
-            SizedBox(width: 20,),
+            const SizedBox(width: 20,),
             Padding(
               padding: const EdgeInsets.only(top: 8.0),
               child: Text(

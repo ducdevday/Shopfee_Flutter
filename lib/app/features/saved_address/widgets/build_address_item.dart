@@ -59,7 +59,7 @@ Widget buildAddressItem(
                 ))
           ],
         ),
-        buildLabelDefault(state.addressList[index].isDefault)
+        buildLabelDefault(state.addressList[index].isDefault!)
       ],
     ),
   );

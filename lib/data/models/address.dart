@@ -9,7 +9,7 @@ class Address extends Equatable {
   final String? recipientName;
   final String? phoneNumber;
   final String? userId;
-  final bool isDefault;
+  final bool? isDefault;
 
   const Address({
     this.id,
@@ -125,13 +125,13 @@ class Address extends Equatable {
     return Address(
       id: json["id"],
       details: json["details"],
-      latitude: json["latitude"] as double,
-      longitude: json["longitude"] as double,
+      latitude: json["latitude"] as double?,
+      longitude: json["longitude"] as double?,
       note: json["note"],
       recipientName: json["recipientName"],
       phoneNumber: json["phoneNumber"],
       userId: json["userId"],
-      isDefault: json["isDefault"] as bool,
+      isDefault: json["isDefault"] as bool?,
     );
   }
 

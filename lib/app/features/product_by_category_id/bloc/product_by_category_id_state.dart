@@ -18,7 +18,7 @@ class ProductByCategoryLoading extends ProductByCategoryIdState {
 }
 
 class ProductByCategoryLoaded extends ProductByCategoryIdState {
-  final List<ProductByCategoryIdModel> products;
+  final List<ProductInformation> products;
   final ViewType viewType;
 
   @override
@@ -38,7 +38,7 @@ class ProductByCategoryLoaded extends ProductByCategoryIdState {
   }
 
   ProductByCategoryLoaded copyWith({
-    List<ProductByCategoryIdModel>? products,
+    List<ProductInformation>? products,
     ViewType? viewType,
   }) {
     return ProductByCategoryLoaded(
@@ -56,7 +56,7 @@ class ProductByCategoryLoaded extends ProductByCategoryIdState {
 
   factory ProductByCategoryLoaded.fromMap(Map<String, dynamic> map) {
     return ProductByCategoryLoaded(
-      products: map['products'] as List<ProductByCategoryIdModel>,
+      products: map['products'] as List<ProductInformation>,
       viewType: map['viewType'] as ViewType,
     );
   }

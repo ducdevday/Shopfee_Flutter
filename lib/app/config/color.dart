@@ -4,6 +4,7 @@ class AppColor {
   static Color primaryColorDark = const Color(0xff3E2723);
   static Color primaryColor = const Color(0xff5D4037);
   static Color primaryColorLight = const Color(0xffA1887F);
+  static Color primaryColorBackground = const Color(0xffe1cfc7);
 
 
   static Color headingColor = const Color(0xff3C3C3C);
@@ -17,5 +18,5 @@ class AppColor {
   static Color info = const Color(0xff03539e);
   static Color error = const Color(0xffE87373);
   static Color warning = const Color(0xffeb9525);
-
+  static Color rating = const Color(0xffFFD232);
 }

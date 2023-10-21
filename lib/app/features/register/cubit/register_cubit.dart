@@ -53,8 +53,7 @@ class RegisterCubit extends Cubit<RegisterState> {
     if (state is RegisterLoaded) {
       final currentState = state as RegisterLoaded;
       try {
-        EasyLoading.show(
-            status: 'Registering...', maskType: EasyLoadingMaskType.black);
+        EasyLoading.show(maskType: EasyLoadingMaskType.black);
         var response = await authRepository.register(User(
             firstName: currentState.firstName,
             lastName: currentState.lastName,
@@ -62,16 +61,15 @@ class RegisterCubit extends Cubit<RegisterState> {
             password: currentState.password));
         EasyLoading.dismiss();
         if (response.success) {
-          print("doRegister Success");
-
           final SharedPreferences prefs = await SharedPreferences.getInstance();
           await prefs.setString('userId', response.data!["id"]);
           await prefs.setString('accessToken', response.data!["accessToken"]);
+          await prefs.setString('refreshToken', response.data!["refreshToken"]);
           GlobalData.ins.userId = prefs.getString('userId');
           GlobalData.ins.accessToken = prefs.getString('accessToken');
+          GlobalData.ins.refreshToken = prefs.getString('refreshToken');
 
           Navigator.pushNamed(context, "/home");
-
         } else {
           EasyLoading.showError('Something went wrong');
         }

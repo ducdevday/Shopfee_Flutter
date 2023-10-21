@@ -8,6 +8,7 @@ import 'package:shopfee/app/common/data/global_data.dart';
 import 'package:shopfee/data/models/address.dart';
 import 'package:shopfee/data/models/cart.dart';
 import 'package:shopfee/data/models/order.dart';
+import 'package:shopfee/data/models/type_payment.dart';
 import 'package:shopfee/data/models/voucher.dart';
 import 'package:shopfee/data/repositories/address/address_repository.dart';
 import 'package:shopfee/data/repositories/order/order_repository.dart';
@@ -25,6 +26,7 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
     on<LoadCart>(_onLoadCart);
     on<AddItemIntoCart>(_onAddItemIntoCart);
     on<UpdateItemInCart>(_onUpdateItemInCart);
+    on<InitAddress>(_onInitAddress);
     on<ChooseAddress>(_onChooseAddress);
     on<ChooseTypePayment>(_onChooseTypePayment);
     on<AddNote>(_onAddNote);
@@ -32,24 +34,61 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
   }
 
   FutureOr<void> _onLoadCart(LoadCart event, Emitter<CartState> emit) async {
-    if (state is! CartLoaded){
-      emit(CartLoading());
+    if (state is! CartLoaded) {
+      // emit(CartLoading());
+      // try {
+      //   var response =
+      //       await addressRepository.getAllAddress(GlobalData.ins.userId!);
+      //   if (response.success) {
+      //     final List<Address> addressList =
+      //         response.data!.map((e) => Address.fromMap(e)).toList();
+      //     if (addressList.isEmpty) {
+      //       emit(CartNoAddress());
+      //       return;
+      //     }
+      //     final Address defaultAddress =
+      //         addressList.firstWhere((address) => address.isDefault == true);
+      //     var responseDefaultAddress =
+      //         await addressRepository.getAddress(defaultAddress.id!);
+      //     late Address address;
+      //     if (responseDefaultAddress.success) {
+      //       address = Address.fromMapFull(responseDefaultAddress.data!);
+      //     }
+      //     emit(CartLoaded(
+      //         cart: Cart(address: address, typePayment: TypePayment.CASHING)));
+      //   }
+      // } catch (e) {
+      //   print(e);
+      // }
+      emit(CartLoaded(cart: Cart()));
+    }
+  }
+
+  FutureOr<void> _onInitAddress(
+      InitAddress event, Emitter<CartState> emit) async {
+    if (state is CartLoaded) {
+      final currentState = state as CartLoaded;
       try {
         var response =
-        await addressRepository.getAllAddress(GlobalData.ins.userId!);
+            await addressRepository.getAllAddress(GlobalData.ins.userId!);
         if (response.success) {
           final List<Address> addressList =
-          response.data!.map((e) => Address.fromMap(e)).toList();
-          final Address defaultAddress =
-          addressList.firstWhere((address) => address.isDefault == true);
-          var responseDefaultAddress =
-          await addressRepository.getAddress(defaultAddress.id!);
-          late Address address;
-          if (responseDefaultAddress.success) {
-            address = Address.fromMapFull(responseDefaultAddress.data!);
+              response.data!.map((e) => Address.fromMap(e)).toList();
+          if(addressList.isNotEmpty){
+            final Address defaultAddress =
+            addressList.firstWhere((address) => address.isDefault == true);
+            var responseDefaultAddress =
+            await addressRepository.getAddress(defaultAddress.id!);
+            late Address address;
+            if (responseDefaultAddress.success) {
+              address = Address.fromMapFull(responseDefaultAddress.data!);
+            }
+            emit(CartLoaded(
+              cart: currentState.cart.copyWith(
+                address: address,
+              ),
+            ));
           }
-          emit(CartLoaded(
-              cart: Cart(address: address, typePayment: TypePayment.CASHING)));
         }
       } catch (e) {
         print(e);
@@ -57,8 +96,8 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
     }
   }
 
-  FutureOr<void> _onAddItemIntoCart(AddItemIntoCart event,
-      Emitter<CartState> emit) {
+  FutureOr<void> _onAddItemIntoCart(
+      AddItemIntoCart event, Emitter<CartState> emit) {
     if (state is CartLoaded) {
       final successState = state as CartLoaded;
       List<Order> orders = List.from(successState.cart.orders);
@@ -69,7 +108,7 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
         // Nếu "event.order" đã tồn tại trong danh sách "orders"
         orders[existingOrderIndex] = orders[existingOrderIndex].copyWith(
             quantity:
-            orders[existingOrderIndex].quantity + event.order.quantity);
+                orders[existingOrderIndex].quantity + event.order.quantity);
       } else {
         // Nếu "event.order" chưa tồn tại trong danh sách "orders"
         orders.add(event.order);
@@ -83,8 +122,8 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
     }
   }
 
-  FutureOr<void> _onUpdateItemInCart(UpdateItemInCart event,
-      Emitter<CartState> emit) {
+  FutureOr<void> _onUpdateItemInCart(
+      UpdateItemInCart event, Emitter<CartState> emit) {
     if (state is CartLoaded) {
       final successState = state as CartLoaded;
       List<Order> orders = List.from(successState.cart.orders);
@@ -92,7 +131,7 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
         orders.removeAt(event.index);
       } else {
         final existingOrderIndex = orders.indexWhere(
-                (order) => order.isEqualExceptQuantity(event.updatedOrder));
+            (order) => order.isEqualExceptQuantity(event.updatedOrder));
         if (existingOrderIndex != -1) {
           orders[existingOrderIndex] = orders[existingOrderIndex].copyWith(
               quantity: orders[existingOrderIndex].quantity +
@@ -110,8 +149,8 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
     }
   }
 
-  FutureOr<void> _onChooseAddress(ChooseAddress event,
-      Emitter<CartState> emit) async {
+  FutureOr<void> _onChooseAddress(
+      ChooseAddress event, Emitter<CartState> emit) async {
     if (state is CartLoaded) {
       try {
         final successState = state as CartLoaded;
@@ -127,8 +166,8 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
     }
   }
 
-  FutureOr<void> _onChooseTypePayment(ChooseTypePayment event,
-      Emitter<CartState> emit) {
+  FutureOr<void> _onChooseTypePayment(
+      ChooseTypePayment event, Emitter<CartState> emit) {
     if (state is CartLoaded) {
       final successState = state as CartLoaded;
       emit(CartLoaded(
@@ -143,8 +182,8 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
     }
   }
 
-  FutureOr<void> _onCreateShippingOrder(CreateShippingOrder event,
-      Emitter<CartState> emit) async {
+  FutureOr<void> _onCreateShippingOrder(
+      CreateShippingOrder event, Emitter<CartState> emit) async {
     if (state is CartLoaded) {
       final successState = state as CartLoaded;
       try {
@@ -154,8 +193,16 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
         EasyLoading.dismiss();
         if (response.success) {
           final String orderId = response.data!["orderId"];
-          final String invoiceCode = response.data!["invoiceCode"];
-          emit(CartFinished(orderId: orderId));
+          final String transactionId = response.data!["transactionId"];
+          final String? paymentUrl = response.data!["paymentUrl"];
+          if (paymentUrl == null) {
+            emit(CartFinished(orderId: orderId));
+          } else {
+            emit(CartFinished(
+                orderId: orderId,
+                transactionId: transactionId,
+                paymentUrl: paymentUrl));
+          }
           add(LoadCart());
         } else {
           EasyLoading.showError(response.message);

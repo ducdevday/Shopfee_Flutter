@@ -49,8 +49,11 @@ class _InputFieldState extends State<InputField> {
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.symmetric(
                     vertical: 8, horizontal: 12),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(16)),
+                focusedErrorBorder: AppStyle.outlineInputBorderDefault,
+                errorBorder: AppStyle.outlineInputBorderDefault,
+                enabledBorder: AppStyle.outlineInputBorderDefault,
+                focusedBorder: AppStyle.outlineInputBorderPrimary,
+                disabledBorder: AppStyle.outlineInputBorderDefault,
                 hintText: widget.hint,
               ),
             );

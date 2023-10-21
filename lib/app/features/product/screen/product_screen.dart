@@ -42,6 +42,18 @@ class _ProductScreenState extends State<ProductScreen> {
                   children: [
                     Stack(
                       children: [
+                        // Container(
+                        //   width: MediaQuery.of(context).size.width,
+                        //   height: 330,
+                        //   color: const Color(0xffEFEBE9),
+                        //   child: Center(
+                        //     child: Image.network(
+                        //       state.order.product.imageList![0].url!,
+                        //       width: 165,
+                        //       height: 270,
+                        //     ),
+                        //   ),
+                        // ),
                         Container(
                           width: MediaQuery.of(context).size.width,
                           height: 330,
@@ -49,8 +61,6 @@ class _ProductScreenState extends State<ProductScreen> {
                           child: Center(
                             child: Image.network(
                               state.order.product.imageList![0].url!,
-                              width: 135,
-                              height: 240,
                             ),
                           ),
                         ),

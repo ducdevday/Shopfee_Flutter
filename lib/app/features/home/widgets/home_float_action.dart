@@ -41,8 +41,8 @@ class HomeFloatAction extends StatelessWidget {
             child: Container(
               width: double.infinity,
               height: 56,
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              margin: EdgeInsets.symmetric(horizontal: AppDimen.screenPadding),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              margin: const EdgeInsets.symmetric(horizontal: AppDimen.screenPadding),
               decoration: BoxDecoration(
                   color: AppColor.primaryColor,
                   borderRadius: BorderRadius.circular(16)),
@@ -67,7 +67,7 @@ class HomeFloatAction extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 25,
                   ),
                   Row(
@@ -76,7 +76,7 @@ class HomeFloatAction extends StatelessWidget {
                       Text(state.cart.totalPriceString,
                           style: AppStyle.mediumTitleStyle
                               .copyWith(fontWeight: FontWeight.w500)),
-                      SizedBox(
+                      const SizedBox(
                         width: 4,
                       ),
                       SvgPicture.asset("assets/icons/ic_shopping_bag.svg")
@@ -87,7 +87,7 @@ class HomeFloatAction extends StatelessWidget {
             ),
           );
         } else {
-          return SizedBox();
+          return const SizedBox();
         }
       },
     );

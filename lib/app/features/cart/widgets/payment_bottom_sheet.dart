@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopfee/app/config/color.dart';
 import 'package:shopfee/app/config/style.dart';
 import 'package:shopfee/app/features/cart/bloc/cart_bloc.dart';
-import 'package:shopfee/data/models/cart.dart';
+import 'package:shopfee/data/models/type_payment.dart';
 
 class PaymentBottomSheet extends StatefulWidget {
   const PaymentBottomSheet({
@@ -69,6 +69,7 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
                         groupValue: state.cart.typePayment,
                         onChanged: (TypePayment? value) {
                           context.read<CartBloc>().add(ChooseTypePayment(value!));
+                          Navigator.pop(context);
                         })
                   ],
                 ),
@@ -97,6 +98,7 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
                         groupValue: state.cart.typePayment,
                         onChanged: (TypePayment? value) {
                           context.read<CartBloc>().add(ChooseTypePayment(value!));
+                          Navigator.pop(context);
                         })
                   ],
                 ),

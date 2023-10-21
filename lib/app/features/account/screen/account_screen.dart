@@ -5,7 +5,6 @@ import 'package:shopfee/app/config/color.dart';
 import 'package:shopfee/app/config/dimens.dart';
 import 'package:shopfee/app/config/style.dart';
 import 'package:shopfee/app/features/account/bloc/account_bloc.dart';
-import 'package:shopfee/data/repositories/user/user_repository.dart';
 
 class AccountScreen extends StatelessWidget {
   final MyBottomNavigationBar myBottomNavigationBar;
@@ -14,26 +13,49 @@ class AccountScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AccountBloc, AccountState>(
-      builder: (context, state) {
-        if (state is AccountLoaded) {
-          return Scaffold(
-            extendBodyBehindAppBar: true,
-            body: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Stack(
-                    children: [
-                      Image.asset("assets/images/img_profile_background.png"),
-                      Align(
-                        alignment: Alignment.center,
-                        child: Column(
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Stack(
+              children: [
+                Image.asset("assets/images/img_profile_background.png"),
+                Align(
+                  alignment: Alignment.center,
+                  child: BlocBuilder<AccountBloc, AccountState>(
+                    builder: (context, state) {
+                      if (state is AccountLoading || state is AccountNoAuth) {
+                        return Column(
                           children: [
                             Container(
-                              margin: EdgeInsets.only(top: 200),
+                              margin: const EdgeInsets.only(top: 200),
                               width: 110,
                               height: 110,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: AssetImage(
+                                        "assets/images/img_default_user.png",
+                                      ))),
+                            ),
+                            Text(
+                              "...",
+                              style: AppStyle.largeTitleStyleDark
+                                  .copyWith(height: 2),
+                            )
+                          ],
+                        );
+                      }
+                      else if (state is AccountLoaded) {
+                        return Column(
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.only(top: 200),
+                              width: 110,
+                              height: 110,
+                              decoration: const BoxDecoration(
                                   shape: BoxShape.circle,
                                   image: DecorationImage(
                                       fit: BoxFit.cover,
@@ -47,126 +69,142 @@ class AccountScreen extends StatelessWidget {
                                   .copyWith(height: 2),
                             )
                           ],
-                        ),
-                      )
-                    ],
+                        );
+                      }
+                      else {
+                        return const SizedBox();
+                      }
+                    },
                   ),
-                  Padding(
-                    padding: EdgeInsets.all(AppDimen.screenPadding),
+                )
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.all(AppDimen.screenPadding),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Account",
+                    style: AppStyle.mediumTitleStyleDark,
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16)),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          "Account",
-                          style: AppStyle.mediumTitleStyleDark,
+                        SettingItem(
+                          iconData: Icons.account_circle_outlined,
+                          content: "Personal Information",
+                          callback: () {
+                            Navigator.pushNamed(
+                              context, "/personal_information",)
+                                .then((value) =>
+                                context
+                                    .read<AccountBloc>()
+                                    .add(const LoadAccount()));
+                          },
                         ),
-                        SizedBox(
-                          height: 12,
+                        const Divider(
+                          height: 1,
+                          indent: 8,
                         ),
-                        Container(
-                          padding: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(16)),
-                          child: Column(
-                            children: [
-                              SettingItem(
-                                iconData: Icons.account_circle_outlined,
-                                content: "Personal Information",
-                                callback: () {
-                                  Navigator.pushNamed(
-                                      context, "/personal_information",
-                                      arguments: state.user);
-                                },
-                              ),
-                              Divider(
-                                height: 1,
-                                indent: 8,
-                              ),
-                              SettingItem(
-                                iconData: Icons.vpn_key_outlined,
-                                content: "Change Password",
-                                callback: () {},
-                              ),
-                              Divider(
-                                height: 1,
-                                indent: 8,
-                              ),
-                              SettingItem(
-                                iconData: Icons.bookmark_border_rounded,
-                                content: "Saved Address",
-                                callback: () {
-                                  Navigator.pushNamed(context, "/saved_address");
-                                },
-                              ),
-                            ],
-                          ),
+                        SettingItem(
+                          iconData: Icons.vpn_key_outlined,
+                          content: "Change Password",
+                          callback: () {
+                            Navigator.pushNamed(
+                                context, "/change_password_in_account");
+                          },
                         ),
-                        SizedBox(
-                          height: 12,
+                        const Divider(
+                          height: 1,
+                          indent: 8,
                         ),
-                        Text(
-                          "General Information",
-                          style: AppStyle.mediumTitleStyleDark,
+                        SettingItem(
+                          iconData: Icons.bookmark_border_rounded,
+                          content: "Saved Address",
+                          callback: () {
+                            Navigator.pushNamed(
+                                context, "/saved_address");
+                          },
                         ),
-                        SizedBox(
-                          height: 12,
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  Text(
+                    "General Information",
+                    style: AppStyle.mediumTitleStyleDark,
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16)),
+                    child: Column(
+                      children: [
+                        SettingItem(
+                          iconData: Icons.local_police_outlined,
+                          content: "Policies",
+                          callback: () {},
                         ),
-                        Container(
-                          padding: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(16)),
-                          child: Column(
-                            children: [
-                              SettingItem(
-                                iconData: Icons.local_police_outlined,
-                                content: "Policies",
-                                callback: () {},
-                              ),
-                              Divider(
-                                height: 1,
-                                indent: 8,
-                              ),
-                              SettingItem(
-                                iconData: Icons.info_outline_rounded,
-                                content: "App Version",
-                                callback: () {},
-                              ),
-                              Divider(
-                                height: 1,
-                                indent: 8,
-                              ),
-                              SettingItem(
-                                iconData: Icons.help_outline_rounded,
-                                content: "About us",
-                                callback: () {},
-                              ),
-                              Divider(
-                                height: 1,
-                                indent: 8,
-                              ),
-                              SettingItem(
-                                iconData: Icons.email_outlined,
-                                content: "Report & Support",
-                                callback: () {},
-                              ),
-                            ],
-                          ),
+                        const Divider(
+                          height: 1,
+                          indent: 8,
                         ),
-                        SizedBox(
-                          height: 40,
+                        SettingItem(
+                          iconData: Icons.info_outline_rounded,
+                          content: "App Version",
+                          callback: () {},
                         ),
-                        Align(
+                        const Divider(
+                          height: 1,
+                          indent: 8,
+                        ),
+                        SettingItem(
+                          iconData: Icons.help_outline_rounded,
+                          content: "About us",
+                          callback: () {},
+                        ),
+                        const Divider(
+                          height: 1,
+                          indent: 8,
+                        ),
+                        SettingItem(
+                          iconData: Icons.email_outlined,
+                          content: "Report & Support",
+                          callback: () {},
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 40,
+                  ),
+                  BlocBuilder<AccountBloc, AccountState>(
+                    builder: (context, state) {
+                      if(state is AccountLoaded) {
+                        return Align(
                             alignment: Alignment.center,
                             child: Container(
                                 width: double.infinity,
                                 child: ElevatedButton.icon(
                                   onPressed: () {},
-                                  icon: Icon(Icons.logout_rounded),
-                                  label: Text("Log out"),
+                                  icon: const Icon(Icons.logout_rounded),
+                                  label: const Text("Log out"),
                                   style: ElevatedButton.styleFrom(
-                                      padding: EdgeInsets.symmetric(
+                                      padding: const EdgeInsets.symmetric(
                                           vertical: 12, horizontal: 24),
                                       disabledBackgroundColor:
                                           const Color(0xffCACACA),
@@ -176,19 +214,39 @@ class AccountScreen extends StatelessWidget {
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(20),
                                       )),
-                                )))
-                      ],
-                    ),
+                                )));
+                      }
+                      else{
+                        return Align(
+                            alignment: Alignment.center,
+                            child: Container(
+                                width: double.infinity,
+                                child: ElevatedButton.icon(
+                                  onPressed: () {},
+                                  icon: const Icon(Icons.login_rounded),
+                                  label: const Text("Register / Log in"),
+                                  style: ElevatedButton.styleFrom(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 12, horizontal: 24),
+                                      disabledBackgroundColor:
+                                      const Color(0xffCACACA),
+                                      disabledForegroundColor:
+                                      AppColor.lightColor,
+                                      textStyle: AppStyle.mediumTextStyleDark,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(20),
+                                      )),
+                                )));
+                      }
+                    },
                   )
                 ],
               ),
-            ),
-            bottomNavigationBar: myBottomNavigationBar,
-          );
-        } else {
-          return SizedBox();
-        }
-      },
+            )
+          ],
+        ),
+      ),
+      bottomNavigationBar: myBottomNavigationBar,
     );
   }
 }
@@ -214,15 +272,15 @@ class SettingItem extends StatelessWidget {
         child: Row(
           children: [
             Icon(iconData),
-            SizedBox(
+            const SizedBox(
               width: 8,
             ),
             Expanded(
                 child: Text(
-              content,
-              style: AppStyle.mediumTextStyleDark,
-            )),
-            Icon(Icons.keyboard_arrow_right_rounded)
+                  content,
+                  style: AppStyle.mediumTextStyleDark,
+                )),
+            const Icon(Icons.keyboard_arrow_right_rounded)
           ],
         ),
       ),

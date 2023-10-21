@@ -10,11 +10,11 @@ import 'package:shopfee/app/config/routes.dart';
 import 'package:shopfee/app/config/theme.dart';
 import 'package:shopfee/app/features/account/bloc/account_bloc.dart';
 import 'package:shopfee/app/features/cart/bloc/cart_bloc.dart';
-import 'package:shopfee/app/features/geolocation/bloc/geolocation_bloc.dart';
-import 'package:shopfee/app/features/register/cubit/register_cubit.dart';
-import 'package:shopfee/app/features/welcome/cubit/welcome_cubit.dart';
+import 'package:shopfee/app/features/history/bloc/history_bloc.dart';
+import 'package:shopfee/app/features/history/screen/history_screen.dart';
+import 'package:shopfee/app/features/home/bloc/home_bloc.dart';
+import 'package:shopfee/app/features/receipt/screen/receipt_screen.dart';
 import 'package:shopfee/app/utils/SimpleBlocObserver.dart';
-import 'package:shopfee/data/models/address.dart';
 import 'package:shopfee/data/repositories/address/address_repository.dart';
 import 'package:shopfee/data/repositories/auth/auth_repository.dart';
 import 'package:shopfee/data/repositories/category/category_repository.dart';
@@ -22,6 +22,7 @@ import 'package:shopfee/data/repositories/geolocation/geolocation_repository.dar
 import 'package:shopfee/data/repositories/order/order_repository.dart';
 import 'package:shopfee/data/repositories/place/place_repository.dart';
 import 'package:shopfee/data/repositories/product/product_repository.dart';
+import 'package:shopfee/data/repositories/transaction/transaction_repository.dart';
 import 'package:shopfee/data/repositories/user/user_repository.dart';
 
 void main() async {
@@ -59,6 +60,7 @@ class MyApp extends StatelessWidget {
         RepositoryProvider(create: (_) => AddressRepository()),
         RepositoryProvider(create: (_) => PlaceRepository()),
         RepositoryProvider(create: (_) => OrderRepository()),
+        RepositoryProvider(create: (_) => TransactionRepository())
       ],
       child: MultiBlocProvider(
         providers: [
@@ -67,6 +69,16 @@ class MyApp extends StatelessWidget {
                   orderRepository: context.read<OrderRepository>(),
                   addressRepository: context.read<AddressRepository>())
                 ..add(LoadCart())),
+          BlocProvider(
+              create: (context) => HomeBloc(
+                  categoryRepository: context.read<CategoryRepository>(),
+                  productRepository: context.read<ProductRepository>())
+                ..add(LoadHome())),
+          BlocProvider(
+              create: (context) =>
+                  HistoryBloc(orderRepository: context.read<OrderRepository>())
+                    ..add(const LoadHistory(
+                        historyStatus: HistoryStatus.Processing))),
           BlocProvider(
               create: (context) =>
                   AccountBloc(userRepository: context.read<UserRepository>())
@@ -80,6 +92,7 @@ class MyApp extends StatelessWidget {
             return AppRouter.onGenerateRoute(settings);
           },
           initialRoute: "/splash",
+          // home: ReceiptScreen(orderId: "652d320a6233c67048a50158"),
           builder: EasyLoading.init(),
         ),
       ),

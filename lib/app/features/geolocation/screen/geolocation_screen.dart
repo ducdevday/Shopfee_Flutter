@@ -61,7 +61,7 @@ class _GeolocationScreenState extends State<GeolocationScreen> {
                 ],
               );
             } else {
-              return MyError();
+              return SizedBox();
             }
           },
         ),

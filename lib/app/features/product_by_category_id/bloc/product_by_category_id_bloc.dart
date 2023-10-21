@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:shopfee/data/models/product_by_category_id_model.dart';
+import 'package:shopfee/data/models/product_information.dart';
 import 'package:shopfee/data/repositories/product/product_repository.dart';
 
 part 'product_by_category_id_event.dart';
@@ -25,8 +25,8 @@ class ProductByCategoryIdBloc
       var response =
           await productRepository.getProductsByCategoryId(event.categoryId);
       if (response.success) {
-        List<ProductByCategoryIdModel> products = response.data!
-            .map((e) => ProductByCategoryIdModel.fromMap(e))
+        List<ProductInformation> products = response.data!
+            .map((e) => ProductInformation.fromMap(e))
             .toList();
         emit(ProductByCategoryLoaded(products: products));
       } else {

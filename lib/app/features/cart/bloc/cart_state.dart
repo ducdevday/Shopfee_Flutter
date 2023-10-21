@@ -45,6 +45,8 @@ class CartLoaded extends CartState {
   @override
   List<Object> get props => [cart];
 
+  bool get isValid => cart.address != null;
+
   factory CartLoaded.fromJson(Map<String, dynamic> json) {
     return CartLoaded(
       cart: Cart.fromJson(json["cart"]),
@@ -60,21 +62,30 @@ class CartLoaded extends CartState {
 
 class CartFinished extends CartState {
   final String orderId;
+  final String? paymentUrl;
+  final String? transactionId;
+
   const CartFinished({
     required this.orderId,
+    this.paymentUrl, this.transactionId,
   });
+
   @override
-  List<Object> get props => [orderId];
+  List<Object?> get props => [orderId, paymentUrl, transactionId];
 
   factory CartFinished.fromJson(Map<String, dynamic> json) {
     return CartFinished(
       orderId: json["orderId"],
+      paymentUrl: json["paymentUrl"] as String?,
+      transactionId: json["transactionId"] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       "orderId": this.orderId,
+      "paymentUrl": this.paymentUrl,
+      "transactionId": this.transactionId,
     };
   }
 }

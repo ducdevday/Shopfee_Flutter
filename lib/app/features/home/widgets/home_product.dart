@@ -3,10 +3,10 @@ import 'package:shopfee/app/config/color.dart';
 import 'package:shopfee/app/config/style.dart';
 import 'package:shopfee/app/features/product/screen/product_screen.dart';
 import 'package:shopfee/data/models/product.dart';
-import 'package:shopfee/data/models/product_by_category_id_model.dart';
+import 'package:shopfee/data/models/product_information.dart';
 
 class HomeProduct extends StatelessWidget {
-  final ProductByCategoryIdModel product;
+  final ProductInformation product;
 
   const HomeProduct(this.product, {
     super.key,
@@ -31,15 +31,17 @@ class HomeProduct extends StatelessWidget {
                 Container(
                   height: 70,
                   width: 70,
-                  decoration: const BoxDecoration(
-                      color: Color(0xfff4f4f3),
-                      shape: BoxShape.circle),
+                  decoration:  BoxDecoration(
+                      // color: Color(0xfff4f4f3),
+                      shape: BoxShape.circle,
+                      image: DecorationImage(image: NetworkImage(product.imageUrl,),fit: BoxFit.cover)
+                  ),
                 ),
-                Image.network(
-                  product.imageUrl,
-                  height: 68,
-                  width: 58,
-                ),
+                // Image.network(
+                //   product.imageUrl,
+                //   height: 68,
+                //   width: 58,
+                // ),
                 // Container(
                 //   padding: EdgeInsets.symmetric(
                 //       horizontal: 4),
@@ -75,7 +77,7 @@ class HomeProduct extends StatelessWidget {
             SizedBox(width: 20,),
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.only(top: 8.0),
+                padding: const EdgeInsets.only(top: 4.0),
                 child: Column(
                   crossAxisAlignment:
                   CrossAxisAlignment.start,
@@ -101,7 +103,7 @@ class HomeProduct extends StatelessWidget {
             ),
             SizedBox(width: 20,),
             Padding(
-              padding: const EdgeInsets.only(top: 8.0),
+              padding: const EdgeInsets.only(top: 4.0),
               child: Text(
                 product.priceString,
                 style: AppStyle.mediumTextStyleDark

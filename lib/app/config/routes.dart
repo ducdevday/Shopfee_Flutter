@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:shopfee/app/common/data/global_data.dart';
 import 'package:shopfee/app/common/widgets/my_bottom_navigationbar.dart';
 import 'package:shopfee/app/common/widgets/my_page_route.dart';
 import 'package:shopfee/app/features/account/screen/account_screen.dart';
+import 'package:shopfee/app/features/account_change_password/screen/account_change_password_screen.dart';
 import 'package:shopfee/app/features/cart/screen/cart_screen.dart';
 import 'package:shopfee/app/features/change_password/screen/change_password_screen.dart';
 import 'package:shopfee/app/features/forgot_password/screen/forgot_password_screen.dart';
@@ -17,12 +19,12 @@ import 'package:shopfee/app/features/receipt/screen/receipt_screen.dart';
 import 'package:shopfee/app/features/register/screen/register_screen.dart';
 import 'package:shopfee/app/features/review/screen/review_screen.dart';
 import 'package:shopfee/app/features/saved_address/screens/saved_address_screen.dart';
-import 'package:shopfee/app/features/search/screens/search_screen.dart';
+import 'package:shopfee/app/features/search/screen/search_screen.dart';
 import 'package:shopfee/app/features/splash/screen/splash_screen.dart';
 import 'package:shopfee/app/features/tracking/screen/tracking_screen.dart';
+import 'package:shopfee/app/features/vnpay/screen/VNPayScreen.dart';
 import 'package:shopfee/app/features/voucher/screen/voucher_screen.dart';
 import 'package:shopfee/app/features/welcome/screen/welcome_screen.dart';
-import 'package:shopfee/data/models/user.dart';
 
 class AppRouter {
   static final myBottomNavigationBar = MyBottomNavigationBar();
@@ -67,27 +69,54 @@ class AppRouter {
             builder: (context) => AccountScreen(myBottomNavigationBar));
       case "/search":
         return MaterialPageRoute(builder: (context) => SearchScreen());
+
+      //----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+      case "/change_password_in_account":
+        return MaterialPageRoute(
+            builder: (context) => const AccountChangePasswordScreen());
       case "/cart":
         return MaterialPageRoute(builder: (context) => CartScreen());
       case "/voucher":
         return MaterialPageRoute(builder: (context) => VoucherScreen());
       case "/receipt":
-        return MaterialPageRoute(builder: (context) => ReceiptScreen());
+        return MaterialPageRoute(
+            builder: (context) => ReceiptScreen(
+                  orderId: settings.arguments as String,
+                ));
       case "/tracking":
-        return MaterialPageRoute(builder: (context) => TrackingScreen());
+        return MaterialPageRoute(
+            builder: (context) => TrackingScreen(
+                  orderId: settings.arguments as String,
+                ));
       case "/review":
-        return MaterialPageRoute(builder: (context) => ReviewScreen());
+        return MaterialPageRoute(
+            builder: (context) => ReviewScreen(
+                  orderId: settings.arguments as String,
+                ));
       case "/personal_information":
         return MaterialPageRoute(
-            builder: (context) => PersonalInformationScreen(user: settings.arguments as User));
+            builder: (context) => PersonalInformationScreen());
       case "/saved_address":
-        final isFromCart = settings.arguments != null ? settings.arguments as bool : null;
+        final isFromCart =
+            settings.arguments != null ? settings.arguments as bool : null;
         return MaterialPageRoute(
             builder: (context) => SavedAddressScreen(isFromCart: isFromCart));
       case "/new_address":
-        final addressId = settings.arguments != null ? settings.arguments as String : null;
+        final addressId =
+            settings.arguments != null ? settings.arguments as String : null;
         return MaterialPageRoute(
-            builder: (context) => NewAddressScreen(addressId: addressId,));
+            builder: (context) => NewAddressScreen(
+                  addressId: addressId,
+                ));
+      case "/vnpay":
+        final args = settings.arguments as Map<String, String?>;
+        return MaterialPageRoute(
+            builder: (context) => VNPayScreen(
+                  paymentUrl: args["paymentUrl"]!,
+                  orderId: args["orderId"]!,
+                  transactionId: args["transactionId"]!,
+                ));
       case "/geolocation":
         return MaterialPageRoute(builder: (context) => GeolocationScreen());
       default:
@@ -102,5 +131,13 @@ class AppRouter {
                 title: Text("Some thing went wrong"),
               ),
             ));
+  }
+}
+
+StatelessWidget GuardRoute(StatelessWidget widget) {
+  if (GlobalData.ins.userId == null) {
+    return WelcomeScreen();
+  } else {
+    return widget;
   }
 }

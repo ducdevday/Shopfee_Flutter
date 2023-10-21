@@ -1,14 +1,14 @@
 import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
 
-class ProductByCategoryIdModel extends Equatable {
+class ProductInformation extends Equatable {
   final String id;
   final String name;
   final String description;
   final double price;
   final String imageUrl;
 
-  const ProductByCategoryIdModel({
+  const ProductInformation({
     required this.id,
     required this.name,
     required this.description,
@@ -28,8 +28,8 @@ class ProductByCategoryIdModel extends Equatable {
     };
   }
 
-  factory ProductByCategoryIdModel.fromMap(Map<String, dynamic> map) {
-    return ProductByCategoryIdModel(
+  factory ProductInformation.fromMap(Map<String, dynamic> map) {
+    return ProductInformation(
       id: map['id'] as String,
       name: map['name'] as String,
       description: map['description'] as String,

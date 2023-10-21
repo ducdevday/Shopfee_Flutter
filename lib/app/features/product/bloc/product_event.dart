@@ -7,7 +7,7 @@ abstract class ProductEvent extends Equatable {
 class LoadProduct extends ProductEvent {
   final String productId;
 
-  LoadProduct(this.productId);
+  const LoadProduct(this.productId);
 
   @override
   List<Object?> get props => [productId];
@@ -16,7 +16,7 @@ class LoadProduct extends ProductEvent {
 class LoadUpdatingProduct extends ProductEvent {
   final Order order;
 
-  LoadUpdatingProduct(this.order);
+  const LoadUpdatingProduct(this.order);
 
   @override
   List<Object?> get props => [order];
@@ -37,7 +37,7 @@ class DecreaseQuantity extends ProductEvent {
 class ChooseSize extends ProductEvent {
   final SizeModel size;
 
-  ChooseSize(this.size);
+  const ChooseSize(this.size);
 
   @override
   List<Object?> get props => [size];
@@ -46,7 +46,7 @@ class ChooseSize extends ProductEvent {
 class ChooseTopping extends ProductEvent {
   final Topping topping;
 
-  ChooseTopping(this.topping);
+  const ChooseTopping(this.topping);
 
   @override
   List<Object> get props => [topping];
@@ -55,7 +55,7 @@ class ChooseTopping extends ProductEvent {
 class TakeNote extends ProductEvent {
   final String note;
 
-  TakeNote(this.note);
+  const TakeNote(this.note);
 
   @override
   List<Object> get props => [note];

@@ -17,7 +17,7 @@ class HomeLoading extends HomeState {
 class HomeLoaded extends HomeState {
   final List<Category> categories;
   final String? categoryChosenId;
-  final List<ProductByCategoryIdModel> products;
+  final List<ProductInformation> products;
 
   const HomeLoaded({
     required this.categories,
@@ -40,7 +40,7 @@ class HomeLoaded extends HomeState {
   HomeLoaded copyWith({
     List<Category>? categories,
     String? categoryChosenId,
-    List<ProductByCategoryIdModel>? products,
+    List<ProductInformation>? products,
   }) {
     return HomeLoaded(
       categories: categories ?? this.categories,
@@ -61,7 +61,7 @@ class HomeLoaded extends HomeState {
     return HomeLoaded(
       categories: map['categories'] as List<Category>,
       categoryChosenId: map['categoryChosenId'] as String,
-      products: map['products'] as List<ProductByCategoryIdModel>,
+      products: map['products'] as List<ProductInformation>,
     );
   }
 }

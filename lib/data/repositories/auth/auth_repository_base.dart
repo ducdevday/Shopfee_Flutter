@@ -10,4 +10,6 @@ abstract class AuthRepositoryBase extends BaseService{
   Future<Result> login(String email, String password);
   Future<Result> passwordSendCode(String email);
   Future<Result> changePassword(String email, String password);
+  Future<Result> changePasswordInAccount(String oldPassword, String newPassword);
+  Future<Result> refreshToken();
 }

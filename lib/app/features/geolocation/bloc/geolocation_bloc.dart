@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:shopfee/data/models/place_search.dart';
 import 'package:shopfee/data/repositories/geolocation/geolocation_repository.dart';
@@ -27,14 +28,18 @@ class GeolocationBloc extends Bloc<GeolocationEvent, GeolocationState> {
 
   FutureOr<void> _onLoadGeolocation(
       LoadGeolocation event, Emitter<GeolocationState> emit) async {
+    EasyLoading.show();
     Position position = await geolocationRepository.getCurrentLocation();
+    EasyLoading.dismiss();
     add(UpdateGeolocation(position: position));
   }
 
   FutureOr<void> _onUpdateGeolocation(
       UpdateGeolocation event, Emitter<GeolocationState> emit) async {
+    EasyLoading.show();
     final List<PlaceSearch>? placeSearchList = await placeRepository
         .getAllPlaceDefault(event.position.latitude, event.position.longitude);
+    EasyLoading.dismiss();
     emit(GeolocationLoaded(
         position: event.position, placeSearchList: placeSearchList!));
   }

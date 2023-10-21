@@ -44,7 +44,11 @@ class InputField extends StatelessWidget {
           controller: _controller,
           decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
+            focusedErrorBorder: AppStyle.outlineInputBorderDefault,
+            errorBorder: AppStyle.outlineInputBorderDefault,
+            enabledBorder: AppStyle.outlineInputBorderDefault,
+            focusedBorder: AppStyle.outlineInputBorderPrimary,
+            disabledBorder: AppStyle.outlineInputBorderDefault,
             hintText: email != null ? email : hint,
           ),
         ),

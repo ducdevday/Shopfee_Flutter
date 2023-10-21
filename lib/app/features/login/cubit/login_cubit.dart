@@ -37,14 +37,13 @@ class LoginCubit extends Cubit<LoginState> {
             currentState.email, currentState.password);
         EasyLoading.dismiss();
         if (response.success) {
-          print("doLogin Success");
-          print(response.data);
-
           final SharedPreferences prefs = await SharedPreferences.getInstance();
           await prefs.setString('userId', response.data!["userId"]);
           await prefs.setString('accessToken', response.data!["accessToken"]);
+          await prefs.setString('refreshToken', response.data!["refreshToken"]);
           GlobalData.ins.userId = prefs.getString('userId');
           GlobalData.ins.accessToken = prefs.getString('accessToken');
+          GlobalData.ins.refreshToken = prefs.getString('refreshToken');
 
           Navigator.pushNamed(context, "/home");
         } else {

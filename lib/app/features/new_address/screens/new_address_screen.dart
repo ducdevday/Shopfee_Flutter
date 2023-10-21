@@ -82,23 +82,23 @@ class NewAddressScreen extends StatelessWidget {
                             color: AppColor.primaryColor,
                           ),
                         )
-                      : SizedBox()
+                      : const SizedBox()
                 ],
               ),
               body: Container(
-                color: Color(0xffEFEBE9),
+                color: const Color(0xffEFEBE9),
                 child: Column(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: AppDimen.spacing,
                     ),
                     Container(
                       color: Colors.white,
-                      padding: EdgeInsets.all(AppDimen.spacing),
+                      padding: const EdgeInsets.all(AppDimen.spacing),
                       child: Column(
                         children: [
                           Padding(
-                            padding: EdgeInsets.all(10),
+                            padding: const EdgeInsets.all(10),
                             child: Column(
                               children: [
                                 InkWell(
@@ -120,7 +120,7 @@ class NewAddressScreen extends StatelessWidget {
                                         height: 8,
                                       ),
                                       TextFormField(
-                                        style: TextStyle(fontSize: 14),
+                                        style: const TextStyle(fontSize: 14),
                                         decoration: InputDecoration(
                                           labelText: state.address.details,
                                           labelStyle:
@@ -128,14 +128,14 @@ class NewAddressScreen extends StatelessWidget {
                                           enabled: false,
                                           suffixIcon: const Icon(Icons
                                               .keyboard_arrow_right_rounded),
-                                          contentPadding: EdgeInsets.all(8),
+                                          contentPadding: const EdgeInsets.all(8),
                                           disabledBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
+                                              borderSide: const BorderSide(
                                                   color: Color(0xffCCCCCC)),
                                               borderRadius:
                                                   BorderRadius.circular(8)),
                                           focusedBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
+                                              borderSide: const BorderSide(
                                                   color: Color(0xffCCCCCC)),
                                               borderRadius:
                                                   BorderRadius.circular(8)),
@@ -162,16 +162,16 @@ class NewAddressScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: AppDimen.spacing,
                     ),
                     Container(
-                      padding: EdgeInsets.all(AppDimen.spacing),
+                      padding: const EdgeInsets.all(AppDimen.spacing),
                       color: Colors.white,
                       child: Column(
                         children: [
                           Padding(
-                            padding: EdgeInsets.all(10),
+                            padding: const EdgeInsets.all(10),
                             child: Column(
                               children: [
                                 AddressField(
@@ -199,10 +199,10 @@ class NewAddressScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: AppDimen.spacing,
                     ),
-                    updateDefault(addressId, state.address.isDefault,
+                    updateDefault(addressId, state.address.isDefault!,
                         state.currentDefault, callback: (bool value) {
                       context
                           .read<NewAddressBloc>()
@@ -219,12 +219,12 @@ class NewAddressScreen extends StatelessWidget {
                                     Navigator.pop(dialogContext);
                                   }));
                     }),
-                    Spacer(
+                    const Spacer(
                       flex: 1,
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width,
-                      padding: EdgeInsets.all(AppDimen.screenPadding),
+                      padding: const EdgeInsets.all(AppDimen.screenPadding),
                       child: ElevatedButton(
                         onPressed: state.isValid
                             ? () {
@@ -239,7 +239,7 @@ class NewAddressScreen extends StatelessWidget {
                                 }
                               }
                             : null,
-                        child: Text("Finish"),
+                        child: const Text("Finish"),
                         style: AppStyle.elevatedButtonStylePrimary,
                       ),
                     ),
@@ -248,7 +248,7 @@ class NewAddressScreen extends StatelessWidget {
               ),
             );
           } else {
-            return SizedBox();
+            return const SizedBox();
           }
         },
       ),
