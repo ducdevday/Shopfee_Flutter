@@ -6,155 +6,227 @@ import 'package:shopfee/app/config/dimens.dart';
 import 'package:shopfee/app/config/style.dart';
 import 'package:shopfee/app/features/welcome/cubit/welcome_cubit.dart';
 import 'package:shopfee/data/repositories/auth/auth_repository.dart';
+import 'package:shopfee/data/repositories/firebase/firebase_repository.dart';
+import 'package:shopfee/data/repositories/local/local_repository.dart';
+import 'package:shopfee/data/repositories/user/user_repository.dart';
 
 import '../widgets/input_field.dart';
 
 class WelcomeScreen extends StatelessWidget {
-  const WelcomeScreen({Key? key}) : super(key: key);
+  final bool? isInHome;
+
+  const WelcomeScreen({Key? key, this.isInHome}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) =>
-          WelcomeCubit(authRepository: context.read<AuthRepository>())
-            ..initCubit(),
-      child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          body: Container(
-            padding: const EdgeInsets.all(AppDimen.screenPadding),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  children: [
-                    const SizedBox(
-                      height: 150,
-                    ),
-                    Image.asset(
-                      "assets/images/img_logo_two.png",
-                      width: 219.5,
-                      height: 100,
-                    ),
-                    const SizedBox(
-                      height: 32,
-                    ),
-                    Text(
-                      "Start a new journey",
-                      style: AppStyle.superLargeTitleStylePrimary,
-                    ),
-                    const SizedBox(
-                      height: 28,
-                    ),
-                    const InputField(
-                      title: "Email",
-                      hint: "Input Your Email",
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    const SizedBox(
-                      height: 14,
-                    ),
-                    Container(
-                      height: 48,
-                      width: double.infinity,
-                      child: BlocConsumer<WelcomeCubit, WelcomeState>(
-                        listener: (context, state) {
-                          if (state is WelcomeExistEmail) {
-                            buildShowExistEmailBottomSheet(
-                                context, state.email);
-                          }
-                        },
-                        buildWhen: (previous, current) =>
-                            current is! WelcomeExistEmail,
-                        builder: (context, state) {
-                          if (state is WelcomeLoaded) {
-                            return ElevatedButton(
-                              onPressed: state.isValid()
-                                  ? () {
-                                      context
-                                          .read<WelcomeCubit>()
-                                          .sendOTP(context);
-                                    }
-                                  : null,
-                              child: const Text("Continue"),
-                              style: ElevatedButton.styleFrom(
-                                  disabledBackgroundColor:
-                                      const Color(0xffCACACA),
-                                  disabledForegroundColor: AppColor.lightColor,
-                                  textStyle: AppStyle.mediumTextStyleDark,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(16),
-                                  )),
-                            );
-                          } else {
-                            return const SizedBox();
-                          }
-                        },
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pop(context);
+        return Future.value(false);
+      },
+      child: BlocProvider(
+        create: (context) => WelcomeCubit(
+            authRepository: context.read<AuthRepository>(),
+            firebaseRepository: context.read<FirebaseRepository>(),
+            userRepository: context.read<UserRepository>(),
+            localRepository: context.read<LocalRepository>())
+          ..initCubit(),
+        child: Scaffold(
+            resizeToAvoidBottomInset: false,
+            body: Container(
+              padding: const EdgeInsets.all(AppDimen.screenPadding),
+              child: Column(
+                children: [
+                  Column(
+                    children: [
+                      const SizedBox(
+                        height: 150,
                       ),
+                      Image.asset(
+                        "assets/images/img_logo_two.png",
+                        width: 219.5,
+                        height: 100,
+                      ),
+                      const SizedBox(
+                        height: 32,
+                      ),
+                      Text(
+                        "Start a new journey",
+                        style: AppStyle.superLargeTitleStylePrimary,
+                      ),
+                      const SizedBox(
+                        height: 28,
+                      ),
+                      const InputField(
+                        title: "Email",
+                        hint: "Input Your Email",
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 14,
+                  ),
+                  Container(
+                    height: 48,
+                    width: double.infinity,
+                    child: BlocConsumer<WelcomeCubit, WelcomeState>(
+                      listener: (context, state) {
+                        if (state is WelcomeExistEmail) {
+                          buildShowExistEmailBottomSheet(context, state.email);
+                        }
+                      },
+                      buildWhen: (previous, current) =>
+                          current is! WelcomeExistEmail,
+                      builder: (context, state) {
+                        if (state is WelcomeLoaded) {
+                          return ElevatedButton(
+                            onPressed: state.isValid()
+                                ? () {
+                                    context
+                                        .read<WelcomeCubit>()
+                                        .sendOTP(context);
+                                  }
+                                : null,
+                            child: const Text("Continue"),
+                            style: ElevatedButton.styleFrom(
+                                disabledBackgroundColor:
+                                    const Color(0xffCACACA),
+                                disabledForegroundColor: AppColor.lightColor,
+                                textStyle: AppStyle.mediumTextStyleDark,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                )),
+                          );
+                        } else {
+                          return const SizedBox();
+                        }
+                      },
                     ),
-                    const SizedBox(
-                      height: 14,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        TextButton(
-                            style: TextButton.styleFrom(
-                              minimumSize: Size.zero,
-                              padding: EdgeInsets.zero,
-                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            ),
-                            onPressed: () {},
-                            child: Text(
-                              "Have an account? ",
-                              style: AppStyle.normalTextStyleDark,
-                            )),
-                        TextButton(
-                            style: TextButton.styleFrom(
-                              minimumSize: Size.zero,
-                              padding: EdgeInsets.zero,
-                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            ),
-                            onPressed: () {
-                              Navigator.pushReplacementNamed(context, "/login");
-                            },
-                            child: Text(
-                              "Login",
-                              style: AppStyle.normalTextStylePrimary,
-                            ))
-                      ],
-                    ),
-                    TextButton(
-                        style: TextButton.styleFrom(
-                          minimumSize: Size.zero,
-                          padding: EdgeInsets.zero,
-                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
+                  const SizedBox(
+                    height: 14,
+                  ),
+                  Row(
+                    children: [
+                      const Expanded(
+                        child: Divider(
+                          height: 2,
+                          thickness: 2,
                         ),
-                        onPressed: () {},
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: Text(
-                          "or ",
+                          "or",
                           style: AppStyle.normalTextStyleDark,
-                        )),
-                    TextButton(
-                        style: TextButton.styleFrom(
-                          minimumSize: Size.zero,
-                          padding: EdgeInsets.zero,
-                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
-                        onPressed: () {
-                          Navigator.pushReplacementNamed(context, "/home");
-                        },
-                        child: Text(
-                          "Continue as guess",
-                          style: AppStyle.normalTextStylePrimary,
-                        )),
-                  ],
-                ),
-              ],
-            ),
-          )),
+                      ),
+                      const Expanded(
+                        child: Divider(
+                          height: 2,
+                          thickness: 2,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 14,
+                  ),
+                  Builder(builder: (context) {
+                    return GestureDetector(
+                      onTap: () {
+                        context.read<WelcomeCubit>().loginWithGoogle(context);
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: Colors.grey,
+                            ),
+                            color: Colors.white),
+                        child: SvgPicture.asset(
+                          "assets/icons/ic_google.svg",
+                          width: 32,
+                          height: 32,
+                        ),
+                      ),
+                    );
+                  }),
+                  Spacer(
+                    flex: 1,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextButton(
+                          style: TextButton.styleFrom(
+                            minimumSize: Size.zero,
+                            padding: EdgeInsets.zero,
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          ),
+                          onPressed: () {},
+                          child: Text(
+                            "Have an account? ",
+                            style: AppStyle.normalTextStyleDark,
+                          )),
+                      TextButton(
+                          style: TextButton.styleFrom(
+                            minimumSize: Size.zero,
+                            padding: EdgeInsets.zero,
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          ),
+                          onPressed: () {
+                            Navigator.pushNamed(context, "/login");
+                          },
+                          child: Text(
+                            "Login",
+                            style: AppStyle.normalTextStylePrimary,
+                          ))
+                    ],
+                  ),
+                  Builder(builder: (context) {
+                    if (isInHome == null) {
+                      return Column(
+                        children: [
+                          // TextButton(
+                          //     style: TextButton.styleFrom(
+                          //       minimumSize: Size.zero,
+                          //       padding: EdgeInsets.zero,
+                          //       tapTargetSize:
+                          //           MaterialTapTargetSize.shrinkWrap,
+                          //     ),
+                          //     onPressed: null,
+                          //     child: Text(
+                          //       "or ",
+                          //       style: AppStyle.normalTextStyleDark,
+                          //     )),
+                          TextButton(
+                              style: TextButton.styleFrom(
+                                minimumSize: Size.zero,
+                                padding: EdgeInsets.zero,
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              ),
+                              onPressed: () {
+                                Navigator.pushReplacementNamed(
+                                    context, "/home");
+                              },
+                              child: Text(
+                                "Continue as guess",
+                                style: AppStyle.normalTextStylePrimary,
+                              )),
+                        ],
+                      );
+                    } else {
+                      return SizedBox(
+                        height: 22,
+                      );
+                    }
+                  }),
+                ],
+              ),
+            )),
+      ),
     );
   }
 }

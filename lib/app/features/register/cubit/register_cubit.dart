@@ -6,13 +6,18 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shopfee/app/common/data/global_data.dart';
 import 'package:shopfee/data/models/user.dart';
 import 'package:shopfee/data/repositories/auth/auth_repository.dart';
+import 'package:shopfee/data/repositories/local/local_repository.dart';
 
 part 'register_state.dart';
 
 class RegisterCubit extends Cubit<RegisterState> {
   final AuthRepository authRepository;
+  final LocalRepository localRepository;
 
-  RegisterCubit({required this.authRepository}) : super(RegisterInitial());
+  RegisterCubit({
+    required this.authRepository,
+    required this.localRepository,
+  }) : super(RegisterInitial());
 
   Future<void> initField(String email) async {
     emit(RegisterLoaded(email: email));
@@ -61,15 +66,9 @@ class RegisterCubit extends Cubit<RegisterState> {
             password: currentState.password));
         EasyLoading.dismiss();
         if (response.success) {
-          final SharedPreferences prefs = await SharedPreferences.getInstance();
-          await prefs.setString('userId', response.data!["id"]);
-          await prefs.setString('accessToken', response.data!["accessToken"]);
-          await prefs.setString('refreshToken', response.data!["refreshToken"]);
-          GlobalData.ins.userId = prefs.getString('userId');
-          GlobalData.ins.accessToken = prefs.getString('accessToken');
-          GlobalData.ins.refreshToken = prefs.getString('refreshToken');
-
-          Navigator.pushNamed(context, "/home");
+          await localRepository.saveUser(response.data!["userId"],  response.data!["accessToken"], response.data!["refreshToken"]);
+          Navigator.pushNamedAndRemoveUntil(
+              context, "/home", (route) => false);
         } else {
           EasyLoading.showError('Something went wrong');
         }

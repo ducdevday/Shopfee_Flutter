@@ -22,7 +22,9 @@ class ForgotPasswordScreen extends StatelessWidget {
             leading: InkWell(
               highlightColor: Colors.transparent,
               splashColor: Colors.transparent,
-              onTap: () {},
+              onTap: () {
+                Navigator.pop(context);
+              },
               child: Icon(Icons.close_rounded),
             ),
           ),

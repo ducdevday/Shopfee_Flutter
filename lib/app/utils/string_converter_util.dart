@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
 
-class MyConverter {
+class StringConverterUtil {
   static String formattedDate(DateTime dateTime) {
     return DateFormat('MMMM dd, yyy').format(dateTime);
   }

@@ -29,3 +29,8 @@ class AccountNoAuth extends AccountState {
   @override
   List<Object?> get props => [];
 }
+
+class AccountNavigateLogin extends AccountState{
+  @override
+  List<Object?> get props => [];
+}

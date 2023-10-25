@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shopfee/app/common/data/global_data.dart';
-import 'package:shopfee/app/common/widgets/my_bottom_navigationbar.dart';
+import 'package:shopfee/app/common/widgets/my_bottom_navigation_bar/my_bottom_navigationbar.dart';
 import 'package:shopfee/app/common/widgets/my_page_route.dart';
 import 'package:shopfee/app/features/account/screen/account_screen.dart';
 import 'package:shopfee/app/features/account_change_password/screen/account_change_password_screen.dart';
@@ -70,13 +70,10 @@ class AppRouter {
       case "/search":
         return MaterialPageRoute(builder: (context) => SearchScreen());
 
-      //----------------------------------------------------------------------------------------------------------------------------------------------------------------
-
       case "/change_password_in_account":
         return MaterialPageRoute(
-            builder: (context) => const AccountChangePasswordScreen());
-      case "/cart":
-        return MaterialPageRoute(builder: (context) => CartScreen());
+            builder: (context) => GuardRoute(AccountChangePasswordScreen()));
+
       case "/voucher":
         return MaterialPageRoute(builder: (context) => VoucherScreen());
       case "/receipt":
@@ -119,6 +116,9 @@ class AppRouter {
                 ));
       case "/geolocation":
         return MaterialPageRoute(builder: (context) => GeolocationScreen());
+
+      case "/cart":
+        return MaterialPageRoute(builder: (context) => GuardRoute(CartScreen()));
       default:
         return _errorRoute();
     }
@@ -134,9 +134,9 @@ class AppRouter {
   }
 }
 
-StatelessWidget GuardRoute(StatelessWidget widget) {
+Widget GuardRoute(Widget widget) {
   if (GlobalData.ins.userId == null) {
-    return WelcomeScreen();
+    return WelcomeScreen(isInHome: true);
   } else {
     return widget;
   }

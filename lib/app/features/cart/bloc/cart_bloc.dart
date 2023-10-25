@@ -24,6 +24,7 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
   CartBloc({required this.orderRepository, required this.addressRepository})
       : super(CartInitial()) {
     on<LoadCart>(_onLoadCart);
+    on<DeleteCart>(_onDeleteCart);
     on<AddItemIntoCart>(_onAddItemIntoCart);
     on<UpdateItemInCart>(_onUpdateItemInCart);
     on<InitAddress>(_onInitAddress);
@@ -35,33 +36,12 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
 
   FutureOr<void> _onLoadCart(LoadCart event, Emitter<CartState> emit) async {
     if (state is! CartLoaded) {
-      // emit(CartLoading());
-      // try {
-      //   var response =
-      //       await addressRepository.getAllAddress(GlobalData.ins.userId!);
-      //   if (response.success) {
-      //     final List<Address> addressList =
-      //         response.data!.map((e) => Address.fromMap(e)).toList();
-      //     if (addressList.isEmpty) {
-      //       emit(CartNoAddress());
-      //       return;
-      //     }
-      //     final Address defaultAddress =
-      //         addressList.firstWhere((address) => address.isDefault == true);
-      //     var responseDefaultAddress =
-      //         await addressRepository.getAddress(defaultAddress.id!);
-      //     late Address address;
-      //     if (responseDefaultAddress.success) {
-      //       address = Address.fromMapFull(responseDefaultAddress.data!);
-      //     }
-      //     emit(CartLoaded(
-      //         cart: Cart(address: address, typePayment: TypePayment.CASHING)));
-      //   }
-      // } catch (e) {
-      //   print(e);
-      // }
       emit(CartLoaded(cart: Cart()));
     }
+  }
+
+  FutureOr<void> _onDeleteCart(DeleteCart event, Emitter<CartState> emit) {
+    emit(CartLoaded(cart: Cart()));
   }
 
   FutureOr<void> _onInitAddress(
@@ -231,4 +211,6 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
     }
     return null;
   }
+
+
 }

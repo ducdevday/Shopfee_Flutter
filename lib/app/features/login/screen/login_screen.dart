@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shopfee/app/config/color.dart';
 import 'package:shopfee/app/config/dimens.dart';
 import 'package:shopfee/app/config/style.dart';
 import 'package:shopfee/app/features/login/cubit/login_cubit.dart';
 import 'package:shopfee/app/features/login/widgets/input_field.dart';
+import 'package:shopfee/app/features/welcome/cubit/welcome_cubit.dart';
 import 'package:shopfee/data/repositories/auth/auth_repository.dart';
+import 'package:shopfee/data/repositories/firebase/firebase_repository.dart';
+import 'package:shopfee/data/repositories/local/local_repository.dart';
+import 'package:shopfee/data/repositories/user/user_repository.dart';
 
 class LoginScreen extends StatefulWidget {
   final String? email;
@@ -17,15 +22,18 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  late LoginCubit _cubit =
-      LoginCubit(authRepository: context.read<AuthRepository>());
+  late final LoginCubit _cubit = LoginCubit(
+      authRepository: context.read<AuthRepository>(),
+      firebaseRepository: context.read<FirebaseRepository>(),
+      userRepository: context.read<UserRepository>(),
+      localRepository: context.read<LocalRepository>());
 
   @override
   void initState() {
     super.initState();
     _cubit.initField();
-    if(widget.email != null){
-      _cubit.addField("Email",widget.email!);
+    if (widget.email != null) {
+      _cubit.addField("Email", widget.email!);
     }
   }
 
@@ -38,7 +46,6 @@ class _LoginScreenState extends State<LoginScreen> {
         body: Container(
           padding: const EdgeInsets.all(AppDimen.screenPadding),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Column(
                 children: [
@@ -85,68 +92,89 @@ class _LoginScreenState extends State<LoginScreen> {
                           )))
                 ],
               ),
-              Column(
+              Container(
+                height: 48,
+                width: double.infinity,
+                child: BlocBuilder<LoginCubit, LoginState>(
+                  builder: (context, state) {
+                    if (state is LoginLoaded) {
+                      return ElevatedButton(
+                        onPressed: state.isValid()
+                            ? () {
+                                context.read<LoginCubit>().doLogin(context);
+                              }
+                            : null,
+                        child: const Text("Login"),
+                        style: ElevatedButton.styleFrom(
+                            disabledBackgroundColor: const Color(0xffCACACA),
+                            disabledForegroundColor: AppColor.lightColor,
+                            textStyle: AppStyle.mediumTextStyleDark,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            )),
+                      );
+                    } else {
+                      return const SizedBox();
+                    }
+                  },
+                ),
+              ),
+              const SizedBox(
+                height: 14,
+              ),
+              Row(
                 children: [
-                  Container(
-                    height: 48,
-                    width: double.infinity,
-                    child: BlocBuilder<LoginCubit, LoginState>(
-                      builder: (context, state) {
-                        if (state is LoginLoaded) {
-                          return ElevatedButton(
-                            onPressed: state.isValid()
-                                ? () {
-                                    context.read<LoginCubit>().doLogin(context);
-                                  }
-                                : null,
-                            child: const Text("Login"),
-                            style: ElevatedButton.styleFrom(
-                                disabledBackgroundColor:
-                                    const Color(0xffCACACA),
-                                disabledForegroundColor: AppColor.lightColor,
-                                textStyle: AppStyle.mediumTextStyleDark,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16),
-                                )),
-                          );
-                        } else {
-                          return const SizedBox();
-                        }
-                      },
+                  const Expanded(
+                    child: Divider(
+                      height: 2,
+                      thickness: 2,
                     ),
                   ),
-                  const SizedBox(
-                    height: 14,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Text(
+                      "or",
+                      style: AppStyle.normalTextStyleDark,
+                    ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      TextButton(
-                          style: TextButton.styleFrom(
-                            minimumSize: Size.zero,
-                            padding: EdgeInsets.zero,
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          ),
-                          onPressed: () {},
-                          child: Text(
-                            "Don’t have an account? ",
-                            style: AppStyle.normalTextStyleDark,
-                          )),
-                      TextButton(
-                          style: TextButton.styleFrom(
-                            minimumSize: Size.zero,
-                            padding: EdgeInsets.zero,
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          ),
-                          onPressed: () {
-                            Navigator.pushReplacementNamed(context, "/welcome");
-                          },
-                          child: Text(
-                            "Register",
-                            style: AppStyle.normalTextStylePrimary,
-                          ))
-                    ],
+                  const Expanded(
+                    child: Divider(
+                      height: 2,
+                      thickness: 2,
+                    ),
                   ),
+                ],
+              ),
+              const SizedBox(
+                height: 14,
+              ),
+              Builder(builder: (context) {
+                return GestureDetector(
+                  onTap: () {
+                    context.read<LoginCubit>().loginWithGoogle(context);
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.grey,
+                        ),
+                        color: Colors.white),
+                    child: SvgPicture.asset(
+                      "assets/icons/ic_google.svg",
+                      width: 32,
+                      height: 32,
+                    ),
+                  ),
+                );
+              }),
+              Spacer(
+                flex: 1,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
                   TextButton(
                       style: TextButton.styleFrom(
                         minimumSize: Size.zero,
@@ -155,7 +183,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       onPressed: () {},
                       child: Text(
-                        "or ",
+                        "New User? ",
                         style: AppStyle.normalTextStyleDark,
                       )),
                   TextButton(
@@ -165,12 +193,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       ),
                       onPressed: () {
-                        Navigator.pushReplacementNamed(context, "/home");
+                        Navigator.pop(context);
                       },
                       child: Text(
-                        "Continue as guess",
+                        "Register",
                         style: AppStyle.normalTextStylePrimary,
-                      )),
+                      ))
                 ],
               ),
             ],

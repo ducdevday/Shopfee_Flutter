@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shopfee/app/common/widgets/my_confirm_dialog.dart';
 import 'package:shopfee/app/config/color.dart';
 import 'package:shopfee/app/config/dimens.dart';
 import 'package:shopfee/app/config/style.dart';
@@ -57,7 +58,24 @@ class _CartScreenState extends State<CartScreen> {
                   IconButton(
                       splashColor: Colors.transparent,
                       highlightColor: Colors.transparent,
-                      onPressed: () {},
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext dialogContext) =>
+                                MyConfirmDialog(
+                                    title: "Confirm",
+                                    content:
+                                        "Do you want to delete all products from your cart",
+                                    callbackOK: () {
+                                      context.read<CartBloc>().add(DeleteCart());
+                                      Navigator.pop(dialogContext);
+                                    },
+                                    callbackCancel: () {
+                                      Navigator.pop(dialogContext);
+                                    },
+                                    confirmText: "Delete",
+                                ));
+                      },
                       icon: Icon(
                         Icons.delete_outline_rounded,
                         color: AppColor.primaryColor,

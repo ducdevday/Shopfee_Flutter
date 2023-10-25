@@ -14,6 +14,10 @@ class InitAddress extends CartEvent {
   List<Object> get props => [];
 }
 
+class DeleteCart extends CartEvent{
+  @override
+  List<Object> get props => [];
+}
 
 class AddItemIntoCart extends CartEvent {
   final Order order;

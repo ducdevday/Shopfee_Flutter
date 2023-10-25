@@ -19,7 +19,7 @@ class MyAlertDialog extends StatelessWidget {
     return CupertinoAlertDialog(
       title: title.isNotEmpty ? Text(title) : null,
       content:content.isNotEmpty? Text(content) : null,
-      actions: [TextButton(onPressed: callback, child: Text("OK", style: AppStyle.normalTextStylePrimary,))],
+      actions: [TextButton(onPressed: callback, child: Text("OK", style:AppStyle.normalTextStylePrimary.copyWith(fontWeight: FontWeight.w500),))],
     );
   }
 }

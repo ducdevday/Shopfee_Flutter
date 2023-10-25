@@ -2,25 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:shopfee/app/common/widgets/my_bottom_navigationbar.dart';
-import 'package:shopfee/app/common/widgets/my_error.dart';
-import 'package:shopfee/app/common/widgets/my_loading.dart';
+import 'package:shopfee/app/common/widgets/my_bottom_navigation_bar/cubit/my_bottom_navigation_bar_cubit.dart';
+import 'package:shopfee/app/common/widgets/my_bottom_navigation_bar/my_bottom_navigationbar.dart';
 import 'package:shopfee/app/common/widgets/my_skelton.dart';
 import 'package:shopfee/app/config/color.dart';
 import 'package:shopfee/app/config/dimens.dart';
 import 'package:shopfee/app/config/style.dart';
 import 'package:shopfee/app/features/history/bloc/history_bloc.dart';
-import 'package:shopfee/app/features/home/bloc/home_bloc.dart';
-import 'package:shopfee/app/utils/my_converter.dart';
+import 'package:shopfee/app/utils/string_converter_util.dart';
 import 'package:shopfee/data/models/order_type.dart';
-import 'package:shopfee/data/repositories/order/order_repository.dart';
 
 enum HistoryStatus { Processing, Done, Canceled }
 
-class HistoryScreen extends StatelessWidget {
+class HistoryScreen extends StatefulWidget {
   final MyBottomNavigationBar myBottomNavigationBar;
 
   const HistoryScreen(this.myBottomNavigationBar, {Key? key}) : super(key: key);
+
+  @override
+  State<HistoryScreen> createState() => _HistoryScreenState();
+}
+
+class _HistoryScreenState extends State<HistoryScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<MyBottomNavigationBarCubit>().selectPage(1);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +104,7 @@ class HistoryScreen extends StatelessWidget {
                                   padding: EdgeInsets.symmetric(
                                       vertical: 12, horizontal: 24),
                                   disabledBackgroundColor:
-                                  const Color(0xffCACACA),
+                                      const Color(0xffCACACA),
                                   disabledForegroundColor: AppColor.lightColor,
                                   textStyle: AppStyle.mediumTextStyleDark,
                                   shape: RoundedRectangleBorder(
@@ -169,87 +177,159 @@ class HistoryScreen extends StatelessWidget {
                       ),
                     );
                   } else if (state is HistoryLoaded) {
-                    return ListView.separated(
-                      itemCount: state.orderHistoryList.length,
-                      itemBuilder: (context, index) => Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: AppDimen.screenPadding),
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.pushNamed(context, "/receipt",
-                                arguments: state.orderHistoryList[index].id);
-                          },
-                          child: Row(children: [
-                            Builder(builder: (context) {
-                              if (state.orderHistoryList[index].orderType ==
-                                  OrderType.SHIPPING) {
-                                return SvgPicture.asset(
-                                  "assets/icons/ic_delivery.svg",
-                                  width: 70,
-                                  height: 70,
-                                );
-                              } else {
-                                return SvgPicture.asset(
-                                  "assets/icons/ic_take_away.svg",
-                                  width: 70,
-                                  height: 70,
-                                );
-                              }
-                            }),
-                            const SizedBox(
-                              width: 4,
-                            ),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                    if (state.orderHistoryList.isNotEmpty) {
+                      return ListView.separated(
+                        itemCount: state.orderHistoryList.length,
+                        itemBuilder: (context, index) => Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: AppDimen.screenPadding),
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.pushNamed(context, "/receipt",
+                                  arguments: state.orderHistoryList[index].id);
+                            },
+                            child: Row(children: [
+                              Builder(builder: (context) {
+                                if (state.orderHistoryList[index].orderType ==
+                                    OrderType.SHIPPING) {
+                                  return SvgPicture.asset(
+                                    "assets/icons/ic_delivery.svg",
+                                    width: 70,
+                                    height: 70,
+                                  );
+                                } else {
+                                  return SvgPicture.asset(
+                                    "assets/icons/ic_take_away.svg",
+                                    width: 70,
+                                    height: 70,
+                                  );
+                                }
+                              }),
+                              const SizedBox(
+                                width: 4,
+                              ),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      state.orderHistoryList[index]
+                                          .productNameString,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: AppStyle.mediumTextStyleDark
+                                          .copyWith(
+                                              color: AppColor.headingColor,
+                                              height: 2),
+                                    ),
+                                    Text(
+                                      "${StringConverterUtil.formattedTime(state.orderHistoryList[index].timeLastEvent)} - ${StringConverterUtil.formattedDate(state.orderHistoryList[index].timeLastEvent)}",
+                                      style: AppStyle.normalTextStyleDark,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 4,
+                              ),
+                              Column(
                                 children: [
                                   Text(
                                     state.orderHistoryList[index]
-                                        .productNameString,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
+                                        .totalPriceString,
                                     style: AppStyle.mediumTextStyleDark
                                         .copyWith(
                                             color: AppColor.headingColor,
                                             height: 2),
                                   ),
+                                  const SizedBox(
+                                    height: 4,
+                                  ),
                                   Text(
-                                    "${MyConverter.formattedTime(state.orderHistoryList[index].timeLastEvent)} - ${MyConverter.formattedDate(state.orderHistoryList[index].timeLastEvent)}",
-                                    style: AppStyle.normalTextStyleDark,
+                                    state.orderHistoryList[index]
+                                        .statusLastEvent.name,
+                                    style: AppStyle.mediumTextStyleDark
+                                        .copyWith(color: AppColor.primaryColor),
                                   ),
                                 ],
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 4,
-                            ),
-                            Column(
-                              children: [
-                                Text(
-                                  state
-                                      .orderHistoryList[index].totalPriceString,
-                                  style: AppStyle.mediumTextStyleDark.copyWith(
-                                      color: AppColor.headingColor, height: 2),
-                                ),
-                                const SizedBox(
-                                  height: 4,
-                                ),
-                                Text(
-                                  state.orderHistoryList[index].statusLastEvent
-                                      .name,
-                                  style: AppStyle.mediumTextStyleDark
-                                      .copyWith(color: AppColor.primaryColor),
-                                ),
-                              ],
-                            )
-                          ]),
+                              )
+                            ]),
+                          ),
                         ),
-                      ),
-                      separatorBuilder: (context, index) => const Divider(
-                        height: 10,
-                        indent: AppDimen.screenPadding,
-                      ),
-                    );
+                        separatorBuilder: (context, index) => const Divider(
+                          height: 10,
+                          indent: AppDimen.screenPadding,
+                        ),
+                      );
+                    } else {
+                      if (state.historyStatus == HistoryStatus.Processing) {
+                        return Container(
+                          width: double.infinity,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                "assets/icons/ic_coffee.png",
+                                width: 60,
+                                height: 60,
+                              ),
+                              SizedBox(
+                                height: 16,
+                              ),
+                              Text(
+                                "No Order In Processing",
+                                style: AppStyle.mediumTextStyleDark
+                                    .copyWith(color: AppColor.nonactiveColor),
+                              )
+                            ],
+                          ),
+                        );
+                      } else if (state.historyStatus == HistoryStatus.Done) {
+                        return Container(
+                          width: double.infinity,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                "assets/icons/ic_coffee.png",
+                                width: 60,
+                                height: 60,
+                              ),
+                              SizedBox(
+                                height: 16,
+                              ),
+                              Text(
+                                "No Order Has Done",
+                                style: AppStyle.mediumTextStyleDark
+                                    .copyWith(color: AppColor.nonactiveColor),
+                              )
+                            ],
+                          ),
+                        );
+                      } else {
+                        return Container(
+                          width: double.infinity,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                "assets/icons/ic_coffee.png",
+                                width: 60,
+                                height: 60,
+                              ),
+                              SizedBox(
+                                height: 16,
+                              ),
+                              Text(
+                                "No Order Has Canceled",
+                                style: AppStyle.mediumTextStyleDark
+                                    .copyWith(color: AppColor.nonactiveColor),
+                              )
+                            ],
+                          ),
+                        );
+                      }
+                    }
                   } else {
                     return const SizedBox();
                   }
@@ -259,7 +339,7 @@ class HistoryScreen extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: myBottomNavigationBar,
+      bottomNavigationBar: widget.myBottomNavigationBar,
     );
   }
 }

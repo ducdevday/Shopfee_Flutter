@@ -5,5 +5,5 @@ import 'package:shopfee/data/models/user.dart';
 abstract class UserRepositoryBase extends BaseService{
   Future<Result> getUser(String userId);
   Future<Result> updateUser(User user);
-
+  Future<Result> checkEmailExist(String email);
 }

@@ -7,6 +7,7 @@ import 'package:shopfee/app/config/style.dart';
 import 'package:shopfee/app/features/register/cubit/register_cubit.dart';
 import 'package:shopfee/app/features/register/widgets/input_field.dart';
 import 'package:shopfee/data/repositories/auth/auth_repository.dart';
+import 'package:shopfee/data/repositories/local/local_repository.dart';
 
 class RegisterScreen extends StatelessWidget {
   final String email;
@@ -18,9 +19,10 @@ class RegisterScreen extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: BlocProvider(
-        create: (context) =>
-            RegisterCubit(authRepository: context.read<AuthRepository>())
-              ..initField(email),
+        create: (context) => RegisterCubit(
+            authRepository: context.read<AuthRepository>(),
+            localRepository: context.read<LocalRepository>())
+          ..initField(email),
         child: Container(
           padding: const EdgeInsets.all(AppDimen.screenPadding),
           child: Column(

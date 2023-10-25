@@ -12,3 +12,13 @@ class LoadAccount extends AccountEvent {
   List<Object> get props => [];
 
 }
+
+class LogoutAccount extends AccountEvent {
+  @override
+  List<Object> get props => [];
+}
+
+class NavigateLogin extends AccountEvent {
+  @override
+  List<Object> get props => [];
+}

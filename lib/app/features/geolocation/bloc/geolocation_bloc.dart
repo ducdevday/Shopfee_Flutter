@@ -64,6 +64,4 @@ class GeolocationBloc extends Bloc<GeolocationEvent, GeolocationState> {
           placeSearchChoose: event.placeSearchChoose, placeSearchList: []));
     }
   }
-
-
 }

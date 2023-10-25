@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopfee/app/config/color.dart';
-import 'package:shopfee/app/config/dimens.dart';
 import 'package:shopfee/app/config/style.dart';
 import 'package:shopfee/app/features/receipt/bloc/receipt_bloc.dart';
-import 'package:shopfee/app/utils/my_converter.dart';
+import 'package:shopfee/app/utils/string_converter_util.dart';
 
 class DeliveryInformation extends StatelessWidget {
   const DeliveryInformation({Key? key}) : super(key: key);
@@ -50,7 +49,7 @@ class DeliveryInformation extends StatelessWidget {
                           height: 2,
                         ),
                         Text(
-                          "${MyConverter.formattedTime(state.eventLog.time)}",
+                          "${StringConverterUtil.formattedTime(state.eventLog.time)}",
                           style: AppStyle.smallTextStyleDark,
                         ),
                       ],

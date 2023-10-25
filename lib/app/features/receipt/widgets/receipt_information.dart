@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopfee/app/config/style.dart';
 import 'package:shopfee/app/features/receipt/bloc/receipt_bloc.dart';
-import 'package:shopfee/app/utils/my_converter.dart';
-import 'package:shopfee/data/models/receipt.dart';
-import 'package:shopfee/data/models/receipt.dart';
+import 'package:shopfee/app/utils/string_converter_util.dart';
 
 class ReceiptInformation extends StatelessWidget {
   const ReceiptInformation({
@@ -61,7 +59,7 @@ class ReceiptInformation extends StatelessWidget {
                       style: AppStyle.mediumTitleStyleDark,
                     ),
                     Text(
-                      MyConverter.formattedDate(state.receipt.createdAt!) ,
+                      StringConverterUtil.formattedDate(state.receipt.createdAt!) ,
                       style: AppStyle.normalTextStyleDark,
                     )
                   ],
@@ -77,7 +75,7 @@ class ReceiptInformation extends StatelessWidget {
                       style: AppStyle.mediumTitleStyleDark,
                     ),
                     Text(
-                      MyConverter.formattedTime(state.receipt.createdAt!),
+                      StringConverterUtil.formattedTime(state.receipt.createdAt!),
                       style: AppStyle.normalTextStyleDark,
                     )
                   ],

@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,6 +7,7 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shopfee/app/common/data/global_data.dart';
+import 'package:shopfee/app/common/widgets/my_bottom_navigation_bar/cubit/my_bottom_navigation_bar_cubit.dart';
 import 'package:shopfee/app/config/routes.dart';
 import 'package:shopfee/app/config/theme.dart';
 import 'package:shopfee/app/features/account/bloc/account_bloc.dart';
@@ -18,7 +20,9 @@ import 'package:shopfee/app/utils/SimpleBlocObserver.dart';
 import 'package:shopfee/data/repositories/address/address_repository.dart';
 import 'package:shopfee/data/repositories/auth/auth_repository.dart';
 import 'package:shopfee/data/repositories/category/category_repository.dart';
+import 'package:shopfee/data/repositories/firebase/firebase_repository.dart';
 import 'package:shopfee/data/repositories/geolocation/geolocation_repository.dart';
+import 'package:shopfee/data/repositories/local/local_repository.dart';
 import 'package:shopfee/data/repositories/order/order_repository.dart';
 import 'package:shopfee/data/repositories/place/place_repository.dart';
 import 'package:shopfee/data/repositories/product/product_repository.dart';
@@ -27,6 +31,7 @@ import 'package:shopfee/data/repositories/user/user_repository.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   HydratedBloc.storage = await HydratedStorage.build(
       storageDirectory: kIsWeb
           ? HydratedStorage.webStorageDirectory
@@ -60,7 +65,9 @@ class MyApp extends StatelessWidget {
         RepositoryProvider(create: (_) => AddressRepository()),
         RepositoryProvider(create: (_) => PlaceRepository()),
         RepositoryProvider(create: (_) => OrderRepository()),
-        RepositoryProvider(create: (_) => TransactionRepository())
+        RepositoryProvider(create: (_) => TransactionRepository()),
+        RepositoryProvider(create: (_) => LocalRepository()),
+        RepositoryProvider(create: (_) => FirebaseRepository()),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -80,9 +87,12 @@ class MyApp extends StatelessWidget {
                     ..add(const LoadHistory(
                         historyStatus: HistoryStatus.Processing))),
           BlocProvider(
-              create: (context) =>
-                  AccountBloc(userRepository: context.read<UserRepository>())
-                    ..add(LoadAccount()))
+              create: (context) => AccountBloc(
+                  userRepository: context.read<UserRepository>(),
+                  localRepository: context.read<LocalRepository>(),
+                  firebaseRepository: context.read<FirebaseRepository>())
+                ..add(LoadAccount())),
+          BlocProvider(create: (context) => MyBottomNavigationBarCubit()..selectPage(0))
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

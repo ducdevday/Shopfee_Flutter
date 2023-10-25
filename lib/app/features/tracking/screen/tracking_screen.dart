@@ -7,7 +7,7 @@ import 'package:shopfee/app/config/color.dart';
 import 'package:shopfee/app/config/dimens.dart';
 import 'package:shopfee/app/config/style.dart';
 import 'package:shopfee/app/features/tracking/cubit/tracking_cubit.dart';
-import 'package:shopfee/app/utils/my_converter.dart';
+import 'package:shopfee/app/utils/string_converter_util.dart';
 import 'package:shopfee/data/models/status_order.dart';
 import 'package:shopfee/data/repositories/order/order_repository.dart';
 import 'package:timelines/timelines.dart';
@@ -110,7 +110,7 @@ class TrackingScreen extends StatelessWidget {
                                       width: 4,
                                     ),
                                     Text(
-                                      "${MyConverter.formattedTime(state.eventlogs[index].time)} - ${MyConverter.formattedDate(state.eventlogs[index].time)}",
+                                      "${StringConverterUtil.formattedTime(state.eventlogs[index].time)} - ${StringConverterUtil.formattedDate(state.eventlogs[index].time)}",
                                       style: AppStyle.smallTextStyleDark,
                                     )
                                   ],

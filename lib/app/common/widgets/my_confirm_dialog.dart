@@ -7,13 +7,14 @@ class MyConfirmDialog extends StatelessWidget {
   final String content;
   final VoidCallback callbackOK;
   final VoidCallback callbackCancel;
+  final String? confirmText;
 
   const MyConfirmDialog(
       {Key? key,
       required this.title,
       required this.content,
       required this.callbackOK,
-      required this.callbackCancel})
+      required this.callbackCancel, this.confirmText})
       : super(key: key);
 
   @override
@@ -26,13 +27,13 @@ class MyConfirmDialog extends StatelessWidget {
             onPressed: callbackCancel,
             child: Text(
               "Cancel",
-              style: AppStyle.normalTextStylePrimary,
+              style: AppStyle.normalTextStylePrimary.copyWith(fontWeight: FontWeight.w500),
             )),
         CupertinoDialogAction(
             onPressed: callbackOK,
             child: Text(
-              "Confirm",
-              style: AppStyle.normalTextStylePrimary,
+              confirmText != null ? confirmText! : "Confirm",
+              style: AppStyle.normalTextStylePrimary.copyWith(fontWeight: FontWeight.w500),
             ))
       ],
     );

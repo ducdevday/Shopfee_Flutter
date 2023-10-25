@@ -7,6 +7,7 @@ import 'package:shopfee/app/config/dimens.dart';
 import 'package:shopfee/app/config/style.dart';
 import 'package:shopfee/app/features/saved_address/bloc/saved_address_bloc.dart';
 import 'package:shopfee/app/features/saved_address/widgets/build_address_item.dart';
+import 'package:shopfee/app/utils/permission_util.dart';
 import 'package:shopfee/data/repositories/address/address_repository.dart';
 
 class SavedAddressScreen extends StatefulWidget {
@@ -80,25 +81,9 @@ class _SavedAddressScreenState extends State<SavedAddressScreen> {
                               height: 1,
                             ),
                             TextButton.icon(
-                                onPressed: state.addressList.length < 5
-                                    ? () {
-                                        Navigator.pushNamed(
-                                                context, "/new_address")
-                                            .then((value) => context
-                                                .read<SavedAddressBloc>()
-                                                .add(LoadSavedAddress()));
-                                      }
-                                    : () {
-                                        showDialog(
-                                            context: context,
-                                            builder: (_) => MyAlertDialog(
-                                                title: "",
-                                                content:
-                                                    "You can only save less than or equal 5 address",
-                                                callback: () {
-                                                  Navigator.pop(context);
-                                                }));
-                                      },
+                                onPressed: () {
+                                  checkAddNewAddress(state, context);
+                                },
                                 icon: Icon(Icons.add_circle_outline),
                                 label: Text(
                                   "Add New Address",
@@ -116,5 +101,23 @@ class _SavedAddressScreenState extends State<SavedAddressScreen> {
             ),
           ),
         ));
+  }
+}
+
+void checkAddNewAddress(SavedAddressLoaded state, BuildContext context) async {
+  if (await PermissionUtil.requestLocationPermission() == true) {
+    if (state.addressList.length < 5) {
+      Navigator.pushNamed(context, "/new_address").then(
+          (value) => context.read<SavedAddressBloc>().add(LoadSavedAddress()));
+    } else {
+      showDialog(
+          context: context,
+          builder: (_) => MyAlertDialog(
+              title: "",
+              content: "You can only save less than or equal 5 address",
+              callback: () {
+                Navigator.pop(context);
+              }));
+    }
   }
 }
