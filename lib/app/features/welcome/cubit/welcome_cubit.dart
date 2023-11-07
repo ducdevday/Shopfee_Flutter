@@ -2,7 +2,11 @@ import 'package:bloc/bloc.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:shopfee/app/features/account/bloc/account_bloc.dart';
+import 'package:shopfee/app/features/history/bloc/history_bloc.dart';
+import 'package:shopfee/app/features/history/screen/history_screen.dart';
 import 'package:shopfee/data/models/result.dart';
 import 'package:shopfee/data/models/user.dart';
 import 'package:shopfee/data/repositories/auth/auth_repository.dart';
@@ -73,19 +77,19 @@ class WelcomeCubit extends Cubit<WelcomeState> {
         String userId = data!["id"];
         String email = data["email"];
         String displayName = data["displayName"];
-        print(userId);
-        print(email);
-        print(displayName);
 
         var responseCheckEmail = await userRepository.checkEmailExist(email);
         if (responseCheckEmail.success) {
           await doLoginGG(context, email: email, password: userId);
-        }
-        else {
+        } else {
           final fullname = displayName.split(" ").toList();
           String firstName = fullname.elementAt(0);
           String lastName = fullname.elementAt(fullname.length - 1);
-          await doRegisterGG(context, email: email,firstName: firstName, lastName: lastName, password:userId );
+          await doRegisterGG(context,
+              email: email,
+              firstName: firstName,
+              lastName: lastName,
+              password: userId);
         }
       } catch (e) {
         print(e.toString());
@@ -103,16 +107,10 @@ class WelcomeCubit extends Cubit<WelcomeState> {
       {required String email, required String password}) async {
     try {
       EasyLoading.show(maskType: EasyLoadingMaskType.black);
-      var response = await authRepository.login(
-          email, password);
+      var response = await authRepository.login(email, password);
       EasyLoading.dismiss();
       if (response.success) {
-        await localRepository.saveUser(
-            response.data!["userId"], response.data!["accessToken"],
-            response.data!["refreshToken"]);
-
-        Navigator.pushNamedAndRemoveUntil(
-            context, "/home", (route) => false);
+        await doSaveUserAndGoHome(userId: response.data!["userId"],accessToken: response.data!["accessToken"],refreshToken: response.data!["refreshToken"], context: context);
       } else {
         EasyLoading.showError('Invalid Email or Password');
       }
@@ -123,7 +121,10 @@ class WelcomeCubit extends Cubit<WelcomeState> {
   }
 
   Future<void> doRegisterGG(BuildContext context,
-      {required String firstName, required String lastName, required String email, required String password}) async {
+      {required String firstName,
+      required String lastName,
+      required String email,
+      required String password}) async {
     try {
       EasyLoading.show(maskType: EasyLoadingMaskType.black);
       var response = await authRepository.register(User(
@@ -133,11 +134,7 @@ class WelcomeCubit extends Cubit<WelcomeState> {
           password: password));
       EasyLoading.dismiss();
       if (response.success) {
-        await localRepository.saveUser(
-            response.data!["userId"], response.data!["accessToken"],
-            response.data!["refreshToken"]);
-        Navigator.pushNamedAndRemoveUntil(
-            context, "/home", (route) => false);
+        await doSaveUserAndGoHome(userId: response.data!["userId"],accessToken: response.data!["accessToken"],refreshToken: response.data!["refreshToken"], context: context);
       } else {
         EasyLoading.showError('Something went wrong');
       }
@@ -146,6 +143,19 @@ class WelcomeCubit extends Cubit<WelcomeState> {
       EasyLoading.showToast(e.toString());
     }
   }
+
+  Future<void> doSaveUserAndGoHome(
+      {required String userId,
+      required String accessToken,
+      required String refreshToken,
+      required BuildContext context}) async {
+    await localRepository.saveUser(userId, accessToken, refreshToken);
+
+    context
+        .read<HistoryBloc>()
+        .add(LoadHistory(historyStatus: HistoryStatus.Processing));
+    context.read<AccountBloc>().add(LoadAccount());
+
+    Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
+  }
 }
-
-

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shopfee/app/common/data/global_data.dart';
@@ -16,7 +17,7 @@ import 'package:shopfee/app/features/history/bloc/history_bloc.dart';
 import 'package:shopfee/app/features/history/screen/history_screen.dart';
 import 'package:shopfee/app/features/home/bloc/home_bloc.dart';
 import 'package:shopfee/app/features/receipt/screen/receipt_screen.dart';
-import 'package:shopfee/app/utils/SimpleBlocObserver.dart';
+import 'package:shopfee/app/utils/simple_bloc_observer.dart';
 import 'package:shopfee/data/repositories/address/address_repository.dart';
 import 'package:shopfee/data/repositories/auth/auth_repository.dart';
 import 'package:shopfee/data/repositories/category/category_repository.dart';
@@ -41,11 +42,12 @@ void main() async {
   runApp(const MyApp());
 }
 
-void _initData() async {
+Future<void> _initData() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   GlobalData.ins.isFirstTime = prefs.getBool('isFirstTime') ?? true;
   GlobalData.ins.userId = prefs.getString('userId');
   GlobalData.ins.accessToken = prefs.getString('accessToken');
+  GlobalData.ins.refreshToken = prefs.getString('refreshToken');
 }
 
 class MyApp extends StatelessWidget {
@@ -53,6 +55,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // initializeDateFormatting('vi');
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider(
@@ -102,7 +105,7 @@ class MyApp extends StatelessWidget {
             return AppRouter.onGenerateRoute(settings);
           },
           initialRoute: "/splash",
-          // home: ReceiptScreen(orderId: "652d320a6233c67048a50158"),
+          // home: ReceiptScreen(orderId: "65431e85f4b1650e5f20af1a"),
           builder: EasyLoading.init(),
         ),
       ),

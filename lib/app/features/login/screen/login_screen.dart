@@ -89,118 +89,127 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: Text(
                             "Forgot password?",
                             style: AppStyle.normalTextStylePrimary,
-                          )))
-                ],
-              ),
-              Container(
-                height: 48,
-                width: double.infinity,
-                child: BlocBuilder<LoginCubit, LoginState>(
-                  builder: (context, state) {
-                    if (state is LoginLoaded) {
-                      return ElevatedButton(
-                        onPressed: state.isValid()
-                            ? () {
-                                context.read<LoginCubit>().doLogin(context);
-                              }
-                            : null,
-                        child: const Text("Login"),
-                        style: ElevatedButton.styleFrom(
-                            disabledBackgroundColor: const Color(0xffCACACA),
-                            disabledForegroundColor: AppColor.lightColor,
-                            textStyle: AppStyle.mediumTextStyleDark,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                            )),
-                      );
-                    } else {
-                      return const SizedBox();
-                    }
-                  },
-                ),
-              ),
-              const SizedBox(
-                height: 14,
-              ),
-              Row(
-                children: [
-                  const Expanded(
-                    child: Divider(
-                      height: 2,
-                      thickness: 2,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Text(
-                      "or",
-                      style: AppStyle.normalTextStyleDark,
-                    ),
-                  ),
-                  const Expanded(
-                    child: Divider(
-                      height: 2,
-                      thickness: 2,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 14,
-              ),
-              Builder(builder: (context) {
-                return GestureDetector(
-                  onTap: () {
-                    context.read<LoginCubit>().loginWithGoogle(context);
-                  },
-                  child: Container(
-                    padding: EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: Colors.grey,
-                        ),
-                        color: Colors.white),
-                    child: SvgPicture.asset(
-                      "assets/icons/ic_google.svg",
-                      width: 32,
-                      height: 32,
-                    ),
-                  ),
-                );
-              }),
-              Spacer(
-                flex: 1,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextButton(
-                      style: TextButton.styleFrom(
-                        minimumSize: Size.zero,
-                        padding: EdgeInsets.zero,
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      ),
-                      onPressed: () {},
-                      child: Text(
-                        "New User? ",
-                        style: AppStyle.normalTextStyleDark,
-                      )),
-                  TextButton(
-                      style: TextButton.styleFrom(
-                        minimumSize: Size.zero,
-                        padding: EdgeInsets.zero,
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      ),
-                      onPressed: () {
-                        Navigator.pop(context);
+                          ))),
+                  Container(
+                    height: 48,
+                    width: double.infinity,
+                    child: BlocBuilder<LoginCubit, LoginState>(
+                      builder: (context, state) {
+                        if (state is LoginLoaded) {
+                          return ElevatedButton(
+                            onPressed: state.isValid()
+                                ? () {
+                                    context.read<LoginCubit>().doLogin(context);
+                                  }
+                                : null,
+                            child: const Text("Login"),
+                            style: ElevatedButton.styleFrom(
+                                disabledBackgroundColor:
+                                    const Color(0xffCACACA),
+                                disabledForegroundColor: AppColor.lightColor,
+                                textStyle: AppStyle.mediumTextStyleDark,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                )),
+                          );
+                        } else {
+                          return const SizedBox();
+                        }
                       },
-                      child: Text(
-                        "Register",
-                        style: AppStyle.normalTextStylePrimary,
-                      ))
+                    ),
+                  ),
                 ],
               ),
+              BlocBuilder<LoginCubit, LoginState>(builder: (context, state) {
+                if (state is LoginLoaded && state.email.isEmpty) {
+                  return Expanded(
+                    child: Column(children: [
+                      const SizedBox(
+                        height: 14,
+                      ),
+                      Row(
+                        children: [
+                          const Expanded(
+                            child: Divider(
+                              height: 2,
+                              thickness: 2,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Text(
+                              "or",
+                              style: AppStyle.normalTextStyleDark,
+                            ),
+                          ),
+                          const Expanded(
+                            child: Divider(
+                              height: 2,
+                              thickness: 2,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 14,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          context.read<LoginCubit>().loginWithGoogle(context);
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: Colors.grey,
+                              ),
+                              color: Colors.white),
+                          child: SvgPicture.asset(
+                            "assets/icons/ic_google.svg",
+                            width: 32,
+                            height: 32,
+                          ),
+                        ),
+                      ),
+                      Spacer(
+                        flex: 1,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          TextButton(
+                              style: TextButton.styleFrom(
+                                minimumSize: Size.zero,
+                                padding: EdgeInsets.zero,
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              ),
+                              onPressed: () {},
+                              child: Text(
+                                "New User? ",
+                                style: AppStyle.normalTextStyleDark,
+                              )),
+                          TextButton(
+                              style: TextButton.styleFrom(
+                                minimumSize: Size.zero,
+                                padding: EdgeInsets.zero,
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              ),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text(
+                                "Register",
+                                style: AppStyle.normalTextStylePrimary,
+                              ))
+                        ],
+                      ),
+                    ]),
+                  );
+                } else {
+                  return SizedBox();
+                }
+              }),
             ],
           ),
         ),

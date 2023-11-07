@@ -49,6 +49,8 @@ class ChangePasswordCubit extends Cubit<ChangePasswordState> {
         }
       } catch (e) {
         print(e);
+        EasyLoading.showError(e.toString());
+
       }
     }
   }

@@ -78,14 +78,14 @@ class _HistoryScreenState extends State<HistoryScreen> {
                               ),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Text(
                             "Order & History",
                             style: AppStyle.largeTitleStyleDark,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Text(
@@ -94,14 +94,15 @@ class _HistoryScreenState extends State<HistoryScreen> {
                           ),
                           Container(
                             width: MediaQuery.of(context).size.width,
-                            padding: EdgeInsets.all(AppDimen.screenPadding),
+                            padding:
+                                const EdgeInsets.all(AppDimen.screenPadding),
                             child: ElevatedButton(
                               onPressed: () {
                                 Navigator.pushNamed(context, "/welcome");
                               },
                               child: const Text("Register / Log in"),
                               style: ElevatedButton.styleFrom(
-                                  padding: EdgeInsets.symmetric(
+                                  padding: const EdgeInsets.symmetric(
                                       vertical: 12, horizontal: 24),
                                   disabledBackgroundColor:
                                       const Color(0xffCACACA),
@@ -145,8 +146,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                   ),
                                   MySkeleton(
                                     width: 200,
-                                    height: 30,
-                                  )
+                                    height: 40,
+                                  ),
                                 ],
                               ),
                             ),
@@ -162,10 +163,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                 SizedBox(
                                   height: 4,
                                 ),
-                                MySkeleton(
-                                  width: 62,
-                                  height: 20,
-                                ),
                               ],
                             )
                           ]),
@@ -180,85 +177,140 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     if (state.orderHistoryList.isNotEmpty) {
                       return ListView.separated(
                         itemCount: state.orderHistoryList.length,
-                        itemBuilder: (context, index) => Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: AppDimen.screenPadding),
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.pushNamed(context, "/receipt",
-                                  arguments: state.orderHistoryList[index].id);
-                            },
-                            child: Row(children: [
-                              Builder(builder: (context) {
-                                if (state.orderHistoryList[index].orderType ==
-                                    OrderType.SHIPPING) {
-                                  return SvgPicture.asset(
-                                    "assets/icons/ic_delivery.svg",
-                                    width: 70,
-                                    height: 70,
-                                  );
-                                } else {
-                                  return SvgPicture.asset(
-                                    "assets/icons/ic_take_away.svg",
-                                    width: 70,
-                                    height: 70,
-                                  );
-                                }
-                              }),
-                              const SizedBox(
-                                width: 4,
-                              ),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      state.orderHistoryList[index]
-                                          .productNameString,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: AppStyle.mediumTextStyleDark
-                                          .copyWith(
-                                              color: AppColor.headingColor,
-                                              height: 2),
-                                    ),
-                                    Text(
-                                      "${StringConverterUtil.formattedTime(state.orderHistoryList[index].timeLastEvent)} - ${StringConverterUtil.formattedDate(state.orderHistoryList[index].timeLastEvent)}",
-                                      style: AppStyle.normalTextStyleDark,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 4,
-                              ),
-                              Column(
-                                children: [
-                                  Text(
-                                    state.orderHistoryList[index]
-                                        .totalPriceString,
-                                    style: AppStyle.mediumTextStyleDark
-                                        .copyWith(
-                                            color: AppColor.headingColor,
-                                            height: 2),
-                                  ),
+                        itemBuilder: (context, index) => InkWell(
+                          onTap: () {
+                            Navigator.pushNamed(context, "/receipt",
+                                arguments: state.orderHistoryList[index].id);
+                          },
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: AppDimen.screenPadding),
+                                child: Row(
+                                    children: [
+                                  Builder(builder: (context) {
+                                    if (state.orderHistoryList[index]
+                                            .orderType ==
+                                        OrderType.SHIPPING) {
+                                      return SvgPicture.asset(
+                                        "assets/icons/ic_delivery.svg",
+                                        width: 70,
+                                        height: 70,
+                                      );
+                                    } else {
+                                      return SvgPicture.asset(
+                                        "assets/icons/ic_take_away.svg",
+                                        width: 70,
+                                        height: 70,
+                                      );
+                                    }
+                                  }),
                                   const SizedBox(
-                                    height: 4,
+                                    width: 4,
                                   ),
-                                  Text(
-                                    state.orderHistoryList[index]
-                                        .statusLastEvent.name,
-                                    style: AppStyle.mediumTextStyleDark
-                                        .copyWith(color: AppColor.primaryColor),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: Text(
+                                                state.orderHistoryList[index]
+                                                    .productName,
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: AppStyle
+                                                    .mediumTextStyleDark
+                                                    .copyWith(
+                                                  color: AppColor.headingColor,
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 8,
+                                            ),
+                                            Text(
+                                              state.orderHistoryList[index]
+                                                  .statusLastEvent.name,
+                                              style: AppStyle
+                                                  .mediumTextStyleDark
+                                                  .copyWith(
+                                                      color: AppColor
+                                                          .primaryColor),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(height: 4,),
+                                        Text(
+                                          "${StringConverterUtil.formattedTime(state.orderHistoryList[index].timeLastEvent)} - ${StringConverterUtil.formattedDate(state.orderHistoryList[index].timeLastEvent)}",
+                                          style:
+                                              AppStyle.normalTextStyleDark,
+                                        ),
+                                        SizedBox(height: 4,),
+                                        Text("Total: ${state.orderHistoryList[index]
+                                            .totalPriceString}"
+                                          ,
+                                          style: AppStyle
+                                              .mediumTextStyleDark
+                                              .copyWith(
+                                            color: AppColor.headingColor.withOpacity(0.95),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ],
-                              )
-                            ]),
+                                ]),
+                              ),
+                              Builder(builder: (context) {
+                                if (state.orderHistoryList[index]
+                                        .productQuantity >
+                                    1) {
+                                  if (index ==
+                                      state.orderHistoryList.length - 1) {
+                                    return Column(
+                                      children: [
+                                        const Divider(
+                                          height: 10,
+                                          indent: AppDimen.screenPadding,
+                                        ),
+                                        Text(
+                                          state.orderHistoryList[index]
+                                              .showMoreString,
+                                          style: AppStyle.smallTextStyleDark,
+                                        ),
+                                        const Divider(
+                                          height: 10,
+                                          thickness: 1,
+                                        ),
+                                      ],
+                                    );
+                                  } else {
+                                    return Column(
+                                      children: [
+                                        const Divider(
+                                          height: 10,
+                                          indent: AppDimen.screenPadding,
+                                        ),
+                                        Text(
+                                          state.orderHistoryList[index]
+                                              .showMoreString,
+                                          style: AppStyle.smallTextStyleDark,
+                                        )
+                                      ],
+                                    );
+                                  }
+                                } else {
+                                  return const SizedBox();
+                                }
+                              })
+                            ],
                           ),
                         ),
                         separatorBuilder: (context, index) => const Divider(
                           height: 10,
-                          indent: AppDimen.screenPadding,
+                          thickness: 1,
                         ),
                       );
                     } else {
@@ -273,7 +325,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                 width: 60,
                                 height: 60,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 16,
                               ),
                               Text(
@@ -295,7 +347,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                 width: 60,
                                 height: 60,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 16,
                               ),
                               Text(
@@ -317,7 +369,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                 width: 60,
                                 height: 60,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 16,
                               ),
                               Text(

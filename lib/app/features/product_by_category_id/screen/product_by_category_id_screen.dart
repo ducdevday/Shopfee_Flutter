@@ -153,27 +153,17 @@ Widget ProductList(BuildContext buildContext, ProductByCategoryLoaded state) {
                       Container(
                         height: 70,
                         width: 70,
-                        decoration: BoxDecoration(
-                            // color: Color(0xfff4f4f3),
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                                image: NetworkImage(
-                                  state.products[index].imageUrl,
-                                ),
-                                fit: BoxFit.cover)),
+                        decoration:  const BoxDecoration(
+                          color: Color(0xfff4f4f3),
+                          shape: BoxShape.circle,
+                          // image: DecorationImage(image: NetworkImage(product.imageUrl,),fit: BoxFit.cover)
+                        ),
                       ),
-                      // Container(
-                      //   height: 70,
-                      //   width: 70,
-                      //   decoration: const BoxDecoration(
-                      //       color: Color(0xfff4f4f3), shape: BoxShape.circle),
-                      // ),
-                      //
-                      // Image.network(
-                      //   state.products[index].imageUrl,
-                      //   height: 68,
-                      //   width: 58,
-                      // ),
+                      Image.network(
+                        state.products[index].imageUrl,
+                        height: 68,
+                        width: 58,
+                      ),
                     ],
                   ),
                   SizedBox(

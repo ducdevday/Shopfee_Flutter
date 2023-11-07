@@ -9,8 +9,10 @@ import 'package:shopfee/app/config/style.dart';
 import 'package:shopfee/app/features/receipt/bloc/receipt_bloc.dart';
 import 'package:shopfee/app/features/receipt/widgets/bought_list.dart';
 import 'package:shopfee/app/features/receipt/widgets/delivery_information.dart';
+import 'package:shopfee/app/features/receipt/widgets/note_receipt.dart';
 import 'package:shopfee/app/features/receipt/widgets/payment_summary.dart';
 import 'package:shopfee/app/features/receipt/widgets/receipt_information.dart';
+import 'package:shopfee/data/models/status_order.dart';
 import 'package:shopfee/data/repositories/order/order_repository.dart';
 
 class ReceiptScreen extends StatelessWidget {
@@ -22,14 +24,14 @@ class ReceiptScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return WillPopScope(
         onWillPop: () async {
-          Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
+          Navigator.pop(context);
           return Future.value(false);
         },
         child: Scaffold(
           body: BlocProvider(
             create: (context) =>
-            ReceiptBloc(orderRepository: context.read<OrderRepository>())
-              ..add(LoadReceipt(orderId: orderId)),
+                ReceiptBloc(orderRepository: context.read<OrderRepository>())
+                  ..add(LoadReceipt(orderId: orderId)),
             child: BlocBuilder<ReceiptBloc, ReceiptState>(
               builder: (context, state) {
                 if (state is ReceiptLoading) {
@@ -53,8 +55,7 @@ class ReceiptScreen extends StatelessWidget {
                                 splashColor: Colors.transparent,
                                 highlightColor: Colors.transparent,
                                 onTap: () {
-                                  Navigator.pushNamedAndRemoveUntil(
-                                      context, "/home", (route) => false);
+                                  Navigator.pop(context);
                                 },
                                 child: Icon(Icons.close_rounded),
                               ),
@@ -66,7 +67,7 @@ class ReceiptScreen extends StatelessWidget {
                                 margin: EdgeInsets.only(top: 40),
                                 decoration: BoxDecoration(
                                     border:
-                                    Border.all(color: Color(0xffefebe9)),
+                                        Border.all(color: Color(0xffefebe9)),
                                     borderRadius: BorderRadius.circular(16)),
                                 child: Column(
                                   children: [
@@ -81,18 +82,28 @@ class ReceiptScreen extends StatelessWidget {
                                       height: 4,
                                       color: Color(0xffEFEBE9),
                                     ),
-                                    BoughtList(),
+                                    ItemList(),
                                     Container(
                                       height: 4,
                                       color: Color(0xffEFEBE9),
                                     ),
                                     PaymentSummary(),
+                                    NoteReceipt(),
                                   ],
                                 ),
                               ),
-                              Center(
-                                  child: SvgPicture.asset(
-                                      "assets/icons/ic_success.svg")),
+                              Builder(builder: (context) {
+                                if (state.eventLog.orderStatus !=
+                                    OrderStatus.CANCELED) {
+                                  return Center(
+                                      child: SvgPicture.asset(
+                                          "assets/icons/ic_success.svg"));
+                                } else {
+                                  return Center(
+                                      child: SvgPicture.asset(
+                                          "assets/icons/ic_cancel.svg"));
+                                }
+                              }),
                             ],
                           ),
                           // SizedBox(height: 20),
@@ -139,7 +150,7 @@ class Review extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ReceiptBloc, ReceiptState>(
       builder: (context, state) {
-        if(state is ReceiptLoaded && state.isSuccess == true){
+        if (state is ReceiptLoaded && state.isSuccess == true) {
           return Column(
             children: [
               Container(
@@ -156,23 +167,17 @@ class Review extends StatelessWidget {
                       padding: EdgeInsets.all(8),
                       decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius:
-                          const BorderRadius.only(
-                              bottomLeft:
-                              Radius.circular(8),
-                              topLeft:
-                              Radius.circular(8)),
-                          border: Border.all(
-                              color: Color(0xffF0F0F0))),
+                          borderRadius: const BorderRadius.only(
+                              bottomLeft: Radius.circular(8),
+                              topLeft: Radius.circular(8)),
+                          border: Border.all(color: Color(0xffF0F0F0))),
                       child: Row(
                         children: [
                           Builder(builder: (context) {
-                            if (state.receipt.review !=
-                                null) {
+                            if (state.receipt.review != null) {
                               return Text(
                                 "${state.receipt.review!.rating}",
-                                style: AppStyle
-                                    .mediumTextStyleDark,
+                                style: AppStyle.mediumTextStyleDark,
                               );
                             } else {
                               return SizedBox();
@@ -191,72 +196,53 @@ class Review extends StatelessWidget {
                         decoration: const BoxDecoration(
                           color: Color(0xffF0F0F0),
                           borderRadius: BorderRadius.only(
-                              bottomRight:
-                              Radius.circular(8),
-                              topRight:
-                              Radius.circular(8)),
+                              bottomRight: Radius.circular(8),
+                              topRight: Radius.circular(8)),
                         ),
-                        child:
-                        Builder(builder: (context) {
-                          if (state.receipt.review ==
-                              null) {
+                        child: Builder(builder: (context) {
+                          if (state.receipt.review == null) {
                             return Column(
-                              crossAxisAlignment:
-                              CrossAxisAlignment
-                                  .start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   "You haven't leave a review yet",
-                                  style: AppStyle
-                                      .mediumTextStyleDark,
+                                  style: AppStyle.mediumTextStyleDark,
                                 ),
                                 SizedBox(
                                   height: 4,
                                 ),
                                 InkWell(
                                   onTap: () {
-                                    Navigator.pushNamed(
-                                        context,
-                                        "/review",
-                                        arguments:
-                                        orderId)
-                                        .then((value) =>
-                                        context
-                                            .read<
-                                            ReceiptBloc>()
-                                            .add(LoadReceipt(
-                                            orderId:
-                                            orderId)));
+                                    Navigator.pushNamed(context, "/review",
+                                            arguments: orderId)
+                                        .then((value) => context
+                                            .read<ReceiptBloc>()
+                                            .add(
+                                                LoadReceipt(orderId: orderId)));
                                   },
                                   child: Text(
                                     "Review now",
-                                    style: AppStyle
-                                        .normalTextStylePrimary,
+                                    style: AppStyle.normalTextStylePrimary,
                                   ),
                                 )
                               ],
                             );
                           } else {
                             return Column(
-                              crossAxisAlignment:
-                              CrossAxisAlignment
-                                  .start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   "Thank for your review",
-                                  style: AppStyle
-                                      .mediumTextStyleDark,
+                                  style: AppStyle.mediumTextStyleDark,
                                 ),
                                 SizedBox(
                                   height: 4,
                                 ),
                                 Text(
                                   "\"${state.receipt.review!.content}\"",
-                                  style: AppStyle
-                                      .normalTextStyleDark,
+                                  style: AppStyle.normalTextStyleDark,
                                   maxLines: 1,
-                                  overflow: TextOverflow
-                                      .ellipsis,
+                                  overflow: TextOverflow.ellipsis,
                                 )
                               ],
                             );
@@ -269,8 +255,7 @@ class Review extends StatelessWidget {
               ),
             ],
           );
-        }
-        else{
+        } else {
           return SizedBox();
         }
       },

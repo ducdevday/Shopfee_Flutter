@@ -11,7 +11,7 @@ class PasswordCubit extends Cubit<PasswordState> {
   PasswordCubit({required this.authRepository}) : super(PasswordInitial());
 
   void initPassword() {
-    emit(PasswordLoaded());
+    emit(const PasswordLoaded());
   }
 
   void enterOldPassword(String oldPassword) {
@@ -52,7 +52,7 @@ class PasswordCubit extends Cubit<PasswordState> {
           EasyLoading.showSuccess("Change Password Successfully",
               duration: Duration(milliseconds: 1000));
           Future.delayed(Duration(milliseconds: 1000), () {
-            emit(PasswordFinish());
+            emit(PasswordFinished());
           });
         } else {
           EasyLoading.showError("Current Password Incorrect",

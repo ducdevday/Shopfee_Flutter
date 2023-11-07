@@ -30,7 +30,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     try{
       var response = await productRepository.getProductById(event.productId);
       if(response.success){
-        Product product = Product.fromMap(response.data!);
+        Product product = Product.fromJson(response.data!);
         emit(ProductLoaded(
             order: Order(
               product: product,
@@ -123,7 +123,4 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       emit(ProductLoaded(order: successState.order.copyWith(note: event.note)));
     }
   }
-
-
-
 }

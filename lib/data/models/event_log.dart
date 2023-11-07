@@ -9,8 +9,9 @@ class EventLog extends Equatable {
   final OrderStatus orderStatus;
   final DateTime time;
   final String? description;
+  final bool? makerByEmployee;
 
-  EventLog(this.orderStatus, this.time, this.description);
+  EventLog(this.orderStatus, this.time, this.description, this.makerByEmployee);
 
   String get descriptionString {
     if(description != null ){

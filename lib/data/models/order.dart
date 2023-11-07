@@ -134,6 +134,4 @@ class Order extends Equatable {
   //     'note': this.note,
   //   };
   // }
-
-
 }

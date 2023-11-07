@@ -31,17 +31,17 @@ class HomeProduct extends StatelessWidget {
                 Container(
                   height: 70,
                   width: 70,
-                  decoration:  BoxDecoration(
-                      // color: Color(0xfff4f4f3),
+                  decoration:  const BoxDecoration(
+                      color: Color(0xfff4f4f3),
                       shape: BoxShape.circle,
-                      image: DecorationImage(image: NetworkImage(product.imageUrl,),fit: BoxFit.cover)
+                      // image: DecorationImage(image: NetworkImage(product.imageUrl,),fit: BoxFit.cover)
                   ),
                 ),
-                // Image.network(
-                //   product.imageUrl,
-                //   height: 68,
-                //   width: 58,
-                // ),
+                Image.network(
+                  product.imageUrl,
+                  height: 68,
+                  width: 58,
+                ),
                 // Container(
                 //   padding: EdgeInsets.symmetric(
                 //       horizontal: 4),
@@ -74,7 +74,7 @@ class HomeProduct extends StatelessWidget {
                 // )
               ],
             ),
-            SizedBox(width: 20,),
+            const SizedBox(width: 20,),
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.only(top: 4.0),
@@ -87,8 +87,8 @@ class HomeProduct extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: AppStyle.mediumTextStyleDark
                             .copyWith(
-                            color: Color(0xff555555))),
-                    SizedBox(
+                            color: const Color(0xff555555))),
+                    const SizedBox(
                       height: 4,
                     ),
                     Text(product.description!,
@@ -96,12 +96,12 @@ class HomeProduct extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: AppStyle.normalTextStyleDark
                             .copyWith(
-                            color: Color(0xff555555))),
+                            color: const Color(0xff555555))),
                   ],
                 ),
               ),
             ),
-            SizedBox(width: 20,),
+            const SizedBox(width: 20,),
             Padding(
               padding: const EdgeInsets.only(top: 4.0),
               child: Text(

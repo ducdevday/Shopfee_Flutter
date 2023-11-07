@@ -21,7 +21,8 @@ Cart _$CartFromJson(Map<String, dynamic> json) => Cart(
           ? null
           : DateTime.parse(json['deliveryTime'] as String),
       typePayment:
-          $enumDecodeNullable(_$TypePaymentEnumMap, json['typePayment']),
+          $enumDecodeNullable(_$TypePaymentEnumMap, json['typePayment']) ??
+              TypePayment.CASHING,
       voucher: json['voucher'] == null
           ? null
           : Voucher.fromJson(json['voucher'] as Map<String, dynamic>),

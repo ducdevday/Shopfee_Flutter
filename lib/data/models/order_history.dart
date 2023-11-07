@@ -11,7 +11,8 @@ class OrderHistory extends Equatable {
   final String id;
   final double total;
   final OrderType orderType;
-  final List<String> productName;
+  final String productName;
+  final int productQuantity;
   final OrderStatus statusLastEvent;
   final DateTime timeLastEvent;
 
@@ -20,11 +21,14 @@ class OrderHistory extends Equatable {
     required this.total,
     required this.orderType,
     required this.productName,
+    required this.productQuantity,
     required this.statusLastEvent,
     required this.timeLastEvent,
   });
 
-  String get productNameString => productName.join(", ");
+  String get showMoreString => productQuantity - 1 > 1
+      ? "Show more ${productQuantity - 1} items"
+      : "Show more ${productQuantity - 1} item";
 
   String get totalPriceString =>
       "${NumberFormat.decimalPattern().format(total)}đ";

@@ -11,5 +11,6 @@ class AppTheme {
       backgroundColor: Colors.transparent,
       titleTextStyle: AppStyle.mediumTitleStyleDark,
     ),
+    scaffoldBackgroundColor: Colors.white
   );
 }

@@ -5,16 +5,16 @@ import 'package:shopfee/app/config/style.dart';
 import 'package:shopfee/app/features/cart/bloc/cart_bloc.dart';
 import 'package:shopfee/app/features/receipt/bloc/receipt_bloc.dart';
 
-class BoughtList extends StatefulWidget {
-  const BoughtList({
+class ItemList extends StatefulWidget {
+  const ItemList({
     super.key,
   });
 
   @override
-  State<BoughtList> createState() => _BoughtListState();
+  State<ItemList> createState() => _ItemListState();
 }
 
-class _BoughtListState extends State<BoughtList> {
+class _ItemListState extends State<ItemList> {
   late int defaultLength = 3;
   late int maxLength = 3;
   late int boughtListLength;
@@ -32,7 +32,7 @@ class _BoughtListState extends State<BoughtList> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "Bought list",
+                  "Item list",
                   style: AppStyle.mediumTitleStyleDark.copyWith(
                       color: AppColor.headingColor,
                       fontWeight: FontWeight.w500),

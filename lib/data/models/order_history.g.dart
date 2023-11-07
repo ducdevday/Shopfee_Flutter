@@ -10,9 +10,8 @@ OrderHistory _$OrderHistoryFromJson(Map<String, dynamic> json) => OrderHistory(
       id: json['id'] as String,
       total: (json['total'] as num).toDouble(),
       orderType: $enumDecode(_$OrderTypeEnumMap, json['orderType']),
-      productName: (json['productName'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
+      productName: json['productName'] as String,
+      productQuantity: json['productQuantity'] as int,
       statusLastEvent:
           $enumDecode(_$OrderStatusEnumMap, json['statusLastEvent']),
       timeLastEvent: DateTime.parse(json['timeLastEvent'] as String),
@@ -24,6 +23,7 @@ Map<String, dynamic> _$OrderHistoryToJson(OrderHistory instance) =>
       'total': instance.total,
       'orderType': instance.orderType,
       'productName': instance.productName,
+      'productQuantity': instance.productQuantity,
       'statusLastEvent': instance.statusLastEvent,
       'timeLastEvent': instance.timeLastEvent.toIso8601String(),
     };

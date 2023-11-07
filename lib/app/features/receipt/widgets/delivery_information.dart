@@ -3,7 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopfee/app/config/color.dart';
 import 'package:shopfee/app/config/style.dart';
 import 'package:shopfee/app/features/receipt/bloc/receipt_bloc.dart';
+import 'package:shopfee/app/features/receipt/widgets/cancel_detail.dart';
 import 'package:shopfee/app/utils/string_converter_util.dart';
+
+import 'cancel_button.dart';
 
 class DeliveryInformation extends StatelessWidget {
   const DeliveryInformation({Key? key}) : super(key: key);
@@ -81,6 +84,8 @@ class DeliveryInformation extends StatelessWidget {
                 Divider(
                   height: 20,
                 ),
+                CancelButton(),
+                CancelDetail(),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
@@ -129,3 +134,5 @@ class DeliveryInformation extends StatelessWidget {
     );
   }
 }
+
+

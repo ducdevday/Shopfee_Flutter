@@ -9,6 +9,8 @@ import 'package:shopfee/app/features/cart/bloc/cart_bloc.dart';
 import 'package:shopfee/app/features/cart/widgets/delivery_bottom_sheet.dart';
 import 'package:shopfee/app/features/cart/widgets/payment_bottom_sheet.dart';
 import 'package:shopfee/app/features/cart/widgets/product_list.dart';
+import 'package:shopfee/app/features/history/bloc/history_bloc.dart';
+import 'package:shopfee/app/features/history/screen/history_screen.dart';
 import 'package:shopfee/data/models/type_payment.dart';
 
 class CartScreen extends StatefulWidget {
@@ -30,8 +32,15 @@ class _CartScreenState extends State<CartScreen> {
     return BlocConsumer<CartBloc, CartState>(
       listener: (context, state) {
         if (state is CartFinished) {
+          context
+              .read<HistoryBloc>()
+              .add(const LoadHistory(historyStatus: HistoryStatus.Processing));
           if (state.paymentUrl == null) {
-            Navigator.pushNamed(context, "/receipt", arguments: state.orderId);
+            // Navigator.pushNamed(context, "/receipt", arguments: state.orderId);
+            Navigator.pushNamedAndRemoveUntil(
+                    context, "/receipt", (route) => false)
+                .then((value) => Navigator.pushNamedAndRemoveUntil(
+                    context, "/home", (route) => false));
           } else {
             Navigator.pushNamed(context, "/vnpay", arguments: {
               "paymentUrl": state.paymentUrl,
@@ -48,7 +57,7 @@ class _CartScreenState extends State<CartScreen> {
           } else {
             return Scaffold(
               appBar: AppBar(
-                title: Text("Cart"),
+                title: const Text("Cart"),
                 centerTitle: true,
                 bottom: const PreferredSize(
                   preferredSize: Size.fromHeight(1),
@@ -63,17 +72,17 @@ class _CartScreenState extends State<CartScreen> {
                             context: context,
                             builder: (BuildContext dialogContext) =>
                                 MyConfirmDialog(
-                                    title: "Confirm",
-                                    content:
-                                        "Do you want to delete all products from your cart",
-                                    callbackOK: () {
-                                      context.read<CartBloc>().add(DeleteCart());
-                                      Navigator.pop(dialogContext);
-                                    },
-                                    callbackCancel: () {
-                                      Navigator.pop(dialogContext);
-                                    },
-                                    confirmText: "Delete",
+                                  title: "Confirm",
+                                  content:
+                                      "Do you want to delete all products from your cart",
+                                  callbackOK: () {
+                                    context.read<CartBloc>().add(DeleteCart());
+                                    Navigator.pop(dialogContext);
+                                  },
+                                  callbackCancel: () {
+                                    Navigator.pop(dialogContext);
+                                  },
+                                  confirmText: "Delete",
                                 ));
                       },
                       icon: Icon(
@@ -87,15 +96,15 @@ class _CartScreenState extends State<CartScreen> {
                   children: [
                     Container(
                       height: 4,
-                      color: Color(0xffEFEBE9),
+                      color: const Color(0xffEFEBE9),
                     ),
-                    ProductList(),
+                    const ProductList(),
                     Container(
                       height: 4,
-                      color: Color(0xffEFEBE9),
+                      color: const Color(0xffEFEBE9),
                     ),
                     Padding(
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                           vertical: 10, horizontal: AppDimen.screenPadding),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -156,7 +165,7 @@ class _CartScreenState extends State<CartScreen> {
                                       ],
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 40,
                                   ),
                                   InkWell(
@@ -169,7 +178,7 @@ class _CartScreenState extends State<CartScreen> {
                                                 .add(ChooseAddress(
                                                     value as String)));
                                       },
-                                      child: Icon(
+                                      child: const Icon(
                                           Icons.keyboard_arrow_right_rounded)),
                                 ],
                               );
@@ -182,7 +191,7 @@ class _CartScreenState extends State<CartScreen> {
                                       style: AppStyle.normalTextStylePrimary,
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 40,
                                   ),
                                   InkWell(
@@ -193,13 +202,13 @@ class _CartScreenState extends State<CartScreen> {
                                                 .read<CartBloc>()
                                                 .add(InitAddress()));
                                       },
-                                      child: Icon(
+                                      child: const Icon(
                                           Icons.keyboard_arrow_right_rounded)),
                                 ],
                               );
                             }
                           }),
-                          Divider(
+                          const Divider(
                             height: 20,
                           ),
                           Column(
@@ -210,7 +219,7 @@ class _CartScreenState extends State<CartScreen> {
                                 style: AppStyle.mediumTitleStyleDark
                                     .copyWith(color: AppColor.headingColor),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 4,
                               ),
                               Text(
@@ -219,7 +228,7 @@ class _CartScreenState extends State<CartScreen> {
                               ),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 16,
                           ),
                           Row(
@@ -235,7 +244,7 @@ class _CartScreenState extends State<CartScreen> {
                                             color: AppColor.headingColor,
                                             fontWeight: FontWeight.w500),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 4,
                                   ),
                                   Row(
@@ -244,7 +253,7 @@ class _CartScreenState extends State<CartScreen> {
                                         Icons.access_time_filled_rounded,
                                         color: AppColor.primaryColor,
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 4,
                                       ),
                                       Text("Now - 10 Minute",
@@ -256,7 +265,7 @@ class _CartScreenState extends State<CartScreen> {
                               // TimeSetter()
                             ],
                           ),
-                          Divider(
+                          const Divider(
                             height: 20,
                           ),
                           Row(
@@ -272,7 +281,7 @@ class _CartScreenState extends State<CartScreen> {
                                             color: AppColor.headingColor,
                                             fontWeight: FontWeight.w500),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 4,
                                   ),
                                   Builder(builder: (context) {
@@ -285,7 +294,7 @@ class _CartScreenState extends State<CartScreen> {
                                             width: 24,
                                             height: 24,
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             width: 4,
                                           ),
                                           Text("Cash",
@@ -301,7 +310,7 @@ class _CartScreenState extends State<CartScreen> {
                                             width: 24,
                                             height: 24,
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             width: 4,
                                           ),
                                           Text("VNPay",
@@ -317,26 +326,26 @@ class _CartScreenState extends State<CartScreen> {
                                   onTap: () {
                                     buildShowPaymentBottomSheet(context);
                                   },
-                                  child:
-                                      Icon(Icons.keyboard_arrow_right_rounded))
+                                  child: const Icon(
+                                      Icons.keyboard_arrow_right_rounded))
                             ],
                           ),
-                          Divider(
+                          const Divider(
                             height: 20,
                           ),
                           TextFormField(
                             onChanged: (value) =>
                                 {context.read<CartBloc>().add(AddNote(value))},
-                            style: TextStyle(fontSize: 14),
+                            style: const TextStyle(fontSize: 14),
                             decoration: InputDecoration(
-                              contentPadding: EdgeInsets.all(8),
+                              contentPadding: const EdgeInsets.all(8),
                               enabledBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Color(0xffCCCCCC)),
+                                  borderSide: const BorderSide(
+                                      color: Color(0xffCCCCCC)),
                                   borderRadius: BorderRadius.circular(8)),
                               focusedBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Color(0xffCCCCCC)),
+                                  borderSide: const BorderSide(
+                                      color: Color(0xffCCCCCC)),
                                   borderRadius: BorderRadius.circular(8)),
                               hintText: "Additional note for shop...",
                             ),
@@ -392,17 +401,17 @@ class _CartScreenState extends State<CartScreen> {
                     ),
                     Container(
                       height: 4,
-                      color: Color(0xffEFEBE9),
+                      color: const Color(0xffEFEBE9),
                     ),
                     Padding(
-                      padding: EdgeInsets.all(AppDimen.screenPadding),
+                      padding: const EdgeInsets.all(AppDimen.screenPadding),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text("Payment Summary",
                               style: AppStyle.mediumTitleStyleDark
                                   .copyWith(color: AppColor.headingColor)),
-                          SizedBox(
+                          const SizedBox(
                             height: 8,
                           ),
                           Row(
@@ -420,7 +429,7 @@ class _CartScreenState extends State<CartScreen> {
                               )
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 8,
                           ),
                           Row(
@@ -456,7 +465,7 @@ class _CartScreenState extends State<CartScreen> {
                           //     )
                           //   ],
                           // ),
-                          SizedBox(
+                          const SizedBox(
                             height: 8,
                           ),
                           Row(
@@ -500,7 +509,7 @@ class _CartScreenState extends State<CartScreen> {
             );
           }
         } else {
-          return SizedBox();
+          return const SizedBox();
         }
       },
     );
@@ -534,14 +543,14 @@ class _CartScreenState extends State<CartScreen> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Text(
                   "Your cart is empty",
                   style: AppStyle.largeTitleStyleDark,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Text(
@@ -555,14 +564,15 @@ class _CartScreenState extends State<CartScreen> {
             bottom: 0,
             child: Container(
               width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.all(AppDimen.screenPadding),
+              padding: const EdgeInsets.all(AppDimen.screenPadding),
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
                 child: const Text("Order now"),
                 style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 12, horizontal: 24),
                     disabledBackgroundColor: const Color(0xffCACACA),
                     disabledForegroundColor: AppColor.lightColor,
                     textStyle: AppStyle.mediumTextStyleDark,
@@ -580,26 +590,26 @@ class _CartScreenState extends State<CartScreen> {
 
 Future<void> buildShowDeliveryBottomSheet(BuildContext context) {
   return showModalBottomSheet<void>(
-    shape: RoundedRectangleBorder(
+    shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.only(
           topLeft: Radius.circular(20), topRight: Radius.circular(20)),
     ),
     context: context,
     builder: (BuildContext context) {
-      return DeliveryBottomSheet();
+      return const DeliveryBottomSheet();
     },
   );
 }
 
 Future<void> buildShowPaymentBottomSheet(BuildContext context) {
   return showModalBottomSheet<void>(
-    shape: RoundedRectangleBorder(
+    shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.only(
           topLeft: Radius.circular(20), topRight: Radius.circular(20)),
     ),
     context: context,
     builder: (BuildContext context) {
-      return PaymentBottomSheet();
+      return const PaymentBottomSheet();
     },
   );
 }

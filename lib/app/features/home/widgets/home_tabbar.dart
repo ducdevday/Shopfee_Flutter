@@ -23,7 +23,7 @@ class HomeTabBar extends StatelessWidget {
       //                 kBottomNavigationBarHeight +
       //                 70,
       //             child: TabBarView(
-      //               children: state.categories
+      //               c hildren: state.categories
       //                   .map((c) => ListView.separated(
       //                         padding: EdgeInsets.zero,
       //                         shrinkWrap: true,

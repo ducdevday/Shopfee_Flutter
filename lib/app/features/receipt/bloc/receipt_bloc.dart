@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:shopfee/data/models/event_log.dart';
 import 'package:shopfee/data/models/receipt.dart';
 import 'package:shopfee/data/models/status_order.dart';
@@ -16,6 +17,8 @@ class ReceiptBloc extends Bloc<ReceiptEvent, ReceiptState> {
 
   ReceiptBloc({required this.orderRepository}) : super(ReceiptInitial()) {
     on<LoadReceipt>(_onLoadReceipt);
+    on<ChooseReasonCancel>(_onChooseReasonCancel);
+    on<AddEventLog>(_onAddEventLog);
   }
 
   FutureOr<void> _onLoadReceipt(
@@ -38,6 +41,34 @@ class ReceiptBloc extends Bloc<ReceiptEvent, ReceiptState> {
     } catch (e) {
       print(e);
       emit(ReceiptError());
+    }
+  }
+
+  FutureOr<void> _onChooseReasonCancel(
+      ChooseReasonCancel event, Emitter<ReceiptState> emit) {
+    if (state is ReceiptLoaded) {
+      final currentState = state as ReceiptLoaded;
+      emit(currentState.copyWith(reasonCancel: event.reason));
+    }
+  }
+
+  FutureOr<void> _onAddEventLog(
+      AddEventLog event, Emitter<ReceiptState> emit) async {
+    if (state is ReceiptLoaded) {
+      final currentState = state as ReceiptLoaded;
+      try {
+        EasyLoading.show();
+        var response =
+            await orderRepository.addEventLog(event.orderId, event.eventLog);
+        EasyLoading.dismiss();
+        if (response.success) {
+          emit(currentState.copyWith(eventLog: event.eventLog));
+          EasyLoading.showSuccess("Canceled", duration: Duration(milliseconds: 2000));
+        }
+      } catch (e) {
+        print(e);
+        EasyLoading.showError("Something went wrong");
+      }
     }
   }
 }

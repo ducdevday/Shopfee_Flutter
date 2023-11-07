@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:shopfee/data/base/base_service.dart';
 import 'package:shopfee/data/models/cart.dart';
+import 'package:shopfee/data/models/event_log.dart';
 import 'package:shopfee/data/models/result.dart';
 import 'package:shopfee/data/models/result_list.dart';
 import 'package:shopfee/data/models/review.dart';
@@ -128,6 +129,32 @@ class OrderRepository extends OrderRepositoryBase {
             message: response?.data["message"]);
       }
       return ResultList(success: false, message: e.toString());
+    }
+  }
+
+  @override
+  Future<Result> addEventLog(String orderId, EventLog eventLog) async {
+    Map<String, dynamic> body = {
+      "orderStatus": eventLog.orderStatus.name,
+      "description": eventLog.description
+    };
+    try {
+      var response =
+          await dio.patch("${BaseService.orderPath}/user/$orderId", data: body);
+      return Result(
+        success: response.data["success"],
+        message: response.data["message"],
+        data: response.data["data"],
+      );
+    } catch (e) {
+      print(e);
+      if (e is DioError) {
+        final response = e.response;
+        return Result(
+            success: response?.data["success"],
+            message: response?.data["message"]);
+      }
+      return Result(success: false, message: e.toString());
     }
   }
 }

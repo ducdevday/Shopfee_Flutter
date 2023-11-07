@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopfee/app/config/style.dart';
 import 'package:shopfee/app/features/receipt/bloc/receipt_bloc.dart';
 import 'package:shopfee/app/utils/string_converter_util.dart';
+import 'package:shopfee/data/models/status_order.dart';
 
 class ReceiptInformation extends StatelessWidget {
   const ReceiptInformation({
@@ -18,21 +19,55 @@ class ReceiptInformation extends StatelessWidget {
           if (state is ReceiptLoaded) {
             return Column(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 40,
                 ),
-                Text(
-                  "Thank you!",
-                  style: AppStyle.largeTitleStylePrimary,
-                ),
-                SizedBox(
-                  height: 8,
-                ),
-                Text(
-                  "Your order was successful",
-                  style: AppStyle.mediumTextStyleDark,
-                ),
-                SizedBox(
+                Builder(builder: (context) {
+                  if (state.eventLog.orderStatus != OrderStatus.CANCELED) {
+                    return Column(
+                      children: [
+                        Text(
+                          "Thank you!",
+                          style: AppStyle.largeTitleStylePrimary,
+                        ),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        Builder(builder: (context) {
+                          if (state.eventLog.orderStatus !=
+                              OrderStatus.SUCCEED) {
+                            return Text(
+                              "Your order in processing",
+                              style: AppStyle.mediumTextStyleDark,
+                            );
+                          } else {
+                            return Text(
+                              "Your order was succeed",
+                              style: AppStyle.mediumTextStyleDark,
+                            );
+                          }
+                        }),
+                      ],
+                    );
+                  } else {
+                    return Column(
+                      children: [
+                        Text(
+                          "Oops!",
+                          style: AppStyle.largeTitleStylePrimary,
+                        ),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                          "Your order was canceled",
+                          style: AppStyle.mediumTextStyleDark,
+                        ),
+                      ],
+                    );
+                  }
+                }),
+                const SizedBox(
                   height: 16,
                 ),
                 Row(
@@ -48,7 +83,7 @@ class ReceiptInformation extends StatelessWidget {
                     )
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8,
                 ),
                 Row(
@@ -59,12 +94,13 @@ class ReceiptInformation extends StatelessWidget {
                       style: AppStyle.mediumTitleStyleDark,
                     ),
                     Text(
-                      StringConverterUtil.formattedDate(state.receipt.createdAt!) ,
+                      StringConverterUtil.formattedDate(
+                          state.receipt.createdAt!),
                       style: AppStyle.normalTextStyleDark,
                     )
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8,
                 ),
                 Row(
@@ -75,7 +111,8 @@ class ReceiptInformation extends StatelessWidget {
                       style: AppStyle.mediumTitleStyleDark,
                     ),
                     Text(
-                      StringConverterUtil.formattedTime(state.receipt.createdAt!),
+                      StringConverterUtil.formattedTime(
+                          state.receipt.createdAt!),
                       style: AppStyle.normalTextStyleDark,
                     )
                   ],
@@ -83,7 +120,7 @@ class ReceiptInformation extends StatelessWidget {
               ],
             );
           } else {
-            return SizedBox();
+            return const SizedBox();
           }
         },
       ),

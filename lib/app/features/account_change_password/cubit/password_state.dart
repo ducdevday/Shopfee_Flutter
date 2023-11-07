@@ -48,7 +48,7 @@ class PasswordLoaded extends PasswordState {
   }
 }
 
-class PasswordFinish extends PasswordState {
+class PasswordFinished extends PasswordState {
   @override
   List<Object> get props => [];
 }

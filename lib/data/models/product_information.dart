@@ -34,7 +34,7 @@ class ProductInformation extends Equatable {
       name: map['name'] as String,
       description: map['description'] as String,
       price: map['price'] as double,
-      imageUrl: map['imageUrl'] as String,
+      imageUrl: map['thumbnailUrl'] as String,
     );
   }
 

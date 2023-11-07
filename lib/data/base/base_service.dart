@@ -39,7 +39,7 @@ class BaseService {
           return handler.next(options);
         },
         onError: (DioError e, handler) async {
-          if (e.response?.statusCode == 401) {
+          if (e.response?.statusCode == 401 && GlobalData.ins.userId != null) {
             // If a 401 response is received, refresh the access token
             Map<String, dynamic> body = {
               "refreshToken": GlobalData.ins.refreshToken,

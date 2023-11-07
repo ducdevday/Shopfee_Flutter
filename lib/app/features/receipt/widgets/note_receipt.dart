@@ -14,39 +14,46 @@ class NoteReceipt extends StatelessWidget {
         if (state is ReceiptLoaded &&
             state.receipt.note != null &&
             state.receipt.note!.isNotEmpty) {
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text("Note",
-                      style: AppStyle.mediumTitleStyleDark
-                          .copyWith(color: AppColor.headingColor)),
+          return Column(
+            children: [
+              Container(
+                height: 4,
+                color: Color(0xffEFEBE9),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text("Note",
+                          style: AppStyle.mediumTitleStyleDark
+                              .copyWith(color: AppColor.headingColor)),
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    TextFormField(
+                      initialValue: state.receipt.note,
+                      enabled: false,
+                      style: TextStyle(fontSize: 14),
+                      decoration: InputDecoration(
+                        disabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Color(0xffCCCCCC)),
+                            borderRadius: BorderRadius.circular(8)),
+                        contentPadding: EdgeInsets.all(8),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Color(0xffCCCCCC)),
+                            borderRadius: BorderRadius.circular(8)),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Color(0xffCCCCCC)),
+                            borderRadius: BorderRadius.circular(8)),
+                      ),
+                    )
+                  ],
                 ),
-                SizedBox(
-                  height: 8,
-                ),
-                TextFormField(
-                  initialValue: state.receipt.note,
-                  enabled: false,
-                  style: TextStyle(fontSize: 14),
-                  maxLength: 50,
-                  decoration: InputDecoration(
-                    disabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Color(0xffCCCCCC)),
-                        borderRadius: BorderRadius.circular(8)),
-                    contentPadding: EdgeInsets.all(8),
-                    enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Color(0xffCCCCCC)),
-                        borderRadius: BorderRadius.circular(8)),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Color(0xffCCCCCC)),
-                        borderRadius: BorderRadius.circular(8)),
-                  ),
-                )
-              ],
-            ),
+              ),
+            ],
           );
         } else {
           return SizedBox();

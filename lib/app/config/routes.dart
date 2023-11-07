@@ -12,6 +12,7 @@ import 'package:shopfee/app/features/history/screen/history_screen.dart';
 import 'package:shopfee/app/features/home/screen/home_screen.dart';
 import 'package:shopfee/app/features/login/screen/login_screen.dart';
 import 'package:shopfee/app/features/new_address/screens/new_address_screen.dart';
+import 'package:shopfee/app/features/notification_permission/notify_permission_screen.dart';
 import 'package:shopfee/app/features/onboarding/screen/onboarding_screen.dart';
 import 'package:shopfee/app/features/otp/screen/otp_screen.dart';
 import 'package:shopfee/app/features/personal_information/screen/personal_information_screen.dart';
@@ -35,6 +36,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (context) => SplashScreen());
       case "/onboarding":
         return MaterialPageRoute(builder: (context) => OnBoardingScreen());
+      case "/notification":
+        return MaterialPageRoute(builder: (context) => NotifyPermission());
       case "/register":
         return MaterialPageRoute(
             builder: (context) =>
