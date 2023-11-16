@@ -166,7 +166,10 @@ class LoginCubit extends Cubit<LoginState> {
       required String accessToken,
       required String refreshToken,
       required BuildContext context}) async {
+
+
     await localRepository.saveUser(userId, accessToken, refreshToken);
+    await firebaseRepository.saveFCMToken(userId);
 
     context
         .read<HistoryBloc>()
@@ -175,4 +178,6 @@ class LoginCubit extends Cubit<LoginState> {
 
     Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
   }
+
+
 }

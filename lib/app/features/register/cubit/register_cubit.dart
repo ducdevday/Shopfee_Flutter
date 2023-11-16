@@ -7,6 +7,7 @@ import 'package:shopfee/app/features/history/bloc/history_bloc.dart';
 import 'package:shopfee/app/features/history/screen/history_screen.dart';
 import 'package:shopfee/data/models/user.dart';
 import 'package:shopfee/data/repositories/auth/auth_repository.dart';
+import 'package:shopfee/data/repositories/firebase/firebase_repository.dart';
 import 'package:shopfee/data/repositories/local/local_repository.dart';
 
 part 'register_state.dart';
@@ -14,10 +15,11 @@ part 'register_state.dart';
 class RegisterCubit extends Cubit<RegisterState> {
   final AuthRepository authRepository;
   final LocalRepository localRepository;
-
+  final FirebaseRepository firebaseRepository;
   RegisterCubit({
     required this.authRepository,
     required this.localRepository,
+    required this.firebaseRepository
   }) : super(RegisterInitial());
 
   Future<void> initField(String email) async {
@@ -87,7 +89,9 @@ class RegisterCubit extends Cubit<RegisterState> {
       required String accessToken,
       required String refreshToken,
       required BuildContext context}) async {
+
     await localRepository.saveUser(userId, accessToken, refreshToken);
+    await firebaseRepository.saveFCMToken(userId);
 
     context
         .read<HistoryBloc>()

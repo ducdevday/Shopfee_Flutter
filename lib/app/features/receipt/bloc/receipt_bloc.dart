@@ -6,6 +6,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:shopfee/data/models/event_log.dart';
 import 'package:shopfee/data/models/receipt.dart';
 import 'package:shopfee/data/models/status_order.dart';
+import 'package:shopfee/data/repositories/firebase/firebase_repository.dart';
 import 'package:shopfee/data/repositories/order/order_repository.dart';
 
 part 'receipt_event.dart';
@@ -14,8 +15,8 @@ part 'receipt_state.dart';
 
 class ReceiptBloc extends Bloc<ReceiptEvent, ReceiptState> {
   final OrderRepository orderRepository;
-
-  ReceiptBloc({required this.orderRepository}) : super(ReceiptInitial()) {
+  final FirebaseRepository firebaseRepository;
+  ReceiptBloc({required this.orderRepository, required this.firebaseRepository}) : super(ReceiptInitial()) {
     on<LoadReceipt>(_onLoadReceipt);
     on<ChooseReasonCancel>(_onChooseReasonCancel);
     on<AddEventLog>(_onAddEventLog);
@@ -65,6 +66,10 @@ class ReceiptBloc extends Bloc<ReceiptEvent, ReceiptState> {
           emit(currentState.copyWith(eventLog: event.eventLog));
           EasyLoading.showSuccess("Canceled", duration: Duration(milliseconds: 2000));
         }
+        var responseNotify = await firebaseRepository.sendOrderMessage(
+            "Shopfee For Employee Announce",
+            "The order ${event.orderId} was canceled. Please tap to see details",
+            event.orderId);
       } catch (e) {
         print(e);
         EasyLoading.showError("Something went wrong");

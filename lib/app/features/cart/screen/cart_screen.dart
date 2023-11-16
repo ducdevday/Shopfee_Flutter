@@ -36,11 +36,9 @@ class _CartScreenState extends State<CartScreen> {
               .read<HistoryBloc>()
               .add(const LoadHistory(historyStatus: HistoryStatus.Processing));
           if (state.paymentUrl == null) {
-            // Navigator.pushNamed(context, "/receipt", arguments: state.orderId);
             Navigator.pushNamedAndRemoveUntil(
-                    context, "/receipt", (route) => false)
-                .then((value) => Navigator.pushNamedAndRemoveUntil(
-                    context, "/home", (route) => false));
+                    context, "/receipt", (Route route) => false,
+                    arguments: state.orderId);
           } else {
             Navigator.pushNamed(context, "/vnpay", arguments: {
               "paymentUrl": state.paymentUrl,

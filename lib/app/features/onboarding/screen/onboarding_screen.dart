@@ -118,8 +118,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                         ),
                         onPressed: () {
                           if (currentIndex == widget.contents.length - 1) {
-                            _setFistTime();
-                            Navigator.pushReplacementNamed(context, "/welcome");
+                            Navigator.pushReplacementNamed(context, "/notify_permission");
                           }
                           _controller.nextPage(
                             duration: const Duration(milliseconds: 100),
@@ -153,10 +152,5 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             : AppColor.disableColor,
       ),
     );
-  }
-
-  Future<void> _setFistTime() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool("isFirstTime", false);
   }
 }

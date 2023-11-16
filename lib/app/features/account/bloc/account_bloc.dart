@@ -18,15 +18,18 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
   final LocalRepository localRepository;
   final FirebaseRepository firebaseRepository;
 
-  AccountBloc( {required this.userRepository, required this.localRepository,required this.firebaseRepository,})
-      : super(AccountInitial()) {
+  AccountBloc({
+    required this.userRepository,
+    required this.localRepository,
+    required this.firebaseRepository,
+  }) : super(AccountInitial()) {
     on<LoadAccount>(_onLoadAccount);
     on<LogoutAccount>(_onLogoutAccount);
     on<NavigateLogin>(_onNavigateLogin);
   }
 
-  FutureOr<void> _onLoadAccount(LoadAccount event,
-      Emitter<AccountState> emit) async {
+  FutureOr<void> _onLoadAccount(
+      LoadAccount event, Emitter<AccountState> emit) async {
     emit(AccountLoading());
     if (GlobalData.ins.userId == null) {
       emit(AccountNoAuth());
@@ -43,14 +46,14 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
     }
   }
 
-  FutureOr<void> _onLogoutAccount(LogoutAccount event,
-      Emitter<AccountState> emit) async {
+  FutureOr<void> _onLogoutAccount(
+      LogoutAccount event, Emitter<AccountState> emit) async {
     emit(AccountLoading());
     try {
       EasyLoading.show();
-      await localRepository.deleteUser();
+      await firebaseRepository.deleteFCMToken(GlobalData.ins.userId!);
       await firebaseRepository.logoutWithGoogle();
-
+      await localRepository.deleteUser();
       EasyLoading.dismiss();
       add(LoadAccount());
     } catch (e) {
@@ -58,7 +61,8 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
     }
   }
 
-  FutureOr<void> _onNavigateLogin(NavigateLogin event, Emitter<AccountState> emit) {
+  FutureOr<void> _onNavigateLogin(
+      NavigateLogin event, Emitter<AccountState> emit) {
     emit(AccountNavigateLogin());
     add(LoadAccount());
   }

@@ -21,7 +21,7 @@ class EventLog extends Equatable {
       return "Your order was created. If after 10 minutes, order hasn't accepted, please call the hotline: 0334901237.";
     }
     else if(orderStatus == OrderStatus.ACCEPTED){
-      return "Your order was accepted by employee.";
+      return "Your order was accepted by employee. Please wait for us to process your order.";
     }
     else if(orderStatus == OrderStatus.DELIVERING){
       return "Your order is delivering. Please pay attention to your phone in case the shipper call you.";
@@ -30,7 +30,7 @@ class EventLog extends Equatable {
       return "You have get your order. Thank you for choosing Shopfee.";
     }
     else if(orderStatus == OrderStatus.CANCELED){
-      return "Your order is canceled.";
+      return "Your order was canceled.";
     }
     return "";
   }

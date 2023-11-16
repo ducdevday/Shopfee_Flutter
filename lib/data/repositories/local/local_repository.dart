@@ -21,7 +21,7 @@ class LocalRepository extends LocalRepositoryBase {
     await prefs.remove('userId');
     await prefs.remove('accessToken');
     await prefs.remove('refreshToken');
-     GlobalData.ins.userId = null;
+    GlobalData.ins.userId = null;
     GlobalData.ins.accessToken = null;
     GlobalData.ins.refreshToken = null;
   }

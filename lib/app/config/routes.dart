@@ -36,8 +36,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (context) => SplashScreen());
       case "/onboarding":
         return MaterialPageRoute(builder: (context) => OnBoardingScreen());
-      case "/notification":
-        return MaterialPageRoute(builder: (context) => NotifyPermission());
+      case "/notify_permission":
+        return MaterialPageRoute(builder: (context) => NotifyPermissionScreen());
       case "/register":
         return MaterialPageRoute(
             builder: (context) =>

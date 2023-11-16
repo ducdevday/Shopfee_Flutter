@@ -150,6 +150,7 @@ class WelcomeCubit extends Cubit<WelcomeState> {
       required String refreshToken,
       required BuildContext context}) async {
     await localRepository.saveUser(userId, accessToken, refreshToken);
+    await firebaseRepository.saveFCMToken(userId);
 
     context
         .read<HistoryBloc>()

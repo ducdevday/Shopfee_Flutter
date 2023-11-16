@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shopfee/data/base/notify_service.dart';
 import 'package:shopfee/data/models/result.dart';
 import 'package:shopfee/data/repositories/firebase/firebase_repository_base.dart';
 
@@ -44,5 +47,50 @@ class FirebaseRepository extends FirebaseRepositoryBase {
     } catch (e) {
       print(e);
     }
+  }
+
+  @override
+  Future<void> sendOrderMessage(
+    String title,
+    String body,
+    String destinationId,
+  ) async {
+    try {
+      Map<String, dynamic> data = {
+        "priority": "high",
+        "data": {
+          "click_action": "FLUTTER_NOTIFICATION_CLICK",
+          "status": "done",
+          "body": body,
+          "title": title,
+          "destinationId": destinationId
+        },
+        "notification": {
+          "title": title,
+          "body": body,
+          "android_channel_id": "shopfee"
+        },
+        "to": "/topics/orders"
+      };
+      await dio.post("${NotifyService.path}", data: data);
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  @override
+  Future<void> saveFCMToken(String userId) async {
+    final String? fcmToken = await FirebaseMessaging.instance.getToken();
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(userId)
+        .set({"fcmToken": fcmToken});
+  }
+
+
+  Future<void> deleteFCMToken(String userId) async {
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(userId).delete();
   }
 }

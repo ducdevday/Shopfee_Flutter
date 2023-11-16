@@ -48,7 +48,6 @@ class CancelButton extends StatelessWidget {
           );
         } else {
           return SizedBox();
-          ;
         }
       },
     );

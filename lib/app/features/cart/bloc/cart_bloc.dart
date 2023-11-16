@@ -11,6 +11,7 @@ import 'package:shopfee/data/models/order.dart';
 import 'package:shopfee/data/models/type_payment.dart';
 import 'package:shopfee/data/models/voucher.dart';
 import 'package:shopfee/data/repositories/address/address_repository.dart';
+import 'package:shopfee/data/repositories/firebase/firebase_repository.dart';
 import 'package:shopfee/data/repositories/order/order_repository.dart';
 
 part 'cart_event.dart';
@@ -20,9 +21,13 @@ part 'cart_state.dart';
 class CartBloc extends HydratedBloc<CartEvent, CartState> {
   final OrderRepository orderRepository;
   final AddressRepository addressRepository;
+  final FirebaseRepository firebaseRepository;
 
-  CartBloc({required this.orderRepository, required this.addressRepository})
-      : super(CartInitial()) {
+  CartBloc({
+    required this.orderRepository,
+    required this.addressRepository,
+    required this.firebaseRepository,
+  }) : super(CartInitial()) {
     on<LoadCart>(_onLoadCart);
     on<DeleteCart>(_onDeleteCart);
     on<AddItemIntoCart>(_onAddItemIntoCart);
@@ -54,11 +59,11 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
         if (response.success) {
           final List<Address> addressList =
               response.data!.map((e) => Address.fromMap(e)).toList();
-          if(addressList.isNotEmpty){
+          if (addressList.isNotEmpty) {
             final Address defaultAddress =
-            addressList.firstWhere((address) => address.isDefault == true);
+                addressList.firstWhere((address) => address.isDefault == true);
             var responseDefaultAddress =
-            await addressRepository.getAddress(defaultAddress.id!);
+                await addressRepository.getAddress(defaultAddress.id!);
             late Address address;
             if (responseDefaultAddress.success) {
               address = Address.fromMapFull(responseDefaultAddress.data!);
@@ -166,13 +171,14 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
       CreateShippingOrder event, Emitter<CartState> emit) async {
     if (state is CartLoaded) {
       final successState = state as CartLoaded;
+      late String orderId;
       try {
         EasyLoading.show();
         var response = await orderRepository.createShippingOrder(
             successState.cart, GlobalData.ins.userId!);
         EasyLoading.dismiss();
         if (response.success) {
-          final String orderId = response.data!["orderId"];
+          orderId = response.data!["orderId"];
           final String transactionId = response.data!["transactionId"];
           final String? paymentUrl = response.data!["paymentUrl"];
           if (paymentUrl == null) {
@@ -187,6 +193,10 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
         } else {
           EasyLoading.showError(response.message);
         }
+        var responseNotify = await firebaseRepository.sendOrderMessage(
+            "Shopfee For Employee Announce",
+            "The order $orderId was created. Please tap to see details",
+            orderId);
       } catch (e) {
         EasyLoading.showError(e.toString());
       }
@@ -211,6 +221,4 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
     }
     return null;
   }
-
-
 }

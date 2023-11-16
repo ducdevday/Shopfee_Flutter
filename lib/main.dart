@@ -1,10 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:intl/date_symbol_data_local.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shopfee/app/common/data/global_data.dart';
@@ -16,7 +18,7 @@ import 'package:shopfee/app/features/cart/bloc/cart_bloc.dart';
 import 'package:shopfee/app/features/history/bloc/history_bloc.dart';
 import 'package:shopfee/app/features/history/screen/history_screen.dart';
 import 'package:shopfee/app/features/home/bloc/home_bloc.dart';
-import 'package:shopfee/app/features/receipt/screen/receipt_screen.dart';
+import 'package:shopfee/app/utils/navigation_util.dart';
 import 'package:shopfee/app/utils/simple_bloc_observer.dart';
 import 'package:shopfee/data/repositories/address/address_repository.dart';
 import 'package:shopfee/data/repositories/auth/auth_repository.dart';
@@ -30,9 +32,13 @@ import 'package:shopfee/data/repositories/product/product_repository.dart';
 import 'package:shopfee/data/repositories/transaction/transaction_repository.dart';
 import 'package:shopfee/data/repositories/user/user_repository.dart';
 
+import 'app/utils/global_keys.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await FirebaseMessaging.instance.getInitialMessage();
+
   HydratedBloc.storage = await HydratedStorage.build(
       storageDirectory: kIsWeb
           ? HydratedStorage.webStorageDirectory
@@ -50,8 +56,60 @@ Future<void> _initData() async {
   GlobalData.ins.refreshToken = prefs.getString('refreshToken');
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+
+  @override
+  void initState() {
+    super.initState();
+    initInfoNotify();
+    setupMessageNotify();
+  }
+
+  void initInfoNotify() {
+    var androidInitialize =
+        const AndroidInitializationSettings('@mipmap/launcher_icon');
+    var initialSettings = InitializationSettings(android: androidInitialize);
+    flutterLocalNotificationsPlugin.initialize(initialSettings,
+        onDidReceiveNotificationResponse:
+            (NotificationResponse notificationResponse) async {
+      try {
+        if (notificationResponse.payload != null &&
+            notificationResponse.payload!.isNotEmpty) {
+          NavigationUtil.pushNamed(
+              route: "/receipt", args: notificationResponse.payload);
+        }
+      } catch (e) {
+        print(e);
+      }
+    });
+  }
+
+  void setupMessageNotify() {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+      const AndroidNotificationDetails androidNotificationDetails =
+          AndroidNotificationDetails('shopfee', 'shopfee',
+              channelDescription: ' This is shopfee channel description',
+              importance: Importance.max,
+              priority: Priority.high,
+              playSound: true,
+              color: Colors.white);
+      const NotificationDetails notificationDetails =
+          NotificationDetails(android: androidNotificationDetails);
+
+      await flutterLocalNotificationsPlugin.show(0, message.notification?.title,
+          message.notification?.body, notificationDetails,
+          payload: message.data["destinationId"]);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +135,8 @@ class MyApp extends StatelessWidget {
           BlocProvider(
               create: (context) => CartBloc(
                   orderRepository: context.read<OrderRepository>(),
-                  addressRepository: context.read<AddressRepository>())
+                  addressRepository: context.read<AddressRepository>(),
+                  firebaseRepository: context.read<FirebaseRepository>())
                 ..add(LoadCart())),
           BlocProvider(
               create: (context) => HomeBloc(
@@ -95,16 +154,19 @@ class MyApp extends StatelessWidget {
                   localRepository: context.read<LocalRepository>(),
                   firebaseRepository: context.read<FirebaseRepository>())
                 ..add(LoadAccount())),
-          BlocProvider(create: (context) => MyBottomNavigationBarCubit()..selectPage(0))
+          BlocProvider(
+              create: (context) => MyBottomNavigationBarCubit()..selectPage(0))
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           themeMode: ThemeMode.light,
           theme: AppTheme.lightTheme,
+          navigatorKey: navigatorKey,
           onGenerateRoute: (settings) {
             return AppRouter.onGenerateRoute(settings);
           },
           initialRoute: "/splash",
+          // initialRoute: "/notify_permission",
           // home: ReceiptScreen(orderId: "65431e85f4b1650e5f20af1a"),
           builder: EasyLoading.init(),
         ),

@@ -13,6 +13,7 @@ import 'package:shopfee/app/features/receipt/widgets/note_receipt.dart';
 import 'package:shopfee/app/features/receipt/widgets/payment_summary.dart';
 import 'package:shopfee/app/features/receipt/widgets/receipt_information.dart';
 import 'package:shopfee/data/models/status_order.dart';
+import 'package:shopfee/data/repositories/firebase/firebase_repository.dart';
 import 'package:shopfee/data/repositories/order/order_repository.dart';
 
 class ReceiptScreen extends StatelessWidget {
@@ -29,9 +30,10 @@ class ReceiptScreen extends StatelessWidget {
         },
         child: Scaffold(
           body: BlocProvider(
-            create: (context) =>
-                ReceiptBloc(orderRepository: context.read<OrderRepository>())
-                  ..add(LoadReceipt(orderId: orderId)),
+            create: (context) => ReceiptBloc(
+                orderRepository: context.read<OrderRepository>(),
+                firebaseRepository: context.read<FirebaseRepository>())
+              ..add(LoadReceipt(orderId: orderId)),
             child: BlocBuilder<ReceiptBloc, ReceiptState>(
               builder: (context, state) {
                 if (state is ReceiptLoading) {

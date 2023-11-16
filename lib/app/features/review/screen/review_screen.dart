@@ -144,9 +144,14 @@ class ReviewScreen extends StatelessWidget {
   }
 }
 
-class ReviewForm extends StatelessWidget {
+class ReviewForm extends StatefulWidget {
   const ReviewForm({Key? key}) : super(key: key);
 
+  @override
+  State<ReviewForm> createState() => _ReviewFormState();
+}
+
+class _ReviewFormState extends State<ReviewForm> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ReviewCubit, ReviewState>(
@@ -161,7 +166,7 @@ class ReviewForm extends StatelessWidget {
             style: TextStyle(fontSize: 14),
             maxLength: 100,
             decoration: InputDecoration(
-              counterText: "${0}/100",
+              counterText: "${state.content.length}/100",
               contentPadding: EdgeInsets.all(8),
               enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Color(0xffCCCCCC)),

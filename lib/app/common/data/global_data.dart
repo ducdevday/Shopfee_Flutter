@@ -5,6 +5,7 @@ class GlobalData{
   String? userId;
   String? accessToken;
   String? refreshToken;
+  String? fcmToken;
   bool isFirstTime = true;
 
   final List<String> imgList = [
