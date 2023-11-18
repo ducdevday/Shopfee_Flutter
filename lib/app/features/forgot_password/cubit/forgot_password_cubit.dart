@@ -3,6 +3,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:shopfee/app/config/routes.dart';
 import 'package:shopfee/data/repositories/auth/auth_repository.dart';
 
 part 'forgot_password_state.dart';
@@ -35,8 +36,8 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
             await authRepository.passwordSendCode(currentState.email);
         EasyLoading.dismiss();
         if (response.success) {
-          Navigator.pushNamed(context, "/otp", arguments: {
-            "routeName": "/change_password",
+          Navigator.pushNamed(context, AppRouter.otpRoute, arguments: {
+            "routeName":AppRouter.changePasswordRoute,
             "email": currentState.email
           });
         } else {

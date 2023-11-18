@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shopfee/app/config/color.dart';
 import 'package:shopfee/app/config/dimens.dart';
+import 'package:shopfee/app/config/routes.dart';
 import 'package:shopfee/app/config/style.dart';
 import 'package:shopfee/app/features/cart/bloc/cart_bloc.dart';
 
@@ -24,7 +25,7 @@ class HomeFloatAction extends StatelessWidget {
                 highlightElevation: 0,
                 backgroundColor: AppColor.primaryColor,
                 onPressed: (){
-                  Navigator.pushNamed(context, "/cart");
+                  Navigator.pushNamed(context,AppRouter.cartRoute);
                 }, child: Stack(
                 alignment: Alignment.center,
                 children: [
@@ -36,7 +37,7 @@ class HomeFloatAction extends StatelessWidget {
           }
           return InkWell(
             onTap: (){
-              Navigator.pushNamed(context, "/cart");
+              Navigator.pushNamed(context, AppRouter.cartRoute);
             },
             child: Container(
               width: double.infinity,

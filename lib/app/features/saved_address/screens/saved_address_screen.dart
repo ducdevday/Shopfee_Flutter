@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shopfee/app/common/widgets/my_alert_dialog.dart';
 import 'package:shopfee/app/config/color.dart';
 import 'package:shopfee/app/config/dimens.dart';
+import 'package:shopfee/app/config/routes.dart';
 import 'package:shopfee/app/config/style.dart';
 import 'package:shopfee/app/features/saved_address/bloc/saved_address_bloc.dart';
 import 'package:shopfee/app/features/saved_address/widgets/build_address_item.dart';
@@ -107,7 +108,9 @@ class _SavedAddressScreenState extends State<SavedAddressScreen> {
 void checkAddNewAddress(SavedAddressLoaded state, BuildContext context) async {
   if (await PermissionUtil.requestLocationPermission() == true) {
     if (state.addressList.length < 5) {
-      Navigator.pushNamed(context, "/new_address").then(
+      Navigator.pushNamed(context,
+          AppRouter.newAddressRoute
+      ).then(
           (value) => context.read<SavedAddressBloc>().add(LoadSavedAddress()));
     } else {
       showDialog(

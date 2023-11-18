@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shopfee/app/config/color.dart';
 import 'package:shopfee/app/config/dimens.dart';
+import 'package:shopfee/app/config/routes.dart';
 import 'package:shopfee/app/config/style.dart';
 
 class NotifyPermissionScreen extends StatefulWidget {
@@ -14,22 +15,22 @@ class NotifyPermissionScreen extends StatefulWidget {
 }
 
 class _NotifyPermissionScreenState extends State<NotifyPermissionScreen> {
-  late String fcmToken;
+  // late String fcmToken;
 
   @override
   void initState() {
     super.initState();
-    getToken();
+    // getToken();
   }
 
-  void getToken() async {
-    await FirebaseMessaging.instance.getToken().then((token) => {
-          setState(() {
-            fcmToken = token!;
-          }),
-          print("FCM Token:" + token!)
-        });
-  }
+  // void getToken() async {
+  //   await FirebaseMessaging.instance.getToken().then((token) => {
+  //         setState(() {
+  //           fcmToken = token!;
+  //         }),
+  //         print("FCM Token:" + token!)
+  //       });
+  // }
 
   void requestPermission() async {
     FirebaseMessaging messaging = FirebaseMessaging.instance;
@@ -47,7 +48,7 @@ class _NotifyPermissionScreenState extends State<NotifyPermissionScreen> {
         settings.authorizationStatus == AuthorizationStatus.provisional) {
       print("User granted permission");
       await setFistTime();
-      Navigator.pushNamedAndRemoveUntil(context, "/welcome", (route) => false);
+      Navigator.pushNamedAndRemoveUntil(context, AppRouter.welcomeRoute, (route) => false);
     } else {
       print("User denied permission");
     }

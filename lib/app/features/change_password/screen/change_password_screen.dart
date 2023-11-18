@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopfee/app/config/color.dart';
 import 'package:shopfee/app/config/dimens.dart';
+import 'package:shopfee/app/config/routes.dart';
 import 'package:shopfee/app/config/style.dart';
 import 'package:shopfee/app/features/change_password/cubit/change_password_cubit.dart';
 import 'package:shopfee/data/repositories/auth/auth_repository.dart';
@@ -80,7 +81,7 @@ class ChangePasswordScreen extends StatelessWidget {
                     BlocConsumer<ChangePasswordCubit, ChangePasswordState>(
                       listener: (context, state) {
                         if(state is ChangePasswordSuccess){
-                          Navigator.pushNamedAndRemoveUntil(context,"/login", ModalRoute.withName('/'));
+                          Navigator.pushNamedAndRemoveUntil(context,AppRouter.loginRoute, ModalRoute.withName('/'));
                         }
                       },
                       builder: (context, state) {

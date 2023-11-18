@@ -5,6 +5,7 @@ import 'package:shopfee/app/common/widgets/my_error.dart';
 import 'package:shopfee/app/common/widgets/my_loading.dart';
 import 'package:shopfee/app/config/color.dart';
 import 'package:shopfee/app/config/dimens.dart';
+import 'package:shopfee/app/config/routes.dart';
 import 'package:shopfee/app/config/style.dart';
 import 'package:shopfee/app/features/receipt/bloc/receipt_bloc.dart';
 import 'package:shopfee/app/features/receipt/widgets/bought_list.dart';
@@ -25,7 +26,7 @@ class ReceiptScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return WillPopScope(
         onWillPop: () async {
-          Navigator.pop(context);
+          Navigator.pushNamedAndRemoveUntil(context, AppRouter.homeRoute, (route) => false);
           return Future.value(false);
         },
         child: Scaffold(
@@ -57,7 +58,7 @@ class ReceiptScreen extends StatelessWidget {
                                 splashColor: Colors.transparent,
                                 highlightColor: Colors.transparent,
                                 onTap: () {
-                                  Navigator.pop(context);
+                                  Navigator.pushNamedAndRemoveUntil(context, AppRouter.homeRoute, (route) => false);
                                 },
                                 child: Icon(Icons.close_rounded),
                               ),
@@ -215,7 +216,7 @@ class Review extends StatelessWidget {
                                 ),
                                 InkWell(
                                   onTap: () {
-                                    Navigator.pushNamed(context, "/review",
+                                    Navigator.pushNamed(context,AppRouter.reviewRoute,
                                             arguments: orderId)
                                         .then((value) => context
                                             .read<ReceiptBloc>()

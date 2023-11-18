@@ -3,7 +3,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
-        android:label="shopfee"
+        android:label="Shopfee"
         android:usesCleartextTraffic="true"
         android:enableOnBackInvokedCallback="true"
         android:name="${applicationName}"

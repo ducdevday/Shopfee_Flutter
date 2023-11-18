@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopfee/app/config/color.dart';
+import 'package:shopfee/app/config/routes.dart';
 import 'package:shopfee/app/config/style.dart';
 import 'package:shopfee/app/features/receipt/bloc/receipt_bloc.dart';
 import 'package:shopfee/app/features/receipt/widgets/cancel_detail.dart';
@@ -31,7 +32,7 @@ class DeliveryInformation extends StatelessWidget {
                     ),
                     InkWell(
                         onTap: () {
-                          Navigator.pushNamed(context, "/tracking",
+                          Navigator.pushNamed(context,AppRouter.trackingRoute,
                               arguments: state.receipt.id);
                         },
                         child: Text("More",

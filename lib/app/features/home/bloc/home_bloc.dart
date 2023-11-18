@@ -27,7 +27,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     emit(HomeLoading());
     try {
       var responseCategory = await categoryRepository.getAllCategory();
-      var responseProduct = await productRepository.getAllProduct();
+      var responseProduct = await productRepository.getOutStandingProduct(quantity: 8);
       if (responseCategory.success && responseProduct.success) {
         List<Category> categories =
             responseCategory.data!.map((c) => Category.fromMap(c)).toList();

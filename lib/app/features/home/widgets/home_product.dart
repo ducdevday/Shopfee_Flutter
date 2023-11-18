@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shopfee/app/config/color.dart';
+import 'package:shopfee/app/config/routes.dart';
 import 'package:shopfee/app/config/style.dart';
 import 'package:shopfee/app/features/product/screen/product_screen.dart';
 import 'package:shopfee/data/models/product.dart';
@@ -19,7 +20,7 @@ class HomeProduct extends StatelessWidget {
       const EdgeInsets.symmetric(vertical: 8.0),
       child: InkWell(
         onTap: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context) => ProductScreen(product.id!)));
+          Navigator.pushNamed(context, AppRouter.productRoute, arguments: product.id);
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

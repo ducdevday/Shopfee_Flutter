@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shopfee/app/config/color.dart';
 import 'package:shopfee/app/config/dimens.dart';
+import 'package:shopfee/app/config/routes.dart';
 import 'package:shopfee/app/config/style.dart';
 import 'package:shopfee/app/features/saved_address/bloc/saved_address_bloc.dart';
 import 'package:shopfee/app/features/saved_address/widgets/build_label_default.dart';
@@ -47,7 +48,7 @@ Widget buildAddressItem(
             ),
             IconButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, "/new_address",
+                  Navigator.pushNamed(context, AppRouter.newAddressRoute,
                           arguments: state.addressList[index].id)
                       .then((value) => context
                           .read<SavedAddressBloc>()

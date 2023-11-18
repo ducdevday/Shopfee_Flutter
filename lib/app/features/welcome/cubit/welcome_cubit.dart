@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:shopfee/app/config/routes.dart';
 import 'package:shopfee/app/features/account/bloc/account_bloc.dart';
 import 'package:shopfee/app/features/history/bloc/history_bloc.dart';
 import 'package:shopfee/app/features/history/screen/history_screen.dart';
@@ -51,8 +52,8 @@ class WelcomeCubit extends Cubit<WelcomeState> {
         var response = await authRepository.sendCode(currentState.email);
         EasyLoading.dismiss();
         if (response.success) {
-          Navigator.pushNamed(context, "/otp", arguments: {
-            "routeName": "/register",
+          Navigator.pushNamed(context, AppRouter.otpRoute, arguments: {
+            "routeName": AppRouter.registerRoute,
             "email": currentState.email
           });
         } else if (response.message == "Email account registered") {
@@ -157,6 +158,6 @@ class WelcomeCubit extends Cubit<WelcomeState> {
         .add(LoadHistory(historyStatus: HistoryStatus.Processing));
     context.read<AccountBloc>().add(LoadAccount());
 
-    Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
+    Navigator.pushNamedAndRemoveUntil(context,AppRouter.homeRoute, (route) => false);
   }
 }

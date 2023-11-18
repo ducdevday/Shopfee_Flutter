@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shopfee/app/common/widgets/my_bottom_navigation_bar/cubit/my_bottom_navigation_bar_cubit.dart';
 import 'package:shopfee/app/config/color.dart';
+import 'package:shopfee/app/config/routes.dart';
 import 'package:shopfee/app/config/style.dart';
 import 'package:shopfee/app/config/theme.dart';
 
@@ -14,23 +15,6 @@ class MyBottomNavigationBar extends StatefulWidget {
 }
 
 class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
-  // void _onItemTapped(int index) {
-  //   context.read<MyBottomNavigationBarCubit>().selectPage(index);
-  //   switch (index) {
-  //     case 0:
-  //       Navigator.pushNamed(context, "/home");
-  //       break;
-  //     case 1:
-  //       Navigator.pushNamed(context, "/history");
-  //       break;
-  //     case 2:
-  //       Navigator.pushNamed(context, "/account");
-  //       break;
-  //     default:
-  //       Navigator.pushNamed(context, "/home");
-  //       break;
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -84,20 +68,20 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
                   iconSize: 24,
                   onTap: (int index) {
                     context.read<MyBottomNavigationBarCubit>().selectPage(index);
-                    switch (index) {
-                      case 0:
-                        Navigator.pushNamed(context, "/home");
-                        break;
-                      case 1:
-                        Navigator.pushNamed(context, "/history");
-                        break;
-                      case 2:
-                        Navigator.pushNamed(context, "/account");
-                        break;
-                      default:
-                        Navigator.pushNamed(context, "/home");
-                        break;
-                    }
+                    // switch (index) {
+                    //   case 0:
+                    //     Navigator.pushNamed(context, AppRouter.homeRoute);
+                    //     break;
+                    //   case 1:
+                    //     Navigator.pushNamed(context,AppRouter.historyRoute);
+                    //     break;
+                    //   case 2:
+                    //     Navigator.pushNamed(context,AppRouter.accountRoute);
+                    //     break;
+                    //   default:
+                    //     Navigator.pushNamed(context, AppRouter.homeRoute);
+                    //     break;
+                    // }
                   },
                   selectedLabelStyle: AppStyle.smallTextStyle
                       .copyWith(color: AppColor.disableColor),

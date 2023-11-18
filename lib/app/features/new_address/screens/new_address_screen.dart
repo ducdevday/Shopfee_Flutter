@@ -4,6 +4,7 @@ import 'package:shopfee/app/common/widgets/my_alert_dialog.dart';
 import 'package:shopfee/app/common/widgets/my_confirm_dialog.dart';
 import 'package:shopfee/app/config/color.dart';
 import 'package:shopfee/app/config/dimens.dart';
+import 'package:shopfee/app/config/routes.dart';
 import 'package:shopfee/app/config/style.dart';
 import 'package:shopfee/app/features/new_address/bloc/new_address_bloc.dart';
 import 'package:shopfee/app/features/new_address/widgets/address_field.dart';
@@ -103,7 +104,7 @@ class NewAddressScreen extends StatelessWidget {
                               children: [
                                 InkWell(
                                   onTap: () {
-                                    Navigator.pushNamed(context, "/geolocation")
+                                    Navigator.pushNamed(context, AppRouter.geolocationRoute)
                                         .then((value) => context
                                             .read<NewAddressBloc>()
                                             .add(AddLocation(

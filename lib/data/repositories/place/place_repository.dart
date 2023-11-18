@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 class PlaceRepository extends PlaceRepositoryBase {
-  final String key = "AIzaSyAoqi3BMTSW1h2CB-WmeJkWrqyE-JgAXo4";
+  final String key = "AIzaSyCehQh1gTiLWoLmeZDGF2mhlpVFCGGbdbM";
   final String types = "geocode";
   final String language = "vi-VN";
   final String region = "VN";

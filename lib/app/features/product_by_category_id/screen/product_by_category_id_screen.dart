@@ -4,6 +4,7 @@ import 'package:shopfee/app/common/widgets/my_error.dart';
 import 'package:shopfee/app/common/widgets/my_loading.dart';
 import 'package:shopfee/app/config/color.dart';
 import 'package:shopfee/app/config/dimens.dart';
+import 'package:shopfee/app/config/routes.dart';
 import 'package:shopfee/app/config/style.dart';
 import 'package:shopfee/app/features/product/screen/product_screen.dart';
 import 'package:shopfee/app/features/product_by_category_id/bloc/product_by_category_id_bloc.dart';
@@ -45,7 +46,7 @@ class ProductByCategoryIdScreen extends StatelessWidget {
                   splashColor: Colors.transparent,
                   highlightColor: Colors.transparent,
                   onPressed: () {
-                    Navigator.pushNamed(context, "/search");
+                    Navigator.pushNamed(context, AppRouter.searchRoute);
                   },
                   icon: Icon(
                     Icons.search_rounded,
@@ -137,11 +138,8 @@ Widget ProductList(BuildContext buildContext, ProductByCategoryLoaded state) {
             padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: InkWell(
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            ProductScreen(state.products[index].id)));
+                Navigator.pushNamed(context, AppRouter.productRoute,
+                    arguments: state.products[index].id);
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -153,7 +151,7 @@ Widget ProductList(BuildContext buildContext, ProductByCategoryLoaded state) {
                       Container(
                         height: 70,
                         width: 70,
-                        decoration:  const BoxDecoration(
+                        decoration: const BoxDecoration(
                           color: Color(0xfff4f4f3),
                           shape: BoxShape.circle,
                           // image: DecorationImage(image: NetworkImage(product.imageUrl,),fit: BoxFit.cover)

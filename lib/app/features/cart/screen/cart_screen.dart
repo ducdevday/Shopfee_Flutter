@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shopfee/app/common/widgets/my_confirm_dialog.dart';
 import 'package:shopfee/app/config/color.dart';
 import 'package:shopfee/app/config/dimens.dart';
+import 'package:shopfee/app/config/routes.dart';
 import 'package:shopfee/app/config/style.dart';
 import 'package:shopfee/app/features/cart/bloc/cart_bloc.dart';
 import 'package:shopfee/app/features/cart/widgets/delivery_bottom_sheet.dart';
@@ -37,10 +38,10 @@ class _CartScreenState extends State<CartScreen> {
               .add(const LoadHistory(historyStatus: HistoryStatus.Processing));
           if (state.paymentUrl == null) {
             Navigator.pushNamedAndRemoveUntil(
-                    context, "/receipt", (Route route) => false,
+                    context,AppRouter.receiptRoute, (Route route) => false,
                     arguments: state.orderId);
           } else {
-            Navigator.pushNamed(context, "/vnpay", arguments: {
+            Navigator.pushNamed(context, AppRouter.vnpayRoute, arguments: {
               "paymentUrl": state.paymentUrl,
               "orderId": state.orderId,
               "transactionId": state.transactionId
@@ -169,7 +170,8 @@ class _CartScreenState extends State<CartScreen> {
                                   InkWell(
                                       onTap: () {
                                         Navigator.pushNamed(
-                                                context, "/saved_address",
+                                                context,
+                                            AppRouter.savedAddressRoute,
                                                 arguments: true)
                                             .then((value) => context
                                                 .read<CartBloc>()
@@ -195,7 +197,8 @@ class _CartScreenState extends State<CartScreen> {
                                   InkWell(
                                       onTap: () {
                                         Navigator.pushNamed(
-                                                context, "/new_address")
+                                                context,
+                                            AppRouter.newAddressRoute)
                                             .then((value) => context
                                                 .read<CartBloc>()
                                                 .add(InitAddress()));

@@ -107,9 +107,11 @@ class OrderRepository extends OrderRepositoryBase {
 
   @override
   Future<ResultList> getHistoryOrder(
-      String userId, OrderStatus orderStatus) async {
+      String userId, OrderStatus orderStatus, {required int page,required int size}) async {
     Map<String, dynamic> queryParameters = {
       "orderStatus": orderStatus.name,
+      "page": page,
+      "size": size
     };
     try {
       var response = await dio.get(

@@ -9,34 +9,52 @@ class SearchInitial extends SearchState {
   List<Object> get props => [];
 }
 
+class SearchLoading extends SearchState {
+  @override
+  List<Object> get props => [];
+}
+
 class SearchLoaded extends SearchState {
   final String query;
-  final List<ProductInformation> _products;
-  final List<ProductInformation> productsFiltered;
-
-  @override
-  List<Object> get props => [query, _products, productsFiltered];
+  final int page;
+  final int size;
+  final List<ProductInformation> products;
+  final bool isLoadMore;
+  final bool cannotLoadMore;
 
   const SearchLoaded({
     this.query = "",
-    products = const [],
-    this.productsFiltered = const [],
-  }) : _products = products;
+    this.products = const [],
+    required this.page,
+    required this.size,
+    this.isLoadMore = false,
+    this.cannotLoadMore = false
+  });
+
+  @override
+  List<Object> get props =>
+      [query, page, size, products, isLoadMore, cannotLoadMore,];
 
   SearchLoaded copyWith({
     String? query,
+    int? page,
+    int? size,
     List<ProductInformation>? products,
-    List<ProductInformation>? productsFiltered,
+    bool? isLoadMore,
+    bool? cannotLoadMore,
   }) {
     return SearchLoaded(
       query: query ?? this.query,
-      products: products ?? this._products,
-      productsFiltered: productsFiltered ?? this.productsFiltered,
-    ) ;
+      page: page ?? this.page,
+      size: size ?? this.size,
+      products: products ?? this.products,
+      isLoadMore: isLoadMore ?? this.isLoadMore,
+      cannotLoadMore: cannotLoadMore ?? this.cannotLoadMore,
+    );
   }
 }
 
-class SearchNoResult extends SearchState {
+class SearchError extends SearchState {
   @override
   List<Object> get props => [];
 }

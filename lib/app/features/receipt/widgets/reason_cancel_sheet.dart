@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shopfee/app/common/widgets/my_confirm_dialog.dart';
 import 'package:shopfee/app/config/color.dart';
 import 'package:shopfee/app/config/dimens.dart';
 import 'package:shopfee/app/config/style.dart';
@@ -87,11 +88,27 @@ class ReasonCancelSheet extends StatelessWidget {
                   padding: const EdgeInsets.all(AppDimen.spacing),
                   child: ElevatedButton(
                     onPressed: () {
-                      context.read<ReceiptBloc>().add(AddEventLog(
-                          orderId: state.receipt.id!,
-                          eventLog: EventLog(OrderStatus.CANCELED,
-                              DateTime.now(), state.reasonCancel, false)));
-                      Navigator.pop(context);
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext dialogContext) =>
+                              MyConfirmDialog(
+                                title: "Confirm",
+                                content: "Are you sure to cancel this order",
+                                callbackOK: () {
+                                  context.read<ReceiptBloc>().add(AddEventLog(
+                                      orderId: state.receipt.id!,
+                                      eventLog: EventLog(
+                                          OrderStatus.CANCELED,
+                                          DateTime.now(),
+                                          state.reasonCancel,
+                                          false)));
+                                  Navigator.pop(dialogContext);
+                                },
+                                callbackCancel: () {
+                                  Navigator.pop(dialogContext);
+                                },
+                                confirmText: "Delete",
+                              )).then((value) => Navigator.pop(context));
                     },
                     child: const Text("Confirm Cancel"),
                     style: AppStyle.elevatedButtonStylePrimary.copyWith(

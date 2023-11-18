@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shopfee/app/config/color.dart';
 import 'package:shopfee/app/config/dimens.dart';
+import 'package:shopfee/app/config/routes.dart';
 import 'package:shopfee/app/config/style.dart';
 import 'package:shopfee/app/features/login/cubit/login_cubit.dart';
 import 'package:shopfee/app/features/login/widgets/input_field.dart';
@@ -84,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       alignment: Alignment.centerRight,
                       child: TextButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, "/forgot_password");
+                            Navigator.pushNamed(context,AppRouter.forgotPasswordRoute);
                           },
                           child: Text(
                             "Forgot password?",

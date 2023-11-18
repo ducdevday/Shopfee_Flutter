@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:shopfee/app/common/widgets/my_bottom_navigation_bar/cubit/my_bottom_navigation_bar_cubit.dart';
 import 'package:shopfee/app/common/widgets/my_bottom_navigation_bar/my_bottom_navigationbar.dart';
 import 'package:shopfee/app/common/widgets/my_error.dart';
-import 'package:shopfee/app/common/widgets/my_loading.dart';
 import 'package:shopfee/app/config/dimens.dart';
+import 'package:shopfee/app/config/routes.dart';
 import 'package:shopfee/app/config/style.dart';
 import 'package:shopfee/app/features/home/bloc/home_bloc.dart';
 import 'package:shopfee/app/features/home/widgets/home_float_action.dart';
@@ -13,24 +11,11 @@ import 'package:shopfee/app/features/home/widgets/home_product.dart';
 import 'package:shopfee/app/features/home/widgets/home_skeleton.dart';
 import 'package:shopfee/app/features/home/widgets/home_slider.dart';
 import 'package:shopfee/app/features/product_by_category_id/screen/product_by_category_id_screen.dart';
-import 'package:shopfee/data/repositories/category/category_repository.dart';
-import 'package:shopfee/data/repositories/product/product_repository.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   final MyBottomNavigationBar myBottomNavigationBar;
 
   const HomeScreen(this.myBottomNavigationBar, {Key? key}) : super(key: key);
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  @override
-  void initState() {
-    super.initState();
-    context.read<MyBottomNavigationBarCubit>().selectPage(0);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Expanded(
                       child: InkWell(
                         onTap: () {
-                          Navigator.pushNamed(context, "/search");
+                          Navigator.pushNamed(context, AppRouter.searchRoute);
                         },
                         child: TextField(
                           enabled: false,
@@ -192,9 +177,7 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButtonLocation:
           FloatingActionButtonLocation.miniCenterFloat,
       floatingActionButton: const HomeFloatAction(),
-      bottomNavigationBar: widget.myBottomNavigationBar,
+      bottomNavigationBar: myBottomNavigationBar,
     );
   }
-
-
 }

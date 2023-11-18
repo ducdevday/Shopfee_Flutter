@@ -23,7 +23,24 @@ class ProductRepository extends ProductRepositoryBase {
       return ResultList(success: false, message: e.toString());
     }
   }
-
+  @override
+  Future<ResultList> getOutStandingProduct({required int quantity}) async {
+    try {
+      var response = await dio.get("${BaseService.productPath}/top/$quantity");
+      return ResultList(
+          success: response.data["success"],
+          message: response.data["message"],
+          data: response.data["data"]);
+    } catch (e) {
+      if (e is DioError) {
+        final response = e.response;
+        return ResultList(
+            success: response?.data["success"],
+            message: response?.data["message"]);
+      }
+      return ResultList(success: false, message: e.toString());
+    }
+  }
   @override
   Future<Result> getProductById(String id) async {
     try {
@@ -47,6 +64,27 @@ class ProductRepository extends ProductRepositoryBase {
   Future<ResultList> getProductsByCategoryId(String id) async{
     try {
       var response = await dio.get("${BaseService.productPath}/category/$id");
+      return ResultList(
+          success: response.data["success"],
+          message: response.data["message"],
+          data: response.data["data"]);
+    } catch (e) {
+      if (e is DioError) {
+        final response = e.response;
+        return ResultList(
+            success: response?.data["success"],
+            message: response?.data["message"]);
+      }
+      return ResultList(success: false, message: e.toString());
+    }
+  }
+
+  @override
+  Future<ResultList> getSearchProduct({required String searchString, required int page, required int size}) async
+  {
+    try {
+      Map<String, dynamic> query = {"key":searchString, "page": page, "size": size};
+      var response = await dio.get("${BaseService.productPath}", queryParameters: query);
       return ResultList(
           success: response.data["success"],
           message: response.data["message"],

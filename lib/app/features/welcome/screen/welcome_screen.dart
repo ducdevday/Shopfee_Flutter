@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shopfee/app/config/color.dart';
 import 'package:shopfee/app/config/dimens.dart';
+import 'package:shopfee/app/config/routes.dart';
 import 'package:shopfee/app/config/style.dart';
 import 'package:shopfee/app/features/welcome/cubit/welcome_cubit.dart';
 import 'package:shopfee/data/repositories/auth/auth_repository.dart';
@@ -177,7 +178,7 @@ class WelcomeScreen extends StatelessWidget {
                             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                           ),
                           onPressed: () {
-                            Navigator.pushNamed(context, "/login");
+                            Navigator.pushNamed(context,AppRouter.loginRoute);
                           },
                           child: Text(
                             "Login",
@@ -209,7 +210,7 @@ class WelcomeScreen extends StatelessWidget {
                               ),
                               onPressed: () {
                                 Navigator.pushReplacementNamed(
-                                    context, "/home");
+                                    context,AppRouter.homeRoute);
                               },
                               child: Text(
                                 "Continue as guess",
@@ -314,7 +315,7 @@ class ExistEmailBottomSheet extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: AppDimen.screenPadding),
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, "/login", arguments: email);
+                  Navigator.pushNamed(context,AppRouter.loginRoute, arguments: email);
                 },
                 child: Text(
                   "Continue with this email",

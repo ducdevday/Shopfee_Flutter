@@ -85,7 +85,7 @@ class _MyAppState extends State<MyApp> {
         if (notificationResponse.payload != null &&
             notificationResponse.payload!.isNotEmpty) {
           NavigationUtil.pushNamed(
-              route: "/receipt", args: notificationResponse.payload);
+              route:AppRouter.receiptRoute, args: notificationResponse.payload);
         }
       } catch (e) {
         print(e);
@@ -165,8 +165,7 @@ class _MyAppState extends State<MyApp> {
           onGenerateRoute: (settings) {
             return AppRouter.onGenerateRoute(settings);
           },
-          initialRoute: "/splash",
-          // initialRoute: "/notify_permission",
+          initialRoute: AppRouter.splashRoute,
           // home: ReceiptScreen(orderId: "65431e85f4b1650e5f20af1a"),
           builder: EasyLoading.init(),
         ),

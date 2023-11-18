@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopfee/app/config/color.dart';
+import 'package:shopfee/app/config/routes.dart';
 import 'package:shopfee/app/features/vnpay/cubit/vnpay_cubit.dart';
 import 'package:shopfee/data/repositories/transaction/transaction_repository.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -51,14 +52,14 @@ class _VNPayScreenState extends State<VNPayScreen> {
                   content: const Text("Payment success"),
                   backgroundColor: AppColor.primaryColor,
                 ));
-                Navigator.pushNamed(context, "/receipt",
+                Navigator.pushNamed(context,AppRouter.receiptRoute,
                     arguments: widget.orderId);
               } else if (state is VnpayCanceled) {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: const Text("Payment canceled"),
                   backgroundColor: AppColor.primaryColor,
                 ));
-                Navigator.pushNamed(context, "/receipt",
+                Navigator.pushNamed(context,AppRouter.receiptRoute,
                     arguments: widget.orderId);
               }
             },

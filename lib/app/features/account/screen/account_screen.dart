@@ -4,26 +4,16 @@ import 'package:shopfee/app/common/widgets/my_bottom_navigation_bar/cubit/my_bot
 import 'package:shopfee/app/common/widgets/my_bottom_navigation_bar/my_bottom_navigationbar.dart';
 import 'package:shopfee/app/config/color.dart';
 import 'package:shopfee/app/config/dimens.dart';
+import 'package:shopfee/app/config/routes.dart';
 import 'package:shopfee/app/config/style.dart';
 import 'package:shopfee/app/features/account/bloc/account_bloc.dart';
 import 'package:shopfee/app/features/account/widgets/setting_item.dart';
 import 'package:shopfee/app/features/cart/bloc/cart_bloc.dart';
 
-class AccountScreen extends StatefulWidget {
+class AccountScreen extends StatelessWidget {
   final MyBottomNavigationBar myBottomNavigationBar;
 
   const AccountScreen(this.myBottomNavigationBar, {Key? key}) : super(key: key);
-
-  @override
-  State<AccountScreen> createState() => _AccountScreenState();
-}
-
-class _AccountScreenState extends State<AccountScreen> {
-  @override
-  void initState() {
-    super.initState();
-    context.read<MyBottomNavigationBarCubit>().selectPage(2);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +113,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                     callback: () {
                                       Navigator.pushNamed(
                                         context,
-                                        "/personal_information",
+                                        AppRouter.personalInformationRoute,
                                       ).then((value) => context
                                           .read<AccountBloc>()
                                           .add(const LoadAccount()));
@@ -138,7 +128,8 @@ class _AccountScreenState extends State<AccountScreen> {
                                     content: "Change Password",
                                     callback: () {
                                       Navigator.pushNamed(context,
-                                          "/change_password_in_account");
+                                          AppRouter.changePasswordInAccountRoute
+                                      );
                                     },
                                   ),
                                   const Divider(
@@ -150,7 +141,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                     content: "Saved Address",
                                     callback: () {
                                       Navigator.pushNamed(
-                                          context, "/saved_address");
+                                          context,AppRouter.savedAddressRoute);
                                     },
                                   ),
                                 ],
@@ -221,7 +212,7 @@ class _AccountScreenState extends State<AccountScreen> {
                   BlocConsumer<AccountBloc, AccountState>(
                     listener: (context, state) {
                       if (state is AccountNavigateLogin) {
-                        Navigator.pushNamed(context, "/welcome");
+                        Navigator.pushNamed(context, AppRouter.welcomeRoute);
                       }
                     },
                     builder: (context, state) {
@@ -285,7 +276,7 @@ class _AccountScreenState extends State<AccountScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: widget.myBottomNavigationBar,
+      bottomNavigationBar: myBottomNavigationBar,
     );
   }
 }

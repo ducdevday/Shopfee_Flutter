@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shopfee/app/config/color.dart';
 import 'package:shopfee/app/config/dimens.dart';
+import 'package:shopfee/app/config/routes.dart';
 import 'package:shopfee/app/config/style.dart';
 import 'package:shopfee/data/models/onboarding_model.dart';
 
@@ -118,7 +119,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                         ),
                         onPressed: () {
                           if (currentIndex == widget.contents.length - 1) {
-                            Navigator.pushReplacementNamed(context, "/notify_permission");
+                            Navigator.pushReplacementNamed(context,AppRouter.notifyPermissionRoute);
                           }
                           _controller.nextPage(
                             duration: const Duration(milliseconds: 100),

@@ -2,17 +2,18 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:shopfee/app/common/data/global_data.dart';
+import 'package:shopfee/app/config/routes.dart';
 
 class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Timer(Duration(milliseconds: 3000), () {
       if (GlobalData.ins.isFirstTime) {
-        Navigator.pushReplacementNamed(context, "/onboarding");
+        Navigator.pushNamedAndRemoveUntil(context, AppRouter.onBoardingRoute, (route) => false);
       } else if (GlobalData.ins.userId != null) {
-        Navigator.pushReplacementNamed(context, "/home");
+        Navigator.pushNamedAndRemoveUntil(context, AppRouter.homeRoute, (route) => false);
       } else {
-        Navigator.pushReplacementNamed(context, "/welcome");
+        Navigator.pushNamedAndRemoveUntil(context, AppRouter.welcomeRoute, (route) => false);
       }
     });
     return Scaffold(

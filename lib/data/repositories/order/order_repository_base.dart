@@ -12,5 +12,6 @@ abstract class OrderRepositoryBase extends BaseService{
   Future<Result> createReview(String orderId,Review review);
   Future<ResultList> getStatusOrder(String orderId);
   Future<Result> addEventLog(String orderId, EventLog eventLog);
-  Future<ResultList> getHistoryOrder(String userId, OrderStatus orderStatus);
+  Future<ResultList> getHistoryOrder(String userId, OrderStatus orderStatus,
+      {required int page,required int size});
 }

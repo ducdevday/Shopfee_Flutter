@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopfee/app/config/color.dart';
@@ -5,6 +6,7 @@ import 'package:shopfee/app/config/dimens.dart';
 import 'package:shopfee/app/config/style.dart';
 import 'package:shopfee/app/features/home/widgets/home_product.dart';
 import 'package:shopfee/app/features/search/cubit/search_cubit.dart';
+import 'package:shopfee/data/models/product_information.dart';
 import 'package:shopfee/data/repositories/product/product_repository.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -16,12 +18,24 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   late SearchCubit _cubit;
+  final scrollController = ScrollController();
+  late bool isLoadingMore;
+  late bool cannotLoadMore;
+  late List<ProductInformation> productList;
 
   @override
   void initState() {
     super.initState();
-    _cubit = SearchCubit(productRepository: context.read<ProductRepository>())
-      ..initSearch();
+    _cubit = SearchCubit(productRepository: context.read<ProductRepository>());
+    scrollController.addListener(_scrollListener);
+  }
+
+  void _scrollListener() {
+    if (isLoadingMore || cannotLoadMore) return;
+    if (scrollController.position.pixels ==
+        scrollController.position.maxScrollExtent) {
+      _cubit.loadMoreProduct();
+    }
   }
 
   @override
@@ -93,16 +107,25 @@ class _SearchScreenState extends State<SearchScreen> {
           body: BlocBuilder<SearchCubit, SearchState>(
             builder: (context, state) {
               if (state is SearchLoaded) {
-                if (state.productsFiltered.isNotEmpty &&
-                    state.query.isNotEmpty) {
+                isLoadingMore = state.isLoadMore;
+                cannotLoadMore = state.cannotLoadMore;
+                productList = state.products;
+                if (productList.isNotEmpty && state.query.isNotEmpty) {
                   return ListView.separated(
+                    controller: scrollController,
                     padding: EdgeInsets.only(top: AppDimen.screenPadding),
-                    itemCount: state.productsFiltered.length,
-                    itemBuilder: (context, index) => Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: AppDimen.screenPadding),
-                      child: HomeProduct(state.productsFiltered[index]),
-                    ),
+                    itemCount: isLoadingMore
+                        ? productList.length + 1
+                        : productList.length,
+                    itemBuilder: (context, index) => index < productList.length
+                        ? Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: AppDimen.screenPadding),
+                            child: HomeProduct(state.products[index]))
+                        : const Padding(
+                            padding: EdgeInsets.all(AppDimen.spacing),
+                            child: CupertinoActivityIndicator(),
+                          ),
                     separatorBuilder: (context, int index) => const Divider(
                       height: 8,
                       thickness: 0.75,
