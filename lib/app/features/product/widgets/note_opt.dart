@@ -10,7 +10,8 @@ class NoteOpt extends StatelessWidget {
     return BlocBuilder<ProductBloc, ProductState>(
       builder: (context, state) {
         if (state is ProductLoaded) {
-          return TextField(
+          return TextFormField (
+            initialValue: state.order.note.isNotEmpty ? state.order.note : null,
             onChanged: (value) =>
                 {context.read<ProductBloc>().add(TakeNote(value))},
             style: TextStyle(fontSize: 14),

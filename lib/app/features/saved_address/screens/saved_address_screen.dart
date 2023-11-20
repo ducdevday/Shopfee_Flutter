@@ -106,21 +106,17 @@ class _SavedAddressScreenState extends State<SavedAddressScreen> {
 }
 
 void checkAddNewAddress(SavedAddressLoaded state, BuildContext context) async {
-  if (await PermissionUtil.requestLocationPermission() == true) {
-    if (state.addressList.length < 5) {
-      Navigator.pushNamed(context,
-          AppRouter.newAddressRoute
-      ).then(
-          (value) => context.read<SavedAddressBloc>().add(LoadSavedAddress()));
-    } else {
-      showDialog(
-          context: context,
-          builder: (_) => MyAlertDialog(
-              title: "",
-              content: "You can only save less than or equal 5 address",
-              callback: () {
-                Navigator.pop(context);
-              }));
-    }
+  if (state.addressList.length < 5) {
+    Navigator.pushNamed(context, AppRouter.newAddressRoute).then(
+        (value) => context.read<SavedAddressBloc>().add(LoadSavedAddress()));
+  } else {
+    showDialog(
+        context: context,
+        builder: (_) => MyAlertDialog(
+            title: "",
+            content: "You can only save less than or equal 5 address",
+            callback: () {
+              Navigator.pop(context);
+            }));
   }
 }

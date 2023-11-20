@@ -9,9 +9,10 @@ import 'package:shopfee/app/config/style.dart';
 import 'package:shopfee/app/features/new_address/bloc/new_address_bloc.dart';
 import 'package:shopfee/app/features/new_address/widgets/address_field.dart';
 import 'package:shopfee/app/features/new_address/widgets/update_default.dart';
-import 'package:shopfee/data/models/address.dart';
 import 'package:shopfee/data/models/place_search.dart';
 import 'package:shopfee/data/repositories/address/address_repository.dart';
+
+import '../../../utils/permission_util.dart';
 
 class NewAddressScreen extends StatelessWidget {
   final String? addressId;
@@ -103,13 +104,18 @@ class NewAddressScreen extends StatelessWidget {
                             child: Column(
                               children: [
                                 InkWell(
-                                  onTap: () {
-                                    Navigator.pushNamed(context, AppRouter.geolocationRoute)
-                                        .then((value) => context
-                                            .read<NewAddressBloc>()
-                                            .add(AddLocation(
-                                                placeSearch:
-                                                    value as PlaceSearch)));
+                                  onTap: () async {
+                                    if (await PermissionUtil
+                                            .requestLocationPermission() ==
+                                        true) {
+                                      Navigator.pushNamed(context,
+                                              AppRouter.geolocationRoute)
+                                          .then((value) => context
+                                              .read<NewAddressBloc>()
+                                              .add(AddLocation(
+                                                  placeSearch:
+                                                      value as PlaceSearch)));
+                                    }
                                   },
                                   child: Column(
                                     crossAxisAlignment:
@@ -129,7 +135,8 @@ class NewAddressScreen extends StatelessWidget {
                                           enabled: false,
                                           suffixIcon: const Icon(Icons
                                               .keyboard_arrow_right_rounded),
-                                          contentPadding: const EdgeInsets.all(8),
+                                          contentPadding:
+                                              const EdgeInsets.all(8),
                                           disabledBorder: OutlineInputBorder(
                                               borderSide: const BorderSide(
                                                   color: Color(0xffCCCCCC)),

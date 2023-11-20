@@ -53,6 +53,11 @@ android {
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        android.applicationVariants.all { variant ->
+            variant.outputs.all {
+                outputFileName = "${applicationId}_v${versionCode}_${versionName}_${variant.flavorName}_${variant.buildType.name}.apk"
+            }
+        }
     }
 
     buildTypes {

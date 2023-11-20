@@ -48,17 +48,17 @@ class _VNPayScreenState extends State<VNPayScreen> {
           child: BlocConsumer<VnpayCubit, VnpayState>(
             listener: (context, state) {
               if (state is VnpaySuccess) {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: const Text("Payment success"),
-                  backgroundColor: AppColor.primaryColor,
-                ));
+                // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                //   content: const Text("Payment success"),
+                //   backgroundColor: AppColor.primaryColor,
+                // ));
                 Navigator.pushNamed(context,AppRouter.receiptRoute,
                     arguments: widget.orderId);
               } else if (state is VnpayCanceled) {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: const Text("Payment canceled"),
-                  backgroundColor: AppColor.primaryColor,
-                ));
+                // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                //   content: const Text("Payment canceled"),
+                //   backgroundColor: AppColor.primaryColor,
+                // ));
                 Navigator.pushNamed(context,AppRouter.receiptRoute,
                     arguments: widget.orderId);
               }
