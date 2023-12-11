@@ -1,16 +1,11 @@
-# shopfee
+# Shopfee
 
-A new Flutter project.
+A Drink Order App For Customer.
 
-## Getting Started
+## Promotion Video
+https://github.com/ducdevday/Shopfee_Flutter/assets/86721113/c51078ef-ea10-4a5b-81e9-9d25456a8dd2
 
-This project is a starting point for a Flutter application.
+## Demo Video
+https://drive.google.com/file/d/1_OyEr4lmwRXb_AFlaeu5wgr0t28voRxS/view?usp=sharing
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
