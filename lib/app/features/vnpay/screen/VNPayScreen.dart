@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:shopfee/app/config/color.dart';
 import 'package:shopfee/app/config/routes.dart';
 import 'package:shopfee/app/features/vnpay/cubit/vnpay_cubit.dart';
+import 'package:shopfee/data/repositories/firebase/firebase_repository.dart';
+import 'package:shopfee/data/repositories/order/order_repository.dart';
 import 'package:shopfee/data/repositories/transaction/transaction_repository.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -28,9 +31,12 @@ class _VNPayScreenState extends State<VNPayScreen> {
   @override
   void initState() {
     super.initState();
-    _cubit =
-        VnpayCubit(transactionRepository: context.read<TransactionRepository>())
-          ..initVnpay();
+    _cubit = VnpayCubit(
+        transactionRepository: context.read<TransactionRepository>(),
+        orderRepository: context.read<OrderRepository>(),
+        firebaseRepository: context.read<FirebaseRepository>()
+    )
+      ..initVnpay();
   }
 
   @override
@@ -38,7 +44,8 @@ class _VNPayScreenState extends State<VNPayScreen> {
     return WillPopScope(
       onWillPop: () async {
         //? Hủy thanh toán
-        _cubit.cancelPayment(widget.transactionId);
+        _cubit.handlePayment(
+            transactionId: widget.transactionId, orderId: widget.orderId);
         // Navigator.pushNamed(context, "/receipt", arguments: widget.orderId);
         return Future.value(false);
       },
@@ -48,18 +55,18 @@ class _VNPayScreenState extends State<VNPayScreen> {
           child: BlocConsumer<VnpayCubit, VnpayState>(
             listener: (context, state) {
               if (state is VnpaySuccess) {
-                // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                //   content: const Text("Payment success"),
-                //   backgroundColor: AppColor.primaryColor,
-                // ));
-                Navigator.pushNamed(context,AppRouter.receiptRoute,
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: const Text("Payment success"),
+                  backgroundColor: AppColor.primaryColor,
+                ));
+                Navigator.pushNamed(context, AppRouter.receiptRoute,
                     arguments: widget.orderId);
               } else if (state is VnpayCanceled) {
-                // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                //   content: const Text("Payment canceled"),
-                //   backgroundColor: AppColor.primaryColor,
-                // ));
-                Navigator.pushNamed(context,AppRouter.receiptRoute,
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: const Text("Payment canceled"),
+                  backgroundColor: AppColor.primaryColor,
+                ));
+                Navigator.pushNamed(context, AppRouter.receiptRoute,
                     arguments: widget.orderId);
               }
             },
@@ -72,6 +79,7 @@ class _VNPayScreenState extends State<VNPayScreen> {
                         NavigationDelegate(
                           onProgress: (int progress) {
                             // Update loading bar.
+                            // EasyLoading.showProgress(progress.toDouble(), status: "Processing...",maskType: EasyLoadingMaskType.black);
                           },
                           onPageStarted: (String url) {
                             final onPageStarted = url;
@@ -80,7 +88,10 @@ class _VNPayScreenState extends State<VNPayScreen> {
                             final onPageFinished = url;
                           },
                           onWebResourceError: (WebResourceError error) {
-                            _cubit.cancelPayment(widget.transactionId);
+                            final webError = error;
+                            _cubit.handlePayment(
+                                transactionId: widget.transactionId,
+                                orderId: widget.orderId);
                           },
                           onNavigationRequest: (NavigationRequest request) {
                             // if (request.url.startsWith('https://www.youtube.com/')) {
@@ -90,12 +101,15 @@ class _VNPayScreenState extends State<VNPayScreen> {
                             final onNavigationRequest = request.url;
                             // ? Thanh toán thành công khi vnp_ResponseCode=00, thất bại khi vnp_ResponseCode!=00
                             if (request.url.contains("vnp_ResponseCode")) {
-                              if(request.url.contains("vnp_ResponseCode=00")){
-                                _cubit.doPayment(widget.transactionId);
+                              if (request.url.contains("vnp_ResponseCode=00")) {
+                                _cubit.handlePayment(
+                                    transactionId: widget.transactionId,
+                                    orderId: widget.orderId);
                                 return NavigationDecision.prevent;
-                              }
-                              else{
-                                _cubit.cancelPayment(widget.transactionId);
+                              } else {
+                                _cubit.handlePayment(
+                                    transactionId: widget.transactionId,
+                                    orderId: widget.orderId);
                                 return NavigationDecision.prevent;
                               }
                             }

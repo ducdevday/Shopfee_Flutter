@@ -36,7 +36,7 @@ class _GeolocationScreenState extends State<GeolocationScreen> {
             if (state is GeolocationLoaded) {
               final Marker _marker = Marker(
                   markerId: MarkerId("markerUser"),
-                  infoWindow: InfoWindow(title: "Đức Nguyễn"),
+                  // infoWindow: InfoWindow(title: "Đức Nguyễn"),
                   icon: BitmapDescriptor.defaultMarker,
                   position: LatLng(state.latitude, state.longitude));
               mapController?.animateCamera(CameraUpdate.newLatLng(

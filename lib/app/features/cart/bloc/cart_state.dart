@@ -45,7 +45,8 @@ class CartLoaded extends CartState {
   @override
   List<Object> get props => [cart];
 
-  bool get isValid => cart.address != null;
+  // bool get isValid => cart.address != null && (DateTime.now().hour >= 8 && DateTime.now().hour < 20);
+  bool get isValid => cart.address != null ;
 
   factory CartLoaded.fromJson(Map<String, dynamic> json) {
     return CartLoaded(

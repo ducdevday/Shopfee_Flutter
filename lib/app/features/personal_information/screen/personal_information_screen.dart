@@ -114,19 +114,19 @@ class PersonalInformationScreen extends StatelessWidget {
                     const SizedBox(
                       height: AppDimen.spacing,
                     ),
-                    InputField(
-                        title: "Phone",
-                        hint: state.user.phoneNumber != null
-                            ? state.user.phoneNumber!
-                            : "Input your Phone Number",
-                        callback: (String phoneNumber) {
-                          context
-                              .read<PersonalInformationCubit>()
-                              .updatePhoneNumber(phoneNumber);
-                        }),
-                    const SizedBox(
-                      height: AppDimen.spacing,
-                    ),
+                    // InputField(
+                    //     title: "Phone",
+                    //     hint: state.user.phoneNumber != null
+                    //         ? state.user.phoneNumber!
+                    //         : "Input your Phone Number",
+                    //     callback: (String phoneNumber) {
+                    //       context
+                    //           .read<PersonalInformationCubit>()
+                    //           .updatePhoneNumber(phoneNumber);
+                    //     }),
+                    // const SizedBox(
+                    //   height: AppDimen.spacing,
+                    // ),
                     Column(
                       children: [
                         Align(
@@ -205,43 +205,6 @@ class PersonalInformationScreen extends StatelessWidget {
                           highlightColor: Colors.transparent,
                           splashColor: Colors.transparent,
                           onTap: () {
-                            // showDialog(
-                            //     context: context,
-                            //     builder: (BuildContext contextDialog) {
-                            //       return SimpleDialog(
-                            //         title: const Text('Select your gender'),
-                            //         children: <Widget>[
-                            //           SimpleDialogOption(
-                            //             onPressed: () {
-                            //               context
-                            //                   .read<PersonalInformationCubit>()
-                            //                   .updateGender(Gender.MALE);
-                            //               Navigator.pop(contextDialog);
-                            //             },
-                            //             child: const Text('Male   ♂️'),
-                            //           ),
-                            //           SimpleDialogOption(
-                            //             onPressed: () {
-                            //               context
-                            //                   .read<PersonalInformationCubit>()
-                            //                   .updateGender(Gender.FEMALE);
-                            //               Navigator.pop(contextDialog);
-                            //             },
-                            //             child: const Text('Female   ♀️'),
-                            //           ),
-                            //           SimpleDialogOption(
-                            //             onPressed: () {
-                            //               context
-                            //                   .read<PersonalInformationCubit>()
-                            //                   .updateGender(Gender.OTHER);
-                            //               Navigator.pop(contextDialog);
-                            //             },
-                            //             child: const Text('Other 💫'),
-                            //           ),
-                            //         ],
-                            //       );
-                            //     });
-
                             showCupertinoModalPopup(
                                 context: context,
                                 builder: (BuildContext contextPopup) =>

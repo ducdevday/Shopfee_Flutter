@@ -18,7 +18,9 @@ class NewAddressLoaded extends NewAddressState{
     this.currentDefault = false
   });
 
-  bool get isValid => address.details != null && address.longitude != null && address.recipientName != null && address.phoneNumber!= null;
+  bool get isValid => address.details != null && address.longitude != null && address.recipientName != null && address.phoneNumber!= null && isPhoneValid;
+
+  bool get isPhoneValid => RegExp(r"^\d{10}$").hasMatch(address.phoneNumber!);
 
   @override
   List<Object?> get props => [address, currentDefault];

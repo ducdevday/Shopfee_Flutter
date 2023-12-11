@@ -12,6 +12,8 @@ import 'package:shopfee/app/features/cart/widgets/payment_bottom_sheet.dart';
 import 'package:shopfee/app/features/cart/widgets/product_list.dart';
 import 'package:shopfee/app/features/history/bloc/history_bloc.dart';
 import 'package:shopfee/app/features/history/screen/history_screen.dart';
+import 'package:shopfee/app/features/cart/widgets/address_empty.dart';
+import 'package:shopfee/app/features/cart/widgets/time_order.dart';
 import 'package:shopfee/data/models/type_payment.dart';
 
 class CartScreen extends StatefulWidget {
@@ -38,8 +40,8 @@ class _CartScreenState extends State<CartScreen> {
               .add(const LoadHistory(historyStatus: HistoryStatus.Processing));
           if (state.paymentUrl == null) {
             Navigator.pushNamedAndRemoveUntil(
-                    context,AppRouter.receiptRoute, (Route route) => false,
-                    arguments: state.orderId);
+                context, AppRouter.receiptRoute, (Route route) => false,
+                arguments: state.orderId);
           } else {
             Navigator.pushNamed(context, AppRouter.vnpayRoute, arguments: {
               "paymentUrl": state.paymentUrl,
@@ -127,210 +129,19 @@ class _CartScreenState extends State<CartScreen> {
                           ),
                           Builder(builder: (context) {
                             if (state.cart.address != null) {
-                              return Row(
-                                children: [
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Text(
-                                              state
-                                                  .cart.address!.recipientName!,
-                                              style: AppStyle
-                                                  .mediumTextStyleDark
-                                                  .copyWith(
-                                                      color: AppColor
-                                                          .headingColor),
-                                            ),
-                                            Text(
-                                              "  |  ",
-                                              style:
-                                                  AppStyle.normalTextStyleDark,
-                                            ),
-                                            Text(
-                                              state.cart.address!.phoneNumber!,
-                                              style:
-                                                  AppStyle.normalTextStyleDark,
-                                            ),
-                                          ],
-                                        ),
-                                        Text(
-                                          state.cart.address!.details!,
-                                          style: AppStyle.normalTextStyleDark,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 40,
-                                  ),
-                                  InkWell(
-                                      onTap: () {
-                                        Navigator.pushNamed(
-                                                context,
-                                            AppRouter.savedAddressRoute,
-                                                arguments: true)
-                                            .then((value) => context
-                                                .read<CartBloc>()
-                                                .add(ChooseAddress(
-                                                    value as String)));
-                                      },
-                                      child: const Icon(
-                                          Icons.keyboard_arrow_right_rounded)),
-                                ],
-                              );
+                              return buildAddressDetail(state, context);
                             } else {
-                              return Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      "Please create an address",
-                                      style: AppStyle.normalTextStylePrimary,
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 40,
-                                  ),
-                                  InkWell(
-                                      onTap: () {
-                                        Navigator.pushNamed(
-                                                context,
-                                            AppRouter.newAddressRoute)
-                                            .then((value) => context
-                                                .read<CartBloc>()
-                                                .add(InitAddress()));
-                                      },
-                                      child: const Icon(
-                                          Icons.keyboard_arrow_right_rounded)),
-                                ],
-                              );
+                              return AddressEmpty();
                             }
                           }),
                           const Divider(
                             height: 20,
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Time order",
-                                style: AppStyle.mediumTitleStyleDark
-                                    .copyWith(color: AppColor.headingColor),
-                              ),
-                              const SizedBox(
-                                height: 4,
-                              ),
-                              Text(
-                                "*We are open from 08:00 AM - 20:00 PM",
-                                style: AppStyle.normalTextStyleDark,
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 16,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "As soon as posible",
-                                    style: AppStyle.mediumTextStyleDark
-                                        .copyWith(
-                                            color: AppColor.headingColor,
-                                            fontWeight: FontWeight.w500),
-                                  ),
-                                  const SizedBox(
-                                    height: 4,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.access_time_filled_rounded,
-                                        color: AppColor.primaryColor,
-                                      ),
-                                      const SizedBox(
-                                        width: 4,
-                                      ),
-                                      Text("Now - 10 Minute",
-                                          style: AppStyle.normalTextStyleDark),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              // TimeSetter()
-                            ],
-                          ),
+                          const TimeOrder(),
                           const Divider(
                             height: 20,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Payment Method",
-                                    style: AppStyle.mediumTitleStyleDark
-                                        .copyWith(
-                                            color: AppColor.headingColor,
-                                            fontWeight: FontWeight.w500),
-                                  ),
-                                  const SizedBox(
-                                    height: 4,
-                                  ),
-                                  Builder(builder: (context) {
-                                    if (state.cart.typePayment ==
-                                        TypePayment.CASHING) {
-                                      return Row(
-                                        children: [
-                                          Image.asset(
-                                            "assets/icons/ic_cash.jpg",
-                                            width: 24,
-                                            height: 24,
-                                          ),
-                                          const SizedBox(
-                                            width: 4,
-                                          ),
-                                          Text("Cash",
-                                              style:
-                                                  AppStyle.normalTextStyleDark),
-                                        ],
-                                      );
-                                    } else {
-                                      return Row(
-                                        children: [
-                                          Image.asset(
-                                            "assets/icons/ic_vnpay.png",
-                                            width: 24,
-                                            height: 24,
-                                          ),
-                                          const SizedBox(
-                                            width: 4,
-                                          ),
-                                          Text("VNPay",
-                                              style:
-                                                  AppStyle.normalTextStyleDark),
-                                        ],
-                                      );
-                                    }
-                                  }),
-                                ],
-                              ),
-                              InkWell(
-                                  onTap: () {
-                                    buildShowPaymentBottomSheet(context);
-                                  },
-                                  child: const Icon(
-                                      Icons.keyboard_arrow_right_rounded))
-                            ],
-                          ),
+                          buildPaymentMethod(state, context),
                           const Divider(
                             height: 20,
                           ),
@@ -513,6 +324,111 @@ class _CartScreenState extends State<CartScreen> {
           return const SizedBox();
         }
       },
+    );
+  }
+
+  Widget buildAddressDetail(CartLoaded state, BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, AppRouter.savedAddressRoute,
+                arguments: true)
+            .then((value) =>
+                context.read<CartBloc>().add(ChooseAddress(value as String)));
+      },
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      state.cart.address!.recipientName!,
+                      style: AppStyle.mediumTextStyleDark
+                          .copyWith(color: AppColor.headingColor),
+                    ),
+                    Text(
+                      "  |  ",
+                      style: AppStyle.normalTextStyleDark,
+                    ),
+                    Text(
+                      state.cart.address!.phoneNumber!,
+                      style: AppStyle.normalTextStyleDark,
+                    ),
+                  ],
+                ),
+                Text(
+                  state.cart.address!.details!,
+                  style: AppStyle.normalTextStyleDark,
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(
+            width: 40,
+          ),
+          const Icon(Icons.keyboard_arrow_right_rounded),
+        ],
+      ),
+    );
+  }
+
+  Widget buildPaymentMethod(CartLoaded state, BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        buildShowPaymentBottomSheet(context);
+      },
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Payment Method",
+                style: AppStyle.mediumTitleStyleDark.copyWith(
+                    color: AppColor.headingColor, fontWeight: FontWeight.w500),
+              ),
+              const SizedBox(
+                height: 4,
+              ),
+              Builder(builder: (context) {
+                if (state.cart.typePayment == TypePayment.CASHING) {
+                  return Row(
+                    children: [
+                      Image.asset(
+                        "assets/icons/ic_cash.jpg",
+                        width: 24,
+                        height: 24,
+                      ),
+                      const SizedBox(
+                        width: 4,
+                      ),
+                      Text("Cash", style: AppStyle.normalTextStyleDark),
+                    ],
+                  );
+                } else {
+                  return Row(
+                    children: [
+                      Image.asset(
+                        "assets/icons/ic_vnpay.png",
+                        width: 24,
+                        height: 24,
+                      ),
+                      const SizedBox(
+                        width: 4,
+                      ),
+                      Text("VNPay", style: AppStyle.normalTextStyleDark),
+                    ],
+                  );
+                }
+              }),
+            ],
+          ),
+          const Icon(Icons.keyboard_arrow_right_rounded)
+        ],
+      ),
     );
   }
 

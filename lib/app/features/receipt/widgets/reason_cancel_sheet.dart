@@ -4,6 +4,8 @@ import 'package:shopfee/app/common/widgets/my_confirm_dialog.dart';
 import 'package:shopfee/app/config/color.dart';
 import 'package:shopfee/app/config/dimens.dart';
 import 'package:shopfee/app/config/style.dart';
+import 'package:shopfee/app/features/history/bloc/history_bloc.dart';
+import 'package:shopfee/app/features/history/screen/history_screen.dart';
 import 'package:shopfee/app/features/receipt/bloc/receipt_bloc.dart';
 import 'package:shopfee/data/models/event_log.dart';
 import 'package:shopfee/data/models/status_order.dart';
@@ -57,24 +59,34 @@ class ReasonCancelSheet extends StatelessWidget {
               ListView.separated(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) => Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                        child: Row(
-                          children: [
-                            Expanded(child: Text(reasons[index])),
-                            const SizedBox(
-                              width: 4,
-                            ),
-                            Radio<String>(
-                                activeColor: AppColor.primaryColor,
-                                value: reasons[index],
-                                groupValue: state.reasonCancel,
-                                onChanged: (String? value) {
-                                  context
-                                      .read<ReceiptBloc>()
-                                      .add(ChooseReasonCancel(reason: value!));
-                                })
-                          ],
+                  itemBuilder: (context, index) => InkWell(
+                        onTap: () {
+                          context
+                              .read<ReceiptBloc>()
+                              .add(ChooseReasonCancel(reason: reasons[index]));
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                          child: Row(
+                            children: [
+                              Expanded(child: Text(reasons[index])),
+                              const SizedBox(
+                                width: 4,
+                              ),
+                              Radio<String>(
+                                  activeColor: AppColor.primaryColor,
+                                  value: reasons[index],
+                                  groupValue: state.reasonCancel,
+                                  onChanged: (String? value) {
+                                    // context
+                                    //     .read<ReceiptBloc>()
+                                    //     .add(ChooseReasonCancel(reason: value!));
+                                    context.read<ReceiptBloc>().add(
+                                        ChooseReasonCancel(
+                                            reason: reasons[index]));
+                                  })
+                            ],
+                          ),
                         ),
                       ),
                   separatorBuilder: (context, index) => const Divider(
@@ -102,12 +114,17 @@ class ReasonCancelSheet extends StatelessWidget {
                                           DateTime.now(),
                                           state.reasonCancel,
                                           false)));
+                                  //! Rebuild UI
+                                  context.read<HistoryBloc>().add(
+                                      const LoadHistory(
+                                          historyStatus:
+                                              HistoryStatus.Processing));
                                   Navigator.pop(dialogContext);
                                 },
                                 callbackCancel: () {
                                   Navigator.pop(dialogContext);
                                 },
-                                confirmText: "Delete",
+                                confirmText: "Yes",
                               )).then((value) => Navigator.pop(context));
                     },
                     child: const Text("Confirm Cancel"),

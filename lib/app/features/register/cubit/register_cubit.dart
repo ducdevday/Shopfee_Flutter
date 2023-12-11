@@ -17,11 +17,12 @@ class RegisterCubit extends Cubit<RegisterState> {
   final AuthRepository authRepository;
   final LocalRepository localRepository;
   final FirebaseRepository firebaseRepository;
-  RegisterCubit({
-    required this.authRepository,
-    required this.localRepository,
-    required this.firebaseRepository
-  }) : super(RegisterInitial());
+
+  RegisterCubit(
+      {required this.authRepository,
+      required this.localRepository,
+      required this.firebaseRepository})
+      : super(RegisterInitial());
 
   Future<void> initField(String email) async {
     emit(RegisterLoaded(email: email));
@@ -90,15 +91,20 @@ class RegisterCubit extends Cubit<RegisterState> {
       required String accessToken,
       required String refreshToken,
       required BuildContext context}) async {
+    try {
+      await localRepository.saveUser(userId, accessToken, refreshToken);
+      await firebaseRepository.saveFCMToken(userId);
 
-    await localRepository.saveUser(userId, accessToken, refreshToken);
-    await firebaseRepository.saveFCMToken(userId);
+      context
+          .read<HistoryBloc>()
+          .add(LoadHistory(historyStatus: HistoryStatus.Processing));
+      context.read<AccountBloc>().add(LoadAccount());
 
-    context
-        .read<HistoryBloc>()
-        .add(LoadHistory(historyStatus: HistoryStatus.Processing));
-    context.read<AccountBloc>().add(LoadAccount());
-
-    Navigator.pushNamedAndRemoveUntil(context,AppRouter.homeRoute, (route) => false);
+      Navigator.pushNamedAndRemoveUntil(
+          context, AppRouter.homeRoute, (route) => false);
+    } catch (e) {
+      print(e);
+      EasyLoading.showToast(e.toString());
+    }
   }
 }

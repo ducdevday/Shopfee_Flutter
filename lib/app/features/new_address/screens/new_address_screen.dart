@@ -23,8 +23,8 @@ class NewAddressScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
-          NewAddressBloc(addressRepository: context.read<AddressRepository>())
-            ..add(LoadNewAddress(addressId: addressId)),
+      NewAddressBloc(addressRepository: context.read<AddressRepository>())
+        ..add(LoadNewAddress(addressId: addressId)),
       child: BlocConsumer<NewAddressBloc, NewAddressState>(
         listener: (context, state) {
           if (state is NewAddressFinished) {
@@ -46,44 +46,44 @@ class NewAddressScreen extends StatelessWidget {
                 actions: [
                   addressId != null
                       ? IconButton(
-                          splashColor: Colors.transparent,
-                          highlightColor: Colors.transparent,
-                          onPressed: state.currentDefault == false
-                              ? () {
-                                  showDialog(
-                                      context: context,
-                                      builder: (BuildContext contextDialog) =>
-                                          MyConfirmDialog(
-                                              title: "",
-                                              content: "Delete this address",
-                                              callbackOK: () {
-                                                //Để trong này vẫn xóa được phần tử nhưng pop ra màn hình trắng
-                                                context
-                                                    .read<NewAddressBloc>()
-                                                    .add(DeleteAddress());
-                                                Navigator.pop(contextDialog);
-                                              },
-                                              callbackCancel: () {
-                                                Navigator.pop(contextDialog);
-                                              }));
-                                }
-                              : () {
-                                  showDialog(
-                                      context: context,
-                                      builder: (BuildContext dialogContext) =>
-                                          MyAlertDialog(
-                                              title: "",
-                                              content:
-                                                  "To cancel this default address, please choose another address to set it default",
-                                              callback: () {
-                                                Navigator.pop(dialogContext);
-                                              }));
-                                },
-                          icon: Icon(
-                            Icons.delete_outline_rounded,
-                            color: AppColor.primaryColor,
-                          ),
-                        )
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    onPressed: state.currentDefault == false
+                        ? () {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext contextDialog) =>
+                              MyConfirmDialog(
+                                  title: "",
+                                  content: "Delete this address",
+                                  callbackOK: () {
+                                    //Để trong này vẫn xóa được phần tử nhưng pop ra màn hình trắng
+                                    context
+                                        .read<NewAddressBloc>()
+                                        .add(DeleteAddress());
+                                    Navigator.pop(contextDialog);
+                                  },
+                                  callbackCancel: () {
+                                    Navigator.pop(contextDialog);
+                                  }));
+                    }
+                        : () {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext dialogContext) =>
+                              MyAlertDialog(
+                                  title: "",
+                                  content:
+                                  "To delete this default address, please create another address and set it default",
+                                  callback: () {
+                                    Navigator.pop(dialogContext);
+                                  }));
+                    },
+                    icon: Icon(
+                      Icons.delete_outline_rounded,
+                      color: AppColor.primaryColor,
+                    ),
+                  )
                       : const SizedBox()
                 ],
               ),
@@ -106,20 +106,24 @@ class NewAddressScreen extends StatelessWidget {
                                 InkWell(
                                   onTap: () async {
                                     if (await PermissionUtil
-                                            .requestLocationPermission() ==
+                                        .requestLocationPermission() ==
                                         true) {
                                       Navigator.pushNamed(context,
-                                              AppRouter.geolocationRoute)
-                                          .then((value) => context
-                                              .read<NewAddressBloc>()
-                                              .add(AddLocation(
-                                                  placeSearch:
-                                                      value as PlaceSearch)));
+                                          AppRouter.geolocationRoute)
+                                          .then((value) {
+                                            if(value != null) {
+                                              context
+                                                  .read<NewAddressBloc>()
+                                                  .add(AddLocation(
+                                                  placeSearch: value
+                                                  as PlaceSearch));
+                                            };
+                                      });
                                     }
                                   },
                                   child: Column(
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    CrossAxisAlignment.start,
                                     children: [
                                       Text("Address Name",
                                           style: AppStyle.mediumTextStyleDark),
@@ -131,22 +135,22 @@ class NewAddressScreen extends StatelessWidget {
                                         decoration: InputDecoration(
                                           labelText: state.address.details,
                                           labelStyle:
-                                              AppStyle.mediumTextStyleDark,
+                                          AppStyle.mediumTextStyleDark,
                                           enabled: false,
                                           suffixIcon: const Icon(Icons
                                               .keyboard_arrow_right_rounded),
                                           contentPadding:
-                                              const EdgeInsets.all(8),
+                                          const EdgeInsets.all(8),
                                           disabledBorder: OutlineInputBorder(
                                               borderSide: const BorderSide(
                                                   color: Color(0xffCCCCCC)),
                                               borderRadius:
-                                                  BorderRadius.circular(8)),
+                                              BorderRadius.circular(8)),
                                           focusedBorder: OutlineInputBorder(
                                               borderSide: const BorderSide(
                                                   color: Color(0xffCCCCCC)),
                                               borderRadius:
-                                                  BorderRadius.circular(8)),
+                                              BorderRadius.circular(8)),
                                           hintText: "Choose Address",
                                         ),
                                       ),
@@ -212,40 +216,43 @@ class NewAddressScreen extends StatelessWidget {
                     ),
                     updateDefault(addressId, state.address.isDefault!,
                         state.currentDefault, callback: (bool value) {
-                      context
-                          .read<NewAddressBloc>()
-                          .add(SetDefault(isDefault: value));
-                    }, showMyDialog: () {
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext dialogContext) =>
-                              MyAlertDialog(
-                                  title: "",
-                                  content:
+                          context
+                              .read<NewAddressBloc>()
+                              .add(SetDefault(isDefault: value));
+                        }, showMyDialog: () {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext dialogContext) =>
+                                  MyAlertDialog(
+                                      title: "",
+                                      content:
                                       "To cancel this default address, please choose another address to set it default",
-                                  callback: () {
-                                    Navigator.pop(dialogContext);
-                                  }));
-                    }),
+                                      callback: () {
+                                        Navigator.pop(dialogContext);
+                                      }));
+                        }),
                     const Spacer(
                       flex: 1,
                     ),
                     Container(
-                      width: MediaQuery.of(context).size.width,
+                      width: MediaQuery
+                          .of(context)
+                          .size
+                          .width,
                       padding: const EdgeInsets.all(AppDimen.screenPadding),
                       child: ElevatedButton(
                         onPressed: state.isValid
                             ? () {
-                                if (addressId == null) {
-                                  context
-                                      .read<NewAddressBloc>()
-                                      .add(AddNewAddress());
-                                } else {
-                                  context
-                                      .read<NewAddressBloc>()
-                                      .add(UpdateAddress());
-                                }
-                              }
+                          if (addressId == null) {
+                            context
+                                .read<NewAddressBloc>()
+                                .add(AddNewAddress());
+                          } else {
+                            context
+                                .read<NewAddressBloc>()
+                                .add(UpdateAddress());
+                          }
+                        }
                             : null,
                         child: const Text("Finish"),
                         style: AppStyle.elevatedButtonStylePrimary,

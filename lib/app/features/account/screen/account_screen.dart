@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopfee/app/common/widgets/my_bottom_navigation_bar/cubit/my_bottom_navigation_bar_cubit.dart';
 import 'package:shopfee/app/common/widgets/my_bottom_navigation_bar/my_bottom_navigationbar.dart';
+import 'package:shopfee/app/common/widgets/my_confirm_dialog.dart';
 import 'package:shopfee/app/config/color.dart';
 import 'package:shopfee/app/config/dimens.dart';
 import 'package:shopfee/app/config/routes.dart';
@@ -68,7 +69,7 @@ class AccountScreen extends StatelessWidget {
                                       ))),
                             ),
                             Text(
-                              "${state.user.lastName} ${state.user.firstName}",
+                              "${state.user.firstName} ${state.user.lastName}",
                               style: AppStyle.largeTitleStyleDark
                                   .copyWith(height: 2),
                             )
@@ -212,7 +213,7 @@ class AccountScreen extends StatelessWidget {
                   BlocConsumer<AccountBloc, AccountState>(
                     listener: (context, state) {
                       if (state is AccountNavigateLogin) {
-                        Navigator.pushNamed(context, AppRouter.welcomeRoute);
+                        Navigator.pushNamed(context, AppRouter.welcomeRoute, arguments: true);
                       }
                     },
                     builder: (context, state) {
@@ -223,10 +224,25 @@ class AccountScreen extends StatelessWidget {
                                 width: double.infinity,
                                 child: ElevatedButton.icon(
                                   onPressed: () {
-                                    context
-                                        .read<AccountBloc>()
-                                        .add(LogoutAccount());
-                                    context.read<CartBloc>().add(DeleteCart());
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext dialogContext) =>
+                                            MyConfirmDialog(
+                                              title: "Confirm",
+                                              content: "Are you sure to Log out",
+                                              callbackOK: () {
+                                                context
+                                                    .read<AccountBloc>()
+                                                    .add(LogoutAccount());
+                                                context.read<CartBloc>().add(DeleteCart());
+                                                context.read<MyBottomNavigationBarCubit>().selectPage(0);
+                                                Navigator.pop(dialogContext);
+                                              },
+                                              callbackCancel: () {
+                                                Navigator.pop(dialogContext);
+                                              },
+                                              confirmText: "Log out",
+                                            ));
                                   },
                                   icon: const Icon(Icons.logout_rounded),
                                   label: const Text("Log out"),

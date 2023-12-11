@@ -80,17 +80,18 @@ class FirebaseRepository extends FirebaseRepositoryBase {
 
   @override
   Future<void> saveFCMToken(String userId) async {
-    final String? fcmToken = await FirebaseMessaging.instance.getToken();
-    await FirebaseFirestore.instance
-        .collection("users")
-        .doc(userId)
-        .set({"fcmToken": fcmToken});
+    try {
+      final String? fcmToken = await FirebaseMessaging.instance.getToken();
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(userId)
+          .set({"fcmToken": fcmToken});
+    } catch (e) {
+      print(e);
+    }
   }
 
-
   Future<void> deleteFCMToken(String userId) async {
-    await FirebaseFirestore.instance
-        .collection("users")
-        .doc(userId).delete();
+    await FirebaseFirestore.instance.collection("users").doc(userId).delete();
   }
 }

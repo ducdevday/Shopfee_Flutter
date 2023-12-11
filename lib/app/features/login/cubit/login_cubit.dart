@@ -61,7 +61,7 @@ class LoginCubit extends Cubit<LoginState> {
               refreshToken: response.data!["refreshToken"],
               context: context);
         } else {
-          EasyLoading.showError('Invalid Email or Password');
+          EasyLoading.showError('Incorrect Email or Password');
         }
       } catch (e) {
         if (e is DioException) {
@@ -174,7 +174,7 @@ class LoginCubit extends Cubit<LoginState> {
 
     context
         .read<HistoryBloc>()
-        .add(LoadHistory(historyStatus: HistoryStatus.Processing));
+        .add(const LoadHistory(historyStatus: HistoryStatus.Processing));
     context.read<AccountBloc>().add(LoadAccount());
 
     Navigator.pushNamedAndRemoveUntil(context,AppRouter.homeRoute, (route) => false);

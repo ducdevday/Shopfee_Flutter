@@ -7,7 +7,7 @@ class TransactionRepository extends TransactionRepositoryBase{
   @override
   Future<Result> updateTransaction(String transactionId) async {
     try{
-      var response = await dio.get("${BaseService.transactionPath}/$transactionId");
+      var response = await dio.patch("${BaseService.transactionPath}/$transactionId");
       return Result(
         success: response.data["success"],
         message: response.data["message"],

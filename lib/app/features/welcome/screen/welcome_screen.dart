@@ -40,9 +40,37 @@ class WelcomeScreen extends StatelessWidget {
                 children: [
                   Column(
                     children: [
-                      const SizedBox(
-                        height: 150,
-                      ),
+                      Stack(children: [
+                        const SizedBox(
+                          height: 150,
+                        ),
+                        Builder(builder: (_){
+                          if(isInHome == true){
+                            return Align(
+                              alignment: Alignment.centerLeft,
+                              child: Container(
+                                  margin: const EdgeInsets.only(top: 16),
+                                  width: 32,
+                                  height: 32,
+                                  decoration: BoxDecoration(
+                                    color: AppColor.disableColor,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: IconButton(
+                                    iconSize: 16,
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    icon: const Icon(
+                                      Icons.close_rounded,
+                                      color: Colors.white,
+                                    ),
+                                  )),
+                            );
+                          }
+                          return const SizedBox();
+                        })
+                      ]),
                       Image.asset(
                         "assets/images/img_logo_two.png",
                         width: 219.5,
@@ -139,7 +167,7 @@ class WelcomeScreen extends StatelessWidget {
                         context.read<WelcomeCubit>().loginWithGoogle(context);
                       },
                       child: Container(
-                        padding: EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(
@@ -154,7 +182,7 @@ class WelcomeScreen extends StatelessWidget {
                       ),
                     );
                   }),
-                  Spacer(
+                  const Spacer(
                     flex: 1,
                   ),
                   Row(
@@ -178,7 +206,7 @@ class WelcomeScreen extends StatelessWidget {
                             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                           ),
                           onPressed: () {
-                            Navigator.pushNamed(context,AppRouter.loginRoute);
+                            Navigator.pushNamed(context, AppRouter.loginRoute);
                           },
                           child: Text(
                             "Login",
@@ -190,18 +218,6 @@ class WelcomeScreen extends StatelessWidget {
                     if (isInHome == null) {
                       return Column(
                         children: [
-                          // TextButton(
-                          //     style: TextButton.styleFrom(
-                          //       minimumSize: Size.zero,
-                          //       padding: EdgeInsets.zero,
-                          //       tapTargetSize:
-                          //           MaterialTapTargetSize.shrinkWrap,
-                          //     ),
-                          //     onPressed: null,
-                          //     child: Text(
-                          //       "or ",
-                          //       style: AppStyle.normalTextStyleDark,
-                          //     )),
                           TextButton(
                               style: TextButton.styleFrom(
                                 minimumSize: Size.zero,
@@ -210,7 +226,7 @@ class WelcomeScreen extends StatelessWidget {
                               ),
                               onPressed: () {
                                 Navigator.pushReplacementNamed(
-                                    context,AppRouter.homeRoute);
+                                    context, AppRouter.homeRoute);
                               },
                               child: Text(
                                 "Continue as guess",
@@ -219,7 +235,7 @@ class WelcomeScreen extends StatelessWidget {
                         ],
                       );
                     } else {
-                      return SizedBox(
+                      return const SizedBox(
                         height: 22,
                       );
                     }
@@ -235,7 +251,7 @@ class WelcomeScreen extends StatelessWidget {
 Future<void> buildShowExistEmailBottomSheet(
     BuildContext context, String email) {
   return showModalBottomSheet<void>(
-    shape: RoundedRectangleBorder(
+    shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.only(
           topLeft: Radius.circular(20), topRight: Radius.circular(20)),
     ),
@@ -269,7 +285,7 @@ class ExistEmailBottomSheet extends StatelessWidget {
                 maintainAnimation: true,
                 maintainState: true,
                 child: IconButton(
-                    onPressed: () {}, icon: Icon(Icons.close_rounded)),
+                    onPressed: () {}, icon: const Icon(Icons.close_rounded)),
               ),
               Text(
                 "Account Already Exist",
@@ -281,10 +297,10 @@ class ExistEmailBottomSheet extends StatelessWidget {
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  icon: Icon(Icons.close_rounded))
+                  icon: const Icon(Icons.close_rounded))
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Text(
@@ -292,7 +308,7 @@ class ExistEmailBottomSheet extends StatelessWidget {
             style: AppStyle.normalTextStyleDark,
             textAlign: TextAlign.center,
           ),
-          SizedBox(
+          const SizedBox(
             height: AppDimen.spacing,
           ),
           Container(
@@ -307,15 +323,16 @@ class ExistEmailBottomSheet extends StatelessWidget {
           //   "User Name",
           //   style: AppStyle.mediumTitleStyleDark.copyWith(height: 1.75),
           // ),
-          Spacer(
+          const Spacer(
             flex: 1,
           ),
           Container(
               width: double.infinity,
-              padding: EdgeInsets.symmetric(horizontal: AppDimen.screenPadding),
+              padding: const EdgeInsets.symmetric(horizontal: AppDimen.screenPadding),
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context,AppRouter.loginRoute, arguments: email);
+                  Navigator.pushNamed(context, AppRouter.loginRoute,
+                      arguments: email);
                 },
                 child: Text(
                   "Continue with this email",
@@ -323,7 +340,7 @@ class ExistEmailBottomSheet extends StatelessWidget {
                 ),
                 style: AppStyle.elevatedButtonStylePrimary,
               )),
-          SizedBox(
+          const SizedBox(
             height: AppDimen.screenPadding,
           )
         ],

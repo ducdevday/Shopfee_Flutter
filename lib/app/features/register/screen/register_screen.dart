@@ -85,56 +85,56 @@ class RegisterScreen extends StatelessWidget {
               ),
               Column(
                 children: [
-                  Text(
-                    "By tapping \"Register\" you agree to our",
-                    style: AppStyle.normalTextStyleDark,
-                  ),
-                  const SizedBox(
-                    height: 4,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      TextButton(
-                          style: TextButton.styleFrom(
-                            minimumSize: Size.zero,
-                            padding: EdgeInsets.zero,
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          ),
-                          onPressed: () {},
-                          child: Text(
-                            "Terms of Use",
-                            style: AppStyle.normalTextStyleDark
-                                .copyWith(color: const Color(0xff032172)),
-                          )),
-                      TextButton(
-                          style: TextButton.styleFrom(
-                            minimumSize: Size.zero,
-                            padding: EdgeInsets.zero,
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          ),
-                          onPressed: () {},
-                          child: Text(
-                            " and ",
-                            style: AppStyle.normalTextStyleDark,
-                          )),
-                      TextButton(
-                          style: TextButton.styleFrom(
-                            minimumSize: Size.zero,
-                            padding: EdgeInsets.zero,
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          ),
-                          onPressed: () {},
-                          child: Text(
-                            "Privacy Policy",
-                            style: AppStyle.normalTextStyleDark
-                                .copyWith(color: const Color(0xff032172)),
-                          ))
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 14,
-                  ),
+                  // Text(
+                  //   "By tapping \"Register\" you agree to our",
+                  //   style: AppStyle.normalTextStyleDark,
+                  // ),
+                  // const SizedBox(
+                  //   height: 4,
+                  // ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.center,
+                  //   children: [
+                  //     TextButton(
+                  //         style: TextButton.styleFrom(
+                  //           minimumSize: Size.zero,
+                  //           padding: EdgeInsets.zero,
+                  //           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  //         ),
+                  //         onPressed: () {},
+                  //         child: Text(
+                  //           "Terms of Use",
+                  //           style: AppStyle.normalTextStyleDark
+                  //               .copyWith(color: const Color(0xff032172)),
+                  //         )),
+                  //     TextButton(
+                  //         style: TextButton.styleFrom(
+                  //           minimumSize: Size.zero,
+                  //           padding: EdgeInsets.zero,
+                  //           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  //         ),
+                  //         onPressed: () {},
+                  //         child: Text(
+                  //           " and ",
+                  //           style: AppStyle.normalTextStyleDark,
+                  //         )),
+                  //     TextButton(
+                  //         style: TextButton.styleFrom(
+                  //           minimumSize: Size.zero,
+                  //           padding: EdgeInsets.zero,
+                  //           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  //         ),
+                  //         onPressed: () {},
+                  //         child: Text(
+                  //           "Privacy Policy",
+                  //           style: AppStyle.normalTextStyleDark
+                  //               .copyWith(color: const Color(0xff032172)),
+                  //         ))
+                  //   ],
+                  // ),
+                  // const SizedBox(
+                  //   height: 14,
+                  // ),
                   Container(
                     height: 48,
                     width: double.infinity,

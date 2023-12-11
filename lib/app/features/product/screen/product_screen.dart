@@ -32,10 +32,9 @@ class _ProductScreenState extends State<ProductScreen> {
             ..add(LoadProduct(widget.productId)),
       child: BlocBuilder<ProductBloc, ProductState>(
         builder: (context, state) {
-          if(state is ProductLoading){
+          if (state is ProductLoading) {
             return const MyLoading();
-          }
-          else if(state is ProductLoaded){
+          } else if (state is ProductLoaded) {
             return Scaffold(
               body: SingleChildScrollView(
                 child: Stack(
@@ -56,7 +55,7 @@ class _ProductScreenState extends State<ProductScreen> {
                         ),
                         Positioned(
                             top: 36,
-                            right: 12,
+                            left: AppDimen.screenPadding,
                             child: Container(
                                 width: 32,
                                 height: 32,
@@ -73,7 +72,8 @@ class _ProductScreenState extends State<ProductScreen> {
                                     Icons.close_rounded,
                                     color: Colors.white,
                                   ),
-                                )))
+                                ))
+                        )
                       ],
                     ),
                     Container(
@@ -101,21 +101,23 @@ class _ProductScreenState extends State<ProductScreen> {
                                     children: [
                                       Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
                                             state.order.product.name!,
                                             style: AppStyle.largeTitleStyleDark
                                                 .copyWith(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w500),
+                                                    fontSize: 18,
+                                                    fontWeight:
+                                                        FontWeight.w500),
                                           ),
                                           Text(
                                             state.order.size!.priceString,
                                             style: AppStyle.largeTitleStyleDark
                                                 .copyWith(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w500),
+                                                    fontSize: 18,
+                                                    fontWeight:
+                                                        FontWeight.w500),
                                           )
                                         ],
                                       ),
@@ -128,19 +130,21 @@ class _ProductScreenState extends State<ProductScreen> {
                                             state.order.product.description!,
                                             style: AppStyle.mediumTextStyleDark
                                                 .copyWith(
-                                                color:
-                                                AppColor.nonactiveColor,
-                                                fontWeight: FontWeight.w500),
+                                                    color:
+                                                        AppColor.nonactiveColor,
+                                                    fontWeight:
+                                                        FontWeight.w500),
                                             trimLines: 2,
                                             trimMode: TrimMode.Line,
                                             colorClickableText:
-                                            AppColor.primaryColor),
+                                                AppColor.primaryColor),
                                       ),
                                       const SizedBox(
                                         height: 10,
                                       ),
                                       const Row(
-                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
                                         children: [
                                           // Visibility(
                                           //   visible: false,
@@ -201,20 +205,21 @@ class _ProductScreenState extends State<ProductScreen> {
                                     child: Text("Customize",
                                         style: AppStyle.mediumTextStyleDark
                                             .copyWith(
-                                            color: AppColor.headingColor,
-                                            fontWeight: FontWeight.bold)),
+                                                color: AppColor.headingColor,
+                                                fontWeight: FontWeight.bold)),
                                   ),
                                   const SizedBox(
                                     height: 12,
                                   ),
                                   Row(
                                     mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text("Size",
                                           style: AppStyle.normalTextStyleDark
                                               .copyWith(
-                                              color: AppColor.headingColor)),
+                                                  color:
+                                                      AppColor.headingColor)),
                                       const SizeFilter()
                                     ],
                                   ),
@@ -243,11 +248,10 @@ class _ProductScreenState extends State<ProductScreen> {
                                   child: Text("Topping",
                                       style: AppStyle.mediumTextStyleDark
                                           .copyWith(
-                                          color: AppColor.headingColor,
-                                          fontWeight: FontWeight.bold)),
+                                              color: AppColor.headingColor,
+                                              fontWeight: FontWeight.bold)),
                                 ),
-                                ToppingFilter(
-                                )
+                                ToppingFilter()
                               ],
                             ),
                           ),
@@ -274,8 +278,8 @@ class _ProductScreenState extends State<ProductScreen> {
                                   child: Text("Note",
                                       style: AppStyle.mediumTextStyleDark
                                           .copyWith(
-                                          color: AppColor.headingColor,
-                                          fontWeight: FontWeight.bold)),
+                                              color: AppColor.headingColor,
+                                              fontWeight: FontWeight.bold)),
                                 ),
                                 const SizedBox(
                                   height: 16,
@@ -292,8 +296,7 @@ class _ProductScreenState extends State<ProductScreen> {
               ),
               bottomNavigationBar: const ProductBottomBar(),
             );
-          }
-          else{
+          } else {
             return const MyError();
           }
         },
@@ -301,4 +304,3 @@ class _ProductScreenState extends State<ProductScreen> {
     );
   }
 }
-

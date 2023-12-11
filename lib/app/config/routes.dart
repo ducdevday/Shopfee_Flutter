@@ -40,6 +40,7 @@ class AppRouter {
   static const forgotPasswordRoute = "/forgot_password";
   static const changePasswordRoute = "/change_password";
   static const homeRoute = "/home";
+
   // static const historyRoute = "/history";
   // static const accountRoute = "/account";
   static const searchRoute = "/search";
@@ -70,7 +71,8 @@ class AppRouter {
             builder: (context) =>
                 RegisterScreen(email: settings.arguments as String));
       case welcomeRoute:
-        return MaterialPageRoute(builder: (context) => WelcomeScreen());
+        final isInHome = settings.arguments != null ? settings.arguments as bool : null;
+        return MaterialPageRoute(builder: (context) => WelcomeScreen(isInHome: isInHome));
       case loginRoute:
         return MaterialPageRoute(
             builder: (context) => LoginScreen(
@@ -89,9 +91,7 @@ class AppRouter {
             builder: (context) =>
                 ChangePasswordScreen(email: settings.arguments as String));
       case homeRoute:
-        return MaterialPageRoute(
-            builder: (context) =>
-                DefaultScreen());
+        return MaterialPageRoute(builder: (context) => DefaultScreen());
       // case homeRoute:
       //   return UnanimatedPageRoute(
       //       builder: (context) => HomeScreen(myBottomNavigationBar));
@@ -134,14 +134,15 @@ class AppRouter {
         final isFromCart =
             settings.arguments != null ? settings.arguments as bool : null;
         return MaterialPageRoute(
-            builder: (context) => SavedAddressScreen(isFromCart: isFromCart));
+            builder: (context) =>
+                SavedAddressScreen(isFromCart: isFromCart));
       case newAddressRoute:
         final addressId =
             settings.arguments != null ? settings.arguments as String : null;
         return MaterialPageRoute(
-            builder: (context) => NewAddressScreen(
+            builder: (context) => GuardRoute(NewAddressScreen(
                   addressId: addressId,
-                ));
+                )));
       case vnpayRoute:
         final args = settings.arguments as Map<String, String?>;
         return MaterialPageRoute(
@@ -153,8 +154,7 @@ class AppRouter {
       case geolocationRoute:
         return MaterialPageRoute(builder: (context) => GeolocationScreen());
       case cartRoute:
-        return MaterialPageRoute(
-            builder: (context) => GuardRoute(CartScreen()));
+        return MaterialPageRoute(builder: (context) => CartScreen());
       default:
         return _errorRoute();
     }

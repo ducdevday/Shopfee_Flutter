@@ -40,7 +40,11 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
             "routeName":AppRouter.changePasswordRoute,
             "email": currentState.email
           });
-        } else {
+        }
+        else if(response.success == false){
+          EasyLoading.showError('Email is not exist');
+        }
+        else {
           EasyLoading.showError('Something went wrong');
         }
       } catch (e) {

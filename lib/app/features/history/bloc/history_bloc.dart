@@ -31,6 +31,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
     int page = 1;
     int size = 8;
     try {
+      await Future.delayed(Duration(milliseconds: 500));
       if (event.historyStatus == HistoryStatus.Processing) {
         var responseCreated = await orderRepository.getHistoryOrder(
             GlobalData.ins.userId!, OrderStatus.CREATED,

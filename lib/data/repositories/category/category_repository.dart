@@ -8,7 +8,7 @@ class CategoryRepository extends CategoryRepositoryBase {
   @override
   Future<ResultList> getAllCategory() async {
     try {
-      var response = await dio.get("${BaseService.categoryPath}/all");
+      var response = await dio.get("${BaseService.categoryPath}");
       return ResultList(
           success: response.data["success"],
           message: response.data["message"],
