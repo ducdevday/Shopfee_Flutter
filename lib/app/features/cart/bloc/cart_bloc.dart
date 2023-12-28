@@ -117,7 +117,7 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
       } else {
         final existingOrderIndex = orders.indexWhere(
             (order) => order.isEqualExceptQuantity(event.updatedOrder));
-        if (existingOrderIndex != -1) {
+        if (existingOrderIndex != -1 && existingOrderIndex != event.index) {
           orders[existingOrderIndex] = orders[existingOrderIndex].copyWith(
               quantity: orders[existingOrderIndex].quantity +
                   event.updatedOrder.quantity);
