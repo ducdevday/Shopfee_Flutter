@@ -1,3 +1,4 @@
+import 'package:flutter_config/flutter_config.dart';
 import 'package:shopfee/data/models/place.dart';
 import 'package:shopfee/data/models/place_auto_complete.dart';
 import 'package:shopfee/data/models/place_search.dart';
@@ -6,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 class PlaceRepository extends PlaceRepositoryBase {
-  final String key = "AIzaSyCSg1rUNMFzffBr5SrTQwyiYQY6vaVeoqY";
+  final String key = FlutterConfig.get("GOOGLE_API");
   final String types = "geocode";
   final String language = "vi-VN";
   final String region = "VN";
