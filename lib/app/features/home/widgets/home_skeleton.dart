@@ -22,7 +22,7 @@ class HomeSkeleton extends StatelessWidget {
                 child: MySkeleton(
                   width: MediaQuery.of(context).size.width - 40,
                   height: 137,
-                  radious: 16,
+                  radius: 16,
                 )),
             const SizedBox(
               height: AppDimen.spacing,
@@ -37,7 +37,7 @@ class HomeSkeleton extends StatelessWidget {
                   itemBuilder: (context, index) => const MySkeleton(
                         width: 60,
                         height: 80,
-                        radious: 16,
+                        radius: 16,
                       ),
                   separatorBuilder: (context, index) => const SizedBox(
                         width: 20,

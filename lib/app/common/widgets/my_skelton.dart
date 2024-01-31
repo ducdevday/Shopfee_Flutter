@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 class MySkeleton extends StatelessWidget {
   final double width;
   final double height;
-  final double? radious;
+  final double? radius;
   final bool? isCircle;
 
   const MySkeleton(
       {Key? key,
       required this.width,
       required this.height,
-      this.radious = 8,
+      this.radius = 8,
       this.isCircle = false})
       : super(key: key);
 
@@ -24,7 +24,7 @@ class MySkeleton extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.grey,
           borderRadius: BorderRadius.all(
-            Radius.circular(radious!),
+            Radius.circular(radius!),
           ),
         ),
       );
