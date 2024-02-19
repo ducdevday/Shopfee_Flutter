@@ -1,0 +1,206 @@
+import 'package:get_it/get_it.dart';
+import 'package:shopfee/features/cart/data/datasources/cart_service.dart';
+import 'package:shopfee/features/cart/data/repositories/cart_repository_impl.dart';
+import 'package:shopfee/features/cart/domain/repositories/cart_repository.dart';
+import 'package:shopfee/features/cart/domain/usecase/cart_usecase.dart';
+import 'package:shopfee/features/cart/presentation/cart.dart';
+import 'package:shopfee/features/change_password/data/datasources/change_password_service.dart';
+import 'package:shopfee/features/change_password/data/repositories/change_password_repository_impl.dart';
+import 'package:shopfee/features/change_password/domain/repositories/change_password_repository.dart';
+import 'package:shopfee/features/change_password/domain/usecase/change_password_usecase.dart';
+import 'package:shopfee/features/change_password/presentation/change_password.dart';
+import 'package:shopfee/features/history/data/datasources/history_service.dart';
+import 'package:shopfee/features/history/data/repositories/history_repository_impl.dart';
+import 'package:shopfee/features/history/domain/repositories/history_repository.dart';
+import 'package:shopfee/features/history/domain/usecase/history_usecase.dart';
+import 'package:shopfee/features/history/presentation/history.dart';
+import 'package:shopfee/features/home/data/datasource/home_service.dart';
+import 'package:shopfee/features/home/data/repositories/home_repository_impl.dart';
+import 'package:shopfee/features/home/domain/repositories/home_repository.dart';
+import 'package:shopfee/features/home/domain/usecase/home_usecase.dart';
+import 'package:shopfee/features/home/presentation/home.dart';
+import 'package:shopfee/features/login/data/datasources/login_service.dart';
+import 'package:shopfee/features/login/data/repositories/login_repository_impl.dart';
+import 'package:shopfee/features/login/domain/repositories/login_repository.dart';
+import 'package:shopfee/features/login/domain/usecase/login_usecase.dart';
+import 'package:shopfee/features/login/presentation/login.dart';
+import 'package:shopfee/features/otp/data/datasources/otp_service.dart';
+import 'package:shopfee/features/otp/data/repositories/otp_repository_impl.dart';
+import 'package:shopfee/features/otp/domain/repositories/otp_repository.dart';
+import 'package:shopfee/features/otp/domain/usecase/otp_usecase.dart';
+import 'package:shopfee/features/otp/presentation/otp.dart';
+import 'package:shopfee/features/personal_information/data/datasources/user_service.dart';
+import 'package:shopfee/features/personal_information/data/repositories/user_repository_impl.dart';
+import 'package:shopfee/features/personal_information/domain/repositories/user_repository.dart';
+import 'package:shopfee/features/personal_information/domain/usecase/user_usecase.dart';
+import 'package:shopfee/features/personal_information/presentation/personal_infomation.dart';
+import 'package:shopfee/features/product_by_category/data/datasources/product_by_category_service.dart';
+import 'package:shopfee/features/product_by_category/data/repositories/product_by_category_repository_impl.dart';
+import 'package:shopfee/features/product_by_category/domain/repositories/product_by_category_repository.dart';
+import 'package:shopfee/features/product_by_category/domain/usecase/product_by_category_usecase.dart';
+import 'package:shopfee/features/product_by_category/presentation/product_by_category.dart';
+import 'package:shopfee/features/product_detail/data/datasources/product_detail_service.dart';
+import 'package:shopfee/features/product_detail/data/repositories/product_detail_repository_impl.dart';
+import 'package:shopfee/features/product_detail/domain/repositories/product_detail_repository.dart';
+import 'package:shopfee/features/product_detail/domain/usecase/product_detail_usecase.dart';
+import 'package:shopfee/features/product_detail/presentation/product_detail.dart';
+import 'package:shopfee/features/receipt/data/datasources/receipt_service.dart';
+import 'package:shopfee/features/receipt/data/repositories/receipt_repository_impl.dart';
+import 'package:shopfee/features/receipt/domain/repositories/receipt_repository.dart';
+import 'package:shopfee/features/receipt/domain/usecase/receipt_usecase.dart';
+import 'package:shopfee/features/receipt/presentation/receipt.dart';
+import 'package:shopfee/features/saved_address/data/datasources/saved_address_service.dart';
+import 'package:shopfee/features/saved_address/data/repositories/saved_address_repository_impl.dart';
+import 'package:shopfee/features/saved_address/domain/repositories/saved_address_repository.dart';
+import 'package:shopfee/features/saved_address/domain/usecase/saved_address_usecase.dart';
+import 'package:shopfee/features/saved_address/presentation/saved_address.dart';
+import 'package:shopfee/features/search/data/datasources/search_service.dart';
+import 'package:shopfee/features/search/data/repositories/search_repository_impl.dart';
+import 'package:shopfee/features/search/domain/repositories/search_repository.dart';
+import 'package:shopfee/features/search/domain/usecase/search_usecase.dart';
+import 'package:shopfee/features/search/presentation/search.dart';
+import 'package:shopfee/features/tracking/data/datasources/tracking_service.dart';
+import 'package:shopfee/features/tracking/data/repositories/tracking_repository_impl.dart';
+import 'package:shopfee/features/tracking/domain/repositories/tracking_repository.dart';
+import 'package:shopfee/features/tracking/domain/usecase/tracking_usecase.dart';
+import 'package:shopfee/features/tracking/presentation/tracking.dart';
+import 'package:shopfee/features/vnpay/data/datasources/vnpay_service.dart';
+import 'package:shopfee/features/vnpay/data/repositories/vnpay_repository_impl.dart';
+import 'package:shopfee/features/vnpay/domain/repositories/vnpay_repository.dart';
+import 'package:shopfee/features/vnpay/domain/usecase/vnpay_usecase.dart';
+import 'package:shopfee/features/vnpay/presentation/vnpay.dart';
+
+class ServiceLocator {
+  static final sl = GetIt.instance;
+
+  Future<void> init() async {
+    _loginFeature();
+    _otpFeature();
+    _changePasswordFeature();
+    _userFeature();
+    _homeFeature();
+    _productByCategoryFeature();
+    _searchProductFeature();
+    _productDetailFeature();
+    _cartFeature();
+    _savedAddressFeature();
+    _vnPayFeature();
+    _receiptFeature();
+    _trackingFeature();
+    _historyFeature();
+  }
+
+  void _loginFeature() {
+    // //DataSource
+    sl.registerLazySingleton(() => LoginService());
+    // //Repository
+    sl.registerLazySingleton<LoginRepository>(() => LoginRepositoryImpl(sl()));
+    // //Usecase
+    sl.registerLazySingleton<LoginUseCase>(() => LoginUseCaseImpl(sl()));
+    // //Cubit or Bloc
+    sl.registerFactory(() => LoginCubit(sl()));
+  }
+
+  void _otpFeature() {
+    sl.registerLazySingleton(() => OtpService());
+    sl.registerLazySingleton<OtpRepository>(() => OtpRepositoryImpl(sl()));
+    sl.registerLazySingleton<OtpUseCase>(() => OtpUseCaseImpl(sl()));
+    sl.registerFactory(() => OtpCubit(sl()));
+  }
+
+  void _changePasswordFeature() {
+    sl.registerLazySingleton(() => ChangePasswordService());
+    sl.registerLazySingleton<ChangePasswordRepository>(
+        () => ChangePasswordRepositoryImpl(sl()));
+    sl.registerLazySingleton<ChangePasswordUseCase>(
+        () => ChangePasswordUseCaseImpl(sl()));
+    sl.registerFactory(() => ChangePasswordCubit(sl()));
+  }
+
+  void _userFeature() {
+    sl.registerLazySingleton(() => UserService());
+    sl.registerLazySingleton<UserRepository>(() => UserRepositoryImpl(sl()));
+    sl.registerLazySingleton<UserUseCase>(() => UserUseCaseImpl(sl()));
+    sl.registerFactory(() => UserBloc(sl()));
+  }
+
+  void _homeFeature() {
+    sl.registerLazySingleton(() => HomeService());
+    sl.registerLazySingleton<HomeRepository>(() => HomeRepositoryImpl(sl()));
+    sl.registerLazySingleton<HomeUseCase>(() => HomeUseCaseImpl(sl()));
+    sl.registerFactory(() => HomeBloc(sl()));
+  }
+
+  void _productByCategoryFeature() {
+    sl.registerLazySingleton(() => ProductByCategoryService());
+    sl.registerLazySingleton<ProductByCategoryRepository>(
+        () => ProductByCategoryRepositoryImpl(sl()));
+    sl.registerLazySingleton<ProductByCategoryUseCase>(
+        () => ProductByCategoryUseCaseImpl(sl()));
+    sl.registerFactory(() => ProductByCategoryBloc(sl()));
+  }
+
+  void _searchProductFeature() {
+    sl.registerLazySingleton(() => SearchService());
+    sl.registerLazySingleton<SearchRepository>(
+        () => SearchRepositoryImpl(sl()));
+    sl.registerLazySingleton<SearchUseCase>(() => SearchUseCaseImpl(sl()));
+    sl.registerFactory(() => SearchCubit(sl()));
+  }
+
+  void _productDetailFeature() {
+    sl.registerLazySingleton(() => ProductDetailService());
+    sl.registerLazySingleton<ProductDetailRepository>(
+        () => ProductDetailRepositoryImpl(sl()));
+    sl.registerLazySingleton<ProductDetailUseCase>(
+        () => ProductDetailUseCaseImpl(sl()));
+    sl.registerFactory(() => ProductDetailBloc(sl()));
+  }
+
+  void _cartFeature() {
+    sl.registerLazySingleton(() => CartService());
+    sl.registerLazySingleton<CartRepository>(() => CartRepositoryImpl(sl()));
+    sl.registerLazySingleton<CartUseCase>(() => CartUseCaseImpl(sl()));
+    sl.registerFactory(() => CartBloc(sl()));
+  }
+
+  void _savedAddressFeature() {
+    sl.registerLazySingleton(() => SavedAddressService());
+    sl.registerLazySingleton<SavedAddressRepository>(
+        () => SavedAddressRepositoryImpl(sl()));
+    sl.registerLazySingleton<SavedAddressUseCase>(
+        () => SavedAddressUseCaseImpl(sl()));
+    sl.registerFactory(() => SavedAddressBloc(sl()));
+  }
+
+  void _vnPayFeature() {
+    sl.registerLazySingleton(() => VnPayService());
+    sl.registerLazySingleton<VnPayRepository>(() => VnPayRepositoryImpl(sl()));
+    sl.registerLazySingleton<VnPayUseCase>(() => VnPayUseCaseImpl(sl()));
+    sl.registerFactory(() => VnPayCubit(sl()));
+  }
+
+  void _receiptFeature() {
+    sl.registerLazySingleton(() => ReceiptService());
+    sl.registerLazySingleton<ReceiptRepository>(
+        () => ReceiptRepositoryImpl(sl()));
+    sl.registerLazySingleton<ReceiptUseCase>(() => ReceiptUseCaseImpl(sl()));
+    sl.registerFactory(() => ReceiptBloc(sl()));
+  }
+
+  void _trackingFeature() {
+    sl.registerLazySingleton(() => TrackingService());
+    sl.registerLazySingleton<TrackingRepository>(
+        () => TrackingRepositoryImpl(sl()));
+    sl.registerLazySingleton<TrackingUseCase>(() => TrackingUseCaseImpl(sl()));
+    sl.registerFactory(() => TrackingCubit(sl()));
+  }
+
+  void _historyFeature() {
+    sl.registerLazySingleton(() => HistoryService());
+    sl.registerLazySingleton<HistoryRepository>(
+        () => HistoryRepositoryImpl(sl()));
+    sl.registerLazySingleton<HistoryUseCase>(() => HistoryUseCaseImpl(sl()));
+    sl.registerFactory(() => HistoryBloc(sl()));
+  }
+}
