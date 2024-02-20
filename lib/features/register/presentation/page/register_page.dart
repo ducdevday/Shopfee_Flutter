@@ -259,8 +259,7 @@ class _RegisterScreenState extends State<RegisterPage> {
                             padding: EdgeInsets.zero,
                             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                           ),
-                          onPressed: () {
-                          },
+                          onPressed: () {},
                           child: Text(
                             "or ",
                             style: AppStyle.normalTextStyleDark,
@@ -271,9 +270,7 @@ class _RegisterScreenState extends State<RegisterPage> {
                             padding: EdgeInsets.zero,
                             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                           ),
-                          onPressed: () {
-
-                          },
+                          onPressed: () {},
                           child: Text(
                             "Continue as guess",
                             style: AppStyle.normalTextStylePrimary,

@@ -1,8 +1,8 @@
 import 'package:shopfee/core/common/models/result.dart';
-import 'package:shopfee/features/personal_information/data/datasources/user_service.dart';
-import 'package:shopfee/features/personal_information/data/models/user_model.dart';
-import 'package:shopfee/features/personal_information/domain/entities/user_entity.dart';
-import 'package:shopfee/features/personal_information/domain/repositories/user_repository.dart';
+import 'package:shopfee/features/user/data/datasources/user_service.dart';
+import 'package:shopfee/features/user/data/models/user_model.dart';
+import 'package:shopfee/features/user/domain/entities/user_entity.dart';
+import 'package:shopfee/features/user/domain/repositories/user_repository.dart';
 
 class UserRepositoryImpl implements UserRepository {
   final UserService _userService;

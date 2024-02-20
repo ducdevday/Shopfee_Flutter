@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:shopfee/core/common/models/gender.dart';
-import 'package:shopfee/features/personal_information/domain/entities/user_entity.dart';
+import 'package:shopfee/features/user/domain/entities/user_entity.dart';
 
 part 'user_model.g.dart';
 

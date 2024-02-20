@@ -6,7 +6,7 @@ import 'package:shopfee/features/account/presentation/account.dart';
 import 'package:shopfee/features/default/presentation/widgets/bottombar/my_bottom_nav_bar.dart';
 import 'package:shopfee/features/default/presentation/widgets/bottombar/my_bottom_nav_bar_cubit.dart';
 import 'package:shopfee/features/home/presentation/home.dart';
-import 'package:shopfee/features/personal_information/presentation/personal_infomation.dart';
+import 'package:shopfee/features/user/presentation/user.dart';
 
 class DefaultPage extends StatefulWidget {
   static const String route = '/';

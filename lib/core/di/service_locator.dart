@@ -29,11 +29,11 @@ import 'package:shopfee/features/otp/data/repositories/otp_repository_impl.dart'
 import 'package:shopfee/features/otp/domain/repositories/otp_repository.dart';
 import 'package:shopfee/features/otp/domain/usecase/otp_usecase.dart';
 import 'package:shopfee/features/otp/presentation/otp.dart';
-import 'package:shopfee/features/personal_information/data/datasources/user_service.dart';
-import 'package:shopfee/features/personal_information/data/repositories/user_repository_impl.dart';
-import 'package:shopfee/features/personal_information/domain/repositories/user_repository.dart';
-import 'package:shopfee/features/personal_information/domain/usecase/user_usecase.dart';
-import 'package:shopfee/features/personal_information/presentation/personal_infomation.dart';
+import 'package:shopfee/features/user/data/datasources/user_service.dart';
+import 'package:shopfee/features/user/data/repositories/user_repository_impl.dart';
+import 'package:shopfee/features/user/domain/repositories/user_repository.dart';
+import 'package:shopfee/features/user/domain/usecase/user_usecase.dart';
+import 'package:shopfee/features/user/presentation/user.dart';
 import 'package:shopfee/features/product_by_category/data/datasources/product_by_category_service.dart';
 import 'package:shopfee/features/product_by_category/data/repositories/product_by_category_repository_impl.dart';
 import 'package:shopfee/features/product_by_category/domain/repositories/product_by_category_repository.dart';

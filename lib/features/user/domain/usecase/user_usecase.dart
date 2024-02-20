@@ -1,6 +1,6 @@
 import 'package:shopfee/core/errors/app_exception.dart';
-import 'package:shopfee/features/personal_information/domain/entities/user_entity.dart';
-import 'package:shopfee/features/personal_information/domain/repositories/user_repository.dart';
+import 'package:shopfee/features/user/domain/entities/user_entity.dart';
+import 'package:shopfee/features/user/domain/repositories/user_repository.dart';
 import 'package:shopfee/features/template/domain/entities/template_entity.dart';
 import 'package:shopfee/features/template/domain/repositories/template_repository.dart';
 

@@ -1,4 +1,4 @@
-part of personal_infomation;
+part of user;
 
 class UserBloc extends Bloc<UserEvent, UserState> {
   final UserUseCase _userUseCase;

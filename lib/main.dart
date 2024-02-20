@@ -17,7 +17,7 @@ import 'package:shopfee/core/utils/simple_bloc_observer.dart';
 import 'package:shopfee/features/cart/presentation/cart.dart';
 import 'package:shopfee/features/default/presentation/widgets/bottombar/my_bottom_nav_bar_cubit.dart';
 import 'package:shopfee/features/home/presentation/home.dart';
-import 'package:shopfee/features/personal_information/presentation/personal_infomation.dart';
+import 'package:shopfee/features/user/presentation/user.dart';
 import 'package:shopfee/features/receipt/presentation/receipt.dart';
 import 'package:shopfee/features/splash/presentation/splash.dart';
 
@@ -95,28 +95,6 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        // BlocProvider(
-        //     create: (context) => CartBloc(
-        //         orderRepository: context.read<OrderRepository>(),
-        //         addressRepository: context.read<AddressRepository>(),
-        //         firebaseRepository: context.read<FirebaseRepository>())
-        //       ..add(LoadCart())),
-        // BlocProvider(
-        //     create: (context) => HomeBloc(
-        //         categoryRepository: context.read<CategoryRepository>(),
-        //         productRepository: context.read<ProductRepository>())
-        //       ..add(LoadHome())),
-        // BlocProvider(
-        //     create: (context) =>
-        //         HistoryBloc(orderRepository: context.read<OrderRepository>())
-        //           ..add(const LoadHistory(
-        //               historyStatus: HistoryStatus.Processing))),
-        // BlocProvider(
-        //     create: (context) => AccountBloc(
-        //         userRepository: context.read<UserRepository>(),
-        //         localRepository: context.read<LocalRepository>(),
-        //         firebaseRepository: context.read<FirebaseRepository>())
-        //       ..add(LoadAccount())),
         BlocProvider(
             create: (context) =>
                 ServiceLocator.sl<UserBloc>()..add(UserLoadInformation())),

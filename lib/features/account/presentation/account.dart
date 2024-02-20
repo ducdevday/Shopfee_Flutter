@@ -13,7 +13,7 @@ import 'package:shopfee/features/default/presentation/page/default_page.dart';
 import 'package:shopfee/features/default/presentation/widgets/bottombar/my_bottom_nav_bar_cubit.dart';
 import 'package:shopfee/features/history/presentation/history.dart';
 import 'package:shopfee/features/login/presentation/login.dart';
-import 'package:shopfee/features/personal_information/presentation/personal_infomation.dart';
+import 'package:shopfee/features/user/presentation/user.dart';
 import 'package:shopfee/features/saved_address/presentation/saved_address.dart';
 
 part 'page/account_page.dart';

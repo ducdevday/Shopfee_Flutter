@@ -1,4 +1,4 @@
-part of personal_infomation;
+part of user;
 
 abstract class UserState extends Equatable {
   const UserState();

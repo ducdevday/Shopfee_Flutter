@@ -1,5 +1,5 @@
 import 'package:shopfee/core/common/models/gender.dart';
-import 'package:shopfee/features/personal_information/data/models/user_model.dart';
+import 'package:shopfee/features/user/data/models/user_model.dart';
 
 class UserEntity {
   final String? id;
