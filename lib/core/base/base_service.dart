@@ -6,8 +6,10 @@ import 'package:shopfee/core/service/shared_service.dart';
 class BaseService {
   static const String BACKEND_PATH = "http://10.0.2.2:8080/api/";
   static const String NOTIFY_PATH = "https://fcm.googleapis.com/fcm/send";
+  static const String ADDRESS_PATH = "https://vapi.vnappmob.com/api/";
+  static const String GOONG_PATH = "https://rsapi.goong.io/";
 
-  //api route
+  //api backend route
   static const String productPath = "product";
   static const String categoryPath = "category";
   static const String transactionPath = "transaction";
@@ -16,9 +18,13 @@ class BaseService {
   static const String addressPath = "address";
   static const String orderPath = "order";
 
+  //api goong route
+  static const String geocodePath = "Geocode";
+
   late Dio dio;
   late Dio dioNotify;
-
+  late Dio dioAddress;
+  late Dio dioGoong;
   //CONSTRUCTOR
   BaseService() {
     //Backend dio
@@ -87,5 +93,26 @@ class BaseService {
                 "key=AAAALjRbZjM:APA91bHRTExSmHLyQFtcDQI2j-2udvkbTIMj4X3d1iBbZyyhchw2lJsZ3CLwkSfM3b5cPTOzRarHvSHEY12rQtMvHXQVaPmxWb9veXl3iVu4UpoBzwvCXfz-JZXCVN3OJ8bU4_HX0f_R"
           }),
     );
+
+    dioAddress = Dio(
+      BaseOptions(
+        baseUrl: ADDRESS_PATH,
+        connectTimeout: const Duration(milliseconds: 30000),
+        receiveTimeout: const Duration(milliseconds: 30000),
+        responseType: ResponseType.json,
+        contentType: Headers.jsonContentType,
+      ),
+    );
+
+    dioGoong = Dio(
+      BaseOptions(
+        baseUrl: GOONG_PATH,
+        connectTimeout: const Duration(milliseconds: 30000),
+        receiveTimeout: const Duration(milliseconds: 30000),
+        responseType: ResponseType.json,
+        contentType: Headers.jsonContentType,
+      ),
+    );
+
   }
 }

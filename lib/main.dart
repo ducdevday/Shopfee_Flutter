@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -32,6 +34,11 @@ void main() async {
       storageDirectory: kIsWeb
           ? HydratedStorage.webStorageDirectory
           : await getTemporaryDirectory());
+
+  final Directory appDocDir = await getApplicationDocumentsDirectory();
+  final String appDocPath = appDocDir.path;
+  SharedService.setAppDocPath(appDocPath);
+
   Bloc.observer = SimpleBlocObserver();
   runApp(const MyApp());
 }

@@ -34,4 +34,11 @@ class ValidateFieldUtil {
     }
     return true;
   }
+
+  static bool validateAddress(String address) {
+    if (address.isEmpty) {
+      return false;
+    }
+    return true;
+  }
 }

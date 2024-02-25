@@ -4,5 +4,6 @@ enum FieldType{
   email,
   phone,
   password,
-  confirmPassword
+  confirmPassword,
+  address
 }

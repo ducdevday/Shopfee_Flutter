@@ -1,11 +1,8 @@
-import 'package:shopfee/core/common/models/result.dart';
 import 'package:shopfee/core/common/models/result_list.dart';
 import 'package:shopfee/features/saved_address/data/datasources/saved_address_service.dart';
 import 'package:shopfee/features/saved_address/data/models/address_model.dart';
 import 'package:shopfee/features/saved_address/domain/entities/address_entity.dart';
 import 'package:shopfee/features/saved_address/domain/repositories/saved_address_repository.dart';
-import 'package:shopfee/features/template/data/models/template_model.dart';
-import 'package:shopfee/features/template/domain/entities/template_entity.dart';
 
 class SavedAddressRepositoryImpl implements SavedAddressRepository {
   final SavedAddressService _saveAddressService;

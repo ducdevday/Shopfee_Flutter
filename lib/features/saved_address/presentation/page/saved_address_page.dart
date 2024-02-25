@@ -29,8 +29,8 @@ class _SavedAddressPageState extends State<SavedAddressPage> {
   void checkAddNewAddress(
       SavedAddressLoadSuccess state, BuildContext context) async {
     if (state.addressList.length < 5) {
-      // Navigator.pushNamed(context, AppRouter.newAddressRoute).then(
-      //         (value) => context.read<SavedAddressBloc>().add(LoadSavedAddress()));
+      NavigationUtil.pushNamed(
+          NewAddressPage.route);
     } else {
       showDialog(
           context: context,
@@ -161,11 +161,15 @@ class _SavedAddressPageState extends State<SavedAddressPage> {
               ),
               IconButton(
                   onPressed: () {
-                    // Navigator.pushNamed(context, AppRouter.newAddressRoute,
-                    //     arguments: state.addressList[index].id)
-                    //     .then((value) => context
-                    //     .read<SavedAddressBloc>()
-                    //     .add(LoadSavedAddress()));
+                    NavigationUtil.pushNamed(NewAddressPage.route,
+                            arguments: state.addressList[index].id)
+                        .then((refresh) {
+                      if (refresh != null || refresh as bool == true) {
+                        context
+                            .read<SavedAddressBloc>()
+                            .add(SavedAddressLoadInformation());
+                      }
+                    });
                   },
                   icon: SvgPicture.asset(
                     AppPath.icEdit,

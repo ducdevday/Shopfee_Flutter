@@ -3,10 +3,13 @@ import 'package:shopfee/core/common/widgets/my_page_route.dart';
 import 'package:shopfee/features/cart/data/models/order_result.dart';
 import 'package:shopfee/features/cart/presentation/cart.dart';
 import 'package:shopfee/features/change_password/presentation/change_password.dart';
+import 'package:shopfee/features/choose_address/presentation/choose_address.dart';
 import 'package:shopfee/features/default/presentation/page/default_page.dart';
 import 'package:shopfee/features/forgot_password/presentation/forgot_password.dart';
+import 'package:shopfee/features/google_map/presentation/page/google_map_page.dart';
 import 'package:shopfee/features/history/presentation/history.dart';
 import 'package:shopfee/features/login/presentation/login.dart';
+import 'package:shopfee/features/new_address/presentation/new_address.dart';
 import 'package:shopfee/features/notify_permission/presentation/notify_permission.dart';
 import 'package:shopfee/features/onboarding/presentation/onboarding.dart';
 import 'package:shopfee/features/otp/presentation/otp.dart';
@@ -70,6 +73,13 @@ class AppRouter {
         return MaterialPageRoute(
             builder: (context) =>
                 SavedAddressPage(fromRoute: settings.arguments as String));
+      case NewAddressPage.route:
+        return MaterialPageRoute(
+            builder: (context) => NewAddressPage(
+                  addressId: settings.arguments as String?,
+                ));
+      case ChooseAddressPage.route:
+        return MaterialPageRoute(builder: (context) => ChooseAddressPage());
       case VnPayPage.route:
         return MaterialPageRoute(
             builder: (context) =>
@@ -84,6 +94,11 @@ class AppRouter {
                 TrackingPage(orderId: settings.arguments as String));
       case HistoryPage.route:
         return MaterialPageRoute(builder: (context) => const HistoryPage());
+      case GoogleMapPage.route:
+        return MaterialPageRoute(
+            builder: (context) => GoogleMapPage(
+                  addressString: settings.arguments as String,
+                ));
       default:
         return _errorRoute();
     }

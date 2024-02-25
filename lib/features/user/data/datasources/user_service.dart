@@ -8,7 +8,7 @@ import 'package:shopfee/features/user/data/models/user_model.dart';
 class UserService extends BaseService {
   Future<Response> getUser(String userId) async {
     final response = await dio.get(
-      "${BaseService.userPath}/$userId",
+      "${BaseService.userPath}/$userId/view",
     );
     return response;
   }

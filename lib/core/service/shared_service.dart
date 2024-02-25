@@ -11,6 +11,10 @@ class SharedService {
     _pref.clear();
   }
 
+  static void setAppDocPath(String appDocPath){
+    _pref.setString("appDocPath", appDocPath);
+  }
+
   static void setIsFirstTime(bool isFirstTime) {
     _pref.setBool("isFirstTime", isFirstTime);
   }
@@ -25,6 +29,10 @@ class SharedService {
 
   static void setRefreshToken(String refreshToken) {
     _pref.setString("refreshToken", refreshToken);
+  }
+
+  static String getAppDocPath(){
+    return _pref.getString("appDocPath") ?? "";
   }
 
   static bool getIsFirstTime() {

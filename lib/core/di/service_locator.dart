@@ -9,6 +9,16 @@ import 'package:shopfee/features/change_password/data/repositories/change_passwo
 import 'package:shopfee/features/change_password/domain/repositories/change_password_repository.dart';
 import 'package:shopfee/features/change_password/domain/usecase/change_password_usecase.dart';
 import 'package:shopfee/features/change_password/presentation/change_password.dart';
+import 'package:shopfee/features/choose_address/data/datasources/choose_address_service.dart';
+import 'package:shopfee/features/choose_address/data/repositories/choose_address_repository_impl.dart';
+import 'package:shopfee/features/choose_address/domain/repositories/choose_address_repository.dart';
+import 'package:shopfee/features/choose_address/domain/usecase/choose_address_usecase.dart';
+import 'package:shopfee/features/choose_address/presentation/choose_address.dart';
+import 'package:shopfee/features/google_map/data/datasources/google_map_service.dart';
+import 'package:shopfee/features/google_map/data/repositories/google_map_repository_impl.dart';
+import 'package:shopfee/features/google_map/domain/repositories/google_map_repository.dart';
+import 'package:shopfee/features/google_map/domain/usecase/google_map_usecase.dart';
+import 'package:shopfee/features/google_map/presentation/bloc/google_map_bloc.dart';
 import 'package:shopfee/features/history/data/datasources/history_service.dart';
 import 'package:shopfee/features/history/data/repositories/history_repository_impl.dart';
 import 'package:shopfee/features/history/domain/repositories/history_repository.dart';
@@ -24,6 +34,11 @@ import 'package:shopfee/features/login/data/repositories/login_repository_impl.d
 import 'package:shopfee/features/login/domain/repositories/login_repository.dart';
 import 'package:shopfee/features/login/domain/usecase/login_usecase.dart';
 import 'package:shopfee/features/login/presentation/login.dart';
+import 'package:shopfee/features/new_address/data/datasources/new_address_service.dart';
+import 'package:shopfee/features/new_address/data/repositories/new_address_repository_impl.dart';
+import 'package:shopfee/features/new_address/domain/repositories/new_address_repository.dart';
+import 'package:shopfee/features/new_address/domain/usecase/new_address_usecase.dart';
+import 'package:shopfee/features/new_address/presentation/new_address.dart';
 import 'package:shopfee/features/otp/data/datasources/otp_service.dart';
 import 'package:shopfee/features/otp/data/repositories/otp_repository_impl.dart';
 import 'package:shopfee/features/otp/domain/repositories/otp_repository.dart';
@@ -84,10 +99,13 @@ class ServiceLocator {
     _productDetailFeature();
     _cartFeature();
     _savedAddressFeature();
+    _chosenAddressFeature();
     _vnPayFeature();
     _receiptFeature();
     _trackingFeature();
     _historyFeature();
+    _newAddressFeature();
+    _googleMapFeature();
   }
 
   void _loginFeature() {
@@ -202,5 +220,32 @@ class ServiceLocator {
         () => HistoryRepositoryImpl(sl()));
     sl.registerLazySingleton<HistoryUseCase>(() => HistoryUseCaseImpl(sl()));
     sl.registerFactory(() => HistoryBloc(sl()));
+  }
+
+  void _newAddressFeature() {
+    sl.registerLazySingleton(() => NewAddressService());
+    sl.registerLazySingleton<NewAddressRepository>(
+        () => NewAddressRepositoryImpl(sl()));
+    sl.registerLazySingleton<NewAddressUseCase>(
+        () => NewAddressUseCaseImpl(sl()));
+    sl.registerFactory(() => NewAddressBloc(sl()));
+  }
+
+  void _chosenAddressFeature() {
+    sl.registerLazySingleton(() => ChooseAddressService());
+    sl.registerLazySingleton<ChooseAddressRepository>(
+        () => ChooseAddressRepositoryImpl(sl()));
+    sl.registerLazySingleton<ChooseAddressUseCase>(
+        () => ChooseAddressUseCaseImpl(sl()));
+    sl.registerFactory(() => ChooseAddressBloc(sl()));
+  }
+
+  void _googleMapFeature() {
+    sl.registerLazySingleton(() => GoogleMapService());
+    sl.registerLazySingleton<GoogleMapRepository>(
+        () => GoogleMapRepositoryImpl(sl()));
+    sl.registerLazySingleton<GoogleMapUseCase>(
+        () => GoogleMapUseCaseImpl(sl()));
+    sl.registerFactory(() => GoogleMapBloc(sl()));
   }
 }

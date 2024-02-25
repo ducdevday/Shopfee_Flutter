@@ -23,6 +23,14 @@ class _LoginPageState extends State<LoginPage> {
     _cubit = ServiceLocator.sl<LoginCubit>();
   }
 
+  @override
+  void dispose() {
+    emailTextController.dispose();
+    passwordTextController.dispose();
+    _cubit.close();
+    super.dispose();
+  }
+
   String? getErrorText(
     String text,
     FieldType type,
