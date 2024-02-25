@@ -23,7 +23,8 @@ class _OtpPageState extends State<OtpPage> {
   @override
   void initState() {
     super.initState();
-    _cubit = ServiceLocator.sl<OtpCubit>()..sendOTP(widget.email, widget.fromRoute);
+    _cubit = ServiceLocator.sl<OtpCubit>()
+      ..sendOTP(widget.email, widget.fromRoute);
   }
 
   @override
@@ -32,14 +33,16 @@ class _OtpPageState extends State<OtpPage> {
       create: (context) => _cubit,
       child: BlocConsumer<OtpCubit, OtpState>(
         listener: (context, state) {
-          if(state is OtpFinished){
-            switch(widget.fromRoute){
+          if (state is OtpFinished) {
+            switch (widget.fromRoute) {
               case ForgotPasswordPage.route:
-                Navigator.of(context).pushNamedAndRemoveUntil(LoginPage.route, (route) => false);
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                    ChangePasswordPage.route, (route) => false,
+                    arguments: widget.email);
                 break;
               case RegisterPage.route:
-
-                Navigator.of(context).pushNamedAndRemoveUntil(DefaultPage.route, (route) => false);
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                    DefaultPage.route, (route) => false);
                 break;
             }
           }

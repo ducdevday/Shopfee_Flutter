@@ -29,7 +29,8 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<void> logoutUser(String userId) async{
+  Future<void> logoutUser(String userId) async {
+    await _userService.logout();
     await _userService.deleteFCMToken(userId);
     await _userService.logoutWithGoogle();
   }

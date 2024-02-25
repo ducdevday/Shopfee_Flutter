@@ -19,6 +19,11 @@ class UserService extends BaseService {
     return response;
   }
 
+  Future<Response> logout() async{
+    final response = await dio.get("${BaseService.authPath}/logout");
+    return response;
+  }
+
   Future<void> deleteFCMToken(String userId) async {
     await FirebaseFirestore.instance.collection("users").doc(userId).delete();
   }

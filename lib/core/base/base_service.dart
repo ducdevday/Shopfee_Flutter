@@ -1,5 +1,7 @@
+import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:dio_cookie_manager/dio_cookie_manager.dart';
+import 'package:flutter_config/flutter_config.dart';
 import 'package:shopfee/core/common/models/result.dart';
 import 'package:shopfee/core/service/shared_service.dart';
 
@@ -13,7 +15,7 @@ class BaseService {
   static const String productPath = "product";
   static const String categoryPath = "category";
   static const String transactionPath = "transaction";
-  static const String authPath = "auth";
+  static const String authPath = "auth/user";
   static const String userPath = "user";
   static const String addressPath = "address";
   static const String orderPath = "order";
@@ -25,6 +27,7 @@ class BaseService {
   late Dio dioNotify;
   late Dio dioAddress;
   late Dio dioGoong;
+
   //CONSTRUCTOR
   BaseService() {
     //Backend dio
@@ -37,12 +40,18 @@ class BaseService {
         contentType: Headers.jsonContentType,
       ),
     );
-    dio.interceptors.add(
+    // final cookieJar = CookieJar();
+    final cookieJar = PersistCookieJar(
+      ignoreExpires: true,
+      storage: FileStorage("${SharedService.getAppDocPath()}/.cookies/"),
+    );
+    dio.interceptors.addAll([
+      CookieManager(cookieJar),
       InterceptorsWrapper(
         onRequest: (options, handler) async {
           if (SharedService.getAccessToken() != null) {
             options.headers['Authorization'] =
-                "Bearer ${SharedService.getAccessToken()}";
+            "Bearer ${SharedService.getAccessToken()}";
           }
           return handler.next(options);
         },
@@ -56,7 +65,6 @@ class BaseService {
             try {
               var response = await dio
                   .post("${BaseService.authPath}/refresh-token", data: body);
-              print(response.data);
               var result = Result(
                   success: response.data["success"],
                   message: response.data["message"],
@@ -68,7 +76,7 @@ class BaseService {
 
                 // Update the request header with the new access token
                 e.requestOptions.headers['Authorization'] =
-                    'Bearer ${SharedService.getAccessToken()}';
+                'Bearer ${SharedService.getAccessToken()}';
               }
             } catch (e) {
               print(e);
@@ -79,18 +87,18 @@ class BaseService {
           return handler.next(e);
         },
       ),
-    );
+    ]);
 
     dioNotify = Dio(
       BaseOptions(
-          // baseUrl: NOTIFY_PATH,
+        // baseUrl: NOTIFY_PATH,
           connectTimeout: const Duration(milliseconds: 30000),
           receiveTimeout: const Duration(milliseconds: 30000),
           responseType: ResponseType.json,
           contentType: Headers.jsonContentType,
           headers: {
             'Authorization':
-                "key=AAAALjRbZjM:APA91bHRTExSmHLyQFtcDQI2j-2udvkbTIMj4X3d1iBbZyyhchw2lJsZ3CLwkSfM3b5cPTOzRarHvSHEY12rQtMvHXQVaPmxWb9veXl3iVu4UpoBzwvCXfz-JZXCVN3OJ8bU4_HX0f_R"
+            "key=${FlutterConfig.get("FCM_API")}"
           }),
     );
 
@@ -113,6 +121,5 @@ class BaseService {
         contentType: Headers.jsonContentType,
       ),
     );
-
   }
 }

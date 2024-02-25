@@ -19,9 +19,8 @@ import 'package:shopfee/core/utils/simple_bloc_observer.dart';
 import 'package:shopfee/features/cart/presentation/cart.dart';
 import 'package:shopfee/features/default/presentation/widgets/bottombar/my_bottom_nav_bar_cubit.dart';
 import 'package:shopfee/features/home/presentation/home.dart';
-import 'package:shopfee/features/user/presentation/user.dart';
-import 'package:shopfee/features/receipt/presentation/receipt.dart';
 import 'package:shopfee/features/splash/presentation/splash.dart';
+import 'package:shopfee/features/user/presentation/user.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,11 +33,7 @@ void main() async {
       storageDirectory: kIsWeb
           ? HydratedStorage.webStorageDirectory
           : await getTemporaryDirectory());
-
-  final Directory appDocDir = await getApplicationDocumentsDirectory();
-  final String appDocPath = appDocDir.path;
-  SharedService.setAppDocPath(appDocPath);
-
+  await initAppDocPath();
   Bloc.observer = SimpleBlocObserver();
   runApp(const MyApp());
 }
@@ -127,4 +122,10 @@ class _MyAppState extends State<MyApp> {
       ),
     );
   }
+}
+
+Future<void> initAppDocPath() async {
+  final Directory appDocDir = await getApplicationDocumentsDirectory();
+  final String appDocPath = appDocDir.path;
+  SharedService.setAppDocPath(appDocPath);
 }

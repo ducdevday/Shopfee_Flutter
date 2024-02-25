@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:shopfee/core/config/app_style.dart';
 
 class PhoneInputField extends StatefulWidget {
@@ -61,6 +62,12 @@ class _PhoneInputFieldState extends State<PhoneInputField> {
           validator: (value) {
             return widget.validateField(value!);
           },
+          inputFormatters: [
+            PhoneInputFormatter(
+              allowEndlessPhone: false,
+              defaultCountryCode: "VN",
+            )
+          ],
           controller: widget.controller,
           focusNode: _focusNode,
           decoration: InputDecoration(
