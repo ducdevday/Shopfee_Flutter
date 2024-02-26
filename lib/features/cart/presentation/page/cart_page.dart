@@ -345,7 +345,7 @@ class _CartPageState extends State<CartPage> {
                   ],
                 ),
                 Text(
-                  state.cart.address!.details!,
+                  state.cart.address!.detail!,
                   style: AppStyle.normalTextStyleDark,
                 ),
               ],

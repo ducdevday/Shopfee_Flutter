@@ -6,8 +6,8 @@ class OtpCubit extends Cubit<OtpState> {
   OtpCubit(this._otpUseCase) : super(OtpInitial());
 
   Future<void> sendOTP(String email, String fromRoute) async {
-    EasyLoading.show();
     try {
+      EasyLoading.show();
       await _otpUseCase.sendOtp(email, fromRoute);
       EasyLoading.dismiss();
     } catch (e) {
@@ -37,12 +37,12 @@ class OtpCubit extends Cubit<OtpState> {
             status: 'Verifying...', maskType: EasyLoadingMaskType.black);
         final responseVerifyOtp =
             await _otpUseCase.verifyOtp(email, currentState.otpsSting);
-        EasyLoading.dismiss();
         if (registerEntity != null) {
           var responseRegister = await _otpUseCase.register(registerEntity);
           SharedService.setToken(responseRegister.userId,
               responseRegister.accessToken, responseRegister.refreshToken);
         }
+        EasyLoading.dismiss();
         emit(OtpFinished());
       } catch (e) {
         ExceptionUtil.handle(e);

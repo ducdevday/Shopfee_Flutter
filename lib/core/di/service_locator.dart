@@ -14,6 +14,11 @@ import 'package:shopfee/features/choose_address/data/repositories/choose_address
 import 'package:shopfee/features/choose_address/domain/repositories/choose_address_repository.dart';
 import 'package:shopfee/features/choose_address/domain/usecase/choose_address_usecase.dart';
 import 'package:shopfee/features/choose_address/presentation/choose_address.dart';
+import 'package:shopfee/features/forgot_password/data/datasources/forgot_pasword_service.dart';
+import 'package:shopfee/features/forgot_password/data/repositories/forgot_password_repository_impl.dart';
+import 'package:shopfee/features/forgot_password/domain/repositories/forgot_password_repository.dart';
+import 'package:shopfee/features/forgot_password/domain/usecase/forgot_password_usecase.dart';
+import 'package:shopfee/features/forgot_password/presentation/forgot_password.dart';
 import 'package:shopfee/features/google_map/data/datasources/google_map_service.dart';
 import 'package:shopfee/features/google_map/data/repositories/google_map_repository_impl.dart';
 import 'package:shopfee/features/google_map/domain/repositories/google_map_repository.dart';
@@ -39,6 +44,11 @@ import 'package:shopfee/features/new_address/data/repositories/new_address_repos
 import 'package:shopfee/features/new_address/domain/repositories/new_address_repository.dart';
 import 'package:shopfee/features/new_address/domain/usecase/new_address_usecase.dart';
 import 'package:shopfee/features/new_address/presentation/new_address.dart';
+import 'package:shopfee/features/new_password/data/datasources/new_password_service.dart';
+import 'package:shopfee/features/new_password/data/repositories/new_password_repository_impl.dart';
+import 'package:shopfee/features/new_password/domain/repositories/new_password_repository.dart';
+import 'package:shopfee/features/new_password/domain/usecase/new_password_usecase.dart';
+import 'package:shopfee/features/new_password/presentation/new_password.dart';
 import 'package:shopfee/features/otp/data/datasources/otp_service.dart';
 import 'package:shopfee/features/otp/data/repositories/otp_repository_impl.dart';
 import 'package:shopfee/features/otp/domain/repositories/otp_repository.dart';
@@ -92,6 +102,8 @@ class ServiceLocator {
     _loginFeature();
     _otpFeature();
     _changePasswordFeature();
+    _newPasswordFeature();
+    _forgotPasswordFeature();
     _userFeature();
     _homeFeature();
     _productByCategoryFeature();
@@ -247,5 +259,23 @@ class ServiceLocator {
     sl.registerLazySingleton<GoogleMapUseCase>(
         () => GoogleMapUseCaseImpl(sl()));
     sl.registerFactory(() => GoogleMapBloc(sl()));
+  }
+
+  void _newPasswordFeature() {
+    sl.registerLazySingleton(() => NewPasswordService());
+    sl.registerLazySingleton<NewPasswordRepository>(
+        () => NewPasswordRepositoryImpl(sl()));
+    sl.registerLazySingleton<NewPasswordUseCase>(
+        () => NewPasswordUseCaseImpl(sl()));
+    sl.registerFactory(() => NewPasswordCubit(sl()));
+  }
+
+  void _forgotPasswordFeature() {
+    sl.registerLazySingleton(() => ForgotPasswordService());
+    sl.registerLazySingleton<ForgotPasswordRepository>(
+        () => ForgotPasswordRepositoryImpl(sl()));
+    sl.registerLazySingleton<ForgotPasswordUseCase>(
+        () => ForgotPasswordUseCaseImpl(sl()));
+    sl.registerFactory(() => ForgotPasswordCubit(sl()));
   }
 }

@@ -27,13 +27,13 @@ class NewAddressDoDelete extends NewAddressEvent{
 }
 
 class NewAddressDoUpdate extends NewAddressEvent{
-  final String addressId;
+  final AddressEntity address;
 
   @override
-  List<Object> get props => [addressId];
+  List<Object> get props => [address];
 
   const NewAddressDoUpdate({
-    required this.addressId,
+    required this.address,
   });
 }
 

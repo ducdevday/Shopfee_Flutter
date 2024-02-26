@@ -6,7 +6,7 @@ part 'address_model.g.dart';
 @JsonSerializable()
 class AddressModel {
   final String? id;
-  final String? details;
+  final String? detail;
   final double? latitude;
   final double? longitude;
   final String? note;
@@ -18,7 +18,7 @@ class AddressModel {
 
   const AddressModel({
     this.id,
-    this.details,
+    this.detail,
     this.latitude,
     this.longitude,
     this.note,
@@ -38,7 +38,7 @@ class AddressModel {
 
   Map<String, dynamic> toJsonOrder() {
     return {
-      'details': this.details,
+      'detail': this.detail,
       'latitude': this.latitude,
       'longitude': this.longitude,
       'note': this.note,
@@ -50,7 +50,7 @@ class AddressModel {
   factory AddressModel.fromEntity(AddressEntity entity) {
     return AddressModel(
       id: entity.id,
-      details: entity.details,
+      detail: entity.detail,
       latitude: entity.latitude,
       longitude: entity.longitude,
       note: entity.note,

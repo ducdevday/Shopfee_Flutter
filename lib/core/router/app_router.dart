@@ -10,6 +10,7 @@ import 'package:shopfee/features/google_map/presentation/page/google_map_page.da
 import 'package:shopfee/features/history/presentation/history.dart';
 import 'package:shopfee/features/login/presentation/login.dart';
 import 'package:shopfee/features/new_address/presentation/new_address.dart';
+import 'package:shopfee/features/new_password/presentation/new_password.dart';
 import 'package:shopfee/features/notify_permission/presentation/notify_permission.dart';
 import 'package:shopfee/features/onboarding/presentation/onboarding.dart';
 import 'package:shopfee/features/otp/presentation/otp.dart';
@@ -53,6 +54,8 @@ class AppRouter {
         return MaterialPageRoute(
             builder: (context) =>
                 ChangePasswordPage(email: settings.arguments as String));
+      case NewPasswordPage.route:
+        return MaterialPageRoute(builder: (context) => const NewPasswordPage());
       case DefaultPage.route:
         return MaterialPageRoute(builder: (context) => DefaultPage());
       case ProductByCategoryPage.route:

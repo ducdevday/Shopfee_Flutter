@@ -29,8 +29,11 @@ class _SavedAddressPageState extends State<SavedAddressPage> {
   void checkAddNewAddress(
       SavedAddressLoadSuccess state, BuildContext context) async {
     if (state.addressList.length < 5) {
-      NavigationUtil.pushNamed(
-          NewAddressPage.route);
+      NavigationUtil.pushNamed(NewAddressPage.route).then((refresh) {
+        if (refresh != null && refresh as bool == true) {
+          context.read<SavedAddressBloc>().add(SavedAddressLoadInformation());
+        }
+      });
     } else {
       showDialog(
           context: context,
@@ -64,6 +67,7 @@ class _SavedAddressPageState extends State<SavedAddressPage> {
             child: BlocBuilder<SavedAddressBloc, SavedAddressState>(
               builder: (context, state) {
                 if (state is SavedAddressLoadSuccess) {
+                  print("Rebuild");
                   return Column(
                     children: [
                       SizedBox(
@@ -153,7 +157,7 @@ class _SavedAddressPageState extends State<SavedAddressPage> {
                       ],
                     ),
                     Text(
-                      state.addressList[index].details ?? "",
+                      state.addressList[index].detail ?? "",
                       style: AppStyle.normalTextStyleDark,
                     ),
                   ],
@@ -164,7 +168,7 @@ class _SavedAddressPageState extends State<SavedAddressPage> {
                     NavigationUtil.pushNamed(NewAddressPage.route,
                             arguments: state.addressList[index].id)
                         .then((refresh) {
-                      if (refresh != null || refresh as bool == true) {
+                      if (refresh != null && refresh as bool == true) {
                         context
                             .read<SavedAddressBloc>()
                             .add(SavedAddressLoadInformation());

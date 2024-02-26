@@ -6,9 +6,9 @@ import 'package:shopfee/features/template/domain/repositories/template_repositor
 abstract class NewAddressUseCase {
   Future<void> createAddress(AddressEntity address, String userId);
 
-  Future<void> updateAddress(AddressEntity address, String userId);
+  Future<void> updateAddress(AddressEntity address);
 
-  Future<void> deleteAddress(AddressEntity address, String userId);
+  Future<void> deleteAddress(String addressId);
 
   Future<AddressEntity> getAddress(String addressId);
 }
@@ -24,8 +24,8 @@ class NewAddressUseCaseImpl extends NewAddressUseCase {
   }
 
   @override
-  Future<void> deleteAddress(AddressEntity address, String userId) async {
-    return await _newAddressRepository.deleteAddress(address, userId);
+  Future<void> deleteAddress(String addressId) async {
+    return await _newAddressRepository.deleteAddress(addressId);
   }
 
   @override
@@ -34,7 +34,7 @@ class NewAddressUseCaseImpl extends NewAddressUseCase {
   }
 
   @override
-  Future<void> updateAddress(AddressEntity address, String userId) async {
-    return await _newAddressRepository.updateAddress(address, userId);
+  Future<void> updateAddress(AddressEntity address) async {
+    return await _newAddressRepository.updateAddress(address);
   }
 }

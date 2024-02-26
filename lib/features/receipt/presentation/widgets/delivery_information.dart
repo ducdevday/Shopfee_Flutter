@@ -111,7 +111,7 @@ class DeliveryInformation extends StatelessWidget {
                       ],
                     ),
                     Text(
-                      state.receipt.address!.details ?? "",
+                      state.receipt.address!.detail ?? "",
                       style: AppStyle.normalTextStyleDark,
                     ),
                   ],

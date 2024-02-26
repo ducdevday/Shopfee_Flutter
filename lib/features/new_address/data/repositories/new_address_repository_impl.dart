@@ -17,9 +17,8 @@ class NewAddressRepositoryImpl implements NewAddressRepository {
   }
 
   @override
-  Future<void> deleteAddress(AddressEntity address, String userId) async {
-    final response = await newAddressService.createAddress(
-        AddressModel.fromEntity(address), userId);
+  Future<void> deleteAddress(String addressId) async {
+    final response = await newAddressService.deleteAddress(addressId);
   }
 
   @override
@@ -36,8 +35,8 @@ class NewAddressRepositoryImpl implements NewAddressRepository {
   }
 
   @override
-  Future<void> updateAddress(AddressEntity address, String userId) async {
+  Future<void> updateAddress(AddressEntity address) async {
     final response = await newAddressService.updateAddress(
-        AddressModel.fromEntity(address), userId);
+        AddressModel.fromEntity(address));
   }
 }

@@ -5,7 +5,7 @@ import 'package:shopfee/features/saved_address/data/models/address_model.dart';
 class NewAddressService extends BaseService {
   Future<Response> createAddress(AddressModel address, String userId) async {
     Map<String, dynamic> body = {
-      "details": address.details,
+      "detail": address.detail,
       "longitude": address.longitude,
       "latitude": address.latitude,
       "note": address.note,
@@ -13,18 +13,19 @@ class NewAddressService extends BaseService {
       "phoneNumber": address.phoneNumber
     };
     final response =
-        await dio.post("${BaseService.addressPath}/$userId", data: body);
+        await dio.post("${BaseService.addressPath}/user/$userId", data: body);
     return response;
   }
 
-  Future<Response> updateAddress(AddressModel address, String userId) async {
+  Future<Response> updateAddress(AddressModel address) async {
     Map<String, dynamic> body = {
-      "details": address.details,
+      "detail": address.detail,
       "longitude": address.longitude,
       "latitude": address.latitude,
       "note": address.note,
       "recipientName": address.recipientName,
-      "phoneNumber": address.phoneNumber
+      "phoneNumber": address.phoneNumber,
+      "default": address.isDefault
     };
     final response =
         await dio.put("${BaseService.addressPath}/${address.id}", data: body);

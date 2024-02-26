@@ -7,11 +7,8 @@ class ChangePasswordCubit extends Cubit<ChangePasswordState> {
       : super(ChangePasswordInitial());
 
   void checkValidField(
-      {
-      required String password,
-      required String confirmPassword}) {
-    if (
-        ValidateFieldUtil.validatePassword(password) &&
+      {required String password, required String confirmPassword}) {
+    if (ValidateFieldUtil.validatePassword(password) &&
         ValidateFieldUtil.validatePassword(confirmPassword) &&
         password == confirmPassword) {
       emit(ChangePasswordReady());
@@ -32,32 +29,4 @@ class ChangePasswordCubit extends Cubit<ChangePasswordState> {
       ExceptionUtil.handle(e);
     }
   }
-
-// Future<void> changePassword(BuildContext context, String email) async {
-//   if (state is ChangePasswordLoaded) {
-//     final currentState = state as ChangePasswordLoaded;
-//     try {
-//       if (currentState.errorString() != "") {
-//         throw (currentState.errorString());
-//       }
-//       EasyLoading.show(maskType: EasyLoadingMaskType.black);
-//       var response = await authRepository.changePassword(
-//           email, currentState.newPassword);
-//       EasyLoading.dismiss();
-//       if (response.success) {
-//         EasyLoading.showSuccess("Change Password Success",
-//             duration: Duration(milliseconds: 1000));
-//         Future.delayed(Duration(milliseconds: 1000), () {
-//           emit(ChangePasswordSuccess());
-//         });
-//       } else {
-//         EasyLoading.showError('Something went wrong');
-//       }
-//     } catch (e) {
-//       print(e);
-//       EasyLoading.showError(e.toString());
-//
-//     }
-//   }
-// }
 }

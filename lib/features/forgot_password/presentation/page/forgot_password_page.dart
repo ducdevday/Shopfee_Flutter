@@ -16,7 +16,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   @override
   void initState() {
     super.initState();
-    _cubit = ForgotPasswordCubit();
+    _cubit = ServiceLocator.sl<ForgotPasswordCubit>();
     emailTextController = TextEditingController();
   }
 
@@ -119,7 +119,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                             return ElevatedButton(
                               onPressed: state is! ForgotPasswordInitial
                                   ? () {
-                                      _cubit.goToOtpPage();
+                                      _cubit.goToOtpPage(
+                                          emailTextController.text.trim());
                                     }
                                   : null,
                               child: const Text("Continue"),

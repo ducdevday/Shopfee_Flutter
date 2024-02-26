@@ -8,7 +8,7 @@ part of 'address_model.dart';
 
 AddressModel _$AddressModelFromJson(Map<String, dynamic> json) => AddressModel(
       id: json['id'] as String?,
-      details: json['details'] as String?,
+      detail: json['detail'] as String?,
       latitude: (json['latitude'] as num?)?.toDouble(),
       longitude: (json['longitude'] as num?)?.toDouble(),
       note: json['note'] as String?,
@@ -21,7 +21,7 @@ AddressModel _$AddressModelFromJson(Map<String, dynamic> json) => AddressModel(
 Map<String, dynamic> _$AddressModelToJson(AddressModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'details': instance.details,
+      'detail': instance.detail,
       'latitude': instance.latitude,
       'longitude': instance.longitude,
       'note': instance.note,

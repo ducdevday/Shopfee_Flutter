@@ -107,7 +107,10 @@ class AccountPage extends StatelessWidget {
                                   MenuItem(
                                     iconData: Icons.vpn_key_outlined,
                                     content: "Change Password",
-                                    callback: () {},
+                                    callback: () {
+                                      NavigationUtil.pushNamed(
+                                          NewPasswordPage.route);
+                                    },
                                   ),
                                   const Divider(
                                     height: 1,

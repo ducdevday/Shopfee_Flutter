@@ -1,7 +1,7 @@
 part of new_address;
 
 Widget buildDefaultSwitch(
-    String? addressId, bool currentDefault,
+    String? addressId, bool isDefault,bool currentDefault,
     {required Function(bool) callback, required VoidCallback showMyDialog}) {
   if (addressId != null) {
     return Container(
@@ -16,7 +16,7 @@ Widget buildDefaultSwitch(
             ),
             Switch(
               // This bool value toggles the switch.
-              value: currentDefault,
+              value: isDefault,
               activeColor: AppColor.primaryColor,
               onChanged: currentDefault == true
                   ? (bool value) {

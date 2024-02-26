@@ -16,8 +16,10 @@ class _NewAddressPageState extends State<NewAddressPage> {
   late final TextEditingController addressNoteTextController;
   late final TextEditingController consigneeNameTextController;
   late final TextEditingController phoneNumberTextController;
-  ValueNotifier<bool> currentDefault = ValueNotifier(false);
+  ValueNotifier<bool> defaultNotifier = ValueNotifier(false);
   ValueNotifier<bool> allFieldValid = ValueNotifier(false);
+  bool currentDefault = false;
+  GeoResultEntity? geoResultEntity;
 
   @override
   void initState() {
@@ -29,6 +31,13 @@ class _NewAddressPageState extends State<NewAddressPage> {
     phoneNumberTextController = TextEditingController();
     if (widget.addressId != null) {
       _bloc.add(NewAddressLoadInformation(addressId: widget.addressId!));
+    } else {
+      final userState = context.read<UserBloc>().state;
+      if (userState is UserLoadSuccess) {
+        consigneeNameTextController.text =
+            "${userState.user.firstName} ${userState.user.lastName}";
+        phoneNumberTextController.text = userState.user.phoneNumber ?? "";
+      }
     }
   }
 
@@ -78,8 +87,19 @@ class _NewAddressPageState extends State<NewAddressPage> {
       create: (context) => _bloc,
       child: BlocConsumer<NewAddressBloc, NewAddressState>(
         listener: (context, state) {
-          if (state is NewAddressFinished) {
-            Navigator.pop(context);
+          switch (state) {
+            case NewAddressLoadSuccess():
+              addressNameTextController.text = state.address.detail ?? "";
+              addressNoteTextController.text = state.address.note ?? "";
+              consigneeNameTextController.text =
+                  state.address.recipientName ?? "";
+              phoneNumberTextController.text = state.address.phoneNumber ?? "";
+              defaultNotifier.value = state.address.isDefault ?? false;
+              currentDefault = state.address.isDefault ?? false;
+              checkValidField();
+            case NewAddressFinished():
+              NavigationUtil.pop(result: true);
+              break;
           }
         },
         builder: (context, state) {
@@ -99,7 +119,7 @@ class _NewAddressPageState extends State<NewAddressPage> {
                     ? IconButton(
                         splashColor: Colors.transparent,
                         highlightColor: Colors.transparent,
-                        onPressed: currentDefault.value == false
+                        onPressed: defaultNotifier.value == false
                             ? () {
                                 showDialog(
                                     context: context,
@@ -176,10 +196,12 @@ class _NewAddressPageState extends State<NewAddressPage> {
                                               ChooseAddressPage.route)
                                           .then((geoResult) {
                                         if (geoResult != null) {
-                                          final GeoResultEntity
-                                              geoResultEntity =
+                                          geoResultEntity =
                                               geoResult as GeoResultEntity;
-                                          addressNameTextController.text = geoResultEntity.formattedAddress;
+                                          addressNameTextController.text =
+                                              geoResultEntity
+                                                      ?.formattedAddress ??
+                                                  "";
                                         }
                                       });
                                     }
@@ -198,7 +220,8 @@ class _NewAddressPageState extends State<NewAddressPage> {
                               TextInputField(
                                   title: "Address Note (Optional)",
                                   hint: "Enter address note",
-                                  validateField: (String value) => null,
+                                  validateField: (String value) =>
+                                      getErrorText(value, FieldType.note),
                                   controller: addressNoteTextController)
                             ],
                           ),
@@ -228,7 +251,7 @@ class _NewAddressPageState extends State<NewAddressPage> {
                               const SizedBox(
                                 height: 12,
                               ),
-                              NameInputField(
+                              PhoneInputField(
                                 title: "Phone Number",
                                 hint: "Enter Phone Number",
                                 validateField: (String value) =>
@@ -244,20 +267,27 @@ class _NewAddressPageState extends State<NewAddressPage> {
                   const SizedBox(
                     height: AppDimen.spacing,
                   ),
-                  buildDefaultSwitch(widget.addressId, currentDefault.value,
-                      callback: (bool value) {
-                    currentDefault.value = value;
-                  }, showMyDialog: () {
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext dialogContext) => MyAlertDialog(
-                            title: "",
-                            content:
-                                "To cancel this default address, please choose another address to set it default",
-                            callback: () {
-                              Navigator.pop(dialogContext);
-                            }));
-                  }),
+                  ValueListenableBuilder(
+                    valueListenable: defaultNotifier,
+                    builder:
+                        (BuildContext context, bool isDefault, Widget? child) {
+                      return buildDefaultSwitch(widget.addressId, isDefault, currentDefault,
+                          callback: (bool value) {
+                        defaultNotifier.value = value;
+                      }, showMyDialog: () {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext dialogContext) =>
+                                MyAlertDialog(
+                                    title: "",
+                                    content:
+                                        "To cancel this default address, please choose another address to set it default",
+                                    callback: () {
+                                      Navigator.pop(dialogContext);
+                                    }));
+                      });
+                    },
+                  ),
                   const Spacer(
                     flex: 1,
                   ),
@@ -271,13 +301,52 @@ class _NewAddressPageState extends State<NewAddressPage> {
                           onPressed: allFieldValid.value == true
                               ? () {
                                   if (widget.addressId == null) {
-                                    // context
-                                    //     .read<NewAddressBloc>()
-                                    //     .add(NewAddressDoCreate(address: AddressEntity(details: consigneeNameTextController.text.trim(), )));
+                                    context.read<NewAddressBloc>().add(
+                                        NewAddressDoCreate(
+                                            address: AddressEntity(
+                                                detail:
+                                                    addressNameTextController
+                                                        .text
+                                                        .trim(),
+                                                latitude: geoResultEntity?.lat,
+                                                longitude: geoResultEntity?.lng,
+                                                note: addressNoteTextController
+                                                    .text
+                                                    .trim(),
+                                                recipientName:
+                                                    consigneeNameTextController
+                                                        .text
+                                                        .trim(),
+                                                phoneNumber: FormatUtil
+                                                    .formatOriginalPhone(
+                                                        phoneNumberTextController
+                                                            .text
+                                                            .trim()))));
                                   } else {
-                                    // context
-                                    //     .read<NewAddressBloc>()
-                                    //     .add(UpdateAddress());
+                                    context.read<NewAddressBloc>().add(
+                                        NewAddressDoUpdate(
+                                            address: AddressEntity(
+                                                isDefault:
+                                                    defaultNotifier.value,
+                                                id: widget.addressId,
+                                                detail:
+                                                    addressNameTextController
+                                                        .text
+                                                        .trim(),
+                                                latitude: geoResultEntity?.lat,
+                                                longitude: geoResultEntity?.lng,
+                                                note: addressNoteTextController
+                                                    .text
+                                                    .trim(),
+                                                recipientName:
+                                                    consigneeNameTextController
+                                                        .text
+                                                        .trim(),
+                                                phoneNumber: FormatUtil
+                                                    .formatOriginalPhone(
+                                                        phoneNumberTextController
+                                                            .text
+                                                            .trim()))));
                                   }
                                 }
                               : null,

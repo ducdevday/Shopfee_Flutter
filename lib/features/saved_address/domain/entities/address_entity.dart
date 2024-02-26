@@ -3,7 +3,7 @@ import 'package:shopfee/features/saved_address/data/models/address_model.dart';
 
 class AddressEntity extends Equatable {
   final String? id;
-  final String? details;
+  final String? detail;
   final double? latitude;
   final double? longitude;
   final String? note;
@@ -14,7 +14,7 @@ class AddressEntity extends Equatable {
 
   const AddressEntity({
     this.id,
-    this.details,
+    this.detail,
     this.latitude,
     this.longitude,
     this.note,
@@ -27,7 +27,7 @@ class AddressEntity extends Equatable {
   @override
   List<Object?> get props => [
         id,
-        details,
+        detail,
         latitude,
         longitude,
         note,
@@ -40,7 +40,7 @@ class AddressEntity extends Equatable {
   factory AddressEntity.fromModel(AddressModel model) {
     return AddressEntity(
       id: model.id,
-      details: model.details,
+      detail: model.detail,
       latitude: model.latitude,
       longitude: model.longitude,
       note: model.note,
