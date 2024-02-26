@@ -7,6 +7,7 @@ part 'category_model.g.dart';
 class CategoryModel {
   final String? id;
   final String? name;
+  @JsonKey(name: "imageUrl")
   final ImageModel? image;
 
   CategoryModel({this.id, this.name, this.image});

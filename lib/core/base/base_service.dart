@@ -60,7 +60,7 @@ class BaseService {
               SharedService.getUserId() != null) {
             // If a 401 response is received, refresh the access token
             Map<String, dynamic> body = {
-              "refreshToken": SharedService.getRefreshToken(),
+              // "refreshToken": SharedService.getRefreshToken(),
             };
             try {
               var response = await dio
@@ -72,7 +72,7 @@ class BaseService {
 
               if (result.success) {
                 SharedService.setAccessToken(response.data!["accessToken"]);
-                SharedService.setRefreshToken(response.data!["refreshToken"]);
+                // SharedService.setRefreshToken(response.data!["refreshToken"]);
 
                 // Update the request header with the new access token
                 e.requestOptions.headers['Authorization'] =

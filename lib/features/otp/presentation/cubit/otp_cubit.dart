@@ -40,7 +40,7 @@ class OtpCubit extends Cubit<OtpState> {
         if (registerEntity != null) {
           var responseRegister = await _otpUseCase.register(registerEntity);
           SharedService.setToken(responseRegister.userId,
-              responseRegister.accessToken, responseRegister.refreshToken);
+              responseRegister.accessToken);
         }
         EasyLoading.dismiss();
         emit(OtpFinished());

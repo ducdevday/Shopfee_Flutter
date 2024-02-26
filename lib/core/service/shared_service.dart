@@ -11,7 +11,7 @@ class SharedService {
     _pref.clear();
   }
 
-  static void setAppDocPath(String appDocPath){
+  static void setAppDocPath(String appDocPath) {
     _pref.setString("appDocPath", appDocPath);
   }
 
@@ -27,11 +27,7 @@ class SharedService {
     _pref.setString("accessToken", accessToken);
   }
 
-  static void setRefreshToken(String refreshToken) {
-    _pref.setString("refreshToken", refreshToken);
-  }
-
-  static String getAppDocPath(){
+  static String getAppDocPath() {
     return _pref.getString("appDocPath") ?? "";
   }
 
@@ -47,10 +43,6 @@ class SharedService {
     return _pref.getString("accessToken");
   }
 
-  static String? getRefreshToken() {
-    return _pref.getString("refreshToken");
-  }
-
   static void removeUserId() {
     _pref.remove("userId");
   }
@@ -59,19 +51,13 @@ class SharedService {
     _pref.remove("accessToken");
   }
 
-  static void removeRefreshToken() {
-    _pref.remove("refreshToken");
-  }
-
-  static void setToken(String userId, String accessToken, String refreshToken) {
+  static void setToken(String userId, String accessToken) {
     setUserId(userId);
     setAccessToken(accessToken);
-    setRefreshToken(refreshToken);
   }
 
   static void clearToken() {
     removeUserId();
     removeAccessToken();
-    removeRefreshToken();
   }
 }

@@ -21,7 +21,7 @@ class LoginCubit extends Cubit<LoginState> {
       final response = await _loginUseCase
           .login(LoginEntity(email: email, password: password));
       SharedService.setToken(
-          response.userId, response.accessToken, response.refreshToken);
+          response.userId, response.accessToken);
       EasyLoading.dismiss();
       EasyLoading.showSuccess("Login Success");
       emit(LoginSuccess());
@@ -34,7 +34,7 @@ class LoginCubit extends Cubit<LoginState> {
     try {
       final response = await _loginUseCase.loginWithGoogle();
       SharedService.setToken(
-          response.userId, response.accessToken, response.refreshToken);
+          response.userId, response.accessToken);
       EasyLoading.showSuccess("Login Success");
       emit(LoginSuccess());
     } catch (e) {
