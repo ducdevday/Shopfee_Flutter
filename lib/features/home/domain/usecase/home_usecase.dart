@@ -15,13 +15,13 @@ class HomeUseCaseImpl extends HomeUseCase {
   HomeUseCaseImpl(this._homeRepository);
 
   @override
-  Future<List<CategoryEntity>> getAllCategory() {
-    return _homeRepository.getAllCategory();
+  Future<List<CategoryEntity>> getAllCategory() async {
+    return await _homeRepository.getAllCategory();
   }
 
   @override
   Future<List<ProductInformationEntity>> getOutStandingProduct(
-      {required int quantity}) {
-    return _homeRepository.getOutStandingProduct(quantity: quantity);
+      {required int quantity}) async {
+    return await _homeRepository.getOutStandingProduct(quantity: quantity);
   }
 }

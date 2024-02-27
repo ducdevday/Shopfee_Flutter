@@ -19,17 +19,37 @@ class _ProductByCategoryPageState extends State<ProductByCategoryPage> {
   late final ProductByCategoryBloc _bloc;
   var viewType = ViewType.List_View;
 
+  int page = 1;
+  int size = 8;
+  late bool isLoadingMore;
+  late bool cannotLoadMore;
+  late List<ProductInformationEntity> productList;
+  late ScrollController scrollController;
+
   @override
   void initState() {
     super.initState();
     _bloc = ServiceLocator.sl<ProductByCategoryBloc>()
-      ..add(ProductByCategoryLoadInformation(categoryId: widget.categoryId));
+      ..add(ProductByCategoryLoadInformation(
+          categoryId: widget.categoryId, page: page, size: size));
+    scrollController = ScrollController();
+    scrollController.addListener(_scrollListener);
   }
 
   @override
   void dispose() {
     _bloc.close();
     super.dispose();
+  }
+
+  void _scrollListener() {
+    if (isLoadingMore || cannotLoadMore) return;
+    if (scrollController.position.pixels ==
+        scrollController.position.maxScrollExtent) {
+      page = page + 1;
+      _bloc.add(ProductByCategoryLoadMoreInformation(
+          categoryId: widget.categoryId, page: page, size: size));
+    }
   }
 
   @override
@@ -40,6 +60,9 @@ class _ProductByCategoryPageState extends State<ProductByCategoryPage> {
           listener: (context, state) {
             if (state is ProductByCategoryLoadSuccess) {
               viewType = state.viewType;
+              isLoadingMore = state.isLoadMore;
+              cannotLoadMore = state.cannotLoadMore;
+              productList = state.products;
             }
           },
           child: Scaffold(
@@ -114,7 +137,34 @@ class _ProductByCategoryPageState extends State<ProductByCategoryPage> {
                     if (state is ProductByCategoryLoadInProcess) {
                       return ProductListSkeleton();
                     } else if (state is ProductByCategoryLoadSuccess) {
-                      return ProductList(context, state);
+                      if (productList.isNotEmpty) {
+                        return ProductList(
+                            viewType: viewType,
+                            isLoadingMore: isLoadingMore,
+                            cannotLoadMore: cannotLoadMore,
+                            productList: productList);
+                      } else {
+                        return Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                AppPath.icCoffee,
+                                width: 60,
+                                height: 60,
+                              ),
+                              SizedBox(
+                                height: 16,
+                              ),
+                              Text(
+                                "No Result Found",
+                                style: AppStyle.mediumTextStyleDark
+                                    .copyWith(color: AppColor.nonactiveColor),
+                              )
+                            ],
+                          ),
+                        );
+                      }
                     } else {
                       return SizedBox();
                     }
@@ -132,84 +182,24 @@ class _ProductByCategoryPageState extends State<ProductByCategoryPage> {
 }
 
 Widget ProductList(
-    BuildContext buildContext, ProductByCategoryLoadSuccess state) {
-  if (state.viewType == ViewType.List_View) {
+    {required ViewType viewType,
+    required bool isLoadingMore,
+    required bool cannotLoadMore,
+    required List<ProductInformationEntity> productList}) {
+  if (viewType == ViewType.List_View) {
     return Expanded(
       child: ListView.separated(
         padding: EdgeInsets.zero,
-        itemCount: state.products.length,
-        itemBuilder: (context, index) => InkWell(
-          onTap: () {
-            NavigationUtil.pushNamed(ProductDetailPage.route,
-                arguments: state.products[index].id);
-          },
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-                vertical: 8.0, horizontal: AppDimen.screenPadding),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Stack(
-                  alignment: Alignment.bottomCenter,
-                  children: [
-                    Container(
-                      height: 70,
-                      width: 70,
-                      decoration: const BoxDecoration(
-                        color: Color(0xfff4f4f3),
-                        shape: BoxShape.circle,
-                        // image: DecorationImage(image: NetworkImage(product.imageUrl,),fit: BoxFit.cover)
-                      ),
-                    ),
-                    Image.network(
-                      state.products[index].imageUrl,
-                      height: 68,
-                      width: 58,
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 4.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(state.products[index].name,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: AppStyle.mediumTextStyleDark
-                                .copyWith(color: Color(0xff555555))),
-                        SizedBox(
-                          height: 4,
-                        ),
-                        Text(state.products[index].description,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: AppStyle.normalTextStyleDark
-                                .copyWith(color: Color(0xff555555))),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 4.0),
-                  child: Text(
-                    FormatUtil.formatMoney(state.products[index].price),
-                    style: AppStyle.mediumTextStyleDark
-                        .copyWith(color: AppColor.headingColor),
-                  ),
-                )
-              ],
-            ),
-          ),
-        ),
+        itemCount: isLoadingMore ? productList.length + 1 : productList.length,
+        itemBuilder: (context, index) => index < productList.length
+            ? HomeProduct(
+                product: productList[index],
+                viewType: ViewType.List_View,
+              )
+            : const Padding(
+                padding: EdgeInsets.all(AppDimen.spacing),
+                child: CupertinoActivityIndicator(),
+              ),
         separatorBuilder: (context, int index) => Divider(
           height: 8,
           thickness: 0.75,
@@ -220,60 +210,28 @@ Widget ProductList(
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: AppDimen.screenPadding),
-        child: GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2, crossAxisSpacing: 4.0, mainAxisSpacing: 4.0),
-            padding: EdgeInsets.zero,
-            itemCount: state.products.length,
-            itemBuilder: (context, index) => InkWell(
-                  splashColor: Colors.transparent,
-                  highlightColor: Colors.transparent,
-                  onTap: () {
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (context) =>
-                    //             ProductScreen(state.products[index].id)));
-                  },
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                        side: BorderSide(color: Color(0xfff5f5f5), width: 2)),
-                    elevation: 0.25,
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Image.network(
-                              state.products[index].imageUrl,
-                              height: 88,
-                              width: 68,
-                            ),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(state.products[index].name,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: AppStyle.mediumTextStyleDark.copyWith(
-                                      color: Color(0xff555555), height: 1.5)),
-                            ),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                  FormatUtil.formatMoney(
-                                      state.products[index].price),
-                                  style: AppStyle.mediumTextStyleDark.copyWith(
-                                      color: AppColor.headingColor,
-                                      height: 1.2)),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                )),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Expanded(
+              child: GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 4.0,
+                      mainAxisSpacing: 4.0),
+                  padding: EdgeInsets.zero,
+                  itemCount: productList.length,
+                  itemBuilder: (context, index) => HomeProduct(
+                      product: productList[index],
+                      viewType: ViewType.Grid_View)),
+            ),
+            if (isLoadingMore)
+              const Padding(
+                padding: EdgeInsets.all(AppDimen.spacing),
+                child: CupertinoActivityIndicator(),
+              ),
+          ],
+        ),
       ),
     );
   }

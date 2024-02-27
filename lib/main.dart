@@ -19,6 +19,7 @@ import 'package:shopfee/core/utils/simple_bloc_observer.dart';
 import 'package:shopfee/features/cart/presentation/cart.dart';
 import 'package:shopfee/features/default/presentation/widgets/bottombar/my_bottom_nav_bar_cubit.dart';
 import 'package:shopfee/features/home/presentation/home.dart';
+import 'package:shopfee/features/order/presentation/order.dart';
 import 'package:shopfee/features/splash/presentation/splash.dart';
 import 'package:shopfee/features/user/presentation/user.dart';
 
@@ -47,7 +48,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+  FlutterLocalNotificationsPlugin();
 
   @override
   void initState() {
@@ -58,34 +59,34 @@ class _MyAppState extends State<MyApp> {
 
   void initInfoNotify() {
     var androidInitialize =
-        const AndroidInitializationSettings('@mipmap/launcher_icon');
+    const AndroidInitializationSettings('@mipmap/launcher_icon');
     var initialSettings = InitializationSettings(android: androidInitialize);
     flutterLocalNotificationsPlugin.initialize(initialSettings,
         onDidReceiveNotificationResponse:
             (NotificationResponse notificationResponse) async {
-      try {
-        if (notificationResponse.payload != null &&
-            notificationResponse.payload!.isNotEmpty) {
-          // NavigationUtil.pushNamed(
-          //     route:AppRouter.receiptRoute, args: notificationResponse.payload);
-        }
-      } catch (e) {
-        print(e);
-      }
-    });
+          try {
+            if (notificationResponse.payload != null &&
+                notificationResponse.payload!.isNotEmpty) {
+              // NavigationUtil.pushNamed(
+              //     route:AppRouter.receiptRoute, args: notificationResponse.payload);
+            }
+          } catch (e) {
+            print(e);
+          }
+        });
   }
 
   void setupMessageNotify() {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       const AndroidNotificationDetails androidNotificationDetails =
-          AndroidNotificationDetails('shopfee', 'shopfee',
-              channelDescription: ' This is shopfee channel description',
-              importance: Importance.max,
-              priority: Priority.high,
-              playSound: true,
-              color: Colors.white);
+      AndroidNotificationDetails('shopfee', 'shopfee',
+          channelDescription: ' This is shopfee channel description',
+          importance: Importance.max,
+          priority: Priority.high,
+          playSound: true,
+          color: Colors.white);
       const NotificationDetails notificationDetails =
-          NotificationDetails(android: androidNotificationDetails);
+      NotificationDetails(android: androidNotificationDetails);
 
       await flutterLocalNotificationsPlugin.show(0, message.notification?.title,
           message.notification?.body, notificationDetails,
@@ -99,14 +100,23 @@ class _MyAppState extends State<MyApp> {
       providers: [
         BlocProvider(
             create: (context) =>
-                ServiceLocator.sl<UserBloc>()..add(UserLoadInformation())),
-        BlocProvider(create: (context) => MyBottomNavBarCubit()..selectPage(0)),
+            ServiceLocator.sl<UserBloc>()
+              ..add(UserLoadInformation())),
+        BlocProvider(create: (context) =>
+        MyBottomNavBarCubit()
+          ..selectPage(0)),
         BlocProvider(
             create: (context) =>
-                ServiceLocator.sl<HomeBloc>()..add(HomeLoadInformation())),
+            ServiceLocator.sl<HomeBloc>()
+              ..add(HomeLoadInformation())),
         BlocProvider(
             create: (context) =>
-                ServiceLocator.sl<CartBloc>()..add(CartLoadInformation()))
+                ServiceLocator.sl<OrderBloc>()..add(OrderLoadInformation(page: 1, size: 8))),
+        BlocProvider(
+            create: (context) =>
+            ServiceLocator.sl<CartBloc>()
+              ..add(CartLoadInformation()))
+
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

@@ -17,27 +17,38 @@ class ProductByCategoryLoadInProcess extends ProductByCategoryState {
 class ProductByCategoryLoadSuccess extends ProductByCategoryState {
   final List<ProductInformationEntity> products;
   final ViewType viewType;
-
-  @override
-  List<Object> get props => [products, viewType];
+  final bool isLoadMore;
+  final bool cannotLoadMore;
 
   const ProductByCategoryLoadSuccess({
     required this.products,
-    this.viewType = ViewType.List_View
+    this.viewType = ViewType.List_View,
+    this.isLoadMore = false,
+    this.cannotLoadMore = false
   });
 
   ProductByCategoryLoadSuccess copyWith({
     List<ProductInformationEntity>? products,
     ViewType? viewType,
+    int? page,
+    int? size,
+    bool? isLoadMore,
+    bool? cannotLoadMore,
   }) {
     return ProductByCategoryLoadSuccess(
       products: products ?? this.products,
       viewType: viewType ?? this.viewType,
+      isLoadMore: isLoadMore ?? this.isLoadMore,
+      cannotLoadMore: cannotLoadMore ?? this.cannotLoadMore,
     );
   }
+
+  @override
+  List<Object> get props =>
+      [products, viewType, isLoadMore, cannotLoadMore,];
 }
 
-class ProductByCategoryLoadFailure extends ProductByCategoryState{
+class ProductByCategoryLoadFailure extends ProductByCategoryState {
   @override
   List<Object> get props => [];
 }

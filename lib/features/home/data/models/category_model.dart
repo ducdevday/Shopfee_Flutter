@@ -8,7 +8,7 @@ class CategoryModel {
   final String? id;
   final String? name;
   @JsonKey(name: "imageUrl")
-  final ImageModel? image;
+  final String? image;
 
   CategoryModel({this.id, this.name, this.image});
 

@@ -38,19 +38,45 @@ class MyBottomNavBar extends StatelessWidget {
                     topRight: Radius.circular(16.0),
                   ),
                   child: BottomNavigationBar(
+                    enableFeedback: true,
+                    landscapeLayout: BottomNavigationBarLandscapeLayout.centered,
                     items: [
                       BottomNavigationBarItem(
-                          icon: SvgPicture.asset(AppPath.icHome),
-                          activeIcon: SvgPicture.asset(AppPath.icHomeActive),
+                          icon: SvgPicture.asset(
+                            AppPath.icHome,
+                            colorFilter: ColorFilter.mode(
+                                AppColor.nonactiveColor, BlendMode.srcIn),
+                          ),
+                          activeIcon: SvgPicture.asset(
+                            AppPath.icHome,
+                            colorFilter: ColorFilter.mode(
+                                AppColor.primaryColor, BlendMode.srcIn),
+                          ),
                           label: "Home"),
-                      // BottomNavigationBarItem(
-                      //     icon: SvgPicture.asset(AppPath.icHistory),
-                      //     activeIcon: SvgPicture.asset(AppPath.icHistoryActive),
-                      //     label: "History"),
                       BottomNavigationBarItem(
-                          icon: SvgPicture.asset(AppPath.icAccount),
-                          activeIcon: SvgPicture.asset(AppPath.icAccountActive),
-                          label: "Account")
+                          icon: SvgPicture.asset(
+                            AppPath.icOrder,
+                            colorFilter: ColorFilter.mode(
+                                AppColor.nonactiveColor, BlendMode.srcIn),
+                          ),
+                          activeIcon: SvgPicture.asset(
+                            AppPath.icOrder,
+                            colorFilter: ColorFilter.mode(
+                                AppColor.primaryColor, BlendMode.srcIn),
+                          ),
+                          label: "Order"),
+                      BottomNavigationBarItem(
+                          icon: SvgPicture.asset(
+                            AppPath.icMenu,
+                            colorFilter: ColorFilter.mode(
+                                AppColor.nonactiveColor, BlendMode.srcIn),
+                          ),
+                          activeIcon: SvgPicture.asset(
+                            AppPath.icMenu,
+                            colorFilter: ColorFilter.mode(
+                                AppColor.primaryColor, BlendMode.srcIn),
+                          ),
+                          label: "Others")
                     ],
                     currentIndex: selectedPage,
                     iconSize: 24,

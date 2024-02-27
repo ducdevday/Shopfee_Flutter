@@ -6,6 +6,7 @@ import 'package:shopfee/features/account/presentation/account.dart';
 import 'package:shopfee/features/default/presentation/widgets/bottombar/my_bottom_nav_bar.dart';
 import 'package:shopfee/features/default/presentation/widgets/bottombar/my_bottom_nav_bar_cubit.dart';
 import 'package:shopfee/features/home/presentation/home.dart';
+import 'package:shopfee/features/order/presentation/order.dart';
 import 'package:shopfee/features/user/presentation/user.dart';
 
 class DefaultPage extends StatefulWidget {
@@ -20,7 +21,7 @@ class DefaultPage extends StatefulWidget {
 class _DefaultPageState extends State<DefaultPage> {
   final List<Widget> pages = const [
     HomePage(),
-    // HomePage(),
+    OrderPage(),
     AccountPage(),
   ];
 
@@ -34,11 +35,9 @@ class _DefaultPageState extends State<DefaultPage> {
   Widget build(BuildContext context) {
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
-        debugPrint("DefaultPage Build");
         if (state is UserLoadInProcess) {
           return const MyLoadingPage();
         } else if (state is UserInitial || state is UserLoadSuccess) {
-          debugPrint("UserLoadSuccess");
           return BlocBuilder<MyBottomNavBarCubit, int>(
             builder: (context, selectedPage) {
               return Scaffold(

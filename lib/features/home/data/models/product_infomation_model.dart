@@ -1,4 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:shopfee/core/common/enum/product_status.dart';
+import 'package:shopfee/features/home/data/models/rating_summary_model.dart';
 
 part 'product_infomation_model.g.dart';
 
@@ -10,16 +12,22 @@ class ProductInformationModel  {
   final double? price;
   @JsonKey(name: "thumbnailUrl")
   final String? imageUrl;
+  final ProductStatus? status;
+  final RatingSummaryModel? ratingSummary;
 
   const ProductInformationModel({
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.price,
-    required this.imageUrl,
+    this.id,
+    this.name,
+    this.description,
+    this.price,
+    this.imageUrl,
+    this.status,
+    this.ratingSummary,
   });
 
   factory ProductInformationModel.fromJson(Map<String, dynamic> json) {
     return _$ProductInformationModelFromJson(json);
   }
+
+
 }

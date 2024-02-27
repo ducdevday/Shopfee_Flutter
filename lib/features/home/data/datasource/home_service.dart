@@ -3,9 +3,7 @@ import 'package:shopfee/core/base/base_service.dart';
 
 class HomeService extends BaseService {
   Future<Response> getAllCategory() async {
-    // var response = await dio.get("${BaseService.categoryPath}/visible");
-    //TODO: Need to fix
-    var response = await dio.get("${BaseService.categoryPath}");
+    var response = await dio.get("${BaseService.categoryPath}/visible");
 
     return response;
   }

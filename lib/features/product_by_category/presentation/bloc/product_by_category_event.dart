@@ -6,11 +6,32 @@ abstract class ProductByCategoryEvent extends Equatable {
 
 class ProductByCategoryLoadInformation extends ProductByCategoryEvent {
   final String categoryId;
+  final int page;
+  final int size;
 
-  const ProductByCategoryLoadInformation({required this.categoryId});
+  const ProductByCategoryLoadInformation({
+    required this.categoryId,
+    required this.page,
+    required this.size,
+  });
 
   @override
-  List<Object> get props => [categoryId];
+  List<Object> get props => [categoryId, page, size];
+}
+
+class ProductByCategoryLoadMoreInformation extends ProductByCategoryEvent {
+  final String categoryId;
+  final int page;
+  final int size;
+
+  const ProductByCategoryLoadMoreInformation({
+    required this.categoryId,
+    required this.page,
+    required this.size,
+  });
+
+  @override
+  List<Object> get props => [categoryId, page, size];
 }
 
 class ProductByCategoryChangeViewType extends ProductByCategoryEvent {

@@ -8,21 +8,46 @@ class ProductByCategoryBloc
       : super(ProductByCategoryInitial()) {
     on<ProductByCategoryLoadInformation>(_onProductByCategoryLoadInformation);
     on<ProductByCategoryChangeViewType>(_onProductByCategoryChangeViewType);
+    on<ProductByCategoryLoadMoreInformation>(
+        _onProductByCategoryLoadMoreInformation);
   }
 
   FutureOr<void> _onProductByCategoryLoadInformation(
       ProductByCategoryLoadInformation event,
       Emitter<ProductByCategoryState> emit) async {
-    emit(ProductByCategoryLoadInProcess());
     try {
-      var response = await _productByCategoryUseCase
-          .getProductsByCategoryId(event.categoryId);
+      emit(ProductByCategoryLoadInProcess());
+      var products = await _productByCategoryUseCase.getProductsByCategoryId(
+          event.categoryId,
+          page: event.page,
+          size: event.size);
       await Future.delayed(Duration(seconds: 3));
-      emit(ProductByCategoryLoadSuccess(products: response));
+      emit(ProductByCategoryLoadSuccess(products: products));
     } catch (e) {
       print(e);
       emit(ProductByCategoryLoadFailure());
       ExceptionUtil.handle(e);
+    }
+  }
+
+  FutureOr<void> _onProductByCategoryLoadMoreInformation(
+      ProductByCategoryLoadMoreInformation event,
+      Emitter<ProductByCategoryState> emit) async {
+    if (state is ProductByCategoryLoadSuccess) {
+      final currentState = state as ProductByCategoryLoadSuccess;
+      emit(currentState.copyWith(isLoadMore: true));
+      final products = await _productByCategoryUseCase.getProductsByCategoryId(
+          event.categoryId,
+          page: event.page,
+          size: event.size);
+      await Future.delayed(Duration(milliseconds: 1000));
+      if (products.isNotEmpty) {
+        emit(currentState.copyWith(
+            products: List.from(currentState.products)..addAll(products),
+            isLoadMore: false));
+      } else {
+        emit(currentState.copyWith(cannotLoadMore: true));
+      }
     }
   }
 

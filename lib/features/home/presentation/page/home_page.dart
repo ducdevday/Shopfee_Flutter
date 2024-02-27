@@ -90,9 +90,7 @@ class HomePage extends StatelessWidget {
                                           children: [
                                             Image(
                                               image: NetworkImage(state
-                                                  .categories[index]
-                                                  .image!
-                                                  .url!),
+                                                  .categories[index].image!),
                                               width: 60,
                                               height: 60,
                                             ),
@@ -132,7 +130,10 @@ class HomePage extends StatelessWidget {
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           itemCount: state.products.length,
-                          itemBuilder: (context, index) => HomeProduct(state.products[index]),
+                          itemBuilder: (context, index) => HomeProduct(
+                            product: state.products[index],
+                            viewType: ViewType.List_View,
+                          ),
                           separatorBuilder: (context, int index) =>
                               const Divider(
                             height: 8,

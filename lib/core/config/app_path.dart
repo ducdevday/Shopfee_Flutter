@@ -11,11 +11,11 @@ class AppPath {
   static const String icGoogle = "assets/icons/ic_google.svg";
 
   static const String icHome = "assets/icons/ic_home.svg";
-  static const String icHomeActive = "assets/icons/ic_home_active.svg";
   static const String icHistory = "assets/icons/ic_history.svg";
-  static const String icHistoryActive = "assets/icons/ic_history_active.svg";
   static const String icAccount = "assets/icons/ic_account.svg";
-  static const String icAccountActive = "assets/icons/ic_account_active.svg";
+  static const String icMenu = "assets/icons/ic_menu.svg";
+  static const String icOrder = "assets/icons/ic_order.svg";
+  static const String icStore = "assets/icons/ic_store.svg";
 
   static const String icCoffee = "assets/icons/ic_coffee.png";
 
@@ -41,5 +41,4 @@ class AppPath {
   static const String icDelivery = "assets/icons/ic_delivery.svg";
 
   static const String icTakeAway = "assets/icons/ic_take_away.svg";
-
 }

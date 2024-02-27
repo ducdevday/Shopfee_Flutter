@@ -1,3 +1,4 @@
+import 'package:shopfee/core/common/models/result.dart';
 import 'package:shopfee/core/common/models/result_list.dart';
 import 'package:shopfee/features/home/data/datasource/home_service.dart';
 import 'package:shopfee/features/home/data/models/category_model.dart';
@@ -30,12 +31,25 @@ class HomeRepositoryImpl extends HomeRepository {
       {required int quantity}) async {
     final response =
         await homeService.getOutStandingProduct(quantity: quantity);
-    final result = ResultList(
+    //TODO: Need To Fix
+    // final result = ResultList(
+    //     success: response.data["success"],
+    //     message: response.data["message"],
+    //     data: response.data["data"]);
+    // List<ProductInformationModel> productsModel =
+    //     result.data!.map((p) => ProductInformationModel.fromJson(p)).toList();
+    // List<ProductInformationEntity> productsEntity = productsModel
+    //     .map((p) => ProductInformationEntity.fromModel(p))
+    //     .toList();
+    // return productsEntity;
+
+    final result = Result(
         success: response.data["success"],
         message: response.data["message"],
         data: response.data["data"]);
+    final List<dynamic> productList = result.data!["productList"] as List<dynamic>;
     List<ProductInformationModel> productsModel =
-        result.data!.map((p) => ProductInformationModel.fromJson(p)).toList();
+        productList.map((p) => ProductInformationModel.fromJson(p)).toList();
     List<ProductInformationEntity> productsEntity = productsModel
         .map((p) => ProductInformationEntity.fromModel(p))
         .toList();

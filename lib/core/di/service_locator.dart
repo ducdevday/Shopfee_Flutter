@@ -49,6 +49,11 @@ import 'package:shopfee/features/new_password/data/repositories/new_password_rep
 import 'package:shopfee/features/new_password/domain/repositories/new_password_repository.dart';
 import 'package:shopfee/features/new_password/domain/usecase/new_password_usecase.dart';
 import 'package:shopfee/features/new_password/presentation/new_password.dart';
+import 'package:shopfee/features/order/data/datasources/order_service.dart';
+import 'package:shopfee/features/order/data/repositories/order_repository_impl.dart';
+import 'package:shopfee/features/order/domain/repositories/order_repository.dart';
+import 'package:shopfee/features/order/domain/usecase/order_usecase.dart';
+import 'package:shopfee/features/order/presentation/order.dart';
 import 'package:shopfee/features/otp/data/datasources/otp_service.dart';
 import 'package:shopfee/features/otp/data/repositories/otp_repository_impl.dart';
 import 'package:shopfee/features/otp/domain/repositories/otp_repository.dart';
@@ -106,6 +111,7 @@ class ServiceLocator {
     _forgotPasswordFeature();
     _userFeature();
     _homeFeature();
+    _orderFeature();
     _productByCategoryFeature();
     _searchProductFeature();
     _productDetailFeature();
@@ -277,5 +283,12 @@ class ServiceLocator {
     sl.registerLazySingleton<ForgotPasswordUseCase>(
         () => ForgotPasswordUseCaseImpl(sl()));
     sl.registerFactory(() => ForgotPasswordCubit(sl()));
+  }
+
+  void _orderFeature() {
+    sl.registerLazySingleton(() => OrderService());
+    sl.registerLazySingleton<OrderRepository>(() => OrderRepositoryImpl(sl()));
+    sl.registerLazySingleton<OrderUseCase>(() => OrderUseCaseImpl(sl()));
+    sl.registerFactory(() => OrderBloc(sl()));
   }
 }

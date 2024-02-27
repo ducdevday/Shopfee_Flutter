@@ -21,7 +21,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
       emit(HomeLoadSuccess(categories: categories, products: outStandingProduct));
     } catch (e) {
-      print(e);
       emit(HomeLoadError());
     }
   }
