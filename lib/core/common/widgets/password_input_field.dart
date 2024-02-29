@@ -33,7 +33,7 @@ class _PasswordInputFieldState extends State<PasswordInputField> {
   void initState() {
     super.initState();
     _passwordVisible = false;
-    if(widget.useFocus){
+    if (widget.useFocus) {
       _focusNode.addListener(() {
         if (!_focusNode.hasFocus) {
           setState(() {
@@ -74,31 +74,31 @@ class _PasswordInputFieldState extends State<PasswordInputField> {
           controller: widget.controller,
           focusNode: _focusNode,
           decoration: InputDecoration(
-            suffixIcon: IconButton(
-                    splashColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    icon: Icon(
-                      // Based on passwordVisible state choose the icon
-                      _passwordVisible
-                          ? Icons.visibility_outlined
-                          : Icons.visibility_off_outlined,
-                      color: AppColor.headingColor,
-                      size: 20,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _passwordVisible = !_passwordVisible;
-                      });
-                    },
-                  ),
-            contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-            focusedErrorBorder: AppStyle.outlineInputBorderDefault,
-            errorBorder: AppStyle.outlineInputBorderDefault,
-            enabledBorder: AppStyle.outlineInputBorderDefault,
-            focusedBorder: AppStyle.outlineInputBorderPrimary,
-            disabledBorder: AppStyle.outlineInputBorderDefault,
-            hintText: widget.hint,
-          ),
+              suffixIcon: IconButton(
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                icon: Icon(
+                  // Based on passwordVisible state choose the icon
+                  _passwordVisible
+                      ? Icons.visibility_outlined
+                      : Icons.visibility_off_outlined,
+                  color: AppColor.headingColor,
+                  size: 20,
+                ),
+                onPressed: () {
+                  setState(() {
+                    _passwordVisible = !_passwordVisible;
+                  });
+                },
+              ),
+              contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+              focusedErrorBorder: AppStyle.outlineInputBorderDefault,
+              errorBorder: AppStyle.outlineInputBorderDefault,
+              enabledBorder: AppStyle.outlineInputBorderDefault,
+              focusedBorder: AppStyle.outlineInputBorderPrimary,
+              disabledBorder: AppStyle.outlineInputBorderDefault,
+              hintText: widget.hint,
+              hintStyle: TextStyle(color: Colors.grey)),
         ),
       ],
     );

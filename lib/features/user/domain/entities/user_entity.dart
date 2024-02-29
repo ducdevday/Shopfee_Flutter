@@ -9,16 +9,17 @@ class UserEntity {
   final Gender? gender;
   final DateTime? birthDate;
   final String? phoneNumber;
+  final String? avatarUrl;
 
-  const UserEntity({
-    required this.id,
-    required this.firstName,
-    required this.lastName,
-    required this.email,
-    required this.gender,
-    required this.birthDate,
-    required this.phoneNumber,
-  });
+  const UserEntity(
+      {this.id,
+      required this.firstName,
+      required this.lastName,
+      required this.email,
+      required this.gender,
+      required this.birthDate,
+      required this.phoneNumber,
+      this.avatarUrl});
 
   factory UserEntity.fromModel(UserModel userModel) {
     return UserEntity(
@@ -28,6 +29,7 @@ class UserEntity {
         email: userModel.email ?? "",
         gender: userModel.gender,
         birthDate: userModel.birthDate,
-        phoneNumber: userModel.phoneNumber);
+        phoneNumber: userModel.phoneNumber,
+        avatarUrl: userModel.avatarUrl);
   }
 }

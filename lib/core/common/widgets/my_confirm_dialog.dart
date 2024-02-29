@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shopfee/core/config/app_color.dart';
 import 'package:shopfee/core/config/app_style.dart';
 
 class MyConfirmDialog extends StatelessWidget {
@@ -7,14 +8,15 @@ class MyConfirmDialog extends StatelessWidget {
   final String content;
   final VoidCallback callbackOK;
   final VoidCallback callbackCancel;
+  final String? cancelText;
   final String? confirmText;
 
   const MyConfirmDialog(
       {Key? key,
-      required this.title,
-      required this.content,
-      required this.callbackOK,
-      required this.callbackCancel, this.confirmText})
+        required this.title,
+        required this.content,
+        required this.callbackOK,
+        required this.callbackCancel,this.cancelText, this.confirmText})
       : super(key: key);
 
   @override
@@ -26,14 +28,14 @@ class MyConfirmDialog extends StatelessWidget {
         CupertinoDialogAction(
             onPressed: callbackCancel,
             child: Text(
-              "Cancel",
-              style: AppStyle.normalTextStylePrimary.copyWith(fontWeight: FontWeight.w500),
+              cancelText ?? "Cancel",
+              style: AppStyle.normalTextStylePrimary.copyWith(color: AppColor.primaryColor),
             )),
         CupertinoDialogAction(
             onPressed: callbackOK,
             child: Text(
-              confirmText != null ? confirmText! : "Confirm",
-              style: AppStyle.normalTextStylePrimary.copyWith(fontWeight: FontWeight.w500),
+              confirmText ?? "Confirm",
+              style: AppStyle.normalTextStylePrimary.copyWith(color: AppColor.primaryColor),
             ))
       ],
     );

@@ -13,6 +13,7 @@ class UserModel {
   final Gender? gender;
   final DateTime? birthDate;
   final String? phoneNumber;
+  final String? avatarUrl;
 
   const UserModel({
     this.id,
@@ -22,6 +23,7 @@ class UserModel {
     this.gender,
     this.birthDate,
     this.phoneNumber,
+    this.avatarUrl
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -41,6 +43,7 @@ class UserModel {
       gender: userEntity.gender,
       birthDate: userEntity.birthDate,
       phoneNumber: userEntity.phoneNumber,
+        avatarUrl: userEntity.avatarUrl
     );
   }
 }

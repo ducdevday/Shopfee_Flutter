@@ -72,13 +72,14 @@ class _PhoneInputFieldState extends State<PhoneInputField> {
           focusNode: _focusNode,
           decoration: InputDecoration(
             errorText: errorText,
-            contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+            contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
             focusedErrorBorder: AppStyle.outlineInputBorderDefault,
             errorBorder: AppStyle.outlineInputBorderDefault,
             enabledBorder: AppStyle.outlineInputBorderDefault,
             focusedBorder: AppStyle.outlineInputBorderPrimary,
             disabledBorder: AppStyle.outlineInputBorderDefault,
             hintText: widget.hint,
+              hintStyle: TextStyle(color: Colors.grey)
           ),
         ),
       ],

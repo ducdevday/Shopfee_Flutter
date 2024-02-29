@@ -16,57 +16,7 @@ class AccountPage extends StatelessWidget {
                 Image.asset(AppPath.imgAccountBackground),
                 Align(
                   alignment: Alignment.center,
-                  child: BlocBuilder<UserBloc, UserState>(
-                    builder: (context, state) {
-                      if (state is UserInitial) {
-                        return Column(
-                          children: [
-                            Container(
-                              margin: const EdgeInsets.only(top: 200),
-                              width: 110,
-                              height: 110,
-                              decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: AssetImage(
-                                        AppPath.imgDefaultAvatar,
-                                      ))),
-                            ),
-                            Text(
-                              "...",
-                              style: AppStyle.largeTitleStyleDark
-                                  .copyWith(height: 2),
-                            )
-                          ],
-                        );
-                      } else if (state is UserLoadSuccess) {
-                        return Column(
-                          children: [
-                            Container(
-                              margin: const EdgeInsets.only(top: 200),
-                              width: 110,
-                              height: 110,
-                              decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: AssetImage(
-                                        "assets/images/img_default_user.png",
-                                      ))),
-                            ),
-                            Text(
-                              "${state.user.firstName} ${state.user.lastName}",
-                              style: AppStyle.largeTitleStyleDark
-                                  .copyWith(height: 2),
-                            )
-                          ],
-                        );
-                      } else {
-                        return const SizedBox();
-                      }
-                    },
-                  ),
+                  child: UserAvatar(),
                 )
               ],
             ),
@@ -98,7 +48,10 @@ class AccountPage extends StatelessWidget {
                                   MenuItem(
                                     iconData: Icons.account_circle_outlined,
                                     content: "Personal Information",
-                                    callback: () {},
+                                    callback: () {
+                                      NavigationUtil.pushNamed(
+                                          PersonalInformationPage.route);
+                                    },
                                   ),
                                   const Divider(
                                     height: 1,
@@ -301,6 +254,88 @@ class AccountPage extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class UserAvatar extends StatelessWidget {
+  const UserAvatar({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<UserBloc, UserState>(
+      builder: (context, state) {
+        if (state is UserInitial) {
+          return Column(
+            children: [
+              Container(
+                margin: const EdgeInsets.only(top: 200),
+                width: 110,
+                height: 110,
+                decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: NetworkImage(
+                          AppPath.imgDefaultAvatar,
+                        ))),
+              ),
+              Text(
+                "...",
+                style: AppStyle.largeTitleStyleDark.copyWith(height: 2),
+              )
+            ],
+          );
+        } else if (state is UserLoadSuccess) {
+          if (state.user.avatarUrl == null) {
+            return Column(
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(top: 200),
+                  width: 110,
+                  height: 110,
+                  decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: NetworkImage(
+                            AppPath.imgDefaultAvatar,
+                          ))),
+                ),
+                Text(
+                  "${state.user.firstName} ${state.user.lastName}",
+                  style: AppStyle.largeTitleStyleDark.copyWith(height: 2),
+                )
+              ],
+            );
+          } else {
+            return Column(
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(top: 200),
+                  width: 110,
+                  height: 110,
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: NetworkImage(
+                            state.user.avatarUrl!,
+                          ))),
+                ),
+                Text(
+                  "${state.user.firstName} ${state.user.lastName}",
+                  style: AppStyle.largeTitleStyleDark.copyWith(height: 2),
+                )
+              ],
+            );
+          }
+        } else {
+          return const SizedBox();
+        }
+      },
     );
   }
 }

@@ -14,6 +14,7 @@ import 'package:shopfee/features/new_password/presentation/new_password.dart';
 import 'package:shopfee/features/notify_permission/presentation/notify_permission.dart';
 import 'package:shopfee/features/onboarding/presentation/onboarding.dart';
 import 'package:shopfee/features/otp/presentation/otp.dart';
+import 'package:shopfee/features/personal_information/presentation/personal_information.dart';
 import 'package:shopfee/features/product_by_category/presentation/product_by_category.dart';
 import 'package:shopfee/features/product_detail/presentation/page/product_detail_page.dart';
 import 'package:shopfee/features/receipt/presentation/receipt.dart';
@@ -102,6 +103,9 @@ class AppRouter {
             builder: (context) => GoogleMapPage(
                   addressString: settings.arguments as String,
                 ));
+      case PersonalInformationPage.route:
+        return MaterialPageRoute(
+            builder: (context) => PersonalInformationPage());
       default:
         return _errorRoute();
     }

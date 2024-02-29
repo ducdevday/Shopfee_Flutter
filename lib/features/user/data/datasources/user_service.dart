@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shopfee/core/base/base_service.dart';
+import 'package:shopfee/core/service/shared_service.dart';
 import 'package:shopfee/features/user/data/models/user_model.dart';
 
 class UserService extends BaseService {

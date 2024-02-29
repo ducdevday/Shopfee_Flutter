@@ -14,6 +14,7 @@ import 'package:shopfee/features/default/presentation/widgets/bottombar/my_botto
 import 'package:shopfee/features/history/presentation/history.dart';
 import 'package:shopfee/features/login/presentation/login.dart';
 import 'package:shopfee/features/new_password/presentation/new_password.dart';
+import 'package:shopfee/features/personal_information/presentation/personal_information.dart';
 import 'package:shopfee/features/user/presentation/user.dart';
 import 'package:shopfee/features/saved_address/presentation/saved_address.dart';
 

@@ -22,7 +22,7 @@ class AppPath {
   static const String imgAccountBackground =
       "assets/images/img_profile_background.png";
 
-  static const String imgDefaultAvatar = "assets/images/img_default_user.png";
+  static const String imgDefaultAvatar = "https://firebasestorage.googleapis.com/v0/b/shopfee-12b03.appspot.com/o/users%2Fimg_default_user.png?alt=media&token=f8171f0b-6415-4318-8aec-50be052df367";
 
   static const String icShoppingBag = "assets/icons/ic_shopping_bag.svg";
 
@@ -41,4 +41,6 @@ class AppPath {
   static const String icDelivery = "assets/icons/ic_delivery.svg";
 
   static const String icTakeAway = "assets/icons/ic_take_away.svg";
+
+  static const String imgSoldOut = "assets/images/img_sold_out.png";
 }

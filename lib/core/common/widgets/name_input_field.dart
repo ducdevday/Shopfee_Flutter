@@ -9,11 +9,12 @@ class NameInputField extends StatefulWidget {
   final TextEditingController controller;
 
   const NameInputField(
-      {super.key, required this.title,
-        required this.hint,
-        required this.validateField,
-        this.isEnable = true,
-        required this.controller});
+      {super.key,
+      required this.title,
+      required this.hint,
+      required this.validateField,
+      this.isEnable = true,
+      required this.controller});
 
   @override
   State<NameInputField> createState() => _NameInputFieldState();
@@ -49,7 +50,8 @@ class _NameInputFieldState extends State<NameInputField> {
           alignment: Alignment.topLeft,
           child: Text(
             widget.title,
-            style: AppStyle.normalTextStyle.copyWith(color: const Color(0xff3C3C3C)),
+            style: AppStyle.normalTextStyle
+                .copyWith(color: const Color(0xff3C3C3C)),
           ),
         ),
         const SizedBox(
@@ -63,15 +65,16 @@ class _NameInputFieldState extends State<NameInputField> {
           controller: widget.controller,
           focusNode: _focusNode,
           decoration: InputDecoration(
-            errorText: errorText,
-            contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-            focusedErrorBorder: AppStyle.outlineInputBorderDefault,
-            errorBorder: AppStyle.outlineInputBorderDefault,
-            enabledBorder: AppStyle.outlineInputBorderDefault,
-            focusedBorder: AppStyle.outlineInputBorderPrimary,
-            disabledBorder: AppStyle.outlineInputBorderDefault,
-            hintText: widget.hint,
-          ),
+              errorText: errorText,
+              contentPadding:
+                  const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+              focusedErrorBorder: AppStyle.outlineInputBorderDefault,
+              errorBorder: AppStyle.outlineInputBorderDefault,
+              enabledBorder: AppStyle.outlineInputBorderDefault,
+              focusedBorder: AppStyle.outlineInputBorderPrimary,
+              disabledBorder: AppStyle.outlineInputBorderDefault,
+              hintText: widget.hint,
+              hintStyle: TextStyle(color: Colors.grey)),
         ),
       ],
     );

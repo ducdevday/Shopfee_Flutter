@@ -43,6 +43,11 @@ class FormatUtil {
     return result.toString();
   }
 
+  static String formattedBirthDay(DateTime? dateTime) {
+    if (dateTime == null) return "";
+    return DateFormat('dd/MM/yyyy').format(dateTime.toLocal());
+  }
+
   static String formatMoney(num? price) {
     if (price == null) {
       return "";

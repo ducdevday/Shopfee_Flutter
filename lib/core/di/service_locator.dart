@@ -59,6 +59,11 @@ import 'package:shopfee/features/otp/data/repositories/otp_repository_impl.dart'
 import 'package:shopfee/features/otp/domain/repositories/otp_repository.dart';
 import 'package:shopfee/features/otp/domain/usecase/otp_usecase.dart';
 import 'package:shopfee/features/otp/presentation/otp.dart';
+import 'package:shopfee/features/personal_information/data/datasources/personal_information_service.dart';
+import 'package:shopfee/features/personal_information/data/repositories/personal_information_repository_impl.dart';
+import 'package:shopfee/features/personal_information/domain/repositories/personal_information_repository.dart';
+import 'package:shopfee/features/personal_information/domain/usecase/personal_information_usecase.dart';
+import 'package:shopfee/features/personal_information/presentation/personal_information.dart';
 import 'package:shopfee/features/user/data/datasources/user_service.dart';
 import 'package:shopfee/features/user/data/repositories/user_repository_impl.dart';
 import 'package:shopfee/features/user/domain/repositories/user_repository.dart';
@@ -124,6 +129,7 @@ class ServiceLocator {
     _historyFeature();
     _newAddressFeature();
     _googleMapFeature();
+    _personalInformationFeature();
   }
 
   void _loginFeature() {
@@ -291,4 +297,12 @@ class ServiceLocator {
     sl.registerLazySingleton<OrderUseCase>(() => OrderUseCaseImpl(sl()));
     sl.registerFactory(() => OrderBloc(sl()));
   }
+
+  void _personalInformationFeature() {
+    sl.registerLazySingleton(() => PersonalInformationService());
+    sl.registerLazySingleton<PersonalInformationRepository>(() => PersonalInformationRepositoryImpl(sl()));
+    sl.registerLazySingleton<PersonalInformationUseCase>(() => PersonalInformationUseCaseImpl(sl()));
+    sl.registerFactory(() => PersonalInformationCubit(sl()));
+  }
+
 }
