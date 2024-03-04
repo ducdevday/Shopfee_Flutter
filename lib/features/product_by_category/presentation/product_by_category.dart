@@ -22,7 +22,6 @@ import 'package:shopfee/features/cart/presentation/cart.dart';
 import 'package:shopfee/features/home/domain/entities/product_infomation_entity.dart';
 import 'package:shopfee/features/home/presentation/home.dart';
 import 'package:shopfee/features/product_by_category/domain/usecase/product_by_category_usecase.dart';
-import 'package:shopfee/features/product_detail/presentation/page/product_detail_page.dart';
 import 'package:shopfee/features/search/presentation/search.dart';
 
 part 'bloc/product_by_category_bloc.dart';

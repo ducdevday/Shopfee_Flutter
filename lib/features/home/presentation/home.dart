@@ -22,7 +22,7 @@ import 'package:shopfee/features/home/domain/entities/category_entity.dart';
 import 'package:shopfee/features/home/domain/entities/product_infomation_entity.dart';
 import 'package:shopfee/features/home/domain/usecase/home_usecase.dart';
 import 'package:shopfee/features/product_by_category/presentation/product_by_category.dart';
-import 'package:shopfee/features/product_detail/presentation/page/product_detail_page.dart';
+import 'package:shopfee/features/product_detail/presentation/product_detail.dart';
 import 'package:shopfee/features/search/presentation/search.dart';
 
 import 'widgets/home_float_action.dart';

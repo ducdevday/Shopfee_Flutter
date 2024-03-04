@@ -16,7 +16,7 @@ import 'package:shopfee/features/onboarding/presentation/onboarding.dart';
 import 'package:shopfee/features/otp/presentation/otp.dart';
 import 'package:shopfee/features/personal_information/presentation/personal_information.dart';
 import 'package:shopfee/features/product_by_category/presentation/product_by_category.dart';
-import 'package:shopfee/features/product_detail/presentation/page/product_detail_page.dart';
+import 'package:shopfee/features/product_detail/presentation/product_detail.dart';
 import 'package:shopfee/features/receipt/presentation/receipt.dart';
 import 'package:shopfee/features/register/presentation/register.dart';
 import 'package:shopfee/features/saved_address/presentation/saved_address.dart';

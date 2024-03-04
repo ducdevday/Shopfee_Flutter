@@ -21,4 +21,5 @@ class AppColor {
   static Color error = const Color(0xffE87373);
   static Color warning = const Color(0xffeb9525);
   static Color rating = const Color(0xffFFD232);
+  static const Color unLikedColor = Color(0xffF5DCDC);
 }

@@ -50,6 +50,8 @@ dependencies:
   flutter_config: ^2.0.2
   flutter_multi_formatter: ^2.12.4
   image_picker: ^1.0.4
+  overlay_tooltip: ^0.2.3
+  cached_network_image: ^3.3.0
 
   #  Firebase
   firebase_core: ^2.19.0
