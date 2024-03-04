@@ -26,6 +26,12 @@ class OtpLoaded extends OtpState {
 }
 
 class OtpFinished extends OtpState {
+  final String code;
+
+  const OtpFinished({
+    required this.code,
+  });
+
   @override
-  List<Object> get props => [];
+  List<Object> get props => [code];
 }

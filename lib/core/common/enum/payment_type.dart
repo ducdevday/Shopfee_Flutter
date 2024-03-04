@@ -1,6 +1,6 @@
 enum PaymentType {
   CASHING,
-  BANKING;
+  BANKING_VNPAY;
 
   String toJson() => name;
 

@@ -32,11 +32,6 @@ class OtpRepositoryImpl implements OtpRepository {
   }
 
   @override
-  Future<void> reSendOtp(String email) async {
-    final response = await _otpService.sendOtpToRegister(email);
-  }
-
-  @override
   Future<MyToken> register(RegisterEntity registerEntity) async {
     try {
       final response =

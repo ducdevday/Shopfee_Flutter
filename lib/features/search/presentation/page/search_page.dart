@@ -96,16 +96,6 @@ class _SearchPageState extends State<SearchPage> {
                       ),
                     ),
                     SizedBox(width: 10),
-                    // IconButton(
-                    //   padding: EdgeInsets.zero,
-                    //   splashColor: Colors.transparent,
-                    //   highlightColor: Colors.transparent,
-                    //   constraints: BoxConstraints(),
-                    //   icon: Icon(Icons.arrow_back_outlined),
-                    //   onPressed: () {
-                    //     Navigator.pop(context);
-                    //   },
-                    // ),
                     InkWell(
                       onTap: () {
                         Navigator.pop(context);

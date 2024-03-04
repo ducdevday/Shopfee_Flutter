@@ -43,4 +43,10 @@ class AppPath {
   static const String icTakeAway = "assets/icons/ic_take_away.svg";
 
   static const String imgSoldOut = "assets/images/img_sold_out.png";
+  static const String imgSoldOut2 = "assets/images/img_sold_out_2.png";
+
+  static const String icDirect = "assets/icons/ic_direct.svg";
+  static const String icPhone = "assets/icons/ic_phone.svg";
+  static const String icShare = "assets/icons/ic_share.svg";
+  static const String imgAll = "https://firebasestorage.googleapis.com/v0/b/shopfee-12b03.appspot.com/o/category%2Fic_all.png?alt=media&token=7b1b0f87-395a-4cfb-b0ae-f9d59d1bff09";
 }

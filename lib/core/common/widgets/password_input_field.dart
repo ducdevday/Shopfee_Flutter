@@ -69,6 +69,7 @@ class _PasswordInputFieldState extends State<PasswordInputField> {
           validator: (value) {
             return widget.validateField(value!);
           },
+          textInputAction: TextInputAction.next,
           obscuringCharacter: '*',
           obscureText: _passwordVisible == false,
           controller: widget.controller,

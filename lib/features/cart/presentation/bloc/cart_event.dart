@@ -14,7 +14,7 @@ class CartInitAddress extends CartEvent {
   List<Object> get props => [];
 }
 
-class CartDeleteInformation extends CartEvent{
+class CartDeleteInformation extends CartEvent {
   @override
   List<Object> get props => [];
 }
@@ -43,19 +43,19 @@ class CartUpdateItem extends CartEvent {
   List<Object> get props => [updatedOrder, index];
 }
 
-class ChooseTypeDelivery extends CartEvent {
-  final DeliveryType typeDelivery;
+class CartChooseOrderType extends CartEvent {
+  final OrderType typeOrder;
 
-  ChooseTypeDelivery(this.typeDelivery);
+  const CartChooseOrderType({required this.typeOrder});
 
   @override
-  List<Object> get props => [typeDelivery];
+  List<Object> get props => [typeOrder];
 }
 
 class CartChooseAddress extends CartEvent {
   final String addressId;
 
-  CartChooseAddress(this.addressId);
+  const CartChooseAddress({required this.addressId});
 
   @override
   List<Object> get props => [addressId];
@@ -64,28 +64,30 @@ class CartChooseAddress extends CartEvent {
 class CartAddNote extends CartEvent {
   final String note;
 
-  CartAddNote(this.note);
+  const CartAddNote({required this.note});
 
   @override
   List<Object> get props => [note];
 }
 
-class ChooseDeliveryTime extends CartEvent {
-  final DateTime deliveryTime;
-
-  ChooseDeliveryTime(this.deliveryTime);
-
-  @override
-  List<Object> get props => [deliveryTime];
-}
-
 class CartChooseTypePayment extends CartEvent {
   final PaymentType typePayment;
 
-  CartChooseTypePayment(this.typePayment);
+  const CartChooseTypePayment({required this.typePayment});
 
   @override
   List<Object> get props => [typePayment];
+}
+
+class CartChooseTime extends CartEvent {
+  final DateTime receiveTime;
+
+  const CartChooseTime({
+    required this.receiveTime,
+  });
+
+  @override
+  List<Object> get props => [receiveTime];
 }
 
 // class ChooseVoucher extends CartEvent {
@@ -100,7 +102,7 @@ class CartChooseTypePayment extends CartEvent {
 class SetShippingFee extends CartEvent {
   final double shippingFee;
 
-  SetShippingFee(this.shippingFee);
+  const SetShippingFee({required this.shippingFee});
 
   @override
   List<Object> get props => [shippingFee];

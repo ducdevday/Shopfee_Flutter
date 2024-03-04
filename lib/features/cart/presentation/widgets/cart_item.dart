@@ -44,7 +44,7 @@ class CartItem extends StatelessWidget {
                         height: 6,
                       ),
                       Text(
-                        state.cart.orders[index].size!.size,
+                        FormatUtil.formatSize(state.cart.orders[index].size!.size),
                         style: AppStyle.normalTextStyleDark,
                       ),
                       state.cart.orders[index].toppings.isNotEmpty

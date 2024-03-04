@@ -21,15 +21,36 @@ class OrderLoadSuccess extends OrderState {
   final ViewType viewType;
   final bool isLoadMore;
   final bool cannotLoadMore;
+  final num? minPrice;
+  final num? maxPrice;
+  final num? minStar;
+  final ProductSortType? sortType;
 
-  const OrderLoadSuccess({
-    required this.categories,
-    this.chosenCategory,
-    required this.products,
-    this.viewType = ViewType.List_View,
-    this.isLoadMore = false,
-    this.cannotLoadMore = false,
-  });
+  get filterNumber {
+    int num = 0;
+    if (minPrice != null || maxPrice != null) {
+      num++;
+    }
+    if (minStar != null && minStar! > 0) {
+      num++;
+    }
+    if (sortType != null) {
+      num++;
+    }
+    return num;
+  }
+
+  const OrderLoadSuccess(
+      {required this.categories,
+      this.chosenCategory,
+      required this.products,
+      this.viewType = ViewType.List_View,
+      this.isLoadMore = false,
+      this.cannotLoadMore = false,
+      this.minPrice,
+      this.maxPrice,
+      this.minStar,
+      this.sortType});
 
   @override
   List<Object?> get props => [
@@ -39,6 +60,10 @@ class OrderLoadSuccess extends OrderState {
         viewType,
         isLoadMore,
         cannotLoadMore,
+        minPrice,
+        maxPrice,
+        minStar,
+        sortType,
       ];
 
   OrderLoadSuccess copyWith({
@@ -48,6 +73,10 @@ class OrderLoadSuccess extends OrderState {
     ViewType? viewType,
     bool? isLoadMore,
     bool? cannotLoadMore,
+    ValueGetter<num?>? minPrice,
+    ValueGetter<num?>? maxPrice,
+    ValueGetter<num?>? minStar,
+    ValueGetter<ProductSortType?>? sortType,
   }) {
     return OrderLoadSuccess(
       categories: categories ?? this.categories,
@@ -56,6 +85,10 @@ class OrderLoadSuccess extends OrderState {
       viewType: viewType ?? this.viewType,
       isLoadMore: isLoadMore ?? this.isLoadMore,
       cannotLoadMore: cannotLoadMore ?? this.cannotLoadMore,
+      minPrice: minPrice != null ? minPrice() : this.minPrice,
+      maxPrice: maxPrice != null ? maxPrice() : this.maxPrice,
+      minStar: minStar != null ? minStar() : this.minStar,
+      sortType: sortType != null ? sortType() : this.sortType,
     );
   }
 }

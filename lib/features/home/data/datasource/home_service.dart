@@ -9,11 +9,7 @@ class HomeService extends BaseService {
   }
 
   Future<Response> getOutStandingProduct({required int quantity}) async {
-    // var response = await dio.get("${BaseService.productPath}/top/$quantity");
-    //TODO: Need to fix
-    Map<String, dynamic> query = {"page": 1, "size": quantity};
-    var response =
-        await dio.get("${BaseService.productPath}/visible", queryParameters: query);
+    var response = await dio.get("${BaseService.productPath}/top/$quantity");
     return response;
   }
 }

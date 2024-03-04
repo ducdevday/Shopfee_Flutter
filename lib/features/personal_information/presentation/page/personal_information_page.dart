@@ -294,7 +294,7 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                                   label: birthDate == null
                                       ? null
                                       : Text(
-                                          FormatUtil.formattedBirthDay(
+                                          FormatUtil.formatBirthDay(
                                               birthDate),
                                           style:
                                               TextStyle(color: Colors.black)),

@@ -38,23 +38,24 @@ class OtpCubit extends Cubit<OtpState> {
         final responseVerifyOtp =
             await _otpUseCase.verifyOtp(email, currentState.otpsSting);
         if (registerEntity != null) {
+          registerEntity.copyWith(code: currentState.otpsSting);
           var responseRegister = await _otpUseCase.register(registerEntity);
-          SharedService.setToken(responseRegister.userId,
-              responseRegister.accessToken);
+          SharedService.setToken(
+              responseRegister.userId, responseRegister.accessToken);
         }
         EasyLoading.dismiss();
-        emit(OtpFinished());
+        emit(OtpFinished(code: currentState.otpsSting));
       } catch (e) {
         ExceptionUtil.handle(e);
       }
     }
   }
 
-  Future<void> resendOTP(String email) async {
+  Future<void> resendOTP(String email, String fromRoute) async {
     if (state is OtpLoaded) {
       try {
         EasyLoading.show(maskType: EasyLoadingMaskType.black);
-        var response = await _otpUseCase.resendOtp(email);
+        await _otpUseCase.sendOtp(email, fromRoute);
         EasyLoading.dismiss();
         EasyLoading.showSuccess("Resend OTP to your email");
       } catch (e) {

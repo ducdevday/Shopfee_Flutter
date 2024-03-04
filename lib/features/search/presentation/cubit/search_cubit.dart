@@ -10,11 +10,11 @@ class SearchCubit extends Cubit<SearchState> {
       emit(SearchLoadInProcess());
       final products = await _searchUseCase.getSearchProduct(
           searchString: query, page: 1, size: 9);
-      await Future.delayed(Duration(seconds: 3));
+      print("Search Product");
+      await Future.delayed(Duration(seconds: 1));
       emit(SearchLoadSuccess(
           query: query, products: products, page: 1, size: 9));
     } catch (e) {
-      print(e);
       emit(SearchLoadFailure());
       ExceptionUtil.handle(e);
     }

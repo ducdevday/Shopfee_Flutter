@@ -11,10 +11,7 @@ class PersonalInformationService extends BaseService {
     UserModel userModel = UserModel.fromEntity(userEntity);
     Map<String, dynamic> body = userModel.toJson();
 
-    //TODO: Need to fix
-    // final response = await dio.put("${BaseService.userPath}/$userId", data: body );
-    final response =
-        await dio.put("${BaseService.userPath}/api/user/$userId", data: body);
+    final response = await dio.put("${BaseService.userPath}/$userId", data: body );
 
     return response;
   }

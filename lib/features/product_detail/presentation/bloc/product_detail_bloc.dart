@@ -1,6 +1,5 @@
 part of product_detail;
 
-
 class ProductDetailBloc extends Bloc<ProductDetailEvent, ProductDetailState> {
   final ProductDetailUseCase _productDetailUseCase;
 

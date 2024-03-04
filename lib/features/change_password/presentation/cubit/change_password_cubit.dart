@@ -17,11 +17,11 @@ class ChangePasswordCubit extends Cubit<ChangePasswordState> {
     }
   }
 
-  Future<void> changePassword(String email, String password) async {
+  Future<void> changePassword(String email, String password, String code) async {
     try {
       EasyLoading.show(maskType: EasyLoadingMaskType.black);
       final response = await _changePasswordUseCase.changePassword(
-          ChangePasswordEntity(email: email, password: password));
+          ChangePasswordEntity(email: email, password: password,code: code));
       EasyLoading.dismiss();
       EasyLoading.showSuccess("Change Password Success");
       emit(ChangePasswordSuccess());

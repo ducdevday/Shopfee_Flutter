@@ -89,7 +89,7 @@ class ReceiptInformation extends StatelessWidget {
                       style: AppStyle.mediumTitleStyleDark,
                     ),
                     Text(
-                      FormatUtil.formattedDate(state.receipt.createdAt),
+                      FormatUtil.formatDate(state.receipt.createdAt),
                       style: AppStyle.normalTextStyleDark,
                     )
                   ],
@@ -105,7 +105,7 @@ class ReceiptInformation extends StatelessWidget {
                       style: AppStyle.mediumTitleStyleDark,
                     ),
                     Text(
-                      FormatUtil.formattedTime(state.receipt.createdAt),
+                      FormatUtil.formatTime(state.receipt.createdAt),
                       style: AppStyle.normalTextStyleDark,
                     )
                   ],

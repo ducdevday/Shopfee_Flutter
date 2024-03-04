@@ -22,6 +22,7 @@ import 'package:shopfee/features/register/presentation/register.dart';
 import 'package:shopfee/features/saved_address/presentation/saved_address.dart';
 import 'package:shopfee/features/search/presentation/search.dart';
 import 'package:shopfee/features/splash/presentation/splash.dart';
+import 'package:shopfee/features/store_detail/presentation/page/store_detail_page.dart';
 import 'package:shopfee/features/tracking/presentation/tracking.dart';
 import 'package:shopfee/features/vnpay/presentation/vnpay.dart';
 
@@ -52,9 +53,12 @@ class AppRouter {
       case ForgotPasswordPage.route:
         return MaterialPageRoute(builder: (context) => ForgotPasswordPage());
       case ChangePasswordPage.route:
+        final args = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
-            builder: (context) =>
-                ChangePasswordPage(email: settings.arguments as String));
+            builder: (context) => ChangePasswordPage(
+                  email: args["email"],
+                  code: args["code"],
+                ));
       case NewPasswordPage.route:
         return MaterialPageRoute(builder: (context) => const NewPasswordPage());
       case DefaultPage.route:
@@ -106,6 +110,8 @@ class AppRouter {
       case PersonalInformationPage.route:
         return MaterialPageRoute(
             builder: (context) => PersonalInformationPage());
+      case StoreDetailPage.route:
+        return MaterialPageRoute(builder: (context) => StoreDetailPage());
       default:
         return _errorRoute();
     }

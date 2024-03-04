@@ -1,27 +1,28 @@
 import 'package:shopfee/core/common/enum/delivery_type.dart';
 import 'package:shopfee/core/common/enum/payment_type.dart';
+import 'package:shopfee/core/common/models/order_type.dart';
 import 'package:shopfee/features/cart/data/models/cart_model.dart';
 import 'package:shopfee/features/product_detail/domain/entities/order_entity.dart';
 import 'package:shopfee/features/saved_address/domain/entities/address_entity.dart';
 
 class CartEntity {
   final List<OrderEntity> orders;
-  final DeliveryType? typeDelivery;
+  final OrderType? orderType;
   final AddressEntity? address;
   final String? note;
-  final DateTime? deliveryTime;
-  final PaymentType? typePayment;
+  final DateTime? receiveTime;
+  final PaymentType? paymentType;
 
   // final Voucher? voucher;
   final double? shippingFee;
 
   const CartEntity({
     this.orders = const <OrderEntity>[],
-    this.typeDelivery,
+    this.orderType = OrderType.SHIPPING,
     this.address,
     this.note,
-    this.deliveryTime,
-    this.typePayment = PaymentType.CASHING,
+    this.receiveTime,
+    this.paymentType = PaymentType.CASHING,
     // this.voucher,
     this.shippingFee = 0,
   });
@@ -42,20 +43,20 @@ class CartEntity {
 
   CartEntity copyWith({
     List<OrderEntity>? orders,
-    DeliveryType? typeDelivery,
+    OrderType? orderType,
     AddressEntity? address,
     String? note,
-    DateTime? deliveryTime,
-    PaymentType? typePayment,
+    DateTime? receiveTime,
+    PaymentType? paymentType,
     double? shippingFee,
   }) {
     return CartEntity(
       orders: orders ?? this.orders,
-      typeDelivery: typeDelivery ?? this.typeDelivery,
+      orderType: orderType ?? this.orderType,
       address: address ?? this.address,
       note: note ?? this.note,
-      deliveryTime: deliveryTime ?? this.deliveryTime,
-      typePayment: typePayment ?? this.typePayment,
+      receiveTime: receiveTime ?? this.receiveTime,
+      paymentType: paymentType ?? this.paymentType,
       shippingFee: shippingFee ?? this.shippingFee,
     );
   }
@@ -63,11 +64,11 @@ class CartEntity {
   factory CartEntity.fromModel(CartModel model) {
     return CartEntity(
       orders: model.orders.map((e) => OrderEntity.fromModel(e)).toList(),
-      typeDelivery: model.typeDelivery,
+      orderType: model.orderType,
       address: model.address == null ? null : AddressEntity.fromModel(model.address!),
       note: model.note,
-      deliveryTime: model.deliveryTime,
-      typePayment: model.typePayment,
+      receiveTime: model.receiveTime,
+      paymentType: model.paymentType,
       shippingFee: model.shippingFee,
     );
   }

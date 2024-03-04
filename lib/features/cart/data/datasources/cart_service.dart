@@ -18,7 +18,7 @@ class CartService extends BaseService {
       "userId": userId,
       "products": cart.orders.map((order) => order.toJsonOrder()).toList(),
       "note": cart.note,
-      "paymentType": cart.typePayment!.name,
+      "paymentType": cart.paymentType!.name,
       "address": cart.address!.toJsonOrder()
     };
     final response = await dio.post("${BaseService.orderPath}", data: body);

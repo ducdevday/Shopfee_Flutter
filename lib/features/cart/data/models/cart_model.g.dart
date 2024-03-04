@@ -10,36 +10,35 @@ CartModel _$CartModelFromJson(Map<String, dynamic> json) => CartModel(
       orders: (json['orders'] as List<dynamic>)
           .map((e) => OrderModel.fromJson(e as Map<String, dynamic>))
           .toList(),
-      typeDelivery:
-          $enumDecodeNullable(_$DeliveryTypeEnumMap, json['typeDelivery']),
+      orderType: $enumDecodeNullable(_$OrderTypeEnumMap, json['orderType']),
       address: json['address'] == null
           ? null
           : AddressModel.fromJson(json['address'] as Map<String, dynamic>),
       note: json['note'] as String?,
-      deliveryTime: json['deliveryTime'] == null
+      receiveTime: json['receiveTime'] == null
           ? null
-          : DateTime.parse(json['deliveryTime'] as String),
-      typePayment:
-          $enumDecodeNullable(_$PaymentTypeEnumMap, json['typePayment']),
+          : DateTime.parse(json['receiveTime'] as String),
+      paymentType:
+          $enumDecodeNullable(_$PaymentTypeEnumMap, json['paymentType']),
       shippingFee: (json['shippingFee'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$CartModelToJson(CartModel instance) => <String, dynamic>{
       'orders': instance.orders,
-      'typeDelivery': instance.typeDelivery,
+      'orderType': instance.orderType,
       'address': instance.address,
       'note': instance.note,
-      'deliveryTime': instance.deliveryTime?.toIso8601String(),
-      'typePayment': instance.typePayment,
+      'receiveTime': instance.receiveTime?.toIso8601String(),
+      'paymentType': instance.paymentType,
       'shippingFee': instance.shippingFee,
     };
 
-const _$DeliveryTypeEnumMap = {
-  DeliveryType.TakeAway: 'TakeAway',
-  DeliveryType.HomeDelivery: 'HomeDelivery',
+const _$OrderTypeEnumMap = {
+  OrderType.SHIPPING: 'SHIPPING',
+  OrderType.ONSITE: 'ONSITE',
 };
 
 const _$PaymentTypeEnumMap = {
   PaymentType.CASHING: 'CASHING',
-  PaymentType.BANKING: 'BANKING',
+  PaymentType.BANKING_VNPAY: 'BANKING_VNPAY',
 };

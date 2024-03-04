@@ -62,6 +62,7 @@ class _NameInputFieldState extends State<NameInputField> {
           validator: (value) {
             return widget.validateField(value!);
           },
+          textInputAction: TextInputAction.next,
           controller: widget.controller,
           focusNode: _focusNode,
           decoration: InputDecoration(

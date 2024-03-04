@@ -3,8 +3,9 @@ part of change_password;
 class ChangePasswordPage extends StatefulWidget {
   static const String route = "/change_password";
   final String email;
+  final String code;
 
-  const ChangePasswordPage({Key? key, required this.email}) : super(key: key);
+  const ChangePasswordPage({Key? key, required this.email, required this.code}) : super(key: key);
 
   @override
   State<ChangePasswordPage> createState() => _ChangePasswordPageState();
@@ -126,7 +127,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                             onPressed: state is! ChangePasswordInitial
                                 ? () {
                               _cubit.changePassword(
-                                  widget.email, passwordTextController.text);
+                                  widget.email, passwordTextController.text, widget.code);
                             }
                                 : null,
                             child: const Text("Change Password"),

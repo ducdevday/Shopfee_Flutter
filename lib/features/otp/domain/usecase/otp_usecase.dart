@@ -8,8 +8,6 @@ abstract class OtpUseCase {
 
   Future<void> sendOtp(String email,String fromRoute);
 
-  Future<void> resendOtp(String email);
-
   Future<MyToken> register(RegisterEntity registerEntity);
 }
 
@@ -26,11 +24,6 @@ class OtpUseCaseImpl extends OtpUseCase {
   @override
   Future<void> verifyOtp(String email, String otpString) async {
     _otpRepository.verifyOtp(email, otpString);
-  }
-
-  @override
-  Future<void> resendOtp(String email) async {
-    _otpRepository.reSendOtp(email);
   }
 
   @override

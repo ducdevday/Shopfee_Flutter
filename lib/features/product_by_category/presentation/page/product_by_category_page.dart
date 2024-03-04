@@ -4,7 +4,7 @@ enum ViewType { List_View, Grid_View }
 
 class ProductByCategoryPage extends StatefulWidget {
   static const String route = "/product_by_category";
-  final String categoryId;
+  final String? categoryId;
   final String categoryName;
 
   const ProductByCategoryPage(
@@ -70,7 +70,7 @@ class _ProductByCategoryPageState extends State<ProductByCategoryPage> {
               leading: IconButton(
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
-                icon: Icon(Icons.close_rounded),
+                icon: const Icon(Icons.close_rounded),
                 onPressed: () {
                   Navigator.pop(context);
                 },
@@ -121,7 +121,7 @@ class _ProductByCategoryPageState extends State<ProductByCategoryPage> {
                             splashColor: Colors.transparent,
                             highlightColor: Colors.transparent,
                             onPressed: () {
-                              _bloc.add(ProductByCategoryChangeViewType(
+                              _bloc.add(const ProductByCategoryChangeViewType(
                                   viewType: ViewType.Grid_View));
                             },
                             icon: Icon(Icons.grid_view_sharp,
@@ -135,7 +135,7 @@ class _ProductByCategoryPageState extends State<ProductByCategoryPage> {
                 BlocBuilder<ProductByCategoryBloc, ProductByCategoryState>(
                   builder: (context, state) {
                     if (state is ProductByCategoryLoadInProcess) {
-                      return ProductListSkeleton();
+                      return const ProductListSkeleton();
                     } else if (state is ProductByCategoryLoadSuccess) {
                       if (productList.isNotEmpty) {
                         return ProductList(
@@ -153,7 +153,7 @@ class _ProductByCategoryPageState extends State<ProductByCategoryPage> {
                                 width: 60,
                                 height: 60,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 16,
                               ),
                               Text(
@@ -166,16 +166,16 @@ class _ProductByCategoryPageState extends State<ProductByCategoryPage> {
                         );
                       }
                     } else {
-                      return SizedBox();
+                      return const SizedBox();
                     }
                   },
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 56,
                 )
               ],
             ),
-            bottomSheet: ProductByCategoryBottom(),
+            bottomSheet: const ProductByCategoryBottom(),
           ),
         ));
   }
@@ -189,7 +189,7 @@ Widget ProductList(
   if (viewType == ViewType.List_View) {
     return Expanded(
       child: ListView.separated(
-        padding: EdgeInsets.zero,
+        padding: const EdgeInsets.only(bottom: 68),
         itemCount: isLoadingMore ? productList.length + 1 : productList.length,
         itemBuilder: (context, index) => index < productList.length
             ? HomeProduct(
@@ -200,7 +200,7 @@ Widget ProductList(
                 padding: EdgeInsets.all(AppDimen.spacing),
                 child: CupertinoActivityIndicator(),
               ),
-        separatorBuilder: (context, int index) => Divider(
+        separatorBuilder: (context, int index) => const Divider(
           height: 8,
           thickness: 0.75,
         ),
@@ -215,11 +215,11 @@ Widget ProductList(
           children: [
             Expanded(
               child: GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       crossAxisSpacing: 4.0,
                       mainAxisSpacing: 4.0),
-                  padding: EdgeInsets.zero,
+                  padding: const EdgeInsets.only(bottom: 68),
                   itemCount: productList.length,
                   itemBuilder: (context, index) => HomeProduct(
                       product: productList[index],

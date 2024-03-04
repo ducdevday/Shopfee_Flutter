@@ -5,7 +5,7 @@ abstract class ProductByCategoryEvent extends Equatable {
 }
 
 class ProductByCategoryLoadInformation extends ProductByCategoryEvent {
-  final String categoryId;
+  final String? categoryId;
   final int page;
   final int size;
 
@@ -16,11 +16,11 @@ class ProductByCategoryLoadInformation extends ProductByCategoryEvent {
   });
 
   @override
-  List<Object> get props => [categoryId, page, size];
+  List<Object?> get props => [categoryId, page, size];
 }
 
 class ProductByCategoryLoadMoreInformation extends ProductByCategoryEvent {
-  final String categoryId;
+  final String? categoryId;
   final int page;
   final int size;
 
@@ -31,7 +31,7 @@ class ProductByCategoryLoadMoreInformation extends ProductByCategoryEvent {
   });
 
   @override
-  List<Object> get props => [categoryId, page, size];
+  List<Object?> get props => [categoryId, page, size];
 }
 
 class ProductByCategoryChangeViewType extends ProductByCategoryEvent {

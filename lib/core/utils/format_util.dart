@@ -1,28 +1,28 @@
 import 'package:intl/intl.dart';
 
 class FormatUtil {
-  static String formattedDate(DateTime? dateTime) {
+  static String formatDate(DateTime? dateTime) {
     if (dateTime == null) {
       return "";
     }
     return DateFormat('MMMM dd, yyy').format(dateTime.toLocal());
   }
 
-  static String formattedDate2(DateTime? dateTime) {
+  static String formatDate2(DateTime? dateTime) {
     if (dateTime == null) {
       return "";
     }
     return DateFormat('dd/MM/yyyy').format(dateTime.toLocal());
   }
 
-  static String formattedTime(DateTime? dateTime) {
+  static String formatTime(DateTime? dateTime) {
     if (dateTime == null) {
       return "";
     }
     return DateFormat('hh:mm a').format(dateTime.toLocal());
   }
 
-  static String formattedQueryString(String? s) {
+  static String formatQueryString(String? s) {
     if (s == null) {
       return "";
     }
@@ -43,7 +43,7 @@ class FormatUtil {
     return result.toString();
   }
 
-  static String formattedBirthDay(DateTime? dateTime) {
+  static String formatBirthDay(DateTime? dateTime) {
     if (dateTime == null) return "";
     return DateFormat('dd/MM/yyyy').format(dateTime.toLocal());
   }
@@ -53,5 +53,27 @@ class FormatUtil {
       return "";
     }
     return '${NumberFormat.decimalPattern().format(price)}đ';
+  }
+
+  static String formatMoneyByK(num? price) {
+    if (price == null) {
+      return "";
+    }
+    String formattedPrice = NumberFormat.decimalPattern().format(price);
+    formattedPrice = formattedPrice.replaceAll(RegExp(r'(?<=\d)0{3}\b'), '');
+    return '${formattedPrice}k';
+  }
+
+  static String formatSize(String size) {
+    switch (size) {
+      case "SMALL":
+        return "Small";
+      case "MEDIUM":
+        return "Medium";
+      case "LARGE":
+        return "Large";
+      default:
+        return "One Size";
+    }
   }
 }

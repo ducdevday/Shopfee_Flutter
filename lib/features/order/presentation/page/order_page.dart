@@ -1,6 +1,8 @@
 part of order;
 
 class OrderPage extends StatefulWidget {
+  static const int indexPage = 1;
+
   const OrderPage({Key? key}) : super(key: key);
 
   @override
@@ -70,7 +72,29 @@ class _OrderPageState extends State<OrderPage> {
                 ),
               ),
               const SizedBox(width: 10),
-              const Icon(Icons.notifications_none_outlined)
+              BlocBuilder<OrderBloc, OrderState>(
+                builder: (context, state) {
+                  if (state is OrderLoadSuccess) {
+                    print("filterNumber: ${state.filterNumber}");
+                    return Badge(
+                        label: Text("${state.filterNumber}"),
+                        isLabelVisible: state.filterNumber != 0,
+                        child: GestureDetector(
+                            onTap: () {
+                              buildShowFilterBottomSheet(context, size)
+                                  .then((refresh) {
+                                if (refresh != null && refresh == true) {
+                                  page = 1;
+                                  print("Apply/Clear Filter");
+                                }
+                              });
+                            },
+                            child: Icon(Icons.filter_alt_outlined)));
+                  } else {
+                    return Icon(Icons.filter_alt_outlined);
+                  }
+                },
+              )
             ],
           ),
         ),
@@ -224,14 +248,14 @@ class _OrderPageState extends State<OrderPage> {
                           context.read<OrderBloc>().add(OrderChooseCategory(
                               category: state.categories[index],
                               page: page,
-                              size: size));
+                              size: size,
+                          ));
                         }
                       },
                       child: Column(
                         children: [
                           Image(
-                            image:
-                                NetworkImage(state.categories[index].image!),
+                            image: NetworkImage(state.categories[index].image!),
                             width: 60,
                             height: 60,
                           ),
@@ -248,10 +272,10 @@ class _OrderPageState extends State<OrderPage> {
                           Container(
                             height: 1.5,
                             width: 100,
-                            color: state.chosenCategory ==
-                                state.categories[index]
-                                ? AppColor.primaryColor
-                                : Colors.transparent,
+                            color:
+                                state.chosenCategory == state.categories[index]
+                                    ? AppColor.primaryColor
+                                    : Colors.transparent,
                           )
                         ],
                       ),
@@ -265,4 +289,32 @@ class _OrderPageState extends State<OrderPage> {
       },
     );
   }
+}
+
+Future<bool?> buildShowFilterBottomSheet(BuildContext context, int size) {
+  return showModalBottomSheet<bool?>(
+    backgroundColor: Colors.black.withOpacity(0.75),
+    isScrollControlled: true,
+    context: context,
+    builder: (_) {
+      return BlocProvider.value(
+        value: context.read<OrderBloc>(),
+        child: BlocBuilder<OrderBloc, OrderState>(
+          builder: (context, state) {
+            if (state is OrderLoadSuccess) {
+              return OrderFilterBottomSheet(
+                size: size,
+                minPrice: state.minPrice,
+                maxPrice: state.maxPrice,
+                minStar: state.minStar,
+                sortType: state.sortType,
+              );
+            } else {
+              return SizedBox();
+            }
+          },
+        ),
+      );
+    },
+  );
 }

@@ -18,7 +18,10 @@ class AppTheme {
         backgroundColor:
             MaterialStateProperty.all<Color>(AppColor.primaryColor),
         foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-        tapTargetSize: MaterialTapTargetSize.shrinkWrap, // the '2023' part
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        shape: MaterialStateProperty.all<OutlinedBorder>(RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        )), // the '2023' part
       ),
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(

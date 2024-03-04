@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:readmore/readmore.dart';
+import 'package:shopfee/core/common/enum/product_status.dart';
 import 'package:shopfee/core/common/widgets/my_error_page.dart';
 import 'package:shopfee/core/common/widgets/my_loading_page.dart';
 import 'package:shopfee/core/config/app_color.dart';
 import 'package:shopfee/core/config/app_dimen.dart';
+import 'package:shopfee/core/config/app_path.dart';
 import 'package:shopfee/core/config/app_style.dart';
 import 'package:shopfee/core/di/service_locator.dart';
 import 'package:shopfee/core/utils/format_util.dart';
@@ -50,41 +52,17 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               body: SingleChildScrollView(
                 child: Stack(
                   children: [
-                    Stack(
-                      children: [
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: 330,
-                          color: const Color(0xffEFEBE9),
-                          child: Center(
-                            child: Image.network(
-                              state.order.product.imageUrl!,
-                              width: 165,
-                              height: 270,
-                            ),
-                          ),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 330,
+                      color: const Color(0xffEFEBE9),
+                      child: Center(
+                        child: Image.network(
+                          state.order.product.imageUrl!,
+                          width: 165,
+                          height: 270,
                         ),
-                        Positioned(
-                            top: 36,
-                            left: AppDimen.screenPadding,
-                            child: Container(
-                                width: 32,
-                                height: 32,
-                                decoration: BoxDecoration(
-                                  color: AppColor.disableColor,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: IconButton(
-                                  iconSize: 16,
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  icon: const Icon(
-                                    Icons.close_rounded,
-                                    color: Colors.white,
-                                  ),
-                                )))
-                      ],
+                      ),
                     ),
                     Container(
                       margin: const EdgeInsets.only(top: 250),
@@ -154,35 +132,39 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                       const SizedBox(
                                         height: 10,
                                       ),
-                                      const Row(
+                                      Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.end,
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
-                                          // Visibility(
-                                          //   visible: false,
-                                          //   maintainAnimation: true,
-                                          //   maintainSize: true,
-                                          //   maintainState: true,
-                                          //   child: Row(
-                                          //     children: [
-                                          //       Icon(
-                                          //         Icons.star_rounded,
-                                          //         color: Color(0xffFFB800),
-                                          //       ),
-                                          //       Text(
-                                          //         widget.product.rating.toString(),
-                                          //         style: AppStyle.mediumTextStyleDark
-                                          //             .copyWith(
-                                          //                 color: AppColor.headingColor,
-                                          //                 fontWeight: FontWeight.bold),
-                                          //       ),
-                                          //       SizedBox(
-                                          //         width: 4,
-                                          //       ),
-                                          //       Text("(23)")
-                                          //     ],
-                                          //   ),
-                                          // ),
+                                          InkWell(
+                                            onTap: () {},
+                                            child: Row(
+                                              children: [
+                                                const Icon(
+                                                  Icons.star_rounded,
+                                                  color: Color(0xffFFB800),
+                                                ),
+                                                Text(
+                                                  "${state.order.product.ratingSummary?.star}/5",
+                                                  style: AppStyle
+                                                      .mediumTextStyleDark
+                                                      .copyWith(
+                                                          color: AppColor
+                                                              .headingColor,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                ),
+                                                const SizedBox(
+                                                  width: 4,
+                                                ),
+                                                Text(
+                                                  "(${state.order.product.ratingSummary?.quantity})",
+                                                  style: TextStyle(
+                                                      color: AppColor.info),
+                                                )
+                                              ],
+                                            ),
+                                          ),
                                           ProductQuantity()
                                         ],
                                       )
@@ -302,7 +284,46 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                           ),
                         ],
                       ),
-                    )
+                    ),
+                    if (state.order.product.status ==
+                        ProductStatus.OUT_OF_STOCK)
+                      Positioned.fill(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(
+                                0.5), // Adjust opacity and color as needed
+                          ),
+                        ),
+                      ),
+                    Positioned(
+                        top: 36,
+                        left: AppDimen.screenPadding,
+                        child: Container(
+                            width: 32,
+                            height: 32,
+                            decoration: BoxDecoration(
+                              color: AppColor.disableColor,
+                              shape: BoxShape.circle,
+                            ),
+                            child: IconButton(
+                              iconSize: 16,
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              icon: const Icon(
+                                Icons.close_rounded,
+                                color: Colors.white,
+                              ),
+                            ))),
+                    if (state.order.product.status ==
+                        ProductStatus.OUT_OF_STOCK)
+                    Positioned(
+                        top: 36,
+                        right: AppDimen.screenPadding,
+                        child: Image.asset(
+                          AppPath.imgSoldOut2,
+                          width: 100,
+                        )),
                   ],
                 ),
               ),

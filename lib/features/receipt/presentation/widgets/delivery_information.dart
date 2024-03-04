@@ -44,7 +44,7 @@ class DeliveryInformation extends StatelessWidget {
                           height: 2,
                         ),
                         Text(
-                          FormatUtil.formattedTime(state.lastEventLog.time),
+                          FormatUtil.formatTime(state.lastEventLog.time),
                           style: AppStyle.smallTextStyleDark,
                         ),
                       ],

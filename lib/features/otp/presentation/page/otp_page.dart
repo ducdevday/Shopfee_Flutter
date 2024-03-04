@@ -38,7 +38,7 @@ class _OtpPageState extends State<OtpPage> {
               case ForgotPasswordPage.route:
                 Navigator.of(context).pushNamedAndRemoveUntil(
                     ChangePasswordPage.route, (route) => false,
-                    arguments: widget.email);
+                    arguments: {"email": widget.email, "code": state.code});
                 break;
               case RegisterPage.route:
                 Navigator.of(context).pushNamedAndRemoveUntil(
@@ -121,6 +121,7 @@ class _OtpPageState extends State<OtpPage> {
                         ),
                         CountdownText(
                           email: widget.email,
+                          fromRoute: widget.fromRoute,
                         ),
                       ],
                     ),
@@ -162,8 +163,10 @@ class _OtpPageState extends State<OtpPage> {
 
 class CountdownText extends StatefulWidget {
   final String email;
+  final String fromRoute;
 
-  const CountdownText({Key? key, required this.email}) : super(key: key);
+  const CountdownText({Key? key, required this.email, required this.fromRoute})
+      : super(key: key);
 
   @override
   State<CountdownText> createState() => _CountdownTextState();
@@ -214,7 +217,7 @@ class _CountdownTextState extends State<CountdownText> {
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         ),
         onPressed: () {
-          context.read<OtpCubit>().resendOTP(widget.email);
+          context.read<OtpCubit>().resendOTP(widget.email, widget.fromRoute);
         },
         child: Text(
           "Resend",

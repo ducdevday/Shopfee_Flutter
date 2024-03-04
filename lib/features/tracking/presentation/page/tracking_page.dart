@@ -114,7 +114,7 @@ class _TrackingPageState extends State<TrackingPage> {
                                       width: 4,
                                     ),
                                     Text(
-                                      "${FormatUtil.formattedTime(state.eventlogs[index].time)} - ${FormatUtil.formattedDate(state.eventlogs[index].time)}",
+                                      "${FormatUtil.formatTime(state.eventlogs[index].time)} - ${FormatUtil.formatDate(state.eventlogs[index].time)}",
                                       style: AppStyle.smallTextStyleDark,
                                     )
                                   ],

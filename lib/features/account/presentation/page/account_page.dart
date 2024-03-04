@@ -1,6 +1,8 @@
 part of account;
 
 class AccountPage extends StatelessWidget {
+  static const int page = 3;
+
   const AccountPage({Key? key}) : super(key: key);
 
   @override

@@ -61,9 +61,9 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
                     Radio(
                         activeColor: AppColor.primaryColor,
                         value: PaymentType.CASHING,
-                        groupValue: state.cart.typePayment,
+                        groupValue: state.cart.paymentType,
                         onChanged: (PaymentType? value) {
-                          context.read<CartBloc>().add(CartChooseTypePayment(value!));
+                          context.read<CartBloc>().add(CartChooseTypePayment(typePayment: value!));
                           Navigator.pop(context);
                         })
                   ],
@@ -89,10 +89,10 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
                     Expanded(child: Text("VNPAY")),
                     Radio(
                         activeColor: AppColor.primaryColor,
-                        value: PaymentType.BANKING,
-                        groupValue: state.cart.typePayment,
+                        value: PaymentType.BANKING_VNPAY,
+                        groupValue: state.cart.paymentType,
                         onChanged: (PaymentType? value) {
-                          context.read<CartBloc>().add(CartChooseTypePayment(value!));
+                          context.read<CartBloc>().add(CartChooseTypePayment(typePayment: value!));
                           Navigator.pop(context);
                         })
                   ],

@@ -4,6 +4,5 @@ import 'package:shopfee/features/register/domain/entities/register_entity.dart';
 abstract class OtpRepository {
   Future<void> verifyOtp(String email, String otpString);
   Future<void> sendOtp(String email, String fromRoute);
-  Future<void> reSendOtp(String email);
   Future<MyToken> register(RegisterEntity registerEntity);
 }

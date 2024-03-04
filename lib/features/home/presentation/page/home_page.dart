@@ -1,6 +1,7 @@
 part of home;
 
 class HomePage extends StatelessWidget {
+  static const int indexPage = 0;
   const HomePage({Key? key}) : super(key: key);
 
   @override
@@ -78,7 +79,7 @@ class HomePage extends StatelessWidget {
                                             ProductByCategoryPage.route,
                                             arguments: {
                                               "categoryId":
-                                                  state.categories[index].id!,
+                                                  state.categories[index].id,
                                               "categoryName":
                                                   state.categories[index].name!
                                             });

@@ -12,7 +12,7 @@ class ProductByCategoryRepositoryImpl implements ProductByCategoryRepository {
 
   @override
   Future<List<ProductInformationEntity>> getProductsByCategoryId(
-      String id, {required int page, required int size}) async {
+      String? id, {required int page, required int size}) async {
     final response =
         await _productByCategoryService.getProductsByCategoryId(id, page: page, size: size);
     final result = Result(

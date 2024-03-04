@@ -99,7 +99,7 @@ class HistoryItem extends StatelessWidget {
                           height: 4,
                         ),
                         Text(
-                          "${FormatUtil.formattedTime(state.orderHistoryList[index].timeLastEvent)} - ${FormatUtil.formattedDate(state.orderHistoryList[index].timeLastEvent)}",
+                          "${FormatUtil.formatTime(state.orderHistoryList[index].timeLastEvent)} - ${FormatUtil.formatDate(state.orderHistoryList[index].timeLastEvent)}",
                           style: AppStyle.normalTextStyleDark,
                         ),
                         const SizedBox(

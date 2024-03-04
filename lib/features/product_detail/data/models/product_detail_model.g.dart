@@ -18,6 +18,11 @@ ProductDetailModel _$ProductDetailModelFromJson(Map<String, dynamic> json) =>
       toppingList: (json['toppingList'] as List<dynamic>?)
           ?.map((e) => ToppingModel.fromJson(e as Map<String, dynamic>))
           .toList(),
+      status: $enumDecodeNullable(_$ProductStatusEnumMap, json['status']),
+      ratingSummary: json['ratingSummary'] == null
+          ? null
+          : RatingSummaryModel.fromJson(
+              json['ratingSummary'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$ProductDetailModelToJson(ProductDetailModel instance) =>
@@ -28,4 +33,12 @@ Map<String, dynamic> _$ProductDetailModelToJson(ProductDetailModel instance) =>
       'sizeList': instance.sizeList,
       'description': instance.description,
       'toppingList': instance.toppingList,
+      'status': instance.status,
+      'ratingSummary': instance.ratingSummary,
     };
+
+const _$ProductStatusEnumMap = {
+  ProductStatus.AVAILABLE: 'AVAILABLE',
+  ProductStatus.HIDDEN: 'HIDDEN',
+  ProductStatus.OUT_OF_STOCK: 'OUT_OF_STOCK',
+};

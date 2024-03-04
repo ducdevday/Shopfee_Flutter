@@ -33,20 +33,8 @@ class OtpService extends BaseService {
     return response;
   }
 
-  Future<Response> resendCode(String email) async {
-    Map<String, dynamic> body = {
-      "email": email,
-    };
-    final response =
-        await dio.post("${BaseService.authPath}/resend-email", data: body);
-    return response;
-  }
-
   Future<Response> register(RegisterModel registerModel) async {
     Map<String, dynamic> body = registerModel.toJson();
-    // final response =
-    //     await dio.post("${BaseService.authPath}/user/register", data: body);
-
     final response =
         await dio.post("${BaseService.authPath}/register", data: body);
     return response;

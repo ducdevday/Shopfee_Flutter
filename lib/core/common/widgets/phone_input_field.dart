@@ -62,6 +62,7 @@ class _PhoneInputFieldState extends State<PhoneInputField> {
           validator: (value) {
             return widget.validateField(value!);
           },
+          textInputAction: TextInputAction.next,
           inputFormatters: [
             PhoneInputFormatter(
               allowEndlessPhone: false,

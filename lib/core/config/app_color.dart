@@ -5,7 +5,7 @@ class AppColor {
   static Color primaryColor = const Color(0xff5D4037);
   static Color primaryColorLight = const Color(0xffA1887F);
   static Color primaryColorBackground = const Color(0xffe1cfc7);
-
+  static Color secondaryColor = const Color(0xffD7CCC8);
 
   static Color headingColor = const Color(0xff3C3C3C);
   static Color paragraphColor = const Color(0xff555555);
@@ -13,6 +13,7 @@ class AppColor {
   static Color shadowColor = const Color(0x33868686);
   static Color disableColor = const Color(0xffCACACA);
   static Color dividerColor = const Color(0xffBDBDBD);
+  static Color bottomColorBackground = const Color(0xffF0F2F6);
 
   static Color lightColor = const Color(0xffFEFEFE);
   static Color success = const Color(0xff43936c);

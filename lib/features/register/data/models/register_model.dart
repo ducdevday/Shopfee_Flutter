@@ -9,13 +9,10 @@ class RegisterModel {
   final String? lastName;
   final String? email;
   final String? password;
+  final String? code;
 
-  const RegisterModel({
-    this.firstName,
-    this.lastName,
-    this.email,
-    this.password,
-  });
+  const RegisterModel(
+      {this.firstName, this.lastName, this.email, this.password, this.code});
 
   factory RegisterModel.fromJson(Map<String, dynamic> json) {
     return _$RegisterModelFromJson(json);
@@ -30,6 +27,7 @@ class RegisterModel {
         firstName: entity.firstName,
         lastName: entity.lastName,
         email: entity.email,
-        password: entity.password);
+        password: entity.password,
+        code: entity.code);
   }
 }

@@ -31,5 +31,5 @@ const _$PaymentStatusEnumMap = {
 
 const _$PaymentTypeEnumMap = {
   PaymentType.CASHING: 'CASHING',
-  PaymentType.BANKING: 'BANKING',
+  PaymentType.BANKING_VNPAY: 'BANKING_VNPAY',
 };

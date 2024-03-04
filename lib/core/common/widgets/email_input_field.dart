@@ -66,6 +66,7 @@ class _EmailInputFieldState extends State<EmailInputField> {
           validator: (value) {
             return widget.validateField(value!);
           },
+          textInputAction: TextInputAction.next,
           controller: widget.controller,
           focusNode: _focusNode,
           decoration: InputDecoration(

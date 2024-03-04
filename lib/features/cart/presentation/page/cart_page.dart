@@ -96,9 +96,7 @@ class _CartPageState extends State<CartPage> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text("Home Delivery",
-                                  style: AppStyle.mediumTitleStyleDark
-                                      .copyWith(color: AppColor.headingColor)),
+                              buildOrderTypeText(state),
                               TextButton(
                                 child: Text(
                                   "Change",
@@ -110,17 +108,41 @@ class _CartPageState extends State<CartPage> {
                               )
                             ],
                           ),
-                          Builder(builder: (context) {
-                            if (state.cart.address != null) {
-                              return buildAddressDetail(state, context);
-                            } else {
-                              return AddressEmptyWidget();
-                            }
-                          }),
+                          const AddressShippingWidget(),
                           const Divider(
                             height: 20,
                           ),
-                          const TimeOrder(),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Time order",
+                                style: AppStyle.mediumTitleStyleDark
+                                    .copyWith(color: AppColor.headingColor),
+                              ),
+                              const SizedBox(
+                                height: 4,
+                              ),
+                              Builder(builder: (_) {
+                                // if (!(DateTime.now().hour >= 8 && DateTime.now().hour < 20)) {
+                                //   return Text(
+                                //     "*We are open from 08:00 AM - 20:00 PM",
+                                //     style: AppStyle.normalTextStyleDark.copyWith(color: AppColor.error),
+                                //   );
+                                // } else {
+                                return Text(
+                                  "*We are open from 08:00 AM - 20:00 PM",
+                                  style: AppStyle.normalTextStyleDark,
+                                );
+                                // }
+                              }),
+                              const SizedBox(
+                                height: 16,
+                              ),
+                            ],
+                          ),
+                          const TimeShipping(),
+                          const TimeSetter(),
                           const Divider(
                             height: 20,
                           ),
@@ -130,7 +152,7 @@ class _CartPageState extends State<CartPage> {
                           ),
                           TextFormField(
                             onChanged: (value) => {
-                              context.read<CartBloc>().add(CartAddNote(value))
+                              context.read<CartBloc>().add(CartAddNote(note: value))
                             },
                             style: const TextStyle(fontSize: 14),
                             decoration: InputDecoration(
@@ -146,52 +168,48 @@ class _CartPageState extends State<CartPage> {
                               hintText: "Additional note for shop...",
                             ),
                           ),
-
-                          // Divider(
-                          //   height: 20,
-                          // ),
-                          // Row(
-                          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          //   children: [
-                          //     Column(
-                          //       crossAxisAlignment: CrossAxisAlignment.start,
-                          //       children: [
-                          //         Text(
-                          //           "Voucher",
-                          //           style: AppStyle.mediumTitleStyleDark
-                          //               .copyWith(
-                          //                   color: AppColor.headingColor,
-                          //                   fontWeight: FontWeight.w500),
-                          //         ),
-                          //         SizedBox(
-                          //           height: 4,
-                          //         ),
-                          //         Row(
-                          //           children: [
-                          //             Icon(
-                          //               Icons.discount,
-                          //               color: AppColor.primaryColor,
-                          //             ),
-                          //             SizedBox(
-                          //               width: 4,
-                          //             ),
-                          //             Text("no voucher added",
-                          //                 style: AppStyle.normalTextStyleDark),
-                          //           ],
-                          //         ),
-                          //       ],
-                          //     ),
-                          //     InkWell(
-                          //         onTap: () {
-                          //           Navigator.pushNamed(context, "/voucher");
-                          //         },
-                          //         child:
-                          //             Icon(Icons.keyboard_arrow_right_rounded))
-                          //   ],
-                          // ),
-                          // Divider(
-                          //   height: 20,
-                          // ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      height: 4,
+                      color: const Color(0xffEFEBE9),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: AppDimen.screenPadding),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Coupon",
+                            style: AppStyle.mediumTitleStyleDark
+                                .copyWith(
+                                    color: AppColor.headingColor,
+                                    fontWeight: FontWeight.w500),
+                          ),
+                          SizedBox(
+                            height: 4,
+                          ),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.discount,
+                                color: AppColor.primaryColor,
+                              ),
+                              SizedBox(
+                                width: 4,
+                              ),
+                              Expanded(
+                                child: Text("Add coupon",
+                                    style: AppStyle.normalTextStylePrimary),
+                              ),
+                              Icon(Icons.keyboard_arrow_right_rounded)
+                            ],
+                          ),
+                          Divider(
+                            height: 20,
+                          ),
                         ],
                       ),
                     ),
@@ -313,6 +331,18 @@ class _CartPageState extends State<CartPage> {
     );
   }
 
+  Text buildOrderTypeText(CartLoaded state) {
+    if (state.cart.orderType == OrderType.SHIPPING) {
+      return Text("Home Delivery",
+          style: AppStyle.mediumTitleStyleDark
+              .copyWith(color: AppColor.headingColor));
+    } else {
+      return Text("Take Away",
+          style: AppStyle.mediumTitleStyleDark
+              .copyWith(color: AppColor.headingColor));
+    }
+  }
+
   Widget buildAddressDetail(CartLoaded state, BuildContext context) {
     return GestureDetector(
       onTap: () {
@@ -345,7 +375,7 @@ class _CartPageState extends State<CartPage> {
                   ],
                 ),
                 Text(
-                  state.cart.address!.detail!,
+                  state.cart.address!.detail ?? "",
                   style: AppStyle.normalTextStyleDark,
                 ),
               ],
@@ -365,54 +395,50 @@ class _CartPageState extends State<CartPage> {
       onTap: () {
         buildShowPaymentBottomSheet(context);
       },
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Payment Method",
-                style: AppStyle.mediumTitleStyleDark.copyWith(
-                    color: AppColor.headingColor, fontWeight: FontWeight.w500),
-              ),
-              const SizedBox(
-                height: 4,
-              ),
-              Builder(builder: (context) {
-                if (state.cart.typePayment == PaymentType.CASHING) {
-                  return Row(
-                    children: [
-                      Image.asset(
-                        AppPath.icCash,
-                        width: 24,
-                        height: 24,
-                      ),
-                      const SizedBox(
-                        width: 4,
-                      ),
-                      Text("Cash", style: AppStyle.normalTextStyleDark),
-                    ],
-                  );
-                } else {
-                  return Row(
-                    children: [
-                      Image.asset(
-                        AppPath.icVnPay,
-                        width: 24,
-                        height: 24,
-                      ),
-                      const SizedBox(
-                        width: 4,
-                      ),
-                      Text("VNPay", style: AppStyle.normalTextStyleDark),
-                    ],
-                  );
-                }
-              }),
-            ],
+          Text(
+            "Payment Method",
+            style: AppStyle.mediumTitleStyleDark.copyWith(
+                color: AppColor.headingColor, fontWeight: FontWeight.w500),
           ),
-          const Icon(Icons.keyboard_arrow_right_rounded)
+          const SizedBox(
+            height: 4,
+          ),
+          Builder(builder: (context) {
+            if (state.cart.paymentType == PaymentType.CASHING) {
+              return Row(
+                children: [
+                  Image.asset(
+                    AppPath.icCash,
+                    width: 24,
+                    height: 24,
+                  ),
+                  const SizedBox(
+                    width: 4,
+                  ),
+                  Expanded(child: Text("Cash", style: AppStyle.normalTextStyleDark)),
+                  const Icon(Icons.keyboard_arrow_right_rounded)
+                ],
+              );
+            } else {
+              return Row(
+                children: [
+                  Image.asset(
+                    AppPath.icVnPay,
+                    width: 24,
+                    height: 24,
+                  ),
+                  const SizedBox(
+                    width: 4,
+                  ),
+                  Expanded(child: Text("VNPay", style: AppStyle.normalTextStyleDark)),
+                  const Icon(Icons.keyboard_arrow_right_rounded)
+                ],
+              );
+            }
+          }),
         ],
       ),
     );

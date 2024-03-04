@@ -4,31 +4,32 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
   final CartUseCase _cartUseCase;
 
   CartBloc(this._cartUseCase) : super(CartInitial()) {
-    on<CartLoadInformation>(_onLoadCart);
-    on<CartDeleteInformation>(_onDeleteCart);
-    on<CartAddItem>(_onAddItemIntoCart);
-    on<CartUpdateItem>(_onUpdateItemInCart);
-    on<CartInitAddress>(_onInitAddress);
-    on<CartChooseAddress>(_onChooseAddress);
-    on<CartChooseTypePayment>(_onChooseTypePayment);
-    on<CartAddNote>(_onAddNote);
-    on<CartCreateShippingOrder>(_onCreateShippingOrder);
+    on<CartLoadInformation>(_onCartLoadInformation);
+    on<CartDeleteInformation>(_onCartDeleteInformation);
+    on<CartAddItem>(_onCartAddItem);
+    on<CartUpdateItem>(_onCartUpdateItem);
+    on<CartInitAddress>(_onCartInitAddress);
+    on<CartChooseAddress>(_onCartChooseAddress);
+    on<CartChooseOrderType>(_onCartChooseOrderType);
+    on<CartChooseTypePayment>(_onCartChooseTypePayment);
+    on<CartChooseTime>(_onCartChooseTime);
+    on<CartAddNote>(_onCartAddNote);
+    on<CartCreateShippingOrder>(_onCartCreateShippingOrder);
   }
 
-  FutureOr<void> _onLoadCart(
+  FutureOr<void> _onCartLoadInformation(
       CartLoadInformation event, Emitter<CartState> emit) {
     if (state is! CartLoaded) {
       emit(const CartLoaded(cart: CartEntity()));
     }
   }
 
-  FutureOr<void> _onDeleteCart(
+  FutureOr<void> _onCartDeleteInformation(
       CartDeleteInformation event, Emitter<CartState> emit) {
     emit(CartLoaded(cart: CartEntity()));
   }
 
-  FutureOr<void> _onAddItemIntoCart(
-      CartAddItem event, Emitter<CartState> emit) {
+  FutureOr<void> _onCartAddItem(CartAddItem event, Emitter<CartState> emit) {
     if (state is CartLoaded) {
       final successState = state as CartLoaded;
       List<OrderEntity> orders = List.from(successState.cart.orders);
@@ -53,7 +54,7 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
     }
   }
 
-  FutureOr<void> _onUpdateItemInCart(
+  FutureOr<void> _onCartUpdateItem(
       CartUpdateItem event, Emitter<CartState> emit) {
     if (state is CartLoaded) {
       final successState = state as CartLoaded;
@@ -80,7 +81,7 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
     }
   }
 
-  FutureOr<void> _onInitAddress(
+  FutureOr<void> _onCartInitAddress(
       CartInitAddress event, Emitter<CartState> emit) async {
     if (state is CartLoaded) {
       final currentState = state as CartLoaded;
@@ -100,7 +101,7 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
     }
   }
 
-  FutureOr<void> _onChooseAddress(
+  FutureOr<void> _onCartChooseAddress(
       CartChooseAddress event, Emitter<CartState> emit) async {
     if (state is CartLoaded) {
       try {
@@ -117,23 +118,41 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
     }
   }
 
-  FutureOr<void> _onChooseTypePayment(
+  FutureOr<void> _onCartChooseTypePayment(
       CartChooseTypePayment event, Emitter<CartState> emit) {
     if (state is CartLoaded) {
       final successState = state as CartLoaded;
       emit(CartLoaded(
-          cart: successState.cart.copyWith(typePayment: event.typePayment)));
+          cart: successState.cart.copyWith(paymentType: event.typePayment)));
     }
   }
 
-  FutureOr<void> _onAddNote(CartAddNote event, Emitter<CartState> emit) {
+  FutureOr<void> _onCartChooseTime(
+      CartChooseTime event, Emitter<CartState> emit) {
+    if (state is CartLoaded) {
+      final successState = state as CartLoaded;
+      emit(CartLoaded(
+          cart: successState.cart.copyWith(receiveTime: event.receiveTime)));
+    }
+  }
+
+  FutureOr<void> _onCartChooseOrderType(
+      CartChooseOrderType event, Emitter<CartState> emit) {
+    if (state is CartLoaded) {
+      final successState = state as CartLoaded;
+      emit(CartLoaded(
+          cart: successState.cart.copyWith(orderType: event.typeOrder)));
+    }
+  }
+
+  FutureOr<void> _onCartAddNote(CartAddNote event, Emitter<CartState> emit) {
     if (state is CartLoaded) {
       final successState = state as CartLoaded;
       emit(CartLoaded(cart: successState.cart.copyWith(note: event.note)));
     }
   }
 
-  FutureOr<void> _onCreateShippingOrder(
+  FutureOr<void> _onCartCreateShippingOrder(
       CartCreateShippingOrder event, Emitter<CartState> emit) async {
     if (state is CartLoaded) {
       final successState = state as CartLoaded;

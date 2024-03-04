@@ -15,10 +15,8 @@ class HomeProduct extends StatelessWidget {
     if (viewType == ViewType.List_View) {
       return GestureDetector(
         onTap: () {
-          if (product.status == ProductStatus.AVAILABLE) {
-            NavigationUtil.pushNamed(ProductDetailPage.route,
-                arguments: product.id);
-          }
+          NavigationUtil.pushNamed(ProductDetailPage.route,
+              arguments: product.id);
         },
         child: Stack(
           children: [
@@ -140,10 +138,8 @@ class HomeProduct extends StatelessWidget {
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
         onTap: () {
-          if (product.status == ProductStatus.AVAILABLE) {
-            NavigationUtil.pushNamed(ProductDetailPage.route,
-                arguments: product.id);
-          }
+          NavigationUtil.pushNamed(ProductDetailPage.route,
+              arguments: product.id);
         },
         child: Card(
           shape: RoundedRectangleBorder(
@@ -182,7 +178,8 @@ class HomeProduct extends StatelessWidget {
                                       color: Colors.white.withOpacity(0.75),
                                       borderRadius: BorderRadius.circular(10)),
                                   child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: [
                                       const Icon(
                                         Icons.star_rounded,
@@ -212,8 +209,8 @@ class HomeProduct extends StatelessWidget {
                         child: Text(product.name,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: AppStyle.mediumTextStyleDark
-                                .copyWith(color: Color(0xff555555), height: 1.5)),
+                            style: AppStyle.mediumTextStyleDark.copyWith(
+                                color: Color(0xff555555), height: 1.5)),
                       ),
                       Align(
                         alignment: Alignment.centerLeft,
@@ -228,8 +225,8 @@ class HomeProduct extends StatelessWidget {
                   Positioned.fill(
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Colors.white
-                            .withOpacity(0.4), // Adjust opacity and color as needed
+                        color: Colors.white.withOpacity(
+                            0.4), // Adjust opacity and color as needed
                       ),
                     ),
                   ),

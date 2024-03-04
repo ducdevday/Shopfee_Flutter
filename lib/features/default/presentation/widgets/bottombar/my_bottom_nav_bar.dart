@@ -40,6 +40,7 @@ class MyBottomNavBar extends StatelessWidget {
                   child: BottomNavigationBar(
                     enableFeedback: true,
                     landscapeLayout: BottomNavigationBarLandscapeLayout.centered,
+                    type: BottomNavigationBarType.fixed,
                     items: [
                       BottomNavigationBarItem(
                           icon: SvgPicture.asset(
@@ -65,6 +66,18 @@ class MyBottomNavBar extends StatelessWidget {
                                 AppColor.primaryColor, BlendMode.srcIn),
                           ),
                           label: "Order"),
+                      BottomNavigationBarItem(
+                          icon: SvgPicture.asset(
+                            AppPath.icStore,
+                            colorFilter: ColorFilter.mode(
+                                AppColor.nonactiveColor, BlendMode.srcIn),
+                          ),
+                          activeIcon: SvgPicture.asset(
+                            AppPath.icStore,
+                            colorFilter: ColorFilter.mode(
+                                AppColor.primaryColor, BlendMode.srcIn),
+                          ),
+                          label: "Store"),
                       BottomNavigationBarItem(
                           icon: SvgPicture.asset(
                             AppPath.icMenu,

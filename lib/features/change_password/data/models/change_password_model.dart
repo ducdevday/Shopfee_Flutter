@@ -7,11 +7,10 @@ part 'change_password_model.g.dart';
 class ChangePasswordModel {
   final String email;
   final String password;
+  final String code;
 
-  const ChangePasswordModel({
-    required this.email,
-    required this.password,
-  });
+  const ChangePasswordModel(
+      {required this.email, required this.password, required this.code});
 
   factory ChangePasswordModel.fromJson(Map<String, dynamic> json) {
     return _$ChangePasswordModelFromJson(json);
@@ -22,6 +21,7 @@ class ChangePasswordModel {
   }
 
   factory ChangePasswordModel.fromEntity(ChangePasswordEntity entity) {
-    return ChangePasswordModel(email: entity.email, password: entity.password);
+    return ChangePasswordModel(
+        email: entity.email, password: entity.password, code: entity.code);
   }
 }

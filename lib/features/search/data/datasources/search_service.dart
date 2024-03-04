@@ -10,7 +10,7 @@ class SearchService extends BaseService {
       "size": size
     };
     final response =
-        await dio.get("${BaseService.productPath}", queryParameters: query);
+        await dio.get("${BaseService.productPath}/visible", queryParameters: query);
     return response;
   }
 }
