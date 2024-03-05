@@ -9,7 +9,12 @@ class HomeService extends BaseService {
   }
 
   Future<Response> getOutStandingProduct({required int quantity}) async {
-    var response = await dio.get("${BaseService.productPath}/top/$quantity");
+    var response = await dio.get("${BaseService.productPath}/top-rating/$quantity");
+    return response;
+  }
+
+  Future<Response> getTopSellingProduct({required int quantity}) async {
+    var response = await dio.get("${BaseService.productPath}/top-selling/$quantity");
     return response;
   }
 }

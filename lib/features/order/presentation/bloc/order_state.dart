@@ -44,7 +44,7 @@ class OrderLoadSuccess extends OrderState {
       {required this.categories,
       this.chosenCategory,
       required this.products,
-      this.viewType = ViewType.List_View,
+      this.viewType = ViewType.List_View_Vertical,
       this.isLoadMore = false,
       this.cannotLoadMore = false,
       this.minPrice,

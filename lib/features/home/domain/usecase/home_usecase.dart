@@ -7,6 +7,9 @@ abstract class HomeUseCase {
 
   Future<List<ProductInformationEntity>> getOutStandingProduct(
       {required int quantity});
+
+  Future<List<ProductInformationEntity>> getTopSellingProduct(
+      {required int quantity});
 }
 
 class HomeUseCaseImpl extends HomeUseCase {
@@ -23,5 +26,11 @@ class HomeUseCaseImpl extends HomeUseCase {
   Future<List<ProductInformationEntity>> getOutStandingProduct(
       {required int quantity}) async {
     return await _homeRepository.getOutStandingProduct(quantity: quantity);
+  }
+
+  @override
+  Future<List<ProductInformationEntity>> getTopSellingProduct(
+      {required int quantity}) async {
+    return await _homeRepository.getTopSellingProduct(quantity: quantity);
   }
 }

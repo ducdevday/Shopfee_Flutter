@@ -22,7 +22,7 @@ class ProductByCategoryLoadSuccess extends ProductByCategoryState {
 
   const ProductByCategoryLoadSuccess({
     required this.products,
-    this.viewType = ViewType.List_View,
+    this.viewType = ViewType.List_View_Vertical,
     this.isLoadMore = false,
     this.cannotLoadMore = false
   });

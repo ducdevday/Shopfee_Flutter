@@ -16,15 +16,18 @@ class HomeLoadInProcess extends HomeState {
 
 class HomeLoadSuccess extends HomeState {
   final List<CategoryEntity> categories;
-  final List<ProductInformationEntity> products;
+  final List<ProductInformationEntity> topSellingProducts;
+  final List<ProductInformationEntity> outstandingProducts;
 
   const HomeLoadSuccess({
     required this.categories,
-    required this.products,
+    required this.topSellingProducts,
+    required this.outstandingProducts,
   });
 
   @override
-  List<Object> get props => [categories, products];
+  List<Object> get props =>
+      [categories, topSellingProducts, outstandingProducts];
 }
 
 class HomeLoadError extends HomeState {

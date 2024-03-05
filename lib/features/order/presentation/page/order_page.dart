@@ -16,7 +16,7 @@ class _OrderPageState extends State<OrderPage> {
   int size = 8;
   bool isLoadingMore = false;
   bool cannotLoadMore = false;
-  ViewType viewType = ViewType.List_View;
+  ViewType viewType = ViewType.List_View_Vertical;
   late ScrollController scrollController;
 
   @override
@@ -75,7 +75,6 @@ class _OrderPageState extends State<OrderPage> {
               BlocBuilder<OrderBloc, OrderState>(
                 builder: (context, state) {
                   if (state is OrderLoadSuccess) {
-                    print("filterNumber: ${state.filterNumber}");
                     return Badge(
                         label: Text("${state.filterNumber}"),
                         isLabelVisible: state.filterNumber != 0,
@@ -195,11 +194,11 @@ class _OrderPageState extends State<OrderPage> {
                       highlightColor: Colors.transparent,
                       onPressed: () {
                         context.read<OrderBloc>().add(const OrderChangeViewType(
-                            viewType: ViewType.List_View));
+                            viewType: ViewType.List_View_Vertical));
                       },
                       icon: Icon(
                         Icons.menu,
-                        color: viewType == ViewType.List_View
+                        color: viewType == ViewType.List_View_Vertical
                             ? AppColor.primaryColor
                             : AppColor.disableColor,
                       )),

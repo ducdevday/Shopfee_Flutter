@@ -6,4 +6,7 @@ abstract class HomeRepository {
 
   Future<List<ProductInformationEntity>> getOutStandingProduct(
       {required int quantity});
+
+  Future<List<ProductInformationEntity>> getTopSellingProduct(
+      {required int quantity});
 }

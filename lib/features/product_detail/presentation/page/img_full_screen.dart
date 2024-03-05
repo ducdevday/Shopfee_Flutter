@@ -13,17 +13,20 @@ class ImageFullScreen extends StatelessWidget {
       backgroundColor: Colors.black,
       body: Stack(children: [
         Center(
-          child: CachedNetworkImage(
-            imageUrl: imgPath,
-            placeholder: (context, url) => const MySkeletonRectangle(
-                width: double.infinity, height: double.infinity),
-            errorWidget: (_, __, ___) => Container(
-                color: AppColor.unLikedColor,
-                child: const Icon(
-                  Icons.error_outline_rounded,
-                  color: Colors.red,
-                  size: AppDimen.largeSize,
-                )),
+          child: Hero(
+            tag: "Product",
+            child: CachedNetworkImage(
+              imageUrl: imgPath,
+              placeholder: (context, url) => const MySkeletonRectangle(
+                  width: double.infinity, height: double.infinity),
+              errorWidget: (_, __, ___) => Container(
+                  color: AppColor.unLikedColor,
+                  child: const Icon(
+                    Icons.error_outline_rounded,
+                    color: Colors.red,
+                    size: AppDimen.largeSize,
+                  )),
+            ),
           ),
         ),
         Positioned(

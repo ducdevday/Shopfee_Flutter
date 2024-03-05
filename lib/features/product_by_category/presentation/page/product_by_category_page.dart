@@ -1,6 +1,6 @@
 part of product_by_category;
 
-enum ViewType { List_View, Grid_View }
+enum ViewType { List_View_Vertical, List_View_Horizontal, Grid_View }
 
 class ProductByCategoryPage extends StatefulWidget {
   static const String route = "/product_by_category";
@@ -17,7 +17,7 @@ class ProductByCategoryPage extends StatefulWidget {
 
 class _ProductByCategoryPageState extends State<ProductByCategoryPage> {
   late final ProductByCategoryBloc _bloc;
-  var viewType = ViewType.List_View;
+  var viewType = ViewType.List_View_Vertical;
 
   int page = 1;
   int size = 8;
@@ -109,11 +109,11 @@ class _ProductByCategoryPageState extends State<ProductByCategoryPage> {
                             highlightColor: Colors.transparent,
                             onPressed: () {
                               _bloc.add(const ProductByCategoryChangeViewType(
-                                  viewType: ViewType.List_View));
+                                  viewType: ViewType.List_View_Vertical));
                             },
                             icon: Icon(
                               Icons.menu,
-                              color: viewType == ViewType.List_View
+                              color: viewType == ViewType.List_View_Vertical
                                   ? AppColor.primaryColor
                                   : AppColor.disableColor,
                             )),
@@ -186,7 +186,7 @@ Widget ProductList(
     required bool isLoadingMore,
     required bool cannotLoadMore,
     required List<ProductInformationEntity> productList}) {
-  if (viewType == ViewType.List_View) {
+  if (viewType == ViewType.List_View_Vertical) {
     return Expanded(
       child: ListView.separated(
         padding: const EdgeInsets.only(bottom: 68),
@@ -194,7 +194,7 @@ Widget ProductList(
         itemBuilder: (context, index) => index < productList.length
             ? HomeProduct(
                 product: productList[index],
-                viewType: ViewType.List_View,
+                viewType: ViewType.List_View_Vertical,
               )
             : const Padding(
                 padding: EdgeInsets.all(AppDimen.spacing),

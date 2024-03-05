@@ -130,7 +130,7 @@ class _SearchPageState extends State<SearchPage> {
                           : productList.length,
                       itemBuilder: (context, index) =>
                           index < productList.length
-                              ? HomeProduct(product: productList[index], viewType: ViewType.List_View,)
+                              ? HomeProduct(product: productList[index], viewType: ViewType.List_View_Vertical,)
                               : const Padding(
                                   padding: EdgeInsets.all(AppDimen.spacing),
                                   child: CupertinoActivityIndicator(),

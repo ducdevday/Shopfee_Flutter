@@ -3,10 +3,6 @@ import 'package:flutter_config/flutter_config.dart';
 import 'package:shopfee/core/base/base_service.dart';
 
 class GoogleMapService extends BaseService {
-  Future<Response> getCurrentPosition() async {
-    final response = await dio.get("path");
-    return response;
-  }
 
   Future<Response> getAddressFromName(String addressString) async {
     Map<String, dynamic> queryParameters = {

@@ -38,10 +38,13 @@ class _ProductImageState extends State<ProductImage> {
                   NavigationUtil.push(
                       ImageFullScreen(imgPath: state.order.product.imageUrl!));
                 },
-                child: Image.network(
-                  state.order.product.imageUrl!,
-                  width: 165,
-                  height: 270,
+                child: Hero(
+                  tag: "Product",
+                  child: Image.network(
+                    state.order.product.imageUrl!,
+                    width: 165,
+                    height: 270,
+                  ),
                 ),
               ),
             );
