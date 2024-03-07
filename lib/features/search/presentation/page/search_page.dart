@@ -68,30 +68,33 @@ class _SearchPageState extends State<SearchPage> {
                 child: Row(
                   children: [
                     Expanded(
-                      child: TextField(
-                        autofocus: true,
-                        style: AppStyle.smallTextStyleDark,
-                        onChanged: (value) => handleSearchProduct(value),
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.all(8),
-                          suffixIcon: Icon(Icons.search),
-                          errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16),
-                            borderSide: BorderSide(color: Color(0xffCCCCCC)),
+                      child: Hero(
+                        tag: "Home_Search_Bar",
+                        child: TextField(
+                          autofocus: true,
+                          style: AppStyle.smallTextStyleDark,
+                          onChanged: (value) => handleSearchProduct(value),
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.all(8),
+                            suffixIcon: Icon(Icons.search),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16),
+                              borderSide: BorderSide(color: Color(0xffCCCCCC)),
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16),
+                              borderSide: BorderSide(color: Color(0xffCCCCCC)),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16),
+                              borderSide: BorderSide(color: AppColor.primaryColor),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16),
+                              borderSide: BorderSide(color: Color(0xffCCCCCC)),
+                            ),
+                            hintText: "What would you like to drink today?",
                           ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16),
-                            borderSide: BorderSide(color: Color(0xffCCCCCC)),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16),
-                            borderSide: BorderSide(color: AppColor.primaryColor),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16),
-                            borderSide: BorderSide(color: Color(0xffCCCCCC)),
-                          ),
-                          hintText: "What would you like to drink today?",
                         ),
                       ),
                     ),

@@ -31,7 +31,15 @@ class _EditOrderBottomSheetState extends State<EditOrderBottomSheet> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              IconButton(onPressed: () {}, icon: Icon(Icons.delete_rounded)),
+              Visibility(
+                visible: false,
+                maintainSize: true,
+                maintainAnimation: true,
+                maintainState: true,
+                child: IconButton(
+                    onPressed: () {},
+                    icon: const Icon(Icons.close_rounded)),
+              ),
               Text(
                 widget.order.product.name!,
                 style: AppStyle.mediumTitleStyleDark,

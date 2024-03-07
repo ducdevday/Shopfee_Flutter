@@ -8,6 +8,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:shopfee/core/common/enum/delivery_type.dart';

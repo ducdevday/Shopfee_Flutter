@@ -58,15 +58,18 @@ class _OrderPageState extends State<OrderPage> {
                   onTap: () {
                     NavigationUtil.pushNamed(SearchPage.route);
                   },
-                  child: TextField(
-                    enabled: false,
-                    style: AppStyle.smallTextStyleDark,
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.all(8),
-                      suffixIcon: const Icon(Icons.search),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16)),
-                      hintText: "What would you like to drink today?",
+                  child: Hero(
+                    tag: "Home_Search_Bar",
+                    child: TextField(
+                      enabled: false,
+                      style: AppStyle.smallTextStyleDark,
+                      decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.all(8),
+                        suffixIcon: const Icon(Icons.search),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16)),
+                        hintText: "What would you like to drink today?",
+                      ),
                     ),
                   ),
                 ),
@@ -245,10 +248,10 @@ class _OrderPageState extends State<OrderPage> {
                           isLoadingMore = false;
                           cannotLoadMore = false;
                           context.read<OrderBloc>().add(OrderChooseCategory(
-                              category: state.categories[index],
-                              page: page,
-                              size: size,
-                          ));
+                                category: state.categories[index],
+                                page: page,
+                                size: size,
+                              ));
                         }
                       },
                       child: Column(

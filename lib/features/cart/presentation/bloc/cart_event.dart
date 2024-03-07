@@ -43,6 +43,17 @@ class CartUpdateItem extends CartEvent {
   List<Object> get props => [updatedOrder, index];
 }
 
+class CartDeleteItem extends CartEvent {
+  final int index;
+
+  const CartDeleteItem({
+    required this.index,
+  });
+
+  @override
+  List<Object> get props => [index];
+}
+
 class CartChooseOrderType extends CartEvent {
   final OrderType typeOrder;
 

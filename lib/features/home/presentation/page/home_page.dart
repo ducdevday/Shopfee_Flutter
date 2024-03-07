@@ -44,15 +44,18 @@ class _HomePageState extends State<HomePage> {
                         onTap: () {
                           NavigationUtil.pushNamed(SearchPage.route);
                         },
-                        child: TextField(
-                          enabled: false,
-                          style: AppStyle.smallTextStyleDark,
-                          decoration: InputDecoration(
-                            contentPadding: const EdgeInsets.all(8),
-                            suffixIcon: const Icon(Icons.search),
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(16)),
-                            hintText: "What would you like to drink today?",
+                        child: Hero(
+                          tag: "Home_Search_Bar",
+                          child: TextField(
+                            enabled: false,
+                            style: AppStyle.smallTextStyleDark,
+                            decoration: InputDecoration(
+                              contentPadding: const EdgeInsets.all(8),
+                              suffixIcon: const Icon(Icons.search),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(16)),
+                              hintText: "What would you like to drink today?",
+                            ),
                           ),
                         ),
                       ),

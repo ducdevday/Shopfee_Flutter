@@ -7,6 +7,7 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
     on<CartLoadInformation>(_onCartLoadInformation);
     on<CartDeleteInformation>(_onCartDeleteInformation);
     on<CartAddItem>(_onCartAddItem);
+    on<CartDeleteItem>(_onCartDeleteItem);
     on<CartUpdateItem>(_onCartUpdateItem);
     on<CartInitAddress>(_onCartInitAddress);
     on<CartChooseAddress>(_onCartChooseAddress);
@@ -46,6 +47,20 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
         orders.add(event.order);
       }
 
+      emit(CartLoaded(
+        cart: successState.cart.copyWith(
+          orders: orders,
+        ),
+      ));
+    }
+  }
+
+  FutureOr<void> _onCartDeleteItem(
+      CartDeleteItem event, Emitter<CartState> emit) {
+    if (state is CartLoaded) {
+      final successState = state as CartLoaded;
+      List<OrderEntity> orders = List.from(successState.cart.orders);
+      orders.removeAt(event.index);
       emit(CartLoaded(
         cart: successState.cart.copyWith(
           orders: orders,

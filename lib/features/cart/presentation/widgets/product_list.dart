@@ -15,6 +15,7 @@ class _ProductListState extends State<ProductList> {
   late int productListLength;
   late String defaultText = "Show more";
   late Icon defaultIcon = Icon(Icons.keyboard_arrow_down_rounded);
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CartBloc, CartState>(
@@ -40,18 +41,23 @@ class _ProductListState extends State<ProductList> {
                     ListView.separated(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: productListLength < defaultLength ? productListLength :maxLength,
+                      itemCount: productListLength < defaultLength
+                          ? productListLength
+                          : maxLength,
                       itemBuilder: (context, index) {
                         return CartItem(
                             index: index,
-                            callback: () {
+                            onEdit: () {
                               buildShowEditOrderBottomSheet(
                                   context, state.cart.orders[index], index);
+                            },
+                            onDelete: () {
+                                context.read<CartBloc>().add(CartDeleteItem(index: index));
                             });
                       },
                       separatorBuilder: (BuildContext context, int index) {
                         return Divider(
-                          height: 15,
+                          height: 1,
                         );
                       },
                     ),
@@ -72,8 +78,12 @@ class _ProductListState extends State<ProductList> {
                 if (defaultLength < productListLength) {
                   return Column(
                     children: [
-                      SizedBox(height: 10,),
-                      Divider(height: 1,),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Divider(
+                        height: 1,
+                      ),
                       Directionality(
                         textDirection: TextDirection.rtl,
                         child: TextButton.icon(
@@ -82,13 +92,15 @@ class _ProductListState extends State<ProductList> {
                               setState(() {
                                 maxLength = productListLength;
                                 defaultText = "Show less";
-                                defaultIcon = Icon(Icons.keyboard_arrow_up_rounded);
+                                defaultIcon =
+                                    Icon(Icons.keyboard_arrow_up_rounded);
                               });
                             } else {
                               setState(() {
                                 maxLength = 3;
                                 defaultText = "Show more";
-                                defaultIcon = Icon(Icons.keyboard_arrow_down_rounded);
+                                defaultIcon =
+                                    Icon(Icons.keyboard_arrow_down_rounded);
                               });
                             }
                           },
@@ -110,6 +122,7 @@ class _ProductListState extends State<ProductList> {
       },
     );
   }
+
   Future<void> buildShowEditOrderBottomSheet(
       BuildContext context, OrderEntity order, int index) {
     return showModalBottomSheet<void>(
