@@ -23,7 +23,13 @@ class _RegisterScreenState extends State<RegisterPage> {
     lastNameTextController = TextEditingController();
     emailTextController = TextEditingController();
     passwordTextController = TextEditingController();
-    _cubit = RegisterCubit();
+    _cubit = ServiceLocator.sl<RegisterCubit>();
+  }
+
+  @override
+  void dispose() {
+    _cubit.close();
+    super.dispose();
   }
 
   String? getErrorText(
@@ -253,24 +259,19 @@ class _RegisterScreenState extends State<RegisterPage> {
                               ))
                         ],
                       ),
+                      Text(
+                        "or ",
+                        style: AppStyle.normalTextStyleDark,
+                      ),
                       TextButton(
                           style: TextButton.styleFrom(
                             minimumSize: Size.zero,
                             padding: EdgeInsets.zero,
                             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                           ),
-                          onPressed: () {},
-                          child: Text(
-                            "or ",
-                            style: AppStyle.normalTextStyleDark,
-                          )),
-                      TextButton(
-                          style: TextButton.styleFrom(
-                            minimumSize: Size.zero,
-                            padding: EdgeInsets.zero,
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          ),
-                          onPressed: () {},
+                          onPressed: () {
+                            NavigationUtil.pushNamed(DefaultPage.route);
+                          },
                           child: Text(
                             "Continue as guess",
                             style: AppStyle.normalTextStylePrimary,

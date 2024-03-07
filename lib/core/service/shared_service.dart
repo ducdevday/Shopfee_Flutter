@@ -59,6 +59,18 @@ class SharedService {
     _pref.remove("accessToken");
   }
 
+  // static String? getGoogleIdToken() {
+  //   return _pref.getString("googleIdToken");
+  // }
+  //
+  // static void setGoogleIdToken(String googleIdToken) {
+  //   _pref.setString("googleIdToken", googleIdToken);
+  // }
+  //
+  // static void removeAccessToken() {
+  //   _pref.remove("accessToken");
+  // }
+
   static void setToken(String userId, String accessToken) {
     setUserId(userId);
     setAccessToken(accessToken);

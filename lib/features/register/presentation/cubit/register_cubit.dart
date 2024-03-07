@@ -1,14 +1,9 @@
-import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:shopfee/core/utils/validate_field_util.dart';
-import 'package:shopfee/features/register/domain/entities/register_entity.dart';
-
-part 'register_state.dart';
+part of register;
 
 class RegisterCubit extends Cubit<RegisterState> {
-  RegisterCubit() : super(RegisterInitial());
+  final RegisterUseCase _registerUseCase;
+
+  RegisterCubit(this._registerUseCase) : super(RegisterInitial());
 
   void checkValidField(
       {required String firstName,
@@ -32,14 +27,19 @@ class RegisterCubit extends Cubit<RegisterState> {
       required String lastName,
       required String email,
       required String password}) async {
-    // EasyLoading.show();
-    // await Future.delayed(Duration(seconds: 1));
-    // EasyLoading.dismiss();
-    emit(RegisterFinished(
-        registerEntity: RegisterEntity(
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            password: password)));
+    EasyLoading.show(maskType: EasyLoadingMaskType.black);
+    final emailExist = await _registerUseCase.checkEmailExist(email);
+    await Future.delayed(Duration(seconds: 1));
+    EasyLoading.dismiss();
+    if (emailExist) {
+      EasyLoading.showInfo("Email is exist");
+    } else {
+      emit(RegisterFinished(
+          registerEntity: RegisterEntity(
+              firstName: firstName,
+              lastName: lastName,
+              email: email,
+              password: password)));
+    }
   }
 }

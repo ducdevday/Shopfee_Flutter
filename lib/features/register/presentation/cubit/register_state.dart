@@ -1,4 +1,4 @@
-part of 'register_cubit.dart';
+part of register;
 
 abstract class RegisterState extends Equatable {
   const RegisterState();
@@ -9,12 +9,12 @@ class RegisterInitial extends RegisterState {
   List<Object> get props => [];
 }
 
-class RegisterReady extends RegisterState{
+class RegisterReady extends RegisterState {
   @override
   List<Object> get props => [];
 }
 
-class RegisterFinished extends RegisterState{
+class RegisterFinished extends RegisterState {
   final RegisterEntity registerEntity;
 
   @override

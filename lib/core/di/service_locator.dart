@@ -64,6 +64,11 @@ import 'package:shopfee/features/personal_information/data/repositories/personal
 import 'package:shopfee/features/personal_information/domain/repositories/personal_information_repository.dart';
 import 'package:shopfee/features/personal_information/domain/usecase/personal_information_usecase.dart';
 import 'package:shopfee/features/personal_information/presentation/personal_information.dart';
+import 'package:shopfee/features/register/data/datasource/register_service.dart';
+import 'package:shopfee/features/register/data/repositories/register_repository_impl.dart';
+import 'package:shopfee/features/register/domain/repository/register_repository.dart';
+import 'package:shopfee/features/register/domain/usecase/register_usecase.dart';
+import 'package:shopfee/features/register/presentation/register.dart';
 import 'package:shopfee/features/user/data/datasources/user_service.dart';
 import 'package:shopfee/features/user/data/repositories/user_repository_impl.dart';
 import 'package:shopfee/features/user/domain/repositories/user_repository.dart';
@@ -110,6 +115,7 @@ class ServiceLocator {
 
   Future<void> init() async {
     _loginFeature();
+    _registerFeature();
     _otpFeature();
     _changePasswordFeature();
     _newPasswordFeature();
@@ -300,9 +306,18 @@ class ServiceLocator {
 
   void _personalInformationFeature() {
     sl.registerLazySingleton(() => PersonalInformationService());
-    sl.registerLazySingleton<PersonalInformationRepository>(() => PersonalInformationRepositoryImpl(sl()));
-    sl.registerLazySingleton<PersonalInformationUseCase>(() => PersonalInformationUseCaseImpl(sl()));
+    sl.registerLazySingleton<PersonalInformationRepository>(
+        () => PersonalInformationRepositoryImpl(sl()));
+    sl.registerLazySingleton<PersonalInformationUseCase>(
+        () => PersonalInformationUseCaseImpl(sl()));
     sl.registerFactory(() => PersonalInformationCubit(sl()));
   }
 
+  void _registerFeature() {
+    sl.registerLazySingleton(() => RegisterService());
+    sl.registerLazySingleton<RegisterRepository>(
+        () => RegisterRepositoryImpl(sl()));
+    sl.registerLazySingleton<RegisterUseCase>(() => RegisterUseCaseImpl(sl()));
+    sl.registerFactory(() => RegisterCubit(sl()));
+  }
 }

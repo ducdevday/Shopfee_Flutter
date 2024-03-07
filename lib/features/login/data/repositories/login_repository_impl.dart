@@ -8,8 +8,6 @@ import 'package:shopfee/features/login/data/models/login_model.dart';
 import 'package:shopfee/features/login/data/models/user_google_model.dart';
 import 'package:shopfee/features/login/domain/entities/login_entity.dart';
 import 'package:shopfee/features/login/domain/repositories/login_repository.dart';
-import 'package:shopfee/features/register/data/models/register_model.dart';
-import 'package:shopfee/features/register/domain/entities/register_entity.dart';
 
 class LoginRepositoryImpl implements LoginRepository {
   final LoginService _loginService;
@@ -44,46 +42,54 @@ class LoginRepositoryImpl implements LoginRepository {
     }
   }
 
-  Future<MyToken> register(RegisterEntity registerEntity) async {
-    try {
-      final response = await _loginService
-          .register(RegisterModel.fromEntity(registerEntity));
+  @override
+  Future<MyToken> loginWithGoogle() async {
+    await _loginService.logInWithGoogleFirebase();
+    final String? idToken =
+        await FirebaseAuth.instance.currentUser?.getIdToken();
+    final googleUser = UserGoogleModel(
+        id: FirebaseAuth.instance.currentUser?.uid,
+        email: FirebaseAuth.instance.currentUser?.email,
+        displayName: FirebaseAuth.instance.currentUser?.displayName);
+    final emailExist = await checkEmailExist(googleUser.email!);
+    if (emailExist) {
+      final response = await _loginService.logInWithGoogleServer(idToken!);
       final result = Result(
         success: response.data["success"],
         message: response.data["message"],
         data: response.data["data"],
       );
+
       final token = MyToken.fromJson(result.data!);
       await _loginService.saveFCMToken(token.userId);
       return token;
-    } catch (e) {
-      throw ServerFailure(message: "Register Account Fail! Please try again");
+    } else {
+      final response = await _loginService.registerWithGoogleServer(idToken!);
+      final result = Result(
+        success: response.data["success"],
+        message: response.data["message"],
+        data: response.data["data"],
+      );
+
+      final token = MyToken.fromJson(result.data!);
+      await _loginService.saveFCMToken(token.userId);
+      return token;
     }
   }
 
-  @override
-  Future<MyToken> loginWithGoogle() async {
-    await _loginService.logInWithGoogle();
-    final googleUser = UserGoogleModel(
-        id: FirebaseAuth.instance.currentUser?.uid,
-        email: FirebaseAuth.instance.currentUser?.email,
-        displayName: FirebaseAuth.instance.currentUser?.displayName);
+  Future<bool> checkEmailExist(String email) async {
     try {
-      final responseCheckEmailExist =
-          await _loginService.checkEmailExist(googleUser.email!);
-      final token = await login(
-          LoginEntity(email: googleUser.email!, password: googleUser.id!));
-      return token;
+      final response = await _loginService.checkEmailExist(email);
+      final result = Result(
+        success: response.data["success"],
+        message: response.data["message"],
+      );
+      if (result.success) {
+        return true;
+      }
+      return false;
     } catch (e) {
-      final fullname = googleUser.displayName!.split(" ").toList();
-      String firstName = fullname.elementAt(0);
-      String lastName = fullname.elementAt(fullname.length - 1);
-      final token = await register(RegisterEntity(
-          firstName: firstName,
-          lastName: lastName,
-          email: googleUser.email!,
-          password: googleUser.id!));
-      return token;
+      return false;
     }
   }
 }

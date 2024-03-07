@@ -53,6 +53,7 @@ class BaseService {
             options.headers['Authorization'] =
             "Bearer ${SharedService.getAccessToken()}";
           }
+
           return handler.next(options);
         },
         onError: (DioError e, handler) async {
