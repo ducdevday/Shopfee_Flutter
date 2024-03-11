@@ -1,16 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:shopfee/core/base/base_service.dart';
+import 'package:shopfee/core/base/dio_service.dart';
 import 'package:shopfee/features/register/data/models/register_model.dart';
 
-class OtpService extends BaseService {
+class OtpService {
   Future<Response> sendOtpToRegister(String email) async {
     Map<String, dynamic> body = {
       "email": email,
     };
-    final response = await dio
-        .post("${BaseService.authPath}/register/send-code", data: body);
+    final response = await DioService.instance
+        .post("${DioService.authPath}/register/send-code", data: body);
     return response;
   }
 
@@ -18,8 +18,8 @@ class OtpService extends BaseService {
     Map<String, dynamic> body = {
       "email": email,
     };
-    final response = await dio
-        .post("${BaseService.authPath}/password/send-code", data: body);
+    final response = await DioService.instance
+        .post("${DioService.authPath}/password/send-code", data: body);
     return response;
   }
 
@@ -29,14 +29,14 @@ class OtpService extends BaseService {
       "code": code,
     };
     final response =
-        await dio.post("${BaseService.authPath}/verify", data: body);
+        await DioService.instance.post("${DioService.authPath}/verify", data: body);
     return response;
   }
 
   Future<Response> register(RegisterModel registerModel) async {
     Map<String, dynamic> body = registerModel.toJson();
     final response =
-        await dio.post("${BaseService.authPath}/register", data: body);
+        await DioService.instance.post("${DioService.authPath}/register", data: body);
     return response;
   }
 

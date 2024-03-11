@@ -1,12 +1,12 @@
 import 'package:dio/dio.dart';
-import 'package:shopfee/core/base/base_service.dart';
+import 'package:shopfee/core/base/dio_service.dart';
 
-class RegisterService extends BaseService {
+class RegisterService  {
   Future<Response> checkEmailExist(String email) async {
     Map<String, dynamic> queryParameters = {
       "email": email,
     };
-    final response = await dio.get("${BaseService.userPath}/registered",
+    final response = await DioService.instance.get("${DioService.userPath}/registered",
         queryParameters: queryParameters);
     return response;
   }

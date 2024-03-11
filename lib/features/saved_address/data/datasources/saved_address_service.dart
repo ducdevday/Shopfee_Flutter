@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:shopfee/core/base/base_service.dart';
+import 'package:shopfee/core/base/dio_service.dart';
 
-class SavedAddressService extends BaseService {
+class SavedAddressService  {
   Future<Response> getAllAddress(String userId) async {
-    final response = await dio.get("${BaseService.addressPath}/user/$userId");
+    final response = await DioService.instance.get("${DioService.addressPath}/user/$userId");
     return response;
   }
 }

@@ -1,15 +1,18 @@
 import 'package:dio/dio.dart';
-import 'package:shopfee/core/base/base_service.dart';
+import 'package:shopfee/core/base/dio_service.dart';
+import 'package:shopfee/core/base/fcm_service.dart';
 import 'package:shopfee/features/cart/data/models/cart_model.dart';
 
-class CartService extends BaseService {
+class CartService {
   Future<Response> getAllAddress(String userId) async {
-    final response = await dio.get("${BaseService.addressPath}/user/$userId");
+    final response =
+        await DioService.instance.get("${DioService.addressPath}/user/$userId");
     return response;
   }
 
   Future<Response> getAddressDetail(String addressId) async {
-    var response = await dio.get("${BaseService.addressPath}/$addressId");
+    var response =
+        await DioService.instance.get("${DioService.addressPath}/$addressId");
     return response;
   }
 
@@ -21,15 +24,16 @@ class CartService extends BaseService {
       "paymentType": cart.paymentType!.name,
       "address": cart.address!.toJsonOrder()
     };
-    final response = await dio.post("${BaseService.orderPath}", data: body);
+    final response =
+        await DioService.instance.post("${DioService.orderPath}", data: body);
     return response;
   }
 
   Future<void> sendOrderMessage(
-      String title,
-      String body,
-      String destinationId,
-      ) async {
+    String title,
+    String body,
+    String destinationId,
+  ) async {
     try {
       Map<String, dynamic> data = {
         "priority": "high",
@@ -47,7 +51,7 @@ class CartService extends BaseService {
         },
         "to": "/topics/orders"
       };
-      await dioNotify.post("${BaseService.NOTIFY_PATH}", data: data);
+      await FCMService.instance.post("${FCMService.FCM_PATH}", data: data);
     } catch (e) {
       print(e);
     }

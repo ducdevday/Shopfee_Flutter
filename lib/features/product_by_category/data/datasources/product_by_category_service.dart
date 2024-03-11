@@ -1,16 +1,16 @@
 import 'package:dio/dio.dart';
-import 'package:shopfee/core/base/base_service.dart';
+import 'package:shopfee/core/base/dio_service.dart';
 
-class ProductByCategoryService extends BaseService {
+class ProductByCategoryService {
   Future<Response> getProductsByCategoryId(String? id,
       {required int page, required int size}) async {
     Map<String, dynamic> queryParameters = {"page": page, "size": size};
     if (id != null) {
-      var response = await dio.get("${BaseService.productPath}/category/$id",
+      var response = await DioService.instance.get("${DioService.productPath}/category/$id",
           queryParameters: queryParameters);
       return response;
     } else {
-      var response = await dio.get("${BaseService.productPath}/visible",
+      var response = await DioService.instance.get("${DioService.productPath}/visible",
           queryParameters: queryParameters);
       return response;
     }

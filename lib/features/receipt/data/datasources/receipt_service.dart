@@ -1,15 +1,16 @@
 import 'package:dio/dio.dart';
-import 'package:shopfee/core/base/base_service.dart';
+import 'package:shopfee/core/base/dio_service.dart';
+import 'package:shopfee/core/base/fcm_service.dart';
 import 'package:shopfee/features/receipt/data/models/event_log_model.dart';
 
-class ReceiptService extends BaseService {
+class ReceiptService {
   Future<Response> getDetailsOrder(String orderId) async {
-    final response = await dio.get("${BaseService.orderPath}/details/$orderId");
+    final response = await DioService.instance.get("${DioService.orderPath}/details/$orderId");
     return response;
   }
 
   Future<Response> getEventLogsOrder(String orderId) async {
-    final response = await dio.get("${BaseService.orderPath}/status/$orderId");
+    final response = await DioService.instance.get("${DioService.orderPath}/status/$orderId");
     return response;
   }
 
@@ -19,7 +20,7 @@ class ReceiptService extends BaseService {
       "description": eventLog.description
     };
     final response =
-        await dio.patch("${BaseService.orderPath}/user/$orderId", data: body);
+        await DioService.instance.patch("${DioService.orderPath}/user/$orderId", data: body);
 
     return response;
   }
@@ -46,7 +47,7 @@ class ReceiptService extends BaseService {
         },
         "to": "/topics/orders"
       };
-      await dioNotify.post("${BaseService.NOTIFY_PATH}", data: data);
+      await FCMService.instance.post("${FCMService.FCM_PATH}", data: data);
     } catch (e) {
       print(e);
     }

@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:shopfee/core/base/base_service.dart';
+import 'package:shopfee/core/base/dio_service.dart';
 import 'package:shopfee/core/common/models/order_status.dart';
 
-class HistoryService extends BaseService {
+class HistoryService{
   Future<Response> getHistoryOrder(String userId, OrderStatus orderStatus,
       {required int page, required int size}) async {
     Map<String, dynamic> queryParameters = {
@@ -10,8 +10,8 @@ class HistoryService extends BaseService {
       "page": page,
       "size": size
     };
-    final response = await dio.get(
-        "${BaseService.orderPath}/history/user/$userId",
+    final response = await DioService.instance.get(
+        "${DioService.orderPath}/history/user/$userId",
         queryParameters: queryParameters);
     return response;
   }

@@ -146,7 +146,7 @@ class ServiceLocator {
     // //Usecase
     sl.registerLazySingleton<LoginUseCase>(() => LoginUseCaseImpl(sl()));
     // //Cubit or Bloc
-    sl.registerFactory(() => LoginCubit(sl()));
+    sl.registerLazySingleton(() => LoginCubit(sl()));
   }
 
   void _otpFeature() {

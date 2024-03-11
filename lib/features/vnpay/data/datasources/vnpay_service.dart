@@ -1,11 +1,12 @@
 import 'package:dio/dio.dart';
-import 'package:shopfee/core/base/base_service.dart';
+import 'package:shopfee/core/base/dio_service.dart';
+import 'package:shopfee/core/base/fcm_service.dart';
 import 'package:shopfee/features/receipt/data/models/event_log_model.dart';
 
-class VnPayService extends BaseService {
+class VnPayService {
   Future<Response> updateTransaction(String transactionId) async {
-    final response =
-        await dio.patch("${BaseService.transactionPath}/$transactionId");
+    final response = await DioService.instance
+        .patch("${DioService.transactionPath}/$transactionId");
     return response;
   }
 
@@ -14,16 +15,16 @@ class VnPayService extends BaseService {
       "orderStatus": eventLog.orderStatus?.name,
       "description": eventLog.description
     };
-    final response =
-        await dio.patch("${BaseService.orderPath}/user/$orderId", data: body);
+    final response = await DioService.instance
+        .patch("${DioService.orderPath}/user/$orderId", data: body);
     return response;
   }
 
   Future<void> sendOrderMessage(
-      String title,
-      String body,
-      String destinationId,
-      ) async {
+    String title,
+    String body,
+    String destinationId,
+  ) async {
     try {
       Map<String, dynamic> data = {
         "priority": "high",
@@ -41,7 +42,7 @@ class VnPayService extends BaseService {
         },
         "to": "/topics/orders"
       };
-      await dioNotify.post("${BaseService.NOTIFY_PATH}", data: data);
+      await FCMService.instance.post("${FCMService.FCM_PATH}", data: data);
     } catch (e) {
       print(e);
     }
