@@ -64,16 +64,6 @@ import 'package:shopfee/features/personal_information/data/repositories/personal
 import 'package:shopfee/features/personal_information/domain/repositories/personal_information_repository.dart';
 import 'package:shopfee/features/personal_information/domain/usecase/personal_information_usecase.dart';
 import 'package:shopfee/features/personal_information/presentation/personal_information.dart';
-import 'package:shopfee/features/register/data/datasource/register_service.dart';
-import 'package:shopfee/features/register/data/repositories/register_repository_impl.dart';
-import 'package:shopfee/features/register/domain/repository/register_repository.dart';
-import 'package:shopfee/features/register/domain/usecase/register_usecase.dart';
-import 'package:shopfee/features/register/presentation/register.dart';
-import 'package:shopfee/features/user/data/datasources/user_service.dart';
-import 'package:shopfee/features/user/data/repositories/user_repository_impl.dart';
-import 'package:shopfee/features/user/domain/repositories/user_repository.dart';
-import 'package:shopfee/features/user/domain/usecase/user_usecase.dart';
-import 'package:shopfee/features/user/presentation/user.dart';
 import 'package:shopfee/features/product_by_category/data/datasources/product_by_category_service.dart';
 import 'package:shopfee/features/product_by_category/data/repositories/product_by_category_repository_impl.dart';
 import 'package:shopfee/features/product_by_category/domain/repositories/product_by_category_repository.dart';
@@ -89,6 +79,11 @@ import 'package:shopfee/features/receipt/data/repositories/receipt_repository_im
 import 'package:shopfee/features/receipt/domain/repositories/receipt_repository.dart';
 import 'package:shopfee/features/receipt/domain/usecase/receipt_usecase.dart';
 import 'package:shopfee/features/receipt/presentation/receipt.dart';
+import 'package:shopfee/features/register/data/datasource/register_service.dart';
+import 'package:shopfee/features/register/data/repositories/register_repository_impl.dart';
+import 'package:shopfee/features/register/domain/repository/register_repository.dart';
+import 'package:shopfee/features/register/domain/usecase/register_usecase.dart';
+import 'package:shopfee/features/register/presentation/register.dart';
 import 'package:shopfee/features/saved_address/data/datasources/saved_address_service.dart';
 import 'package:shopfee/features/saved_address/data/repositories/saved_address_repository_impl.dart';
 import 'package:shopfee/features/saved_address/domain/repositories/saved_address_repository.dart';
@@ -99,11 +94,21 @@ import 'package:shopfee/features/search/data/repositories/search_repository_impl
 import 'package:shopfee/features/search/domain/repositories/search_repository.dart';
 import 'package:shopfee/features/search/domain/usecase/search_usecase.dart';
 import 'package:shopfee/features/search/presentation/search.dart';
+import 'package:shopfee/features/store/data/datasources/store_service.dart';
+import 'package:shopfee/features/store/data/repositories/store_repository_impl.dart';
+import 'package:shopfee/features/store/domain/repositories/store_repository.dart';
+import 'package:shopfee/features/store/domain/usecase/store_usecase.dart';
+import 'package:shopfee/features/store/presentation/store.dart';
 import 'package:shopfee/features/tracking/data/datasources/tracking_service.dart';
 import 'package:shopfee/features/tracking/data/repositories/tracking_repository_impl.dart';
 import 'package:shopfee/features/tracking/domain/repositories/tracking_repository.dart';
 import 'package:shopfee/features/tracking/domain/usecase/tracking_usecase.dart';
 import 'package:shopfee/features/tracking/presentation/tracking.dart';
+import 'package:shopfee/features/user/data/datasources/user_service.dart';
+import 'package:shopfee/features/user/data/repositories/user_repository_impl.dart';
+import 'package:shopfee/features/user/domain/repositories/user_repository.dart';
+import 'package:shopfee/features/user/domain/usecase/user_usecase.dart';
+import 'package:shopfee/features/user/presentation/user.dart';
 import 'package:shopfee/features/vnpay/data/datasources/vnpay_service.dart';
 import 'package:shopfee/features/vnpay/data/repositories/vnpay_repository_impl.dart';
 import 'package:shopfee/features/vnpay/domain/repositories/vnpay_repository.dart';
@@ -123,6 +128,7 @@ class ServiceLocator {
     _userFeature();
     _homeFeature();
     _orderFeature();
+    _storeFeature();
     _productByCategoryFeature();
     _searchProductFeature();
     _productDetailFeature();
@@ -319,5 +325,12 @@ class ServiceLocator {
         () => RegisterRepositoryImpl(sl()));
     sl.registerLazySingleton<RegisterUseCase>(() => RegisterUseCaseImpl(sl()));
     sl.registerFactory(() => RegisterCubit(sl()));
+  }
+
+  void _storeFeature() {
+    sl.registerLazySingleton(() => StoreService());
+    sl.registerLazySingleton<StoreRepository>(() => StoreRepositoryImpl(sl()));
+    sl.registerLazySingleton<StoreUseCase>(() => StoreUseCaseImpl(sl()));
+    sl.registerFactory(() => StoreBloc(sl()));
   }
 }

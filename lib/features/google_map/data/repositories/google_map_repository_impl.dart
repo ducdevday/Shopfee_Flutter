@@ -9,19 +9,6 @@ class GoogleMapRepositoryImpl implements GoogleMapRepository {
 
   GoogleMapRepositoryImpl(this._googleMapService);
 
-  // @override
-  // Future<TemplateEntity> getTemplate(String id) async {
-  //   final response = await _googleMapService.doSomeThing(id);
-  //   final result = Result(
-  //     success: response.data["success"],
-  //     message: response.data["message"],
-  //     data: response.data["data"],
-  //   );
-  //   final templateModel = TemplateModel.fromJson(json: result.data!);
-  //   final templateEntity = TemplateEntity.fromModel(templateModel);
-  //   return templateEntity;
-  // }
-
   @override
   Future<Position> getCurrentPosition() async {
     Position position = await Geolocator.getCurrentPosition(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:shopfee/core/common/widgets/my_skelton.dart';
 
 class MySkeletonCircle extends MySkeleton {
@@ -7,12 +8,15 @@ class MySkeletonCircle extends MySkeleton {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: height,
-      width: width,
-      padding: const EdgeInsets.all(8),
-      decoration:
-          const BoxDecoration(color: Colors.grey, shape: BoxShape.circle),
-    );
+    return Shimmer.fromColors(
+        baseColor: Colors.grey.shade300,
+        highlightColor: Colors.grey.shade100,
+        child: Container(
+          height: height,
+          width: width,
+          padding: const EdgeInsets.all(8),
+          decoration:
+              const BoxDecoration(color: Colors.grey, shape: BoxShape.circle),
+        ));
   }
 }

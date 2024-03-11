@@ -15,6 +15,7 @@ class DioService {
   static const String userPath = "user";
   static const String addressPath = "address";
   static const String orderPath = "order";
+  static const String branchPath = "branch";
 
   late Dio _dio;
   static final DioService _instance = DioService._internal();

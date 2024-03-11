@@ -7,7 +7,7 @@ import 'package:shopfee/features/default/presentation/widgets/bottombar/my_botto
 import 'package:shopfee/features/default/presentation/widgets/bottombar/my_bottom_nav_bar_cubit.dart';
 import 'package:shopfee/features/home/presentation/home.dart';
 import 'package:shopfee/features/order/presentation/order.dart';
-import 'package:shopfee/features/store/presentation/page/store_page.dart';
+import 'package:shopfee/features/store/presentation/store.dart';
 import 'package:shopfee/features/user/presentation/user.dart';
 
 class DefaultPage extends StatefulWidget {
