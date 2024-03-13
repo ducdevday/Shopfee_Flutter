@@ -12,8 +12,6 @@ class StorePage extends StatefulWidget {
 class _StorePageState extends State<StorePage> {
   late final StoreBloc _bloc;
 
-  double? lat;
-  double? lng;
   int page = 1;
   int size = 8;
   late bool isLoadingMore;
@@ -42,8 +40,7 @@ class _StorePageState extends State<StorePage> {
     if (scrollController.position.pixels ==
         scrollController.position.maxScrollExtent) {
       page = page + 1;
-      _bloc.add(
-          StoreLoadMoreInformation(lat: lat, lng: lng, page: page, size: size));
+      _bloc.add(StoreLoadMoreInformation(page: page, size: size));
     }
   }
 
@@ -54,10 +51,6 @@ class _StorePageState extends State<StorePage> {
       child: BlocListener<StoreBloc, StoreState>(
         listener: (context, state) {
           switch (state) {
-            case StoreEnableLocationPermission():
-              lat = state.lat;
-              lng = state.lng;
-              break;
             case StoreLoadSuccess():
               isLoadingMore = state.isLoadMore;
               cannotLoadMore = state.cannotLoadMore;
@@ -76,11 +69,11 @@ class _StorePageState extends State<StorePage> {
             ),
           ),
           backgroundColor: const Color(0xffEFEBE9),
-          body: Padding(
-            padding: const EdgeInsets.all(AppDimen.spacing),
-            child: Column(
-              children: [
-                Row(
+          body: Column(
+            children: [
+              Container(
+                padding: EdgeInsets.all(AppDimen.spacing),
+                child: Row(
                   children: [
                     Expanded(
                       child: TextField(
@@ -89,16 +82,18 @@ class _StorePageState extends State<StorePage> {
                         decoration: InputDecoration(
                           fillColor: Colors.white,
                           filled: true,
-                          contentPadding:
-                              const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                          contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 0),
                           suffixIcon: const Icon(Icons.search),
                           errorBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(16),
-                            borderSide: const BorderSide(color: Color(0xffCCCCCC)),
+                            borderSide:
+                                const BorderSide(color: Color(0xffCCCCCC)),
                           ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(16),
-                            borderSide: const BorderSide(color: Color(0xffCCCCCC)),
+                            borderSide:
+                                const BorderSide(color: Color(0xffCCCCCC)),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(16),
@@ -107,48 +102,123 @@ class _StorePageState extends State<StorePage> {
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(16),
-                            borderSide: const BorderSide(color: Color(0xffCCCCCC)),
+                            borderSide:
+                                const BorderSide(color: Color(0xffCCCCCC)),
                           ),
                           hintText: "Find Any Store",
                         ),
                       ),
                     ),
                     const SizedBox(width: 10),
-                    InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
+                    BlocBuilder<StoreBloc, StoreState>(
+                      builder: (context, state) {
+                        if (state is StoreLoadSuccess) {
+                          if (state.viewType == StoreViewType.List_View) {
+                            return InkWell(
+                              onTap: () {
+                                _bloc.add(const StoreChangeViewType(
+                                    viewType: StoreViewType.Map_View));
+                              },
+                              splashColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              child: const Row(
+                                children: [
+                                  Icon(
+                                    Icons.map,
+                                  ),
+                                ],
+                              ),
+                            );
+                          } else {
+                            return InkWell(
+                              onTap: () {
+                                _bloc.add(const StoreChangeViewType(
+                                    viewType: StoreViewType.List_View));
+                              },
+                              splashColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              child: const Row(
+                                children: [
+                                  Icon(
+                                    Icons.list,
+                                  ),
+                                ],
+                              ),
+                            );
+                          }
+                        }
+
+                        return const SizedBox();
                       },
-                      splashColor: Colors.transparent,
-                      highlightColor: Colors.transparent,
-                      child: const Row(
-                        children: [
-                          Icon(
-                            Icons.map,
-                          ),
-                        ],
-                      ),
                     )
                   ],
                 ),
-                Expanded(
-                  child: BlocBuilder<StoreBloc, StoreState>(
-                    builder: (context, state) {
-                      switch (state) {
-                        case StoreLoadInProcess():
-                          return ListView.separated(
-                            padding: const EdgeInsets.only(top: AppDimen.spacing),
-                            itemBuilder: (context, index) => StoreSkeleton(),
-                            separatorBuilder: (context, index) => const SizedBox(
-                              height: AppDimen.spacing,
-                            ),
-                            itemCount: 10,
+              ),
+              Expanded(
+                child: BlocBuilder<StoreBloc, StoreState>(
+                  builder: (context, state) {
+                    switch (state) {
+                      case StoreLoadInProcess():
+                        return ListView.separated(
+                          padding: const EdgeInsets.only(top: AppDimen.spacing),
+                          itemBuilder: (context, index) => StoreSkeleton(),
+                          separatorBuilder: (context, index) => const SizedBox(
+                            height: AppDimen.spacing,
+                          ),
+                          itemCount: 10,
+                        );
+                      case StoreNoLocationPermission():
+                        return Center(
+                          child: Column(
+                            children: [
+                              Image.asset(
+                                AppPath.icNoLocation,
+                                width: 60,
+                                height: 60,
+                              ),
+                              const SizedBox(
+                                height: 16,
+                              ),
+                              Text(
+                                "Please enable location to see all Stores",
+                                style: AppStyle.normalTextStyleDark,
+                              ),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              ElevatedButton(
+                                  onPressed: () {
+                                    _bloc.add(StoreLoadInformation(
+                                        page: page, size: size));
+                                  },
+                                  style: AppStyle.elevatedButtonStylePrimary,
+                                  child: const Text("Enable"))
+                            ],
+                          ),
+                        );
+                      case StoreLoadSuccess():
+                        if (state.stores.isNotEmpty) {
+                          return Stack(
+                            children: [
+                              StoreListView(
+                                storeList: storeList,
+                                isLoadingMore: isLoadingMore,
+                                currentViewType: state.viewType,
+                              ),
+                              StoreMapView(
+                                storeList: storeList,
+                                currentPosition: state.currentPosition!,
+                                currentViewType: state.viewType,
+                              )
+                            ],
                           );
-                        case StoreNoLocationPermission():
-                          return Center(
+                        } else {
+                          return Expanded(
                             child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Image.asset(
-                                  AppPath.icNoLocation,
+                                  AppPath.icNoStore,
                                   width: 60,
                                   height: 60,
                                 ),
@@ -156,77 +226,26 @@ class _StorePageState extends State<StorePage> {
                                   height: 16,
                                 ),
                                 Text(
-                                  "Please enable location to see all Stores",
-                                  style: AppStyle.normalTextStyleDark,
-                                ),
-                                const SizedBox(
-                                  height: 8,
-                                ),
-                                ElevatedButton(
-                                    onPressed: () {
-                                      _bloc.add(StoreLoadInformation(page: page, size: size));
-                                    },
-                                    child: const Text("Enable"),
-                                    style: AppStyle.elevatedButtonStylePrimary)
+                                  "No Result Found",
+                                  style: AppStyle.mediumTextStyleDark
+                                      .copyWith(color: AppColor.nonactiveColor),
+                                )
                               ],
                             ),
                           );
-                        case StoreLoadSuccess():
-                          if (state.stores.isNotEmpty) {
-                            return ListView.separated(
-                              padding: const EdgeInsets.only(top: AppDimen.spacing),
-                              itemBuilder: (context, index) => index <
-                                      storeList.length
-                                  ? StoreItem(store: storeList[index])
-                                  : const Padding(
-                                      padding: EdgeInsets.all(AppDimen.spacing),
-                                      child: CupertinoActivityIndicator(),
-                                    ),
-                              separatorBuilder: (context, index) => const SizedBox(
-                                height: AppDimen.spacing,
-                              ),
-                              itemCount: isLoadingMore
-                                  ? storeList.length + 1
-                                  : storeList.length,
-                            );
-                          } else {
-                            return Expanded(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image.asset(
-                                    AppPath.icNoStore,
-                                    width: 60,
-                                    height: 60,
-                                  ),
-                                  const SizedBox(
-                                    height: 16,
-                                  ),
-                                  Text(
-                                    "No Result Found",
-                                    style: AppStyle.mediumTextStyleDark
-                                        .copyWith(
-                                            color: AppColor.nonactiveColor),
-                                  )
-                                ],
-                              ),
-                            );
-                          }
-                        case StoreLoadFailure():
-                          return const MyErrorWidget();
-                        default:
-                          return const SizedBox();
-                      }
-                    },
-                  ),
-                )
-              ],
-            ),
+                        }
+                      case StoreLoadFailure():
+                        return const MyErrorWidget();
+                      default:
+                        return const SizedBox();
+                    }
+                  },
+                ),
+              )
+            ],
           ),
         ),
       ),
     );
   }
 }
-
-

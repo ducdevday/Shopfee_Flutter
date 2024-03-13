@@ -23,7 +23,7 @@ import 'package:shopfee/features/register/presentation/register.dart';
 import 'package:shopfee/features/saved_address/presentation/saved_address.dart';
 import 'package:shopfee/features/search/presentation/search.dart';
 import 'package:shopfee/features/splash/presentation/splash.dart';
-import 'package:shopfee/features/store_detail/presentation/page/store_detail_page.dart';
+import 'package:shopfee/features/store_detail/presentation/store_detail.dart';
 import 'package:shopfee/features/tracking/presentation/tracking.dart';
 import 'package:shopfee/features/vnpay/presentation/vnpay.dart';
 
@@ -117,7 +117,10 @@ class AppRouter {
             type: PageTransitionType.rightToLeft);
       case StoreDetailPage.route:
         return PageTransition(
-            child: StoreDetailPage(), type: PageTransitionType.bottomToTop);
+            child: StoreDetailPage(branchId: settings.arguments as int,), type: PageTransitionType.bottomToTop);
+      case ImageFullScreen.route:
+        return PageTransition(
+            child: ImageFullScreen(imgPath: settings.arguments as String,), type: PageTransitionType.fade);
       default:
         return _errorRoute();
     }

@@ -35,8 +35,8 @@ class _ProductImageState extends State<ProductImage> {
               },
               child: GestureDetector(
                 onTap: () {
-                  NavigationUtil.push(
-                      ImageFullScreen(imgPath: state.order.product.imageUrl!));
+                  NavigationUtil.pushNamed(
+                      ImageFullScreen.route, arguments: state.order.product.imageUrl!);
                 },
                 child: Hero(
                   tag: "Product",
@@ -51,8 +51,8 @@ class _ProductImageState extends State<ProductImage> {
           } else {
             return GestureDetector(
               onTap: () {
-                NavigationUtil.push(
-                    ImageFullScreen(imgPath: state.order.product.imageUrl!));
+                NavigationUtil.pushNamed(
+                    ImageFullScreen.route, arguments: state.order.product.imageUrl!);
               },
               child: Image.network(
                 state.order.product.imageUrl!,

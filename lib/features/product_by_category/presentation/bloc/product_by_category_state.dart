@@ -16,20 +16,20 @@ class ProductByCategoryLoadInProcess extends ProductByCategoryState {
 
 class ProductByCategoryLoadSuccess extends ProductByCategoryState {
   final List<ProductInformationEntity> products;
-  final ViewType viewType;
+  final ProductViewType viewType;
   final bool isLoadMore;
   final bool cannotLoadMore;
 
   const ProductByCategoryLoadSuccess({
     required this.products,
-    this.viewType = ViewType.List_View_Vertical,
+    this.viewType = ProductViewType.List_View_Vertical,
     this.isLoadMore = false,
     this.cannotLoadMore = false
   });
 
   ProductByCategoryLoadSuccess copyWith({
     List<ProductInformationEntity>? products,
-    ViewType? viewType,
+    ProductViewType? viewType,
     int? page,
     int? size,
     bool? isLoadMore,

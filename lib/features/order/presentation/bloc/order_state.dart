@@ -18,7 +18,7 @@ class OrderLoadSuccess extends OrderState {
   final List<CategoryEntity> categories;
   final CategoryEntity? chosenCategory;
   final List<ProductInformationEntity> products;
-  final ViewType viewType;
+  final ProductViewType viewType;
   final bool isLoadMore;
   final bool cannotLoadMore;
   final num? minPrice;
@@ -44,7 +44,7 @@ class OrderLoadSuccess extends OrderState {
       {required this.categories,
       this.chosenCategory,
       required this.products,
-      this.viewType = ViewType.List_View_Vertical,
+      this.viewType = ProductViewType.List_View_Vertical,
       this.isLoadMore = false,
       this.cannotLoadMore = false,
       this.minPrice,
@@ -70,7 +70,7 @@ class OrderLoadSuccess extends OrderState {
     List<CategoryEntity>? categories,
     CategoryEntity? chosenCategory,
     List<ProductInformationEntity>? products,
-    ViewType? viewType,
+    ProductViewType? viewType,
     bool? isLoadMore,
     bool? cannotLoadMore,
     ValueGetter<num?>? minPrice,

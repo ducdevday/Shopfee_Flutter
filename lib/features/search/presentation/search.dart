@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shopfee/core/common/enum/product_view_type.dart';
 import 'package:shopfee/core/common/widgets/my_error_widget.dart';
 import 'package:shopfee/core/common/widgets/my_loading_widget.dart';
 import 'package:shopfee/core/config/app_color.dart';

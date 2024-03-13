@@ -18,18 +18,25 @@ class StoreLoadInformation extends StoreEvent {
 }
 
 class StoreLoadMoreInformation extends StoreEvent {
-  final double? lat;
-  final double? lng;
   final int page;
   final int size;
 
   const StoreLoadMoreInformation({
-    required this.lat,
-    required this.lng,
     required this.page,
     required this.size,
   });
 
   @override
-  List<Object?> get props => [lat, lng, page, size];
+  List<Object?> get props => [page, size];
+}
+
+class StoreChangeViewType extends StoreEvent {
+  final StoreViewType viewType;
+
+  const StoreChangeViewType({
+    required this.viewType,
+  });
+
+  @override
+  List<Object?> get props => [viewType];
 }

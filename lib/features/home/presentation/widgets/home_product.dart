@@ -2,7 +2,7 @@ part of home;
 
 class HomeProduct extends StatelessWidget {
   final ProductInformationEntity product;
-  final ViewType viewType;
+  final ProductViewType viewType;
 
   const HomeProduct({
     super.key,
@@ -12,7 +12,7 @@ class HomeProduct extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (viewType == ViewType.List_View_Vertical) {
+    if (viewType == ProductViewType.List_View_Vertical) {
       return GestureDetector(
         onTap: () {
           NavigationUtil.pushNamed(ProductDetailPage.route,
@@ -134,7 +134,7 @@ class HomeProduct extends StatelessWidget {
         ),
       );
     }
-    else if (viewType == ViewType.List_View_Horizontal) {
+    else if (viewType == ProductViewType.List_View_Horizontal) {
       return GestureDetector(
         onTap: () {
           NavigationUtil.pushNamed(ProductDetailPage.route,

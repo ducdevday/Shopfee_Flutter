@@ -12,6 +12,7 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shopfee/core/config/app_theme.dart';
 import 'package:shopfee/core/di/service_locator.dart';
+import 'package:shopfee/core/global/global_data.dart';
 import 'package:shopfee/core/router/app_router.dart';
 import 'package:shopfee/core/service/shared_service.dart';
 import 'package:shopfee/core/utils/global_keys.dart';
@@ -34,7 +35,7 @@ void main() async {
       storageDirectory: kIsWeb
           ? HydratedStorage.webStorageDirectory
           : await getTemporaryDirectory());
-  await initAppDocPath();
+  await initData();
   Bloc.observer = SimpleBlocObserver();
   runApp(const MyApp());
 }
@@ -48,7 +49,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-  FlutterLocalNotificationsPlugin();
+      FlutterLocalNotificationsPlugin();
 
   @override
   void initState() {
@@ -59,34 +60,34 @@ class _MyAppState extends State<MyApp> {
 
   void initInfoNotify() {
     var androidInitialize =
-    const AndroidInitializationSettings('@mipmap/launcher_icon');
+        const AndroidInitializationSettings('@mipmap/launcher_icon');
     var initialSettings = InitializationSettings(android: androidInitialize);
     flutterLocalNotificationsPlugin.initialize(initialSettings,
         onDidReceiveNotificationResponse:
             (NotificationResponse notificationResponse) async {
-          try {
-            if (notificationResponse.payload != null &&
-                notificationResponse.payload!.isNotEmpty) {
-              // NavigationUtil.pushNamed(
-              //     route:AppRouter.receiptRoute, args: notificationResponse.payload);
-            }
-          } catch (e) {
-            print(e);
-          }
-        });
+      try {
+        if (notificationResponse.payload != null &&
+            notificationResponse.payload!.isNotEmpty) {
+          // NavigationUtil.pushNamed(
+          //     route:AppRouter.receiptRoute, args: notificationResponse.payload);
+        }
+      } catch (e) {
+        print(e);
+      }
+    });
   }
 
   void setupMessageNotify() {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       const AndroidNotificationDetails androidNotificationDetails =
-      AndroidNotificationDetails('shopfee', 'shopfee',
-          channelDescription: ' This is shopfee channel description',
-          importance: Importance.max,
-          priority: Priority.high,
-          playSound: true,
-          color: Colors.white);
+          AndroidNotificationDetails('shopfee', 'shopfee',
+              channelDescription: ' This is shopfee channel description',
+              importance: Importance.max,
+              priority: Priority.high,
+              playSound: true,
+              color: Colors.white);
       const NotificationDetails notificationDetails =
-      NotificationDetails(android: androidNotificationDetails);
+          NotificationDetails(android: androidNotificationDetails);
 
       await flutterLocalNotificationsPlugin.show(0, message.notification?.title,
           message.notification?.body, notificationDetails,
@@ -100,23 +101,17 @@ class _MyAppState extends State<MyApp> {
       providers: [
         BlocProvider(
             create: (context) =>
-            ServiceLocator.sl<UserBloc>()
-              ..add(UserLoadInformation())),
-        BlocProvider(create: (context) =>
-        MyBottomNavBarCubit()
-          ..selectPage(0)),
+                ServiceLocator.sl<UserBloc>()..add(UserLoadInformation())),
+        BlocProvider(create: (context) => MyBottomNavBarCubit()..selectPage(0)),
         BlocProvider(
             create: (context) =>
-            ServiceLocator.sl<HomeBloc>()
-              ..add(HomeLoadInformation())),
+                ServiceLocator.sl<HomeBloc>()..add(HomeLoadInformation())),
+        BlocProvider(
+            create: (context) => ServiceLocator.sl<OrderBloc>()
+              ..add(OrderLoadInformation(page: 1, size: 8))),
         BlocProvider(
             create: (context) =>
-                ServiceLocator.sl<OrderBloc>()..add(OrderLoadInformation(page: 1, size: 8))),
-        BlocProvider(
-            create: (context) =>
-            ServiceLocator.sl<CartBloc>()
-              ..add(CartLoadInformation()))
-
+                ServiceLocator.sl<CartBloc>()..add(CartLoadInformation()))
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -134,8 +129,10 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-Future<void> initAppDocPath() async {
+Future<void> initData() async {
   final Directory appDocDir = await getApplicationDocumentsDirectory();
   final String appDocPath = appDocDir.path;
   SharedService.setAppDocPath(appDocPath);
+
+  await GlobalData.ins.createCustomIcon();
 }

@@ -7,7 +7,8 @@ class AppPath {
   static const String imgNoNetwork = "assets/icons/ic_no_internet.svg";
   static const String imgNotifyPermission = "assets/icons/ic_notification.svg";
   static const String imgError = "assets/images/lottie_coffee_error.json";
-  static const String imgLoading = "assets/images/lottie_coffee_pro.json";
+  static const String imgCoffeeLoading = "assets/images/lottie_coffee_pro.json";
+  static const String imhStoreLoading = "assets/images/lottie_store.json";
   static const String icGoogle = "assets/icons/ic_google.svg";
 
   static const String icHome = "assets/icons/ic_home.svg";
@@ -21,11 +22,11 @@ class AppPath {
   static const String icNoLocation = "assets/icons/ic_no_location.png";
   static const String icNoStore = "assets/icons/ic_store.png";
 
-
   static const String imgAccountBackground =
       "assets/images/img_profile_background.png";
 
-  static const String imgDefaultAvatar = "https://firebasestorage.googleapis.com/v0/b/shopfee-12b03.appspot.com/o/users%2Fimg_default_user.png?alt=media&token=f8171f0b-6415-4318-8aec-50be052df367";
+  static const String imgDefaultAvatar =
+      "https://firebasestorage.googleapis.com/v0/b/shopfee-12b03.appspot.com/o/users%2Fimg_default_user.png?alt=media&token=f8171f0b-6415-4318-8aec-50be052df367";
 
   static const String icShoppingBag = "assets/icons/ic_shopping_bag.svg";
 
@@ -51,5 +52,8 @@ class AppPath {
   static const String icDirect = "assets/icons/ic_direct.svg";
   static const String icPhone = "assets/icons/ic_phone.svg";
   static const String icShare = "assets/icons/ic_share.svg";
-  static const String imgAll = "https://firebasestorage.googleapis.com/v0/b/shopfee-12b03.appspot.com/o/category%2Fic_all.png?alt=media&token=7b1b0f87-395a-4cfb-b0ae-f9d59d1bff09";
+  static const String imgAll =
+      "https://firebasestorage.googleapis.com/v0/b/shopfee-12b03.appspot.com/o/category%2Fic_all.png?alt=media&token=7b1b0f87-395a-4cfb-b0ae-f9d59d1bff09";
+
+  static const String icStoreMark = "assets/icons/ic_store_mark.png";
 }

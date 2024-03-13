@@ -156,7 +156,7 @@ class _HomePageState extends State<HomePage> {
                             itemCount: state.topSellingProducts.length,
                             itemBuilder: (context, index) => HomeProduct(
                               product: state.topSellingProducts[index],
-                              viewType: ViewType.List_View_Horizontal,
+                              viewType: ProductViewType.List_View_Horizontal,
                             ),
                             separatorBuilder: (context, int index) =>
                             const SizedBox(
@@ -188,7 +188,7 @@ class _HomePageState extends State<HomePage> {
                           itemCount: state.outstandingProducts.length,
                           itemBuilder: (context, index) => HomeProduct(
                             product: state.outstandingProducts[index],
-                            viewType: ViewType.List_View_Vertical,
+                            viewType: ProductViewType.List_View_Vertical,
                           ),
                           separatorBuilder: (context, int index) =>
                               const Divider(

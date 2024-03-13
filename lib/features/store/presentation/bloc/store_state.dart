@@ -18,25 +18,33 @@ class StoreLoadSuccess extends StoreState {
   final List<StoreInformationEntity> stores;
   final bool isLoadMore;
   final bool cannotLoadMore;
+  final Position? currentPosition;
+  final StoreViewType viewType;
 
   const StoreLoadSuccess({
     required this.stores,
     this.isLoadMore = false,
     this.cannotLoadMore = false,
+    this.currentPosition,
+    this.viewType = StoreViewType.List_View
   });
 
   @override
-  List<Object> get props => [stores, isLoadMore, cannotLoadMore];
+  List<Object?> get props => [stores, isLoadMore, cannotLoadMore, currentPosition, viewType];
 
   StoreLoadSuccess copyWith({
     List<StoreInformationEntity>? stores,
     bool? isLoadMore,
     bool? cannotLoadMore,
+    Position? currentPosition,
+    StoreViewType? viewType,
   }) {
     return StoreLoadSuccess(
       stores: stores ?? this.stores,
       isLoadMore: isLoadMore ?? this.isLoadMore,
       cannotLoadMore: cannotLoadMore ?? this.cannotLoadMore,
+      currentPosition: currentPosition ?? this.currentPosition,
+      viewType: viewType ?? this.viewType,
     );
   }
 }
@@ -44,19 +52,6 @@ class StoreLoadSuccess extends StoreState {
 class StoreNoLocationPermission extends StoreState {
   @override
   List<Object> get props => [];
-}
-
-class StoreEnableLocationPermission extends StoreState {
-  final double lat;
-  final double lng;
-
-  const StoreEnableLocationPermission({
-    required this.lat,
-    required this.lng,
-  });
-
-  @override
-  List<Object> get props => [lat, lng];
 }
 
 class StoreLoadFailure extends StoreState {

@@ -68,7 +68,7 @@ class OrderClearFilter extends OrderEvent {
 }
 
 class OrderChangeViewType extends OrderEvent {
-  final ViewType viewType;
+  final ProductViewType viewType;
 
   const OrderChangeViewType({
     required this.viewType,

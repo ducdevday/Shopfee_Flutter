@@ -35,7 +35,7 @@ class ProductByCategoryLoadMoreInformation extends ProductByCategoryEvent {
 }
 
 class ProductByCategoryChangeViewType extends ProductByCategoryEvent {
-  final ViewType viewType;
+  final ProductViewType viewType;
 
   const ProductByCategoryChangeViewType({
     required this.viewType,

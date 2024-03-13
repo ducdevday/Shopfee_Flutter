@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:shopfee/core/common/enum/product_view_type.dart';
 import 'package:shopfee/core/common/widgets/my_skeleton_circle.dart';
 import 'package:shopfee/core/common/widgets/my_skeleton_rectangle.dart';
 import 'package:shopfee/core/config/app_color.dart';

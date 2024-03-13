@@ -99,6 +99,11 @@ import 'package:shopfee/features/store/data/repositories/store_repository_impl.d
 import 'package:shopfee/features/store/domain/repositories/store_repository.dart';
 import 'package:shopfee/features/store/domain/usecase/store_usecase.dart';
 import 'package:shopfee/features/store/presentation/store.dart';
+import 'package:shopfee/features/store_detail/data/datasources/store_detail_service.dart';
+import 'package:shopfee/features/store_detail/data/repositories/store_detail_repository_impl.dart';
+import 'package:shopfee/features/store_detail/domain/repositories/store_detail_repository.dart';
+import 'package:shopfee/features/store_detail/domain/usecase/store_detail_usecase.dart';
+import 'package:shopfee/features/store_detail/presentation/store_detail.dart';
 import 'package:shopfee/features/tracking/data/datasources/tracking_service.dart';
 import 'package:shopfee/features/tracking/data/repositories/tracking_repository_impl.dart';
 import 'package:shopfee/features/tracking/domain/repositories/tracking_repository.dart';
@@ -142,6 +147,7 @@ class ServiceLocator {
     _newAddressFeature();
     _googleMapFeature();
     _personalInformationFeature();
+    _storeDetailInformationFeature();
   }
 
   void _loginFeature() {
@@ -332,5 +338,12 @@ class ServiceLocator {
     sl.registerLazySingleton<StoreRepository>(() => StoreRepositoryImpl(sl()));
     sl.registerLazySingleton<StoreUseCase>(() => StoreUseCaseImpl(sl()));
     sl.registerFactory(() => StoreBloc(sl()));
+  }
+
+  void _storeDetailInformationFeature() {
+    sl.registerLazySingleton(() => StoreDetailService());
+    sl.registerLazySingleton<StoreDetailRepository>(() => StoreDetailRepositoryImpl(sl()));
+    sl.registerLazySingleton<StoreDetailUseCase>(() => StoreDetailUseCaseImpl(sl()));
+    sl.registerFactory(() => StoreDetailBloc(sl()));
   }
 }

@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shopfee/core/common/enum/product_status.dart';
+import 'package:shopfee/core/common/enum/product_view_type.dart';
 import 'package:shopfee/core/common/widgets/my_error_page.dart';
 import 'package:shopfee/core/common/widgets/my_skeleton_circle.dart';
 import 'package:shopfee/core/common/widgets/my_skeleton_rectangle.dart';

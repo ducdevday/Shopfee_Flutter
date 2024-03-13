@@ -11,7 +11,7 @@ class StoreItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        NavigationUtil.pushNamed(StoreDetailPage.route);
+        NavigationUtil.pushNamed(StoreDetailPage.route, arguments: store.id);
       },
       child: Container(
         height: 100,

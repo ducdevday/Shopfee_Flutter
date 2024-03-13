@@ -1,6 +1,7 @@
 part of product_detail;
 
 class ImageFullScreen extends StatelessWidget {
+  static const String route = "/img_full_screen";
   final String imgPath;
 
   const ImageFullScreen({
@@ -17,8 +18,6 @@ class ImageFullScreen extends StatelessWidget {
             tag: "Product",
             child: CachedNetworkImage(
               imageUrl: imgPath,
-              placeholder: (context, url) => const MySkeletonRectangle(
-                  width: double.infinity, height: double.infinity),
               errorWidget: (_, __, ___) => Container(
                   color: AppColor.unLikedColor,
                   child: const Icon(
@@ -32,17 +31,29 @@ class ImageFullScreen extends StatelessWidget {
         Positioned(
           top: AppDimen.headerMargin,
           left: AppDimen.screenPadding,
-          child: IconButton(
-            onPressed: () {
+          child: GestureDetector(
+            onTap: () {
               Navigator.of(context).pop();
             },
-            icon: const Icon(Icons.close, size: 20),
-            style: IconButton.styleFrom(
-              backgroundColor: Colors.white,
-              padding: const EdgeInsets.all(8),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(14.0),
-              ),
+            child: Hero(
+              tag: "close_button",
+              child: Container(
+                  width: 32,
+                  height: 32,
+                  decoration: BoxDecoration(
+                    color: AppColor.disableColor,
+                    shape: BoxShape.circle,
+                  ),
+                  child: IconButton(
+                    iconSize: 16,
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(
+                      Icons.close_rounded,
+                      color: Colors.white,
+                    ),
+                  )),
             ),
           ),
         ),

@@ -16,7 +16,7 @@ class _OrderPageState extends State<OrderPage> {
   int size = 8;
   bool isLoadingMore = false;
   bool cannotLoadMore = false;
-  ViewType viewType = ViewType.List_View_Vertical;
+  ProductViewType viewType = ProductViewType.List_View_Vertical;
   late ScrollController scrollController;
 
   @override
@@ -197,11 +197,11 @@ class _OrderPageState extends State<OrderPage> {
                       highlightColor: Colors.transparent,
                       onPressed: () {
                         context.read<OrderBloc>().add(const OrderChangeViewType(
-                            viewType: ViewType.List_View_Vertical));
+                            viewType: ProductViewType.List_View_Vertical));
                       },
                       icon: Icon(
                         Icons.menu,
-                        color: viewType == ViewType.List_View_Vertical
+                        color: viewType == ProductViewType.List_View_Vertical
                             ? AppColor.primaryColor
                             : AppColor.disableColor,
                       )),
@@ -210,10 +210,10 @@ class _OrderPageState extends State<OrderPage> {
                       highlightColor: Colors.transparent,
                       onPressed: () {
                         context.read<OrderBloc>().add(const OrderChangeViewType(
-                            viewType: ViewType.Grid_View));
+                            viewType: ProductViewType.Grid_View));
                       },
                       icon: Icon(Icons.grid_view_sharp,
-                          color: viewType == ViewType.Grid_View
+                          color: viewType == ProductViewType.Grid_View
                               ? AppColor.primaryColor
                               : AppColor.disableColor))
                 ],

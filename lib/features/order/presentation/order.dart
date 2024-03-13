@@ -8,6 +8,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:shopfee/core/common/enum/product_sort_type.dart';
+import 'package:shopfee/core/common/enum/product_view_type.dart';
 import 'package:shopfee/core/common/widgets/my_confirm_dialog.dart';
 import 'package:shopfee/core/common/widgets/my_error_widget.dart';
 import 'package:shopfee/core/common/widgets/my_radio.dart';

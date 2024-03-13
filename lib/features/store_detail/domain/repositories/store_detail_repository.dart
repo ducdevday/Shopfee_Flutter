@@ -1,7 +1,5 @@
-
-
-import 'package:shopfee/features/template/domain/entities/template_entity.dart';
+import 'package:shopfee/features/store_detail/domain/entities/store_detail_entity.dart';
 
 abstract class StoreDetailRepository {
-  Future<TemplateEntity> getTemplate(String id);
+  Future<StoreDetailEntity> getDetailStore(int branchId);
 }

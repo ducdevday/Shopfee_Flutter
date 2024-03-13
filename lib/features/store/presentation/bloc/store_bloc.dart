@@ -6,29 +6,26 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
   StoreBloc(this._storeUseCase) : super(StoreInitial()) {
     on<StoreLoadInformation>(_onStoreLoadInformation);
     on<StoreLoadMoreInformation>(_onStoreLoadMoreInformation);
+    on<StoreChangeViewType>(_onStoreChangeViewType);
   }
 
   FutureOr<void> _onStoreLoadInformation(
       StoreLoadInformation event, Emitter<StoreState> emit) async {
     try {
       emit(StoreLoadInProcess());
-      double latitude;
-      double longitude;
-      if (await PermissionUtil.requestLocationPermission() == true) {
-        Position currentPosition = await _storeUseCase.getCurrentPosition();
-
-        emit(StoreEnableLocationPermission(
-            lat: currentPosition.latitude, lng: currentPosition.longitude));
-        latitude = currentPosition.latitude;
-        longitude = currentPosition.longitude;
-      } else {
+      if (await PermissionUtil.requestLocationPermission() == false) {
         emit(StoreNoLocationPermission());
         return;
       }
+      Position currentPosition = await _storeUseCase.getCurrentPosition();
       final stores = await _storeUseCase.getAllStores(StoreAllParamsEntity(
-          lat: latitude, lng: longitude, page: event.page, size: event.size));
+          lat: currentPosition.latitude,
+          lng: currentPosition.longitude,
+          page: event.page,
+          size: event.size));
       if (stores != null) {
-        emit(StoreLoadSuccess(stores: stores));
+        emit(
+            StoreLoadSuccess(stores: stores, currentPosition: currentPosition));
       } else {
         emit(StoreLoadFailure());
       }
@@ -41,23 +38,50 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
   FutureOr<void> _onStoreLoadMoreInformation(
       StoreLoadMoreInformation event, Emitter<StoreState> emit) async {
     try {
-      if (event.lat == null || event.lng == null) {
-        emit(StoreNoLocationPermission());
+      if (state is StoreLoadSuccess) {
+        final currentState = state as StoreLoadSuccess;
+        emit(currentState.copyWith(isLoadMore: true));
+        final stores = await _storeUseCase.getAllStores(StoreAllParamsEntity(
+            lat: currentState.currentPosition!.latitude,
+            lng: currentState.currentPosition!.longitude,
+            page: event.page,
+            size: event.size));
+        await Future.delayed(Duration(milliseconds: 1000));
+        if (stores!.isNotEmpty) {
+          emit(currentState.copyWith(
+              stores: List.from(currentState.stores)..addAll(stores),
+              isLoadMore: false));
+        } else {
+          emit(currentState.copyWith(cannotLoadMore: true));
+        }
       }
-      final currentState = state as StoreLoadSuccess;
-      emit(currentState.copyWith(isLoadMore: true));
-      final stores = await _storeUseCase.getAllStores(StoreAllParamsEntity(
-          lat: event.lat!,
-          lng: event.lng!,
-          page: event.page,
-          size: event.size));
-      await Future.delayed(Duration(milliseconds: 1000));
-      if (stores!.isNotEmpty) {
-        emit(currentState.copyWith(
-            stores: List.from(currentState.stores)..addAll(stores),
-            isLoadMore: false));
-      } else {
-        emit(currentState.copyWith(cannotLoadMore: true));
+    } catch (e) {
+      emit(StoreLoadFailure());
+      ExceptionUtil.handle(e);
+    }
+  }
+
+  FutureOr<void> _onStoreChangeViewType(
+      StoreChangeViewType event, Emitter<StoreState> emit) async {
+    try {
+      if (state is StoreLoadSuccess) {
+        final currentState = state as StoreLoadSuccess;
+        emit(currentState.copyWith(viewType: event.viewType));
+        if (event.viewType == StoreViewType.Map_View &&
+            currentState.stores.isEmpty) {
+          final stores = await _storeUseCase.getAllStores(StoreAllParamsEntity(
+              lat: currentState.currentPosition!.latitude,
+              lng: currentState.currentPosition!.longitude,
+              page: 1,
+              size: 10));
+          if (stores!.isNotEmpty) {
+            emit(currentState.copyWith(
+                stores: List.from(currentState.stores)..addAll(stores),
+                isLoadMore: false,
+                cannotLoadMore: true,
+            ));
+          }
+        }
       }
     } catch (e) {
       emit(StoreLoadFailure());

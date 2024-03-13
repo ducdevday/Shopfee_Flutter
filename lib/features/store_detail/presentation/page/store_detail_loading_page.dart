@@ -1,12 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
-import 'package:shopfee/core/config/app_color.dart';
-import 'package:shopfee/core/config/app_dimen.dart';
-import 'package:shopfee/core/config/app_path.dart';
-import 'package:shopfee/core/config/app_style.dart';
+part of store_detail;
 
-class MyLoadingPage extends StatelessWidget {
-  const MyLoadingPage({Key? key}) : super(key: key);
+class StoreDetailLoadingPage extends StatelessWidget {
+  const StoreDetailLoadingPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +14,7 @@ class MyLoadingPage extends StatelessWidget {
             Stack(
               children: [
                 Lottie.asset(
-                  AppPath.imgCoffeeLoading,
+                  AppPath.imhStoreLoading,
                   width: AppDimen.mediumImageSize,
                   height: AppDimen.mediumImageSize,
                 ),

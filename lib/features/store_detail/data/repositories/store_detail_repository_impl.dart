@@ -1,8 +1,8 @@
 import 'package:shopfee/core/common/models/result.dart';
 import 'package:shopfee/features/store_detail/data/datasources/store_detail_service.dart';
+import 'package:shopfee/features/store_detail/data/models/store_detail_model.dart';
+import 'package:shopfee/features/store_detail/domain/entities/store_detail_entity.dart';
 import 'package:shopfee/features/store_detail/domain/repositories/store_detail_repository.dart';
-import 'package:shopfee/features/template/data/models/template_model.dart';
-import 'package:shopfee/features/template/domain/entities/template_entity.dart';
 
 class StoreDetailRepositoryImpl implements StoreDetailRepository {
   final StoreDetailService _storeDetailService;
@@ -10,15 +10,15 @@ class StoreDetailRepositoryImpl implements StoreDetailRepository {
   StoreDetailRepositoryImpl(this._storeDetailService);
 
   @override
-  Future<TemplateEntity> getTemplate(String id) async {
-    final response = await _storeDetailService.doSomeThing(id);
+  Future<StoreDetailEntity> getDetailStore(int branchId) async{
+    final response = await _storeDetailService.getDetailStore(branchId);
     final result = Result(
       success: response.data["success"],
       message: response.data["message"],
       data: response.data["data"],
     );
-    final templateModel = TemplateModel.fromJson(json: result.data!);
-    final templateEntity = TemplateEntity.fromModel(templateModel);
-    return templateEntity;
+    final storeModel = StoreDetailModel.fromJson(result.data!);
+    final storeEntity = StoreDetailEntity.fromModel(storeModel);
+    return storeEntity;
   }
 }
