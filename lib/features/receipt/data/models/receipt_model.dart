@@ -10,25 +10,29 @@ part 'receipt_model.g.dart';
 class ReceiptModel {
   String? id;
   String? note;
-  double? total;
+  num? totalPayment;
+  num? shippingFee;
+  num? totalItemPrice;
   OrderType? orderType;
+  @JsonKey(name: "shippingInformation")
   AddressModel? address;
   DateTime? createdAt;
-  List<ReceiptProductModel>? products;
+  List<ReceiptProductModel>? itemList;
   TransactionModel? transaction;
-
-  // Review? review;
+  String? branchAddress;
 
   ReceiptModel({
     this.id,
     this.note,
-    this.total,
+    this.totalPayment,
+    this.shippingFee,
+    this.totalItemPrice,
     this.orderType,
     this.address,
     this.createdAt,
-    this.products,
+    this.itemList,
     this.transaction,
-    // this.review
+    this.branchAddress,
   });
 
   factory ReceiptModel.fromJson(Map<String, dynamic> json) {

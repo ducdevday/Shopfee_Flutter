@@ -7,8 +7,10 @@ part 'event_log_model.g.dart';
 @JsonSerializable()
 class EventLogModel {
   final OrderStatus? orderStatus;
+  @JsonKey(name: "createdAt")
   final DateTime? time;
   final String? description;
+  @JsonKey(name: "employee")
   final bool? makerByEmployee;
 
   const EventLogModel({

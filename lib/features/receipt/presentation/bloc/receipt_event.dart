@@ -15,17 +15,15 @@ class ReceiptLoadInformation extends ReceiptEvent {
   List<Object> get props => [orderId];
 }
 
-class ReceiptAddEventLog extends ReceiptEvent {
+class ReceiptDoCancelOrder extends ReceiptEvent {
   final String orderId;
-  final EventLogEntity eventLog;
 
-  const ReceiptAddEventLog({
+  const ReceiptDoCancelOrder({
     required this.orderId,
-    required this.eventLog,
   });
 
   @override
-  List<Object> get props => [orderId, eventLog];
+  List<Object> get props => [orderId];
 }
 
 class ChooseReasonCancel extends ReceiptEvent {

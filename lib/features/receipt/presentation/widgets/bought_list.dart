@@ -39,7 +39,7 @@ class _ItemListState extends State<ItemList> {
               BlocBuilder<ReceiptBloc, ReceiptState>(
                 builder: (context, state) {
                   if (state is ReceiptLoadSuccess) {
-                    boughtListLength = state.receipt.products!.length;
+                    boughtListLength = state.receipt.itemList!.length;
                     return ListView.separated(
                       padding: EdgeInsets.zero,
                       shrinkWrap: true,
@@ -48,7 +48,7 @@ class _ItemListState extends State<ItemList> {
                           ? boughtListLength
                           : maxLength,
                       itemBuilder: (context, index) {
-                        return buildProductItem(state, index);
+                        return buildProductItem(state.receipt.itemList![index]);
                       },
                       separatorBuilder: (BuildContext context, int index) {
                         return const Divider(
@@ -82,13 +82,15 @@ class _ItemListState extends State<ItemList> {
                         setState(() {
                           maxLength = boughtListLength;
                           defaultText = "Show less";
-                          defaultIcon = const Icon(Icons.keyboard_arrow_up_rounded);
+                          defaultIcon =
+                              const Icon(Icons.keyboard_arrow_up_rounded);
                         });
                       } else {
                         setState(() {
                           maxLength = 3;
                           defaultText = "Show more";
-                          defaultIcon = const Icon(Icons.keyboard_arrow_down_rounded);
+                          defaultIcon =
+                              const Icon(Icons.keyboard_arrow_down_rounded);
                         });
                       }
                     },
@@ -106,63 +108,66 @@ class _ItemListState extends State<ItemList> {
     );
   }
 
-  Widget buildProductItem(ReceiptLoadSuccess state, int index) {
-    return Row(
+  Widget buildProductItem(ReceiptProductEntity product) {
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                  "${state.receipt.products![index].quantity}x ${state.receipt.products![index].name!}",
-                  style: AppStyle.mediumTitleStyleDark
-                      .copyWith(color: AppColor.headingColor)
-                      .copyWith(fontWeight: FontWeight.w500)),
-              const SizedBox(
-                height: 6,
-              ),
-              Text(
-                state.receipt.products![index].size!,
-                style: AppStyle.normalTextStyleDark,
-              ),
-              state.receipt.products![index].toppings!.isNotEmpty
-                  ? Text(state.receipt.products![index].toppingOrderString,
-                      style: AppStyle.normalTextStyleDark)
-                  : const SizedBox(),
-              state.receipt.products![index].note!.isNotEmpty
-                  ? Row(
-                      children: [
-                        Icon(
-                          Icons.sticky_note_2_outlined,
-                          color: AppColor.primaryColor,
-                          size: 18,
-                        ),
-                        Expanded(
-                          child: Text(
-                            state.receipt.products![index].note!,
-                            style: AppStyle.normalTextStyleDark,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        )
-                      ],
-                    )
-                  : const SizedBox()
-            ],
-          ),
+        Text("${product.name}",
+            style: AppStyle.mediumTitleStyleDark
+                .copyWith(color: AppColor.headingColor)
+                .copyWith(fontWeight: FontWeight.w500)),
+        const SizedBox(
+          height: 6,
         ),
-        Align(
-          alignment: Alignment.topRight,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(FormatUtil.formatMoney(state.receipt.products![index].total),
-                  style: AppStyle.mediumTitleStyleDark
-                      .copyWith(color: AppColor.headingColor)),
-            ],
-          ),
-        )
+        ListView.separated(
+          padding: EdgeInsets.zero,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) {
+              final detail = product.itemDetailList![index];
+              return Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("${detail.quantity} x "),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          detail.size!,
+                          style: AppStyle.normalTextStyleDark,
+                        ),
+                        if (detail.toppings != null &&
+                            detail.toppings!.isNotEmpty)
+                          Text(detail.toppingOrderString,
+                              style: AppStyle.normalTextStyleDark),
+                        if (detail.note != null && detail.note!.isNotEmpty)
+                          Row(children: [
+                            Icon(
+                              Icons.sticky_note_2_outlined,
+                              color: AppColor.primaryColor,
+                              size: 18,
+                            ),
+                            Expanded(
+                              child: Text(
+                                detail.note!,
+                                style: AppStyle.normalTextStyleDark,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            )
+                          ])
+                      ],
+                    ),
+                  ),
+                  Text(FormatUtil.formatMoney(detail.total)),
+                ],
+              );
+            },
+            separatorBuilder: (context, index) {
+              return SizedBox(height: 4);
+            },
+            itemCount: product.itemDetailList!.length)
       ],
     );
   }

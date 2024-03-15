@@ -95,18 +95,12 @@ class ReasonCancelSheet extends StatelessWidget {
                                       content:
                                           "Are you sure to cancel this order",
                                       callbackOK: () {
-                                        context.read<ReceiptBloc>().add(
-                                            ReceiptAddEventLog(
-                                                orderId: state.receipt.id!,
-                                                eventLog: EventLogEntity(
-                                                    orderStatus:
-                                                        OrderStatus.CANCELED,
-                                                    time: DateTime.now(),
-                                                    description:
-                                                        ReasonCancelType
-                                                            .getString(state
-                                                                .reasonCancel),
-                                                    makerByEmployee: false)));
+                                        context
+                                            .read<ReceiptBloc>()
+                                            .add(ReceiptDoCancelOrder(
+                                              orderId: state.receipt.id!,
+
+                                            ));
                                         Navigator.pop(dialogContext);
                                       },
                                       callbackCancel: () {

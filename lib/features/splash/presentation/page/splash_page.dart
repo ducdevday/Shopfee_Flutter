@@ -15,14 +15,17 @@ class _SplashPageState extends State<SplashPage> {
     super.initState();
     Future.delayed(const Duration(milliseconds: 3000), () {
       if (SharedService.getIsFirstTime()) {
-        NavigationUtil.pushNamedAndRemoveUntil( OnBoardingPage.route);
+        NavigationUtil.pushNamedAndRemoveUntil(OnBoardingPage.route);
       } else if (SharedService.getUserId() != null) {
-        NavigationUtil.pushNamedAndRemoveUntil( DefaultPage.route);
+        // NavigationUtil.pushNamedAndRemoveUntil( DefaultPage.route);
+        NavigationUtil.pushNamedAndRemoveUntil(ReceiptPage.route,
+            arguments: "OB000000010");
       } else {
         NavigationUtil.pushNamedAndRemoveUntil(LoginPage.route);
       }
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

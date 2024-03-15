@@ -17,6 +17,7 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
           : DateTime.parse(json['birthDate'] as String),
       phoneNumber: json['phoneNumber'] as String?,
       avatarUrl: json['avatarUrl'] as String?,
+      coin: json['coin'] as num?,
     );
 
 Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
@@ -28,6 +29,7 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
       'birthDate': instance.birthDate?.toIso8601String(),
       'phoneNumber': instance.phoneNumber,
       'avatarUrl': instance.avatarUrl,
+      'coin': instance.coin,
     };
 
 const _$GenderEnumMap = {

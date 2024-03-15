@@ -5,23 +5,29 @@ import 'package:shopfee/features/receipt/data/models/event_log_model.dart';
 
 class ReceiptService {
   Future<Response> getDetailsOrder(String orderId) async {
-    final response = await DioService.instance.get("${DioService.orderPath}/details/$orderId");
+    final response = await DioService.instance
+        .get("${DioService.orderPath}/$orderId/details");
     return response;
   }
 
   Future<Response> getEventLogsOrder(String orderId) async {
-    final response = await DioService.instance.get("${DioService.orderPath}/status/$orderId");
+    final response = await DioService.instance
+        .get("${DioService.orderPath}/$orderId/status-line");
     return response;
   }
 
-  Future<Response> addEventLog(String orderId, EventLogModel eventLog) async {
-    Map<String, dynamic> body = {
-      "orderStatus": eventLog.orderStatus?.name,
-      "description": eventLog.description
-    };
-    final response =
-        await DioService.instance.patch("${DioService.orderPath}/user/$orderId", data: body);
+  Future<Response> cancelOrder(String orderId, String reason) async {
+    Map<String, dynamic> body = {"description": reason};
+    final response = await DioService.instance
+        .patch("${DioService.orderPath}/$orderId/user/cancel", data: body);
+    return response;
+  }
 
+  Future<Response> requestCancelOrder(String orderId, String reason) async {
+    Map<String, dynamic> body = {"reason": reason};
+    final response = await DioService.instance.post(
+        "${DioService.orderPath}/$orderId/cancellation-request",
+        data: body);
     return response;
   }
 

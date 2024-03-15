@@ -21,6 +21,12 @@ class _ReceiptPageState extends State<ReceiptPage> {
   }
 
   @override
+  void dispose() {
+    _bloc.close();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocProvider(
@@ -48,8 +54,6 @@ class _ReceiptPageState extends State<ReceiptPage> {
                             splashColor: Colors.transparent,
                             highlightColor: Colors.transparent,
                             onTap: () {
-                              // NavigationUtil.pushNamedAndRemoveUntil(
-                              //     DefaultPage.route);
                               NavigationUtil.pop(
                                   result: state.isCancelButtonClicked);
                             },

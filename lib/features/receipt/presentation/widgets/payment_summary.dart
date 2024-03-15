@@ -32,7 +32,7 @@ class PaymentSummary extends StatelessWidget {
                           .copyWith(fontWeight: FontWeight.w400),
                     ),
                     Text(
-                      FormatUtil.formatMoney(state.receipt.total),
+                      FormatUtil.formatMoney(state.receipt.totalItemPrice),
                       style: AppStyle.normalTextStyleDark
                           .copyWith(fontWeight: FontWeight.w400),
                     )
@@ -50,7 +50,7 @@ class PaymentSummary extends StatelessWidget {
                           .copyWith(fontWeight: FontWeight.w400),
                     ),
                     Text(
-                      "0đ",
+                      FormatUtil.formatMoney(state.receipt.shippingFee),
                       style: AppStyle.normalTextStyleDark
                           .copyWith(fontWeight: FontWeight.w400),
                     )
@@ -92,7 +92,7 @@ class PaymentSummary extends StatelessWidget {
                       style: AppStyle.mediumTitleStyleDark,
                     ),
                     Text(
-                      FormatUtil.formatMoney(state.receipt.total),
+                      FormatUtil.formatMoney(state.receipt.totalPayment),
                       style: AppStyle.mediumTitleStyleDark,
                     )
                   ],

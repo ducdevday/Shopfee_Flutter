@@ -31,47 +31,8 @@ class DeliveryInformation extends StatelessWidget {
                                 .copyWith(color: AppColor.primaryColor)))
                   ],
                 ),
-                Row(
-                  children: [
-                    Column(
-                      children: [
-                        Icon(
-                          Icons.circle,
-                          color: AppColor.primaryColor,
-                          size: 10,
-                        ),
-                        const SizedBox(
-                          height: 2,
-                        ),
-                        Text(
-                          FormatUtil.formatTime(state.lastEventLog.time),
-                          style: AppStyle.smallTextStyleDark,
-                        ),
-                      ],
-                    ),
-                    Expanded(
-                      child: Container(
-                        padding: const EdgeInsets.all(8),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "${state.lastEventLog.orderStatus?.name}",
-                              style: AppStyle.mediumTextStyleDark
-                                  .copyWith(color: AppColor.primaryColor),
-                            ),
-                            const SizedBox(
-                              height: 4,
-                            ),
-                            Text(
-                              state.lastEventLog.descriptionString,
-                              style: AppStyle.normalTextStyleDark,
-                            )
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
+                LastStatusWidget(
+                  lastEventLog: state.lastEventLog,
                 ),
                 const Divider(
                   height: 20,

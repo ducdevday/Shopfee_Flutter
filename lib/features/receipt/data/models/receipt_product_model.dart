@@ -1,26 +1,19 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:shopfee/features/product_detail/data/models/topping_model.dart';
+import 'package:shopfee/features/receipt/data/models/receipt_product_detail_model.dart';
 
 part 'receipt_product_model.g.dart';
 
 @JsonSerializable()
 class ReceiptProductModel {
-  String? id;
+  String? productId;
   String? name;
-  int? quantity;
-  String? size;
-  double? price;
-  List<ToppingModel>? toppings;
-  String? note;
+  List<ReceiptProductDetailModel>? itemDetailList;
 
   ReceiptProductModel({
-    this.id,
+    this.productId,
     this.name,
-    this.quantity,
-    this.size,
-    this.price,
-    this.toppings,
-    this.note,
+    this.itemDetailList,
   });
 
   factory ReceiptProductModel.fromJson(Map<String, dynamic> json) {
@@ -30,4 +23,6 @@ class ReceiptProductModel {
   Map<String, dynamic> toJson() {
     return _$ReceiptProductModelToJson(this);
   }
+
+
 }

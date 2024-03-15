@@ -1,5 +1,7 @@
+import 'package:dio/dio.dart';
 import 'package:shopfee/core/common/models/result.dart';
 import 'package:shopfee/core/common/models/result_list.dart';
+import 'package:shopfee/core/errors/app_exception.dart';
 import 'package:shopfee/features/receipt/data/datasources/receipt_service.dart';
 import 'package:shopfee/features/receipt/data/models/event_log_model.dart';
 import 'package:shopfee/features/receipt/data/models/receipt_model.dart';
@@ -34,18 +36,36 @@ class ReceiptRepositoryImpl implements ReceiptRepository {
       data: response.data["data"],
     );
     final eventListModel =
-    resultList.data!.map((e) => EventLogModel.fromJson(e)).toList();
+        resultList.data!.map((e) => EventLogModel.fromJson(e)).toList();
     List<EventLogEntity> eventListEntity =
-    eventListModel.map((e) => EventLogEntity.fromModel(e)).toList();
+        eventListModel.map((e) => EventLogEntity.fromModel(e)).toList();
     return eventListEntity;
   }
 
   @override
-  Future<void> addEventLog(String orderId, EventLogEntity eventLog) async{
-    await _receiptService.addEventLog(orderId,EventLogModel.fromEntity(eventLog));
-    await _receiptService.sendOrderMessage(
-        "Shopfee For Employee Announce",
-        "The order ${orderId} was canceled. Please tap to see details",
-        orderId);
+  Future<void> cancelOrder(String orderId, String reason) async {
+    try {
+      await _receiptService.cancelOrder(orderId, reason);
+      // await _receiptService.sendOrderMessage(
+      //     "Shopfee For Employee Announce",
+      //     "The order ${orderId} was canceled. Please tap to see details",
+      //     orderId);
+    } catch (e) {
+      if (e is DioException) {
+        if (e.response?.statusCode == 400) {
+          throw ServerFailure(message: "Cant cancel order after 30 minutes");
+        }
+      }
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> requestCancelOrder(String orderId, String reason) async {
+    await _receiptService.requestCancelOrder(orderId, reason);
+    // await _receiptService.sendOrderMessage(
+    //     "Shopfee For Employee Announce",
+    //     "The order ${orderId} was canceled. Please tap to see details",
+    //     orderId);
   }
 }

@@ -5,7 +5,7 @@ class ReceiptBloc extends Bloc<ReceiptEvent, ReceiptState> {
 
   ReceiptBloc(this._receiptUseCase) : super(ReceiptInitial()) {
     on<ReceiptLoadInformation>(_onReceiptLoadInformation);
-    on<ReceiptAddEventLog>(_onReceiptAddEventLog);
+    on<ReceiptDoCancelOrder>(_onReceiptDoCancelOrder);
     on<ChooseReasonCancel>(_onChooseReasonCancel);
   }
 
@@ -19,30 +19,44 @@ class ReceiptBloc extends Bloc<ReceiptEvent, ReceiptState> {
       ]);
       final ReceiptEntity receipt = response[0] as ReceiptEntity;
       final EventLogEntity lastEventLog = response[1] as EventLogEntity;
-      emit(ReceiptLoadSuccess(receipt: receipt, lastEventLog: lastEventLog, isCancelButtonClicked: event.isCancelButtonClicked));
+      final OrderStatus? cancelType =
+          _receiptUseCase.determineCancelType(lastEventLog);
+      emit(ReceiptLoadSuccess(
+          receipt: receipt,
+          lastEventLog: lastEventLog,
+          isCancelButtonClicked: event.isCancelButtonClicked,
+          cancelType: cancelType));
     } catch (e) {
       emit(ReceiptLoadFailure());
       ExceptionUtil.handle(e);
     }
   }
 
-  FutureOr<void> _onReceiptAddEventLog(
-      ReceiptAddEventLog event, Emitter<ReceiptState> emit) async {
+  FutureOr<void> _onReceiptDoCancelOrder(
+      ReceiptDoCancelOrder event, Emitter<ReceiptState> emit) async {
     if (state is ReceiptLoadSuccess) {
       final currentState = state as ReceiptLoadSuccess;
       try {
-        EasyLoading.show(maskType: EasyLoadingMaskType.black);
-        var response =
-            await _receiptUseCase.addEventLog(event.orderId, event.eventLog);
-        EasyLoading.dismiss();
-        EasyLoading.showSuccess("Canceled",
-            duration: Duration(milliseconds: 2000));
-
-        //! Reload Page
-        add(ReceiptLoadInformation(
-            orderId: event.orderId, isCancelButtonClicked: true));
+        if (currentState.cancelType != null) {
+          EasyLoading.show(maskType: EasyLoadingMaskType.black);
+          if (currentState.cancelType == OrderStatus.CANCELED) {
+            await _receiptUseCase.cancelOrder(event.orderId,
+                ReasonCancelType.getString(currentState.reasonCancel));
+            EasyLoading.dismiss();
+            EasyLoading.showSuccess("Canceled",
+                duration: const Duration(seconds: 1));
+          } else {
+            await _receiptUseCase.requestCancelOrder(event.orderId,
+                ReasonCancelType.getString(currentState.reasonCancel));
+            EasyLoading.dismiss();
+            EasyLoading.showSuccess("Cancel Request Send",
+                duration: const Duration(seconds: 1));
+          }
+          //! Reload Page
+          add(ReceiptLoadInformation(
+              orderId: event.orderId, isCancelButtonClicked: true));
+        }
       } catch (e) {
-        print(e);
         EasyLoading.showError("Something went wrong");
         ExceptionUtil.handle(e);
       }

@@ -27,6 +27,7 @@ import 'package:shopfee/core/utils/navigation_util.dart';
 import 'package:shopfee/features/default/presentation/page/default_page.dart';
 import 'package:shopfee/features/receipt/domain/entities/event_log_entity.dart';
 import 'package:shopfee/features/receipt/domain/entities/receipt_entity.dart';
+import 'package:shopfee/features/receipt/domain/entities/receipt_product_entity.dart';
 import 'package:shopfee/features/receipt/domain/usecase/receipt_usecase.dart';
 import 'package:shopfee/features/tracking/presentation/tracking.dart';
 
@@ -43,3 +44,4 @@ part 'widgets/payment_summary.dart';
 part 'widgets/reason_cancel_sheet.dart';
 part 'widgets/receipt_information.dart';
 part 'widgets/review_widget.dart';
+part 'widgets/last_status_widget.dart';
