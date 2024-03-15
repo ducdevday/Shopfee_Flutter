@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:shopfee/core/base/dio_service.dart';
 import 'package:shopfee/core/base/fcm_service.dart';
 import 'package:shopfee/features/cart/data/models/cart_model.dart';
+import 'package:shopfee/features/cart/data/models/order_group_model.dart';
 
 class CartService {
   Future<Response> getAllAddress(String userId) async {
@@ -19,13 +20,43 @@ class CartService {
   Future<Response> createShippingOrder(CartModel cart, String userId) async {
     Map<String, dynamic> body = {
       "userId": userId,
-      "products": cart.orders.map((order) => order.toJsonOrder()).toList(),
+      "itemList": OrderGroupModel.groupOrders(cart.orders).map((e) => e.toJson()).toList(),
+      "note": cart.note,
+      "addressId": cart.address?.id,
+      "shippingFee":cart.shippingFee,
+      "paymentType": cart.paymentType!.name,
+      "total": cart.totalPrice
+    };
+    print(body);
+    final response =
+        await DioService.instance.post("${DioService.orderPath}/shipping", data: body);
+    return response;
+  }
+
+  Future<Response> createTakeAwayOrder(CartModel cart, String userId) async {
+    Map<String, dynamic> body = {
+      "userId": userId,
+      "itemList": OrderGroupModel.groupOrders(cart.orders).map((e) => e.toJson()).toList(),
       "note": cart.note,
       "paymentType": cart.paymentType!.name,
-      "address": cart.address!.toJsonOrder()
+      "receiveTime": cart.receiveTime?.toIso8601String(),
+      "branchId": cart.store?.id,
+      "total": cart.totalPrice
     };
     final response =
-        await DioService.instance.post("${DioService.orderPath}", data: body);
+        await DioService.instance.post("${DioService.orderPath}/onsite", data: body);
+    return response;
+  }
+
+  Future<Response> getNearestStore(double latitude, double longitude) async {
+    final response =
+        await DioService.instance.get("${DioService.branchPath}/1/view");
+    return response;
+  }
+
+  Future<Response> getDetailStore(String branchId) async {
+    final response = await DioService.instance
+        .get("${DioService.branchPath}/$branchId/view");
     return response;
   }
 

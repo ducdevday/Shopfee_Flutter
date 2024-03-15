@@ -7,6 +7,8 @@ import 'package:shopfee/features/cart/domain/entities/cart_entity.dart';
 import 'package:shopfee/features/cart/domain/repositories/cart_repository.dart';
 import 'package:shopfee/features/saved_address/data/models/address_model.dart';
 import 'package:shopfee/features/saved_address/domain/entities/address_entity.dart';
+import 'package:shopfee/features/store_detail/data/models/store_detail_model.dart';
+import 'package:shopfee/features/store_detail/domain/entities/store_detail_entity.dart';
 
 class CartRepositoryImpl implements CartRepository {
   final CartService _cartService;
@@ -76,5 +78,53 @@ class CartRepositoryImpl implements CartRepository {
         "The order ${orderResult.orderId} was created. Please tap to see details",
         orderResult.orderId!);
     return orderResult;
+  }
+
+  @override
+  Future<OrderResult> createTakeAwayOrder(
+      CartEntity cart, String userId) async {
+    final response = await _cartService.createTakeAwayOrder(
+        CartModel.fromEntity(cart), userId);
+    final result = Result(
+      success: response.data["success"],
+      message: response.data["message"],
+      data: response.data["data"],
+    );
+    final orderResult = OrderResult(
+        orderId: result.data!["orderId"],
+        transactionId: result.data!["transactionId"],
+        paymentUrl: result.data!["paymentUrl"]);
+    await _cartService.sendOrderMessage(
+        "Shopfee For Employee Announce",
+        "The order ${orderResult.orderId} was created. Please tap to see details",
+        orderResult.orderId!);
+    return orderResult;
+  }
+
+  @override
+  Future<StoreDetailEntity?> getNearestStore(
+      double latitude, double longitude) async {
+    final response = await _cartService.getNearestStore(latitude, longitude);
+    final result = Result(
+      success: response.data["success"],
+      message: response.data["message"],
+      data: response.data["data"],
+    );
+    final storeModel = StoreDetailModel.fromJson(result.data!);
+    final storeEntity = StoreDetailEntity.fromModel(storeModel);
+    return storeEntity;
+  }
+
+  @override
+  Future<StoreDetailEntity> getDetailStore(String branchId) async {
+    final response = await _cartService.getDetailStore(branchId);
+    final result = Result(
+      success: response.data["success"],
+      message: response.data["message"],
+      data: response.data["data"],
+    );
+    final storeModel = StoreDetailModel.fromJson(result.data!);
+    final storeEntity = StoreDetailEntity.fromModel(storeModel);
+    return storeEntity;
   }
 }

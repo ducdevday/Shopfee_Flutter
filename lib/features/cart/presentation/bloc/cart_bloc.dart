@@ -11,11 +11,14 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
     on<CartUpdateItem>(_onCartUpdateItem);
     on<CartInitAddress>(_onCartInitAddress);
     on<CartChooseAddress>(_onCartChooseAddress);
+    on<CartInitStore>(_onCartInitStore);
+    on<CartChooseStore>(_onCartChooseStore);
     on<CartChooseOrderType>(_onCartChooseOrderType);
     on<CartChooseTypePayment>(_onCartChooseTypePayment);
     on<CartChooseTime>(_onCartChooseTime);
     on<CartAddNote>(_onCartAddNote);
     on<CartCreateShippingOrder>(_onCartCreateShippingOrder);
+    on<CartCreateTakeAwayOrder>(_onCartCreateTakeAwayOrder);
   }
 
   FutureOr<void> _onCartLoadInformation(
@@ -32,8 +35,8 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
 
   FutureOr<void> _onCartAddItem(CartAddItem event, Emitter<CartState> emit) {
     if (state is CartLoaded) {
-      final successState = state as CartLoaded;
-      List<OrderEntity> orders = List.from(successState.cart.orders);
+      final currentState = state as CartLoaded;
+      List<OrderEntity> orders = List.from(currentState.cart.orders);
       final existingOrderIndex = orders
           .indexWhere((order) => order.isEqualExceptQuantity(event.order));
 
@@ -48,7 +51,7 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
       }
 
       emit(CartLoaded(
-        cart: successState.cart.copyWith(
+        cart: currentState.cart.copyWith(
           orders: orders,
         ),
       ));
@@ -58,11 +61,11 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
   FutureOr<void> _onCartDeleteItem(
       CartDeleteItem event, Emitter<CartState> emit) {
     if (state is CartLoaded) {
-      final successState = state as CartLoaded;
-      List<OrderEntity> orders = List.from(successState.cart.orders);
+      final currentState = state as CartLoaded;
+      List<OrderEntity> orders = List.from(currentState.cart.orders);
       orders.removeAt(event.index);
       emit(CartLoaded(
-        cart: successState.cart.copyWith(
+        cart: currentState.cart.copyWith(
           orders: orders,
         ),
       ));
@@ -72,8 +75,8 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
   FutureOr<void> _onCartUpdateItem(
       CartUpdateItem event, Emitter<CartState> emit) {
     if (state is CartLoaded) {
-      final successState = state as CartLoaded;
-      List<OrderEntity> orders = List.from(successState.cart.orders);
+      final currentState = state as CartLoaded;
+      List<OrderEntity> orders = List.from(currentState.cart.orders);
       if (event.updatedOrder.quantity == 0) {
         orders.removeAt(event.index);
       } else {
@@ -89,7 +92,7 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
         }
       }
       emit(CartLoaded(
-        cart: successState.cart.copyWith(
+        cart: currentState.cart.copyWith(
           orders: orders,
         ),
       ));
@@ -120,13 +123,13 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
       CartChooseAddress event, Emitter<CartState> emit) async {
     if (state is CartLoaded) {
       try {
-        final successState = state as CartLoaded;
+        final currentState = state as CartLoaded;
         EasyLoading.show();
         var chosenAddress =
             await _cartUseCase.getChosenAddress(event.addressId);
         EasyLoading.dismiss();
         emit(CartLoaded(
-            cart: successState.cart.copyWith(address: chosenAddress)));
+            cart: currentState.cart.copyWith(address: chosenAddress)));
       } catch (e) {
         ExceptionUtil.handle(e);
       }
@@ -136,50 +139,117 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
   FutureOr<void> _onCartChooseTypePayment(
       CartChooseTypePayment event, Emitter<CartState> emit) {
     if (state is CartLoaded) {
-      final successState = state as CartLoaded;
+      final currentState = state as CartLoaded;
       emit(CartLoaded(
-          cart: successState.cart.copyWith(paymentType: event.typePayment)));
+          cart: currentState.cart.copyWith(paymentType: event.typePayment)));
     }
   }
 
   FutureOr<void> _onCartChooseTime(
       CartChooseTime event, Emitter<CartState> emit) {
     if (state is CartLoaded) {
-      final successState = state as CartLoaded;
+      final currentState = state as CartLoaded;
       emit(CartLoaded(
-          cart: successState.cart.copyWith(receiveTime: event.receiveTime)));
+          cart: currentState.cart.copyWith(receiveTime: event.receiveTime)));
     }
   }
 
   FutureOr<void> _onCartChooseOrderType(
-      CartChooseOrderType event, Emitter<CartState> emit) {
+      CartChooseOrderType event, Emitter<CartState> emit) async {
     if (state is CartLoaded) {
-      final successState = state as CartLoaded;
+      final currentState = state as CartLoaded;
+      if (event.typeOrder == OrderType.SHIPPING) {
+        if (await PermissionUtil.requestLocationPermission() == false) {
+          AlertUtil.showToast("You must enable location to use Take Away");
+          return;
+        }
+      }
       emit(CartLoaded(
-          cart: successState.cart.copyWith(orderType: event.typeOrder)));
+          cart: currentState.cart.copyWith(orderType: event.typeOrder)));
+      if (currentState.cart.store == null) {
+        add(CartInitStore());
+      }
+    }
+  }
+
+  FutureOr<void> _onCartInitStore(
+      CartInitStore event, Emitter<CartState> emit) async {
+    if (state is CartLoaded) {
+      final currentState = state as CartLoaded;
+      try {
+        EasyLoading.show();
+        final currentPosition = await GlobalData.ins.getCurrentPosition();
+        final nearestStore = await _cartUseCase.getNearestStore(
+            currentPosition.latitude, currentPosition.longitude);
+        EasyLoading.dismiss();
+        emit(CartLoaded(
+          cart: currentState.cart.copyWith(store: nearestStore),
+        ));
+      } catch (e) {
+        ExceptionUtil.handle(e);
+      }
+    }
+  }
+
+  FutureOr<void> _onCartChooseStore(
+      CartChooseStore event, Emitter<CartState> emit) async {
+    if (state is CartLoaded) {
+      final currentState = state as CartLoaded;
+      try {
+        EasyLoading.show();
+        final chosenStore = await _cartUseCase.getDetailStore(event.branchId);
+        EasyLoading.dismiss();
+        emit(CartLoaded(
+          cart: currentState.cart.copyWith(store: chosenStore),
+        ));
+      } catch (e) {
+        ExceptionUtil.handle(e);
+      }
     }
   }
 
   FutureOr<void> _onCartAddNote(CartAddNote event, Emitter<CartState> emit) {
     if (state is CartLoaded) {
-      final successState = state as CartLoaded;
-      emit(CartLoaded(cart: successState.cart.copyWith(note: event.note)));
+      final currentState = state as CartLoaded;
+      emit(CartLoaded(cart: currentState.cart.copyWith(note: event.note)));
     }
   }
 
   FutureOr<void> _onCartCreateShippingOrder(
       CartCreateShippingOrder event, Emitter<CartState> emit) async {
     if (state is CartLoaded) {
-      final successState = state as CartLoaded;
-      late String orderId;
+      final currentState = state as CartLoaded;
       try {
         EasyLoading.show();
         final orderResult = await _cartUseCase.createShippingOrder(
-            successState.cart, SharedService.getUserId()!);
+            currentState.cart, SharedService.getUserId()!);
         EasyLoading.dismiss();
-
         emit(CartFinished(orderResult: orderResult));
 
+        add(CartLoadInformation());
+      } catch (e) {
+        EasyLoading.showError(e.toString());
+      }
+    }
+  }
+
+  FutureOr<void> _onCartCreateTakeAwayOrder(
+      CartCreateTakeAwayOrder event, Emitter<CartState> emit) async {
+    if (state is CartLoaded) {
+      final currentState = state as CartLoaded;
+      try {
+        EasyLoading.show();
+        OrderResult orderResult;
+        if (currentState.cart.receiveTime != null) {
+          orderResult = await _cartUseCase.createTakeAwayOrder(
+              currentState.cart, SharedService.getUserId()!);
+        } else {
+          orderResult = await _cartUseCase.createTakeAwayOrder(
+              currentState.cart.copyWith(receiveTime: DateTime.now()),
+              SharedService.getUserId()!);
+        }
+        EasyLoading.dismiss();
+        emit(CartFinished(orderResult: orderResult));
         add(CartLoadInformation());
       } catch (e) {
         EasyLoading.showError(e.toString());

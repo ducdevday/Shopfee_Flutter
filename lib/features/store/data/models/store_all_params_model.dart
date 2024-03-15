@@ -6,7 +6,6 @@ part 'store_all_params_model.g.dart';
 @JsonSerializable()
 class StoreAllParamsModel {
   final double lat;
-  @JsonKey(name: "lon")
   final double lng;
   final int page;
   final int size;

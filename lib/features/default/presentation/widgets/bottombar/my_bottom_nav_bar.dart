@@ -80,6 +80,18 @@ class MyBottomNavBar extends StatelessWidget {
                           label: "Store"),
                       BottomNavigationBarItem(
                           icon: SvgPicture.asset(
+                            AppPath.icPreferential,
+                            colorFilter: ColorFilter.mode(
+                                AppColor.nonactiveColor, BlendMode.srcIn),
+                          ),
+                          activeIcon: SvgPicture.asset(
+                            AppPath.icPreferential,
+                            colorFilter: ColorFilter.mode(
+                                AppColor.primaryColor, BlendMode.srcIn),
+                          ),
+                          label: "Preferential"),
+                      BottomNavigationBarItem(
+                          icon: SvgPicture.asset(
                             AppPath.icMenu,
                             colorFilter: ColorFilter.mode(
                                 AppColor.nonactiveColor, BlendMode.srcIn),

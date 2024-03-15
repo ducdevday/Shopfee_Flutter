@@ -5,6 +5,9 @@ import 'package:shopfee/core/common/models/order_type.dart';
 import 'package:shopfee/features/cart/domain/entities/cart_entity.dart';
 import 'package:shopfee/features/product_detail/data/models/order_model.dart';
 import 'package:shopfee/features/saved_address/data/models/address_model.dart';
+import 'package:shopfee/features/store/data/models/store_information_model.dart';
+import 'package:shopfee/features/store_detail/data/models/store_detail_model.dart';
+import 'package:shopfee/features/store_detail/domain/entities/store_detail_entity.dart';
 
 part 'cart_model.g.dart';
 
@@ -14,6 +17,7 @@ class CartModel {
   final OrderType? orderType;
   final AddressModel? address;
   final String? note;
+  final StoreDetailModel? store;
   final DateTime? receiveTime;
   final PaymentType? paymentType;
 
@@ -25,6 +29,7 @@ class CartModel {
     this.orderType,
     this.address,
     this.note,
+    this.store,
     this.receiveTime,
     this.paymentType,
     // this.voucher,
@@ -39,8 +44,6 @@ class CartModel {
     return _$CartModelToJson(this);
   }
 
-
-
   factory CartModel.fromEntity(CartEntity entity) {
     return CartModel(
       orders: entity.orders.map((e) => OrderModel.fromEntity(e)).toList(),
@@ -49,9 +52,16 @@ class CartModel {
           ? null
           : AddressModel.fromEntity(entity.address!),
       note: entity.note,
+      store: entity.store == null ? null : StoreDetailModel.fromEntity(entity.store!),
       receiveTime: entity.receiveTime,
       paymentType: entity.paymentType,
       shippingFee: entity.shippingFee,
     );
   }
+
+  int get totalQuantity =>
+      orders.fold(0, (total, current) => total + current.quantity);
+
+  double get totalPrice =>
+      orders.fold(0, (total, current) => total + current.total);
 }

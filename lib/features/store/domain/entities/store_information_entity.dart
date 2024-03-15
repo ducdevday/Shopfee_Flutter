@@ -1,7 +1,7 @@
 import 'package:shopfee/features/store/data/models/store_information_model.dart';
 
 class StoreInformationEntity {
-  final int? id;
+  final String? id;
   final String? imageUrl;
   final String? name;
   final String? fullAddress;

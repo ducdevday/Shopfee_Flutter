@@ -102,7 +102,7 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(
             create: (context) =>
                 ServiceLocator.sl<UserBloc>()..add(UserLoadInformation())),
-        BlocProvider(create: (context) => MyBottomNavBarCubit()..selectPage(0)),
+        BlocProvider(create: (context) => MyBottomNavBarCubit()..selectPage(HomePage.indexPage)),
         BlocProvider(
             create: (context) =>
                 ServiceLocator.sl<HomeBloc>()..add(HomeLoadInformation())),
@@ -135,4 +135,7 @@ Future<void> initData() async {
   SharedService.setAppDocPath(appDocPath);
 
   await GlobalData.ins.createCustomIcon();
+  if(GlobalData.ins.currentPosition != null) {
+    await GlobalData.ins.getCurrentPosition();
+  }
 }

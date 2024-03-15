@@ -2,6 +2,7 @@ import 'package:shopfee/features/cart/data/models/order_result.dart';
 import 'package:shopfee/features/cart/domain/entities/cart_entity.dart';
 import 'package:shopfee/features/cart/domain/repositories/cart_repository.dart';
 import 'package:shopfee/features/saved_address/domain/entities/address_entity.dart';
+import 'package:shopfee/features/store_detail/domain/entities/store_detail_entity.dart';
 
 abstract class CartUseCase {
   Future<AddressEntity?> getDefaultAddress(String userId);
@@ -9,6 +10,13 @@ abstract class CartUseCase {
   Future<AddressEntity?> getChosenAddress(String addressId);
 
   Future<OrderResult> createShippingOrder(CartEntity cart, String userId);
+
+  Future<OrderResult> createTakeAwayOrder(CartEntity cart, String userId);
+
+  Future<StoreDetailEntity?> getNearestStore(double latitude, double longitude);
+
+  Future<StoreDetailEntity> getDetailStore(String branchId);
+
 }
 
 class CartUseCaseImpl extends CartUseCase {
@@ -30,5 +38,21 @@ class CartUseCaseImpl extends CartUseCase {
   Future<OrderResult> createShippingOrder(
       CartEntity cart, String userId) async {
     return await _cartRepository.createShippingOrder(cart, userId);
+  }
+
+  @override
+  Future<OrderResult> createTakeAwayOrder(CartEntity cart, String userId) async{
+    return await _cartRepository.createTakeAwayOrder(cart, userId);
+  }
+
+  @override
+  Future<StoreDetailEntity?> getNearestStore(
+      double latitude, double longitude) async {
+    return await _cartRepository.getNearestStore(latitude, longitude);
+  }
+
+  @override
+  Future<StoreDetailEntity> getDetailStore(String branchId) async{
+    return await _cartRepository.getDetailStore(branchId);
   }
 }

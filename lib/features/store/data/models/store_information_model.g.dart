@@ -9,7 +9,7 @@ part of 'store_information_model.dart';
 StoreInformationModel _$StoreInformationModelFromJson(
         Map<String, dynamic> json) =>
     StoreInformationModel(
-      id: json['id'] as int?,
+      id: json['id'] as String?,
       imageUrl: json['imageUrl'] as String?,
       name: json['name'] as String?,
       fullAddress: json['fullAddress'] as String?,

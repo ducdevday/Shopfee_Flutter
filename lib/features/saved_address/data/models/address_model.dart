@@ -36,17 +36,6 @@ class AddressModel {
     return _$AddressModelToJson(this);
   }
 
-  Map<String, dynamic> toJsonOrder() {
-    return {
-      'detail': this.detail,
-      'latitude': this.latitude,
-      'longitude': this.longitude,
-      'note': this.note,
-      'recipientName': this.recipientName,
-      'phoneNumber': this.phoneNumber,
-    };
-  }
-
   factory AddressModel.fromEntity(AddressEntity entity) {
     return AddressModel(
       id: entity.id,

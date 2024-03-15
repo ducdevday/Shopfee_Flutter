@@ -109,38 +109,11 @@ class _CartPageState extends State<CartPage> {
                             ],
                           ),
                           const AddressShippingWidget(),
+                          const StoreWidget(),
                           const Divider(
                             height: 20,
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Time order",
-                                style: AppStyle.mediumTitleStyleDark
-                                    .copyWith(color: AppColor.headingColor),
-                              ),
-                              const SizedBox(
-                                height: 4,
-                              ),
-                              Builder(builder: (_) {
-                                // if (!(DateTime.now().hour >= 8 && DateTime.now().hour < 20)) {
-                                //   return Text(
-                                //     "*We are open from 08:00 AM - 20:00 PM",
-                                //     style: AppStyle.normalTextStyleDark.copyWith(color: AppColor.error),
-                                //   );
-                                // } else {
-                                return Text(
-                                  "*We are open from 08:00 AM - 20:00 PM",
-                                  style: AppStyle.normalTextStyleDark,
-                                );
-                                // }
-                              }),
-                              const SizedBox(
-                                height: 16,
-                              ),
-                            ],
-                          ),
+                          const TimeOpenClose(),
                           const TimeShipping(),
                           const TimeSetter(),
                           const Divider(
@@ -152,7 +125,9 @@ class _CartPageState extends State<CartPage> {
                           ),
                           TextFormField(
                             onChanged: (value) => {
-                              context.read<CartBloc>().add(CartAddNote(note: value))
+                              context
+                                  .read<CartBloc>()
+                                  .add(CartAddNote(note: value))
                             },
                             style: const TextStyle(fontSize: 14),
                             decoration: InputDecoration(
@@ -183,10 +158,9 @@ class _CartPageState extends State<CartPage> {
                         children: [
                           Text(
                             "Coupon",
-                            style: AppStyle.mediumTitleStyleDark
-                                .copyWith(
-                                    color: AppColor.headingColor,
-                                    fontWeight: FontWeight.w500),
+                            style: AppStyle.mediumTitleStyleDark.copyWith(
+                                color: AppColor.headingColor,
+                                fontWeight: FontWeight.w500),
                           ),
                           SizedBox(
                             height: 4,
@@ -308,13 +282,17 @@ class _CartPageState extends State<CartPage> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: AppDimen.screenPadding),
                     child: ElevatedButton(
-                      onPressed: state.isValid
-                          ? () {
-                              context
-                                  .read<CartBloc>()
-                                  .add(CartCreateShippingOrder());
-                            }
-                          : null,
+                      onPressed:state.isValid ? () {
+                        if (state.cart.orderType == OrderType.SHIPPING) {
+                          context
+                              .read<CartBloc>()
+                              .add(CartCreateShippingOrder());
+                        } else {
+                          context
+                              .read<CartBloc>()
+                              .add(CartCreateTakeAwayOrder());
+                        }
+                      } : null,
                       style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(40))),
@@ -341,53 +319,6 @@ class _CartPageState extends State<CartPage> {
           style: AppStyle.mediumTitleStyleDark
               .copyWith(color: AppColor.headingColor));
     }
-  }
-
-  Widget buildAddressDetail(CartLoaded state, BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        // Navigator.pushNamed(context, AppRouter.savedAddressRoute,
-        //     arguments: true)
-        //     .then((value) =>
-        //     context.read<CartBloc>().add(ChooseAddress(value as String)));
-      },
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      state.cart.address!.recipientName!,
-                      style: AppStyle.mediumTextStyleDark
-                          .copyWith(color: AppColor.headingColor),
-                    ),
-                    Text(
-                      "  |  ",
-                      style: AppStyle.normalTextStyleDark,
-                    ),
-                    Text(
-                      state.cart.address!.phoneNumber!,
-                      style: AppStyle.normalTextStyleDark,
-                    ),
-                  ],
-                ),
-                Text(
-                  state.cart.address!.detail ?? "",
-                  style: AppStyle.normalTextStyleDark,
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(
-            width: 40,
-          ),
-          const Icon(Icons.keyboard_arrow_right_rounded),
-        ],
-      ),
-    );
   }
 
   Widget buildPaymentMethod(CartLoaded state, BuildContext context) {
@@ -418,7 +349,8 @@ class _CartPageState extends State<CartPage> {
                   const SizedBox(
                     width: 4,
                   ),
-                  Expanded(child: Text("Cash", style: AppStyle.normalTextStyleDark)),
+                  Expanded(
+                      child: Text("Cash", style: AppStyle.normalTextStyleDark)),
                   const Icon(Icons.keyboard_arrow_right_rounded)
                 ],
               );
@@ -433,7 +365,9 @@ class _CartPageState extends State<CartPage> {
                   const SizedBox(
                     width: 4,
                   ),
-                  Expanded(child: Text("VNPay", style: AppStyle.normalTextStyleDark)),
+                  Expanded(
+                      child:
+                          Text("VNPay", style: AppStyle.normalTextStyleDark)),
                   const Icon(Icons.keyboard_arrow_right_rounded)
                 ],
               );

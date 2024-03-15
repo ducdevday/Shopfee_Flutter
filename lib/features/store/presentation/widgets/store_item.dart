@@ -2,16 +2,21 @@ part of store;
 
 class StoreItem extends StatelessWidget {
   final StoreInformationEntity store;
-
+  final String fromRoute;
   const StoreItem({super.key,
-    required this.store,
+    required this.store, required this.fromRoute,
   });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        NavigationUtil.pushNamed(StoreDetailPage.route, arguments: store.id);
+        if(fromRoute != CartPage.route) {
+          NavigationUtil.pushNamed(StoreDetailPage.route, arguments: store.id);
+        }
+        else{
+          NavigationUtil.pop(result: store.id);
+        }
       },
       child: Container(
         height: 100,

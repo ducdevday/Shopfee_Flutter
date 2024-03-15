@@ -27,7 +27,7 @@ class _LoginPageState extends State<LoginPage> {
   void dispose() {
     emailTextController.dispose();
     passwordTextController.dispose();
-    // _cubit.close();
+    _cubit.close();
     super.dispose();
   }
 

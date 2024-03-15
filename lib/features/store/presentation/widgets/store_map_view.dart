@@ -4,9 +4,14 @@ class StoreMapView extends StatefulWidget {
   final List<StoreInformationEntity> storeList;
   final Position currentPosition;
   final StoreViewType currentViewType;
+  final String fromRoute;
 
   const StoreMapView(
-      {Key? key, required this.storeList, required this.currentPosition, required this.currentViewType})
+      {Key? key,
+      required this.storeList,
+      required this.currentPosition,
+      required this.currentViewType,
+      required this.fromRoute})
       : super(key: key);
 
   @override
@@ -21,8 +26,8 @@ class _StoreMapViewState extends State<StoreMapView> {
   @override
   void initState() {
     super.initState();
-    currentCamera = LatLng(widget.currentPosition.latitude,
-        widget.currentPosition.longitude);
+    currentCamera = LatLng(
+        widget.currentPosition.latitude, widget.currentPosition.longitude);
   }
 
   @override
@@ -39,18 +44,21 @@ class _StoreMapViewState extends State<StoreMapView> {
     //         widget.currentPosition.longitude)));
 
     markerList.addAll(widget.storeList
-        .map((store) =>
-        Marker(
-            markerId: MarkerId(store.id!.toString()),
-            icon: GlobalData.ins.customIcon,
-            infoWindow: InfoWindow(title: "${store.name}"),
-            position: LatLng(store.latitude!, store.longitude!),
-            onTap: () {
-              NavigationUtil.pushNamed(
-                  StoreDetailPage.route, arguments: store.id!);
-            }
-
-        ))
+        .map((store) => Marker(
+              markerId: MarkerId(store.id!.toString()),
+              icon: GlobalData.ins.customIcon,
+              infoWindow: InfoWindow(
+                  title: "${store.name}",
+                  onTap: () {
+                    if (widget.fromRoute != CartPage.route) {
+                      NavigationUtil.pushNamed(StoreDetailPage.route,
+                          arguments: store.id!);
+                    } else {
+                      NavigationUtil.pop(result: store.id!);
+                    }
+                  }),
+              position: LatLng(store.latitude!, store.longitude!),
+            ))
         .toList());
   }
 
@@ -75,9 +83,8 @@ class _StoreMapViewState extends State<StoreMapView> {
             },
             markers: markerList,
             myLocationEnabled: true,
-            initialCameraPosition: CameraPosition(
-                target: currentCamera,
-                zoom: 17),
+            initialCameraPosition:
+                CameraPosition(target: currentCamera, zoom: 17),
             onCameraMove: (cameraPosition) {
               currentCamera = cameraPosition.target;
             },

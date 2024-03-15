@@ -67,7 +67,6 @@ class _SavedAddressPageState extends State<SavedAddressPage> {
             child: BlocBuilder<SavedAddressBloc, SavedAddressState>(
               builder: (context, state) {
                 if (state is SavedAddressLoadSuccess) {
-                  print("Rebuild");
                   return Column(
                     children: [
                       SizedBox(

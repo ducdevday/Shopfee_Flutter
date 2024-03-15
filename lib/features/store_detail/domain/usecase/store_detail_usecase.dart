@@ -5,7 +5,7 @@ import 'package:shopfee/features/template/domain/entities/template_entity.dart';
 import 'package:shopfee/features/template/domain/repositories/template_repository.dart';
 
 abstract class StoreDetailUseCase {
-  Future<StoreDetailEntity> getDetailStore(int branchId);
+  Future<StoreDetailEntity> getDetailStore(String branchId);
 }
 
 class StoreDetailUseCaseImpl extends StoreDetailUseCase {
@@ -14,7 +14,7 @@ class StoreDetailUseCaseImpl extends StoreDetailUseCase {
   StoreDetailUseCaseImpl(this._storeDetailRepository);
 
   @override
-  Future<StoreDetailEntity> getDetailStore(int branchId) async {
+  Future<StoreDetailEntity> getDetailStore(String branchId) async {
     return await _storeDetailRepository.getDetailStore(branchId);
   }
 }

@@ -1,15 +1,16 @@
 part of store;
 
 class StoreListView extends StatelessWidget {
-  const StoreListView({
-    super.key,
-    required this.storeList,
-    required this.isLoadingMore, required this.currentViewType,
-  });
-
   final List<StoreInformationEntity> storeList;
   final bool isLoadingMore;
   final StoreViewType currentViewType;
+  final String fromRoute;
+
+  const StoreListView({
+    super.key,
+    required this.storeList,
+    required this.isLoadingMore, required this.currentViewType, required this.fromRoute,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class StoreListView extends StatelessWidget {
         const EdgeInsets.only(top: AppDimen.spacing, left: AppDimen.spacing, right: AppDimen.spacing),
         itemBuilder: (context, index) => index <
             storeList.length
-            ? StoreItem(store: storeList[index])
+            ? StoreItem(store: storeList[index], fromRoute: fromRoute)
             : const Padding(
           padding: EdgeInsets.all(AppDimen.spacing),
           child: CupertinoActivityIndicator(),

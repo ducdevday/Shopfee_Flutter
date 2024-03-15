@@ -12,6 +12,7 @@ import 'package:shopfee/features/cart/presentation/cart.dart';
 import 'package:shopfee/features/default/presentation/page/default_page.dart';
 import 'package:shopfee/features/default/presentation/widgets/bottombar/my_bottom_nav_bar_cubit.dart';
 import 'package:shopfee/features/history/presentation/history.dart';
+import 'package:shopfee/features/home/presentation/home.dart';
 import 'package:shopfee/features/login/presentation/login.dart';
 import 'package:shopfee/features/new_password/presentation/new_password.dart';
 import 'package:shopfee/features/personal_information/presentation/personal_information.dart';

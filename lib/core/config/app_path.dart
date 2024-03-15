@@ -17,7 +17,7 @@ class AppPath {
   static const String icMenu = "assets/icons/ic_menu.svg";
   static const String icOrder = "assets/icons/ic_order.svg";
   static const String icStore = "assets/icons/ic_store.svg";
-
+  static const String icPreferential = "assets/icons/ic_preferential.svg";
   static const String icCoffee = "assets/icons/ic_coffee.png";
   static const String icNoLocation = "assets/icons/ic_no_location.png";
   static const String icNoStore = "assets/icons/ic_store.png";
@@ -56,4 +56,7 @@ class AppPath {
       "https://firebasestorage.googleapis.com/v0/b/shopfee-12b03.appspot.com/o/category%2Fic_all.png?alt=media&token=7b1b0f87-395a-4cfb-b0ae-f9d59d1bff09";
 
   static const String icStoreMark = "assets/icons/ic_store_mark.png";
+  static const String imgCoinBackground =
+      "assets/images/img_coin_background.png";
+  static const String icCoin = "assets/icons/ic_coin.png";
 }

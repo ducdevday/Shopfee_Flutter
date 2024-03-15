@@ -10,16 +10,19 @@ class UserEntity {
   final DateTime? birthDate;
   final String? phoneNumber;
   final String? avatarUrl;
+  final num? coin;
 
-  const UserEntity(
-      {this.id,
-      required this.firstName,
-      required this.lastName,
-      required this.email,
-      required this.gender,
-      required this.birthDate,
-      required this.phoneNumber,
-      this.avatarUrl});
+  const UserEntity({
+    this.id,
+    required this.firstName,
+    required this.lastName,
+    required this.email,
+    required this.gender,
+    required this.birthDate,
+    required this.phoneNumber,
+    this.avatarUrl,
+    this.coin,
+  });
 
   factory UserEntity.fromModel(UserModel userModel) {
     return UserEntity(
@@ -30,6 +33,7 @@ class UserEntity {
         gender: userModel.gender,
         birthDate: userModel.birthDate,
         phoneNumber: userModel.phoneNumber,
-        avatarUrl: userModel.avatarUrl);
+        avatarUrl: userModel.avatarUrl,
+        coin: userModel.coin ?? 0);
   }
 }

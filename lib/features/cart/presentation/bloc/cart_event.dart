@@ -14,6 +14,11 @@ class CartInitAddress extends CartEvent {
   List<Object> get props => [];
 }
 
+class CartInitStore extends CartEvent {
+  @override
+  List<Object> get props => [];
+}
+
 class CartDeleteInformation extends CartEvent {
   @override
   List<Object> get props => [];
@@ -72,6 +77,15 @@ class CartChooseAddress extends CartEvent {
   List<Object> get props => [addressId];
 }
 
+class CartChooseStore extends CartEvent {
+  final String branchId;
+
+  const CartChooseStore({required this.branchId});
+
+  @override
+  List<Object> get props => [branchId];
+}
+
 class CartAddNote extends CartEvent {
   final String note;
 
@@ -120,6 +134,11 @@ class SetShippingFee extends CartEvent {
 }
 
 class CartCreateShippingOrder extends CartEvent {
+  @override
+  List<Object> get props => [];
+}
+
+class CartCreateTakeAwayOrder extends CartEvent {
   @override
   List<Object> get props => [];
 }

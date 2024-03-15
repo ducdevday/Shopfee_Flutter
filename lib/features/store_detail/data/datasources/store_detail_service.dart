@@ -3,8 +3,7 @@ import 'package:shopfee/core/base/dio_service.dart';
 
 
 class StoreDetailService {
-
-  Future<Response> getDetailStore(int branchId) async{
+  Future<Response> getDetailStore(String branchId) async{
       final response = await DioService.instance.get("${DioService.branchPath}/$branchId/detail");
       return response;
   }

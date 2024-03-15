@@ -8,7 +8,7 @@ part of 'store_detail_model.dart';
 
 StoreDetailModel _$StoreDetailModelFromJson(Map<String, dynamic> json) =>
     StoreDetailModel(
-      id: json['id'] as int?,
+      id: json['id'] as String?,
       name: json['name'] as String?,
       phoneNumber: json['phoneNumber'] as String?,
       imageUrl: json['imageUrl'] as String?,

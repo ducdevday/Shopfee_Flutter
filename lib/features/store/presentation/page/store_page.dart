@@ -1,9 +1,11 @@
 part of store;
 
 class StorePage extends StatefulWidget {
+  static const String route = "/store";
   static const int indexPage = 2;
+  final String fromRoute;
 
-  const StorePage({Key? key}) : super(key: key);
+  const StorePage({Key? key, this.fromRoute = DefaultPage.route}) : super(key: key);
 
   @override
   State<StorePage> createState() => _StorePageState();
@@ -62,11 +64,11 @@ class _StorePageState extends State<StorePage> {
           appBar: AppBar(
             backgroundColor: Colors.white,
             title: const Text("All Store"),
-            actions: [const Icon(Icons.notifications_none_outlined)],
             bottom: const PreferredSize(
               preferredSize: Size.fromHeight(1),
               child: Divider(height: 1),
             ),
+            automaticallyImplyLeading: true,
           ),
           backgroundColor: const Color(0xffEFEBE9),
           body: Column(
@@ -119,14 +121,8 @@ class _StorePageState extends State<StorePage> {
                                 _bloc.add(const StoreChangeViewType(
                                     viewType: StoreViewType.Map_View));
                               },
-                              splashColor: Colors.transparent,
-                              highlightColor: Colors.transparent,
-                              child: const Row(
-                                children: [
-                                  Icon(
-                                    Icons.map,
-                                  ),
-                                ],
+                              child: Icon(
+                                Icons.map,
                               ),
                             );
                           } else {
@@ -135,20 +131,15 @@ class _StorePageState extends State<StorePage> {
                                 _bloc.add(const StoreChangeViewType(
                                     viewType: StoreViewType.List_View));
                               },
-                              splashColor: Colors.transparent,
-                              highlightColor: Colors.transparent,
-                              child: const Row(
-                                children: [
-                                  Icon(
-                                    Icons.list,
-                                  ),
-                                ],
+                              child: Icon(
+                                Icons.list,
                               ),
                             );
                           }
                         }
-
-                        return const SizedBox();
+                        return Icon(
+                          Icons.map,
+                        );
                       },
                     )
                   ],
@@ -160,7 +151,10 @@ class _StorePageState extends State<StorePage> {
                     switch (state) {
                       case StoreLoadInProcess():
                         return ListView.separated(
-                          padding: const EdgeInsets.only(top: AppDimen.spacing),
+                          padding: const EdgeInsets.only(
+                              top: AppDimen.spacing,
+                              left: AppDimen.spacing,
+                              right: AppDimen.spacing),
                           itemBuilder: (context, index) => StoreSkeleton(),
                           separatorBuilder: (context, index) => const SizedBox(
                             height: AppDimen.spacing,
@@ -204,11 +198,13 @@ class _StorePageState extends State<StorePage> {
                                 storeList: storeList,
                                 isLoadingMore: isLoadingMore,
                                 currentViewType: state.viewType,
+                                  fromRoute: widget.fromRoute
                               ),
                               StoreMapView(
                                 storeList: storeList,
                                 currentPosition: state.currentPosition!,
                                 currentViewType: state.viewType,
+                                  fromRoute: widget.fromRoute
                               )
                             ],
                           );

@@ -1,10 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:shopfee/features/store/domain/entities/store_information_entity.dart';
 
 part 'store_information_model.g.dart';
 
 @JsonSerializable()
 class StoreInformationModel {
-  final int? id;
+  final String? id;
   final String? imageUrl;
   final String? name;
   final String? fullAddress;
@@ -30,5 +31,18 @@ class StoreInformationModel {
 
   Map<String, dynamic> toJson() {
     return _$StoreInformationModelToJson(this);
+  }
+
+  factory StoreInformationModel.fromEntity(StoreInformationEntity entity) {
+    return StoreInformationModel(
+      id: entity.id,
+      imageUrl: entity.imageUrl,
+      name: entity.name,
+      fullAddress: entity.fullAddress,
+      longitude: entity.longitude,
+      latitude: entity.latitude,
+      distance: entity.distance,
+      isValid: entity.isValid,
+    );
   }
 }

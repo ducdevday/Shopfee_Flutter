@@ -23,23 +23,16 @@ class OrderModel {
     required this.note,
   });
 
+  double get total =>
+      quantity * size!.price! +
+          quantity * toppings.fold(0, (total, current) => total + current.price!);
+
   factory OrderModel.fromJson(Map<String, dynamic> json) {
     return _$OrderModelFromJson(json);
   }
 
   Map<String, dynamic> toJson() {
     return _$OrderModelToJson(this);
-  }
-
-  Map<String, dynamic> toJsonOrder() {
-    return {
-      'productId': this.product.id,
-      'quantity': this.quantity,
-      'toppings': this.toppings.map((topping) => topping.toJson()).toList(),
-      'price': this.size!.price,
-      'size': this.size!.size,
-      'note': this.note,
-    };
   }
 
   factory OrderModel.fromEntity(OrderEntity entity) {

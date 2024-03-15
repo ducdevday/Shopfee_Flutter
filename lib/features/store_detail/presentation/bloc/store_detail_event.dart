@@ -5,7 +5,7 @@ abstract class StoreDetailEvent extends Equatable {
 }
 
 class StoreDetailLoadInformation extends StoreDetailEvent {
-  final int? branchId;
+  final String? branchId;
 
   const StoreDetailLoadInformation({
     this.branchId,

@@ -79,12 +79,9 @@ class DioService {
   }
 
   Future<void> setRefreshToken(DioError e) async {
-    Map<String, dynamic> body = {
-      // "refreshToken": SharedService.getRefreshToken(),
-    };
     try {
-      var response = await instance.post("${DioService.authPath}/refresh-token",
-          data: body);
+      var response =
+          await instance.post("${DioService.authPath}/refresh-token");
       var result = Result(
           success: response.data["success"],
           message: response.data["message"],
@@ -92,8 +89,6 @@ class DioService {
 
       if (result.success) {
         SharedService.setAccessToken(response.data!["accessToken"]);
-        // SharedService.setRefreshToken(response.data!["refreshToken"]);
-
         // Update the request header with the new access token
         e.requestOptions.headers['Authorization'] =
             'Bearer ${SharedService.getAccessToken()}';

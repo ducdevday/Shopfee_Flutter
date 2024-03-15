@@ -22,6 +22,15 @@ class FormatUtil {
     return DateFormat('hh:mm a').format(dateTime.toLocal());
   }
 
+  static DateTime formatOpenCloseTime(String timeString){
+    List<String> timeParts = timeString.split(':');
+    int hours = int.parse(timeParts[0]);
+    int minutes = int.parse(timeParts[1]);
+
+    DateTime dateTime = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, hours, minutes).toLocal(); // Using
+    return dateTime;
+  }
+
   static String formatQueryString(String? s) {
     if (s == null) {
       return "";

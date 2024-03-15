@@ -10,7 +10,7 @@ class StoreDetailRepositoryImpl implements StoreDetailRepository {
   StoreDetailRepositoryImpl(this._storeDetailService);
 
   @override
-  Future<StoreDetailEntity> getDetailStore(int branchId) async{
+  Future<StoreDetailEntity> getDetailStore(String branchId) async{
     final response = await _storeDetailService.getDetailStore(branchId);
     final result = Result(
       success: response.data["success"],

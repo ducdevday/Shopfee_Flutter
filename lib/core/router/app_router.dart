@@ -23,6 +23,7 @@ import 'package:shopfee/features/register/presentation/register.dart';
 import 'package:shopfee/features/saved_address/presentation/saved_address.dart';
 import 'package:shopfee/features/search/presentation/search.dart';
 import 'package:shopfee/features/splash/presentation/splash.dart';
+import 'package:shopfee/features/store/presentation/store.dart';
 import 'package:shopfee/features/store_detail/presentation/store_detail.dart';
 import 'package:shopfee/features/tracking/presentation/tracking.dart';
 import 'package:shopfee/features/vnpay/presentation/vnpay.dart';
@@ -61,9 +62,7 @@ class AppRouter {
                   code: args["code"],
                 ));
       case NewPasswordPage.route:
-        return PageTransition(
-            child: const NewPasswordPage(),
-            type: PageTransitionType.rightToLeft);
+        return MaterialPageRoute(builder: (context) => const NewPasswordPage());
       case DefaultPage.route:
         return MaterialPageRoute(builder: (context) => DefaultPage());
       case ProductByCategoryPage.route:
@@ -82,9 +81,9 @@ class AppRouter {
       case CartPage.route:
         return MaterialPageRoute(builder: (context) => const CartPage());
       case SavedAddressPage.route:
-        return PageTransition(
-            child: SavedAddressPage(fromRoute: settings.arguments as String),
-            type: PageTransitionType.rightToLeft);
+        return MaterialPageRoute(
+            builder: (context) =>
+                SavedAddressPage(fromRoute: settings.arguments as String));
       case NewAddressPage.route:
         return MaterialPageRoute(
             builder: (context) => NewAddressPage(
@@ -105,22 +104,33 @@ class AppRouter {
             builder: (context) =>
                 TrackingPage(orderId: settings.arguments as String));
       case HistoryPage.route:
-        return PageTransition(child: HistoryPage(), type: PageTransitionType.rightToLeft);
+        return PageTransition(
+            child: HistoryPage(), type: PageTransitionType.rightToLeft);
       case GoogleMapPage.route:
         return MaterialPageRoute(
             builder: (context) => GoogleMapPage(
                   addressString: settings.arguments as String,
                 ));
       case PersonalInformationPage.route:
-        return PageTransition(
-            child: PersonalInformationPage(),
-            type: PageTransitionType.rightToLeft);
+        return MaterialPageRoute(
+            builder: (context) => const PersonalInformationPage());
       case StoreDetailPage.route:
         return PageTransition(
-            child: StoreDetailPage(branchId: settings.arguments as int,), type: PageTransitionType.bottomToTop);
+            child: StoreDetailPage(
+              branchId: settings.arguments as String,
+            ),
+            type: PageTransitionType.bottomToTop);
       case ImageFullScreen.route:
         return PageTransition(
-            child: ImageFullScreen(imgPath: settings.arguments as String,), type: PageTransitionType.fade);
+            child: ImageFullScreen(
+              imgPath: settings.arguments as String,
+            ),
+            type: PageTransitionType.fade);
+      case StorePage.route:
+        return MaterialPageRoute(
+            builder: (context) =>
+                StorePage(fromRoute: settings.arguments as String));
+
       default:
         return _errorRoute();
     }

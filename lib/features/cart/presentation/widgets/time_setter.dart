@@ -1,52 +1,37 @@
 part of cart;
 
-class TimeSetter extends StatefulWidget {
+class TimeSetter extends StatelessWidget {
   const TimeSetter({
     super.key,
   });
-
-  @override
-  State<TimeSetter> createState() => _TimeSetterState();
-}
-
-class _TimeSetterState extends State<TimeSetter> {
-  Time _time = Time(hour: 11, minute: 30);
-
-  void onTimeChanged(Time newTime) {
-    setState(() {
-      _time = newTime;
-      DateTime chosenTime = DateTime.now();
-      chosenTime = chosenTime.copyWith(hour: _time.hour, minute: _time.minute);
-      context.read<CartBloc>().add(CartChooseTime(
-              receiveTime:chosenTime));
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CartBloc, CartState>(
       builder: (context, state) {
         if (state is CartLoaded) {
-          if (state.cart.orderType == OrderType.ONSITE) {
+          if (state.cart.orderType == OrderType.ONSITE && state.cart.store != null) {
+            DateTime openTime =
+                FormatUtil.formatOpenCloseTime(state.cart.store!.openTime!);
+            DateTime closeTime =
+                FormatUtil.formatOpenCloseTime(state.cart.store!.closeTime!);
             return InkWell(
               onTap: () {
-                Navigator.of(context).push(
-                  showPicker(
-                    iosStylePicker: true,
-                    accentColor: Color(0xff8D6E63),
-                    context: context,
-                    value: _time,
-                    minHour: 8,
-                    maxHour: 20,
-                    onChange: onTimeChanged,
-                    minuteInterval: TimePickerInterval.FIFTEEN,
-                    // Optional onChange to receive value as DateTime
-                    onChangeDateTime: (DateTime dateTime) {
-                      // print(dateTime);
-                      debugPrint("[debug datetime]:  $dateTime");
-                    },
-                  ),
-                );
+                BottomPicker.dateTime(
+                  title: 'Choose Time To Take Away',
+                  titleStyle: AppStyle.mediumTextStyleDark,
+                  titlePadding: EdgeInsets.only(top: AppDimen.spacing),
+                  titleAlignment: CrossAxisAlignment.center,
+                  onSubmit: (date) {
+                    context
+                        .read<CartBloc>()
+                        .add(CartChooseTime(receiveTime: date));
+                  },
+                  minDateTime: openTime,
+                  maxDateTime: closeTime,
+                  initialDateTime: state.cart.receiveTime ?? DateTime.now(),
+                  buttonSingleColor: AppColor.primaryColor,
+                ).show(context);
               },
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

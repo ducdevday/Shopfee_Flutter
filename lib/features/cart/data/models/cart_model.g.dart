@@ -15,6 +15,9 @@ CartModel _$CartModelFromJson(Map<String, dynamic> json) => CartModel(
           ? null
           : AddressModel.fromJson(json['address'] as Map<String, dynamic>),
       note: json['note'] as String?,
+      store: json['store'] == null
+          ? null
+          : StoreDetailModel.fromJson(json['store'] as Map<String, dynamic>),
       receiveTime: json['receiveTime'] == null
           ? null
           : DateTime.parse(json['receiveTime'] as String),
@@ -28,6 +31,7 @@ Map<String, dynamic> _$CartModelToJson(CartModel instance) => <String, dynamic>{
       'orderType': instance.orderType,
       'address': instance.address,
       'note': instance.note,
+      'store': instance.store,
       'receiveTime': instance.receiveTime?.toIso8601String(),
       'paymentType': instance.paymentType,
       'shippingFee': instance.shippingFee,

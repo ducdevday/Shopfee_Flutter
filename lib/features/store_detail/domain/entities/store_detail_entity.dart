@@ -2,7 +2,7 @@ import 'package:shopfee/core/common/enum/store_status.dart';
 import 'package:shopfee/features/store_detail/data/models/store_detail_model.dart';
 
 class StoreDetailEntity {
-  final int id;
+  final String id;
   final String? name;
   final String? phoneNumber;
   final String? imageUrl;

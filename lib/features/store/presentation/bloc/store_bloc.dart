@@ -17,7 +17,7 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
         emit(StoreNoLocationPermission());
         return;
       }
-      Position currentPosition = await _storeUseCase.getCurrentPosition();
+      Position currentPosition = await GlobalData.ins.getCurrentPosition();
       final stores = await _storeUseCase.getAllStores(StoreAllParamsEntity(
           lat: currentPosition.latitude,
           lng: currentPosition.longitude,

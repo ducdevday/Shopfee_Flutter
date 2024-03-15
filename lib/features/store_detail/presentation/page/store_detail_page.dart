@@ -2,7 +2,7 @@ part of store_detail;
 
 class StoreDetailPage extends StatefulWidget {
   static const String route = "/store_detail";
-  final int branchId;
+  final String branchId;
 
   const StoreDetailPage({Key? key, required this.branchId}) : super(key: key);
 

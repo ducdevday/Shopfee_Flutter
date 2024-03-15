@@ -1,7 +1,7 @@
 part of account;
 
 class AccountPage extends StatelessWidget {
-  static const int page = 3;
+  static const int page = 4;
 
   const AccountPage({Key? key}) : super(key: key);
 
@@ -200,7 +200,7 @@ class AccountPage extends StatelessWidget {
                                                     .add(UserLogout());
                                                 context
                                                     .read<MyBottomNavBarCubit>()
-                                                    .selectPage(0);
+                                                    .selectPage(HomePage.indexPage);
                                                 Navigator.pop(dialogContext);
                                               },
                                               callbackCancel: () {
