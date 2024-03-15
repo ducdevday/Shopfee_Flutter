@@ -12,33 +12,17 @@ class TrackingPage extends StatefulWidget {
 
 class _TrackingPageState extends State<TrackingPage> {
   late final TrackingCubit _cubit;
+  late final List<EventLogEntity> eventlogs;
 
   @override
   void initState() {
     super.initState();
-    _cubit = ServiceLocator.sl<TrackingCubit>()..loadTrackingInformation(widget.orderId);
+    _cubit = ServiceLocator.sl<TrackingCubit>()
+      ..loadTrackingInformation(widget.orderId);
   }
 
   @override
   Widget build(BuildContext context) {
-    // final List<Map<String, String>> tracks = [
-    //   {
-    //     "title": "Your order was success. Wait for the coffee shop to accept",
-    //     "time": "8:00 AM 17/08/2023",
-    //   },
-    //   {
-    //     "title": "Coffee shop took your order. Wait for the coffee shop to do",
-    //     "time": "8:15 AM 17/08/2023",
-    //   },
-    //   {
-    //     "title": "Your order is ready. Shipper is on its way to you",
-    //     "time": "8:30 AM 17/08/2023",
-    //   },
-    //   {
-    //     "title": "You take your order",
-    //     "time": "8:45 AM 17/08/2023",
-    //   },
-    // ];
     return Scaffold(
       appBar: AppBar(
           title: Text("Tracking"),
@@ -49,7 +33,12 @@ class _TrackingPageState extends State<TrackingPage> {
           )),
       body: BlocProvider(
         create: (context) => _cubit,
-        child: BlocBuilder<TrackingCubit, TrackingState>(
+        child: BlocConsumer<TrackingCubit, TrackingState>(
+          listener: (context, state) {
+            if (state is TrackingLoadSuccess) {
+              eventlogs = state.eventlogs;
+            }
+          },
           builder: (context, state) {
             if (state is TrackingLoadInProcess) {
               return const Center(
@@ -77,87 +66,83 @@ class _TrackingPageState extends State<TrackingPage> {
                     SizedBox(
                       height: 8,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: FixedTimeline.tileBuilder(
-                        theme: TimelineThemeData(
-                          nodePosition: 0,
-                          color: Color(0xff989898),
-                          indicatorTheme: IndicatorThemeData(
-                            position: 0,
-                            size: 12.0,
-                          ),
-                          connectorTheme: ConnectorThemeData(
-                            thickness: 1,
-                          ),
-                        ),
-                        builder: TimelineTileBuilder.connected(
-                          itemExtent: 100.0,
-                          connectionDirection: ConnectionDirection.before,
-                          itemCount: state.eventlogs.length,
-                          contentsBuilder: (context, index) => Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 16),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: FixedTimeline.tileBuilder(
+                            theme: TimelineThemeData(
+                              nodePosition: 0,
+                              color: Color(0xff989898),
+                              indicatorTheme: IndicatorThemeData(
+                                position: 0,
+                                size: 12.0,
+                              ),
+                              connectorTheme: ConnectorThemeData(
+                                thickness: 1,
+                              ),
+                            ),
+                            builder: TimelineTileBuilder.connected(
+                              itemExtent: 100.0,
+                              connectionDirection: ConnectionDirection.before,
+                              itemCount: eventlogs.length,
+                              contentsBuilder: (context, index) => Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 16),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      state.eventlogs[index].orderStatus
-                                              ?.name ??
-                                          "",
+                                      OrderStatus.getFormattedName(eventlogs[index].orderStatus),
                                       style: AppStyle.mediumTextStyleDark
                                           .copyWith(
                                               color: AppColor.primaryColor),
                                     ),
                                     SizedBox(
-                                      width: 4,
+                                      height: 2,
                                     ),
                                     Text(
-                                      "${FormatUtil.formatTime(state.eventlogs[index].time)} - ${FormatUtil.formatDate(state.eventlogs[index].time)}",
+                                      "${FormatUtil.formatTime(eventlogs[index].time)} - ${FormatUtil.formatDate(eventlogs[index].time)}",
                                       style: AppStyle.smallTextStyleDark,
-                                    )
+                                    ),
+                                    SizedBox(
+                                      height: 4,
+                                    ),
+                                    Text(
+                                      "${eventlogs[index].descriptionString}",
+                                      style: AppStyle.normalTextStyleDark,
+                                      overflow: TextOverflow.clip,
+                                    ),
                                   ],
                                 ),
-                                SizedBox(
-                                  height: 4,
-                                ),
-                                Text(
-                                  "${state.eventlogs[index].descriptionString}",
-                                  style: AppStyle.normalTextStyleDark,
-                                ),
-                              ],
+                              ),
+                              indicatorBuilder: (_, index) {
+                                if (eventlogs[index].orderStatus !=
+                                    OrderStatus.SUCCEED) {
+                                  return DotIndicator(
+                                    color: AppColor.primaryColor,
+                                  );
+                                } else {
+                                  return DotIndicator(
+                                    color: AppColor.primaryColor,
+                                    child: const Icon(
+                                      Icons.check,
+                                      color: Colors.white,
+                                      size: 10.0,
+                                    ),
+                                  );
+                                }
+                              },
+                              connectorBuilder: (_, index, ___) =>
+                                  DashedLineConnector(
+                                color: AppColor.primaryColor,
+                                thickness: 1.5,
+                                dash: 1,
+                                gap: 2,
+                              ),
                             ),
-                          ),
-                          indicatorBuilder: (_, index) {
-                            if (state.eventlogs[index].orderStatus !=
-                                OrderStatus.SUCCEED) {
-                              return DotIndicator(
-                                color: AppColor.primaryColor,
-                              );
-                            } else {
-                              return DotIndicator(
-                                color: AppColor.primaryColor,
-                                child: const Icon(
-                                  Icons.check,
-                                  color: Colors.white,
-                                  size: 10.0,
-                                ),
-                              );
-                            }
-                          },
-                          connectorBuilder: (_, index, ___) =>
-                              DashedLineConnector(
-                            color: AppColor.primaryColor,
-                            thickness: 1.5,
-                            dash: 1,
-                            gap: 2,
                           ),
                         ),
                       ),
-                    ),
-                    Spacer(
-                      flex: 1,
                     ),
                     Align(
                         alignment: Alignment.center,

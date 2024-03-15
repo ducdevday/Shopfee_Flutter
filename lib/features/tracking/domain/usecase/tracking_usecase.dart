@@ -15,6 +15,8 @@ class TrackingUseCaseImpl extends TrackingUseCase {
 
   @override
   Future<List<EventLogEntity>> getEventLogsOrder(String orderId) async {
-    return await _trackingRepository.getEventLogsOrder(orderId);
+    final List<EventLogEntity> eventLogs = await _trackingRepository.getEventLogsOrder(orderId);
+    final List<EventLogEntity> reversedEventLogs = eventLogs.reversed.toList();
+    return reversedEventLogs;
   }
 }
