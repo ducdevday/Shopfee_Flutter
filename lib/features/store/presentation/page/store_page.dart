@@ -83,36 +83,45 @@ class _StorePageState extends State<StorePage> {
                 child: Row(
                   children: [
                     Expanded(
-                      child: TextField(
-                        style: AppStyle.smallTextStyleDark,
-                        onChanged: (value) => {},
-                        decoration: InputDecoration(
-                          fillColor: Colors.white,
-                          filled: true,
-                          contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 0),
-                          suffixIcon: const Icon(Icons.search),
-                          errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16),
-                            borderSide:
-                                const BorderSide(color: Color(0xffCCCCCC)),
+                      child: GestureDetector(
+                        onTap: (){
+                          NavigationUtil.pushNamed(StoreSearchPage.route, arguments: getAll);
+                        },
+                        child: Hero(
+                          tag: "Store_Search_Bar",
+                          child: TextField(
+                            enabled: false,
+                            style: AppStyle.smallTextStyleDark,
+                            onChanged: null,
+                            decoration: InputDecoration(
+                              fillColor: Colors.white,
+                              filled: true,
+                              contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 0),
+                              suffixIcon: const Icon(Icons.search),
+                              errorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(16),
+                                borderSide:
+                                    const BorderSide(color: Color(0xffCCCCCC)),
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(16),
+                                borderSide:
+                                    const BorderSide(color: Color(0xffCCCCCC)),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(16),
+                                borderSide:
+                                    BorderSide(color: AppColor.primaryColor),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(16),
+                                borderSide:
+                                    const BorderSide(color: Color(0xffCCCCCC)),
+                              ),
+                              hintText: "Find Any Store",
+                            ),
                           ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16),
-                            borderSide:
-                                const BorderSide(color: Color(0xffCCCCCC)),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16),
-                            borderSide:
-                                BorderSide(color: AppColor.primaryColor),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16),
-                            borderSide:
-                                const BorderSide(color: Color(0xffCCCCCC)),
-                          ),
-                          hintText: "Find Any Store",
                         ),
                       ),
                     ),

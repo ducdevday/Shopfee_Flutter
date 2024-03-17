@@ -130,7 +130,10 @@ class AppRouter {
         return MaterialPageRoute(
             builder: (context) =>
                 StorePage(fromRoute: settings.arguments as String));
-
+      case StoreSearchPage.route:
+        return MaterialPageRoute(
+            builder: (context) =>
+                StoreSearchPage(getAll: settings.arguments as bool));
       default:
         return _errorRoute();
     }

@@ -19,6 +19,7 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
       }
       Position currentPosition = await GlobalData.ins.getCurrentPosition();
       final stores = await _storeUseCase.getAllStores(StoreAllParamsEntity(
+        key: event.query,
         all: event.getAll,
         lat: currentPosition.latitude,
         lng: currentPosition.longitude,
@@ -27,6 +28,7 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
       ));
       if (stores != null) {
         emit(StoreLoadSuccess(
+            query: event.query,
             getAll: event.getAll,
             stores: stores,
             currentPosition: currentPosition));
@@ -46,6 +48,7 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
         final currentState = state as StoreLoadSuccess;
         emit(currentState.copyWith(isLoadMore: true));
         final stores = await _storeUseCase.getAllStores(StoreAllParamsEntity(
+            key: currentState.query,
             all: currentState.getAll,
             lat: currentState.currentPosition!.latitude,
             lng: currentState.currentPosition!.longitude,
@@ -75,6 +78,7 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
         if (event.viewType == StoreViewType.Map_View &&
             currentState.stores.isEmpty) {
           final stores = await _storeUseCase.getAllStores(StoreAllParamsEntity(
+              key: currentState.query,
               all: currentState.getAll,
               lat: currentState.currentPosition!.latitude,
               lng: currentState.currentPosition!.longitude,
