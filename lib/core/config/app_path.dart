@@ -18,9 +18,10 @@ class AppPath {
   static const String icOrder = "assets/icons/ic_order.svg";
   static const String icStore = "assets/icons/ic_store.svg";
   static const String icPreferential = "assets/icons/ic_preferential.svg";
-  static const String icCoffee = "assets/icons/ic_coffee.png";
+  static const String icNoProduct = "assets/icons/ic_coffee.png";
   static const String icNoLocation = "assets/icons/ic_no_location.png";
   static const String icNoStore = "assets/icons/ic_store.png";
+  static const String icNoHistory = "assets/icons/ic_history_list.png";
 
   static const String imgAccountBackground =
       "assets/images/img_profile_background.png";

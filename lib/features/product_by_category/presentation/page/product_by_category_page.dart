@@ -148,7 +148,7 @@ class _ProductByCategoryPageState extends State<ProductByCategoryPage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Image.asset(
-                                AppPath.icCoffee,
+                                AppPath.icNoProduct,
                                 width: 60,
                                 height: 60,
                               ),

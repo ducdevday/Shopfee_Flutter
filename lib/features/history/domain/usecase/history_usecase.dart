@@ -1,11 +1,10 @@
-import 'package:shopfee/core/common/models/order_status.dart';
 import 'package:shopfee/features/history/domain/entities/order_history_entity.dart';
+import 'package:shopfee/features/history/domain/entities/order_history_params_entity.dart';
 import 'package:shopfee/features/history/domain/repositories/history_repository.dart';
 
 abstract class HistoryUseCase {
   Future<List<OrderHistoryEntity>> getHistoryOrder(
-      String userId, OrderStatus orderStatus,
-      {required int page, required int size});
+      String userId, OrderHistoryParamsEntity params);
 }
 
 class HistoryUseCaseImpl extends HistoryUseCase {
@@ -15,9 +14,7 @@ class HistoryUseCaseImpl extends HistoryUseCase {
 
   @override
   Future<List<OrderHistoryEntity>> getHistoryOrder(
-      String userId, OrderStatus orderStatus,
-      {required int page, required int size}) async {
-    return await _historyRepository.getHistoryOrder(userId, orderStatus,
-        page: page, size: size);
+      String userId,OrderHistoryParamsEntity params) async {
+    return await _historyRepository.getHistoryOrder(userId, params);
   }
 }

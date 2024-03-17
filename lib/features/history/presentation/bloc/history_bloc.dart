@@ -4,131 +4,245 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
   final HistoryUseCase _historyUseCase;
 
   HistoryBloc(this._historyUseCase) : super(HistoryInitial()) {
-    on<LoadHistory>(_onLoadHistory);
-    on<LoadMoreHistory>(_onLoadMoreHistory);
+    on<HistoryLoadInformationInitialize>(_onHistoryLoadInformationInitialize);
+    on<HistoryLoadInformationByStatus>(_onHistoryLoadInformationByStatus);
+    on<HistoryLoadMoreInformationByStatus>(
+        _onHistoryLoadMoreInformationByStatus);
   }
 
-  FutureOr<void> _onLoadHistory(
-      LoadHistory event, Emitter<HistoryState> emit) async {
+  FutureOr<void> _onHistoryLoadInformationInitialize(
+      HistoryLoadInformationInitialize event,
+      Emitter<HistoryState> emit) async {
     try {
-      emit(HistoryLoading());
-      if (SharedService.getUserId() == null) {
-        emit(HistoryNotAuth());
-        return;
-      }
-      List<OrderHistoryEntity> orderHistoryList = [];
-      int page = 1;
-      int size = 8;
-      await Future.delayed(Duration(milliseconds: 500));
-
+      emit(HistoryLoadInProcess());
+      final orderHistoryList = await _historyUseCase.getHistoryOrder(
+          SharedService.getUserId()!,
+          OrderHistoryParamsEntity(
+              historyStatus: event.historyStatus,
+              page: event.initPage,
+              size: event.initSize));
+      await Future.delayed(Duration(seconds: 2));
+      final orderHistoryGroup = OrderHistoryGroupEntity(
+        orderHistoryList: orderHistoryList,
+        page: event.initPage,
+        size: event.initSize,
+      );
       switch (event.historyStatus) {
-        case HistoryStatus.Processing:
-          final response = await Future.wait([
-            _historyUseCase.getHistoryOrder(
-                SharedService.getUserId()!, OrderStatus.CREATED,
-                page: page, size: size),
-            _historyUseCase.getHistoryOrder(
-                SharedService.getUserId()!, OrderStatus.ACCEPTED,
-                page: page, size: size),
-            _historyUseCase.getHistoryOrder(
-                SharedService.getUserId()!, OrderStatus.DELIVERING,
-                page: page, size: size)
-          ]);
-          final List<OrderHistoryEntity> orderHistoryCreatedList = response[0];
-          final List<OrderHistoryEntity> orderHistoryAcceptedList = response[1];
-          final List<OrderHistoryEntity> orderHistoryDeliveringList =
-              response[2];
-          orderHistoryList.addAll(orderHistoryCreatedList);
-          orderHistoryList.addAll(orderHistoryAcceptedList);
-          orderHistoryList.addAll(orderHistoryDeliveringList);
+        case HistoryStatus.WAITING:
+          emit(HistoryLoadSuccess(
+              chosenStatus: event.historyStatus,
+              orderWaitingGroup: orderHistoryGroup));
           break;
-
-        case HistoryStatus.Done:
-          final List<OrderHistoryEntity> orderHistoryDoneList =
-              await _historyUseCase.getHistoryOrder(
-                  SharedService.getUserId()!, OrderStatus.SUCCEED,
-                  page: page, size: size);
-          orderHistoryList.addAll(orderHistoryDoneList);
+        case HistoryStatus.IN_PROCESS:
+          emit(HistoryLoadSuccess(
+              chosenStatus: event.historyStatus,
+              orderProcessingGroup: orderHistoryGroup));
           break;
-
-        case HistoryStatus.Canceled:
-          final List<OrderHistoryEntity> orderHistoryCanceledList =
-              await _historyUseCase.getHistoryOrder(
-                  SharedService.getUserId()!, OrderStatus.CANCELED,
-                  page: page, size: size);
-          orderHistoryList.addAll(orderHistoryCanceledList);
+        case HistoryStatus.SUCCEED:
+          emit(HistoryLoadSuccess(
+              chosenStatus: event.historyStatus,
+              orderSucceedGroup: orderHistoryGroup));
+          break;
+        case HistoryStatus.CANCELED:
+          emit(HistoryLoadSuccess(
+              chosenStatus: event.historyStatus,
+              orderCanceledGroup: orderHistoryGroup));
           break;
       }
-      emit(HistoryLoaded(
-          historyStatus: event.historyStatus,
-          orderHistoryList: orderHistoryList,
-          page: page,
-          size: size));
     } catch (e) {
-      emit(HistoryError());
+      emit(HistoryLoadFailure());
       ExceptionUtil.handle(e);
     }
   }
 
-  FutureOr<void> _onLoadMoreHistory(
-      LoadMoreHistory event, Emitter<HistoryState> emit) async {
-    List<OrderHistoryEntity> orderMoreHistoryList = [];
-    try{
-      if (state is HistoryLoaded) {
-        final currentState = state as HistoryLoaded;
-        emit(currentState.copyWith(isLoadMore: true));
-        await Future.delayed(Duration(milliseconds: 1000));
+  FutureOr<void> _onHistoryLoadInformationByStatus(
+      HistoryLoadInformationByStatus event, Emitter<HistoryState> emit) async {
+    try {
+      if (state is HistoryLoadSuccess) {
+        final currentState = state as HistoryLoadSuccess;
+        //If type of history Loaded
         switch (event.historyStatus) {
-          case HistoryStatus.Processing:
-            final response = await Future.wait([
-              _historyUseCase.getHistoryOrder(
-                  SharedService.getUserId()!, OrderStatus.CREATED,
-                  page: currentState.page + 1, size: currentState.size),
-              _historyUseCase.getHistoryOrder(
-                  SharedService.getUserId()!, OrderStatus.ACCEPTED,
-                  page: currentState.page + 1, size: currentState.size),
-              _historyUseCase.getHistoryOrder(
-                  SharedService.getUserId()!, OrderStatus.DELIVERING,
-                  page: currentState.page + 1, size: currentState.size)
-            ]);
-            final List<OrderHistoryEntity> orderHistoryCreatedList = response[0];
-            final List<OrderHistoryEntity> orderHistoryAcceptedList = response[1];
-            final List<OrderHistoryEntity> orderHistoryDeliveringList =
-            response[2];
-            orderMoreHistoryList.addAll(orderHistoryCreatedList);
-            orderMoreHistoryList.addAll(orderHistoryAcceptedList);
-            orderMoreHistoryList.addAll(orderHistoryDeliveringList);
-            break;
-
-          case HistoryStatus.Done:
-            final List<OrderHistoryEntity> orderHistoryDoneList =
-            await _historyUseCase.getHistoryOrder(
-                SharedService.getUserId()!, OrderStatus.SUCCEED,
-                page: currentState.page + 1, size: currentState.size);
-            orderMoreHistoryList.addAll(orderHistoryDoneList);
-            break;
-
-          case HistoryStatus.Canceled:
-            final List<OrderHistoryEntity> orderHistoryCanceledList =
-            await _historyUseCase.getHistoryOrder(
-                SharedService.getUserId()!, OrderStatus.CANCELED,
-                page: currentState.page + 1, size: currentState.size);
-            orderMoreHistoryList.addAll(orderHistoryCanceledList);
-            break;
+          case HistoryStatus.WAITING:
+            if(currentState.orderWaitingGroup != null) {
+              emit(currentState.copyWith(
+                  chosenStatus: event.historyStatus));
+              return;
+            }
+          case HistoryStatus.IN_PROCESS:
+            if(currentState.orderProcessingGroup != null) {
+              emit(currentState.copyWith(
+                  chosenStatus: event.historyStatus));
+              return;
+            }
+          case HistoryStatus.SUCCEED:
+            if(currentState.orderSucceedGroup != null) {
+              emit(currentState.copyWith(
+                  chosenStatus: event.historyStatus));
+              return;
+            }
+          case HistoryStatus.CANCELED:
+            if(currentState.orderCanceledGroup != null) {
+              emit(currentState.copyWith(
+                  chosenStatus: event.historyStatus));
+              return;
+            }
         }
-        if (orderMoreHistoryList.isNotEmpty) {
-          emit(currentState.copyWith(
-              orderHistoryList: List.from(currentState.orderHistoryList)
-                ..addAll(orderMoreHistoryList),
-              page: currentState.page + 1,
-              isLoadMore: false));
-        } else {
-          emit(currentState.copyWith(cannotLoadMore: true));
+
+        //If type of history Not Loaded Yet
+        emit(HistoryLoadInProcess());
+        final orderHistoryList = await _historyUseCase.getHistoryOrder(
+            SharedService.getUserId()!,
+            OrderHistoryParamsEntity(
+                historyStatus: event.historyStatus,
+                page: event.initPage,
+                size: event.initSize));
+        await Future.delayed(Duration(seconds: 2));
+        final orderHistoryGroup = OrderHistoryGroupEntity(
+          orderHistoryList: orderHistoryList,
+          page: event.initPage,
+          size: event.initSize,
+        );
+        switch (event.historyStatus) {
+          case HistoryStatus.WAITING:
+            emit(currentState.copyWith(
+                chosenStatus: event.historyStatus,
+                orderWaitingGroup: orderHistoryGroup));
+            break;
+          case HistoryStatus.IN_PROCESS:
+            emit(currentState.copyWith(
+                chosenStatus: event.historyStatus,
+                orderProcessingGroup: orderHistoryGroup));
+            break;
+          case HistoryStatus.SUCCEED:
+            emit(currentState.copyWith(
+                chosenStatus: event.historyStatus,
+                orderSucceedGroup: orderHistoryGroup));
+            break;
+          case HistoryStatus.CANCELED:
+            emit(currentState.copyWith(
+                chosenStatus: event.historyStatus,
+                orderCanceledGroup: orderHistoryGroup));
+            break;
         }
       }
+    } catch (e) {
+      emit(HistoryLoadFailure());
+      ExceptionUtil.handle(e);
     }
-    catch(e){
-      emit(HistoryError());
+  }
+
+  FutureOr<void> _onHistoryLoadMoreInformationByStatus(
+      HistoryLoadMoreInformationByStatus event,
+      Emitter<HistoryState> emit) async {
+    try {
+      if (state is HistoryLoadSuccess) {
+        final currentState = state as HistoryLoadSuccess;
+        switch (currentState.chosenStatus) {
+          case HistoryStatus.WAITING:
+            final orderGroup = currentState.orderWaitingGroup;
+            emit(currentState.copyWith(
+                orderWaitingGroup: orderGroup?.copyWith(isLoadMore: true)));
+
+            final orderHistoryList = await _historyUseCase.getHistoryOrder(
+                SharedService.getUserId()!,
+                OrderHistoryParamsEntity(
+                    historyStatus: currentState.chosenStatus,
+                    page: orderGroup!.page! + 1,
+                    size: orderGroup.size!));
+
+            if (orderHistoryList.isNotEmpty) {
+              emit(currentState.copyWith(
+                  orderWaitingGroup: orderGroup.copyWith(
+                      orderHistoryList: List.from(orderGroup.orderHistoryList!)
+                        ..addAll(orderHistoryList),
+                      page: orderGroup.page! + 1,
+                      isLoadMore: false)));
+            } else {
+              emit(currentState.copyWith(
+                  orderWaitingGroup:
+                      orderGroup.copyWith(cannotLoadMore: true)));
+            }
+            break;
+
+          case HistoryStatus.IN_PROCESS:
+            final orderGroup = currentState.orderProcessingGroup;
+            emit(currentState.copyWith(
+                orderProcessingGroup: orderGroup?.copyWith(isLoadMore: true)));
+
+            final orderHistoryList = await _historyUseCase.getHistoryOrder(
+                SharedService.getUserId()!,
+                OrderHistoryParamsEntity(
+                    historyStatus: currentState.chosenStatus,
+                    page: orderGroup!.page! + 1,
+                    size: orderGroup.size!));
+
+            if (orderHistoryList.isNotEmpty) {
+              emit(currentState.copyWith(
+                  orderProcessingGroup: orderGroup.copyWith(
+                      orderHistoryList: List.from(orderGroup.orderHistoryList!)
+                        ..addAll(orderHistoryList),
+                      page: orderGroup.page! + 1,
+                      isLoadMore: false)));
+            } else {
+              emit(currentState.copyWith(
+                  orderProcessingGroup:
+                      orderGroup.copyWith(cannotLoadMore: true)));
+            }
+            break;
+          case HistoryStatus.SUCCEED:
+            final orderGroup = currentState.orderSucceedGroup;
+            emit(currentState.copyWith(
+                orderSucceedGroup: orderGroup?.copyWith(isLoadMore: true)));
+
+            final orderHistoryList = await _historyUseCase.getHistoryOrder(
+                SharedService.getUserId()!,
+                OrderHistoryParamsEntity(
+                    historyStatus: currentState.chosenStatus,
+                    page: orderGroup!.page! + 1,
+                    size: orderGroup.size!));
+
+            if (orderHistoryList.isNotEmpty) {
+              emit(currentState.copyWith(
+                  orderSucceedGroup: orderGroup.copyWith(
+                      orderHistoryList: List.from(orderGroup.orderHistoryList!)
+                        ..addAll(orderHistoryList),
+                      page: orderGroup.page! + 1,
+                      isLoadMore: false)));
+            } else {
+              emit(currentState.copyWith(
+                  orderSucceedGroup:
+                      orderGroup.copyWith(cannotLoadMore: true)));
+            }
+            break;
+          case HistoryStatus.CANCELED:
+            final orderGroup = currentState.orderCanceledGroup;
+            emit(currentState.copyWith(
+                orderCanceledGroup: orderGroup?.copyWith(isLoadMore: true)));
+
+            final orderHistoryList = await _historyUseCase.getHistoryOrder(
+                SharedService.getUserId()!,
+                OrderHistoryParamsEntity(
+                    historyStatus: currentState.chosenStatus,
+                    page: orderGroup!.page! + 1,
+                    size: orderGroup.size!));
+
+            if (orderHistoryList.isNotEmpty) {
+              emit(currentState.copyWith(
+                  orderCanceledGroup: orderGroup.copyWith(
+                      orderHistoryList: List.from(orderGroup.orderHistoryList!)
+                        ..addAll(orderHistoryList),
+                      page: orderGroup.page! + 1,
+                      isLoadMore: false)));
+            } else {
+              emit(currentState.copyWith(
+                  orderCanceledGroup:
+                      orderGroup.copyWith(cannotLoadMore: true)));
+            }
+            break;
+        }
+      }
+    } catch (e) {
+      emit(HistoryLoadFailure());
       ExceptionUtil.handle(e);
     }
   }

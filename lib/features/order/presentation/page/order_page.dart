@@ -137,7 +137,7 @@ class _OrderPageState extends State<OrderPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Image.asset(
-                            AppPath.icCoffee,
+                            AppPath.icNoProduct,
                             width: 60,
                             height: 60,
                           ),

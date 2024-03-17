@@ -1,18 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:shopfee/core/base/dio_service.dart';
-import 'package:shopfee/core/common/models/order_status.dart';
+import 'package:shopfee/features/history/data/models/order_history_params_model.dart';
 
 class HistoryService{
-  Future<Response> getHistoryOrder(String userId, OrderStatus orderStatus,
-      {required int page, required int size}) async {
-    Map<String, dynamic> queryParameters = {
-      "orderStatus": orderStatus.name,
-      "page": page,
-      "size": size
-    };
+  Future<Response> getHistoryOrder(String userId, OrderHistoryParamsModel params) async {
     final response = await DioService.instance.get(
         "${DioService.orderPath}/history/user/$userId",
-        queryParameters: queryParameters);
+        queryParameters: params.toJson());
     return response;
   }
 }

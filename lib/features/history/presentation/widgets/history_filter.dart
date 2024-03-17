@@ -1,67 +1,85 @@
 part of history;
 
-class HistoryFilter extends StatelessWidget {
-  const HistoryFilter({Key? key}) : super(key: key);
+class HistoryFilter extends StatefulWidget {
+  final HistoryStatus historyStatus;
+  final int initPage;
+  final int initSize;
+
+  const HistoryFilter({
+    super.key,
+    required this.historyStatus,
+    required this.initPage,
+    required this.initSize,
+  });
+
+  @override
+  State<HistoryFilter> createState() => _HistoryFilterState();
+}
+
+class _HistoryFilterState extends State<HistoryFilter> {
+  late HistoryStatus historyStatus;
+
+  @override
+  void initState() {
+    super.initState();
+    historyStatus = widget.historyStatus;
+  }
 
   @override
   Widget build(BuildContext context) {
-    HistoryStatus historyStatus = HistoryStatus.Processing;
-
     return BlocConsumer<HistoryBloc, HistoryState>(
-      listener: (context, state) {
-        if (state is HistoryLoaded) {
-          historyStatus = state.historyStatus;
+      listener: (BuildContext context, HistoryState state) {
+        if (state is HistoryLoadSuccess) {
+          historyStatus = state.chosenStatus;
         }
       },
-      builder: (context, state) {
-        return Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: AppDimen.screenPadding),
-            child: Row(
-              children: HistoryStatus.values
-                  .mapIndexed((index, status) => Row(
-                        children: [
-                          FilterChip(
-                              // labelPadding: const EdgeInsets.symmetric(
-                              //     vertical: 4, horizontal: 8),
-                              showCheckmark: false,
-                              selectedColor: AppColor.primaryColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.0),
-                                side: BorderSide(
-                                  color: AppColor.primaryColor,
-                                  width: 1.5,
-                                ),
-                              ),
-                              label: Text(
-                                HistoryStatus.values[index].name,
-                                style: AppStyle.smallTextStyleDark.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: historyStatus ==
-                                            HistoryStatus.values[index]
-                                        ? Colors.white
-                                        : AppColor.headingColor),
-                              ),
-                              color: MaterialStateProperty.all(
-                                  historyStatus ==
-                                      HistoryStatus.values[index]
-                                      ? AppColor.primaryColor
-                                      : Colors.white),
-                              selected:
-                                  historyStatus == HistoryStatus.values[index],
-                              onSelected: (bool selected) {
-                                if (selected) {
-                                  context.read<HistoryBloc>().add(LoadHistory(
-                                      historyStatus:
-                                          HistoryStatus.values[index]));
-                                }
-                              }),
-                          if (index < HistoryStatus.values.length - 1)
-                            const SizedBox(width: 8),
-                        ],
-                      ))
-                  .toList(),
-            ));
+      builder: (BuildContext context, HistoryState state) {
+        return SizedBox(
+          height: 50,
+          child: ListView.separated(
+            padding: EdgeInsets.symmetric(horizontal: AppDimen.screenPadding),
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) => FilterChip(
+                showCheckmark: false,
+                selectedColor: AppColor.primaryColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0),
+                  side: BorderSide(
+                    color: AppColor.primaryColor,
+                    width: 1.5,
+                  ),
+                ),
+                label: Text(
+                  HistoryStatus.getName(HistoryStatus.values[index]),
+                  style: AppStyle.smallTextStyleDark.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: historyStatus == HistoryStatus.values[index]
+                          ? Colors.white
+                          : AppColor.headingColor),
+                ),
+                color: MaterialStateProperty.all(
+                    historyStatus == HistoryStatus.values[index]
+                        ? AppColor.primaryColor
+                        : Colors.white),
+                selected: historyStatus == HistoryStatus.values[index],
+                onSelected: (bool selected) {
+                  if (selected) {
+                    setState(() {
+                      historyStatus = HistoryStatus.values[index];
+                    });
+                    context.read<HistoryBloc>().add(
+                        HistoryLoadInformationByStatus(
+                            historyStatus: HistoryStatus.values[index],
+                            initPage: widget.initPage,
+                            initSize: widget.initSize));
+                  }
+                }),
+            separatorBuilder: (context, index) => const SizedBox(
+              width: 8,
+            ),
+            itemCount: HistoryStatus.values.length,
+          ),
+        );
       },
     );
   }

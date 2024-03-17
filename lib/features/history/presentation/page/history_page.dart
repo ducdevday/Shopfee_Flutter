@@ -12,16 +12,17 @@ class HistoryPage extends StatefulWidget {
 class _HistoryPageState extends State<HistoryPage> {
   late final HistoryBloc _bloc;
   final scrollController = ScrollController();
-  late bool isLoadingMore;
-  late bool cannotLoadMore;
-  HistoryStatus historyStatus = HistoryStatus.Processing;
-  List<OrderHistoryEntity> orderHistoryList = [];
+  HistoryStatus historyStatus = HistoryStatus.IN_PROCESS;
+  int initPage = 1;
+  int initSize = 8;
+  late OrderHistoryGroupEntity orderHistoryGroup;
 
   @override
   void initState() {
     super.initState();
-    _bloc = ServiceLocator.sl<HistoryBloc>()
-      ..add(LoadHistory(historyStatus: historyStatus));
+    _bloc = ServiceLocator.sl<HistoryBloc>();
+    _bloc.add(HistoryLoadInformationInitialize(
+        historyStatus: historyStatus, initPage: initPage, initSize: initSize));
     scrollController.addListener(_scrollListener);
   }
 
@@ -33,20 +34,24 @@ class _HistoryPageState extends State<HistoryPage> {
   }
 
   void _scrollListener() {
-    if (isLoadingMore || cannotLoadMore) return;
+    if (orderHistoryGroup.isLoadMore || orderHistoryGroup.cannotLoadMore) {
+      return;
+    }
     if (scrollController.position.pixels ==
         scrollController.position.maxScrollExtent) {
-      _bloc.add(LoadMoreHistory(historyStatus: historyStatus));
+      _bloc.add(const HistoryLoadMoreInformationByStatus());
     }
   }
 
   String? getEmptyListString(HistoryStatus status) {
     switch (status) {
-      case HistoryStatus.Processing:
+      case HistoryStatus.WAITING:
+        return "No Order In Waiting";
+      case HistoryStatus.IN_PROCESS:
         return "No Order In Processing";
-      case HistoryStatus.Done:
+      case HistoryStatus.SUCCEED:
         return "No Order Has Done";
-      case HistoryStatus.Canceled:
+      case HistoryStatus.CANCELED:
         return "No Order Has Canceled";
     }
   }
@@ -66,16 +71,14 @@ class _HistoryPageState extends State<HistoryPage> {
         create: (context) => _bloc,
         child: BlocListener<HistoryBloc, HistoryState>(
           listener: (context, state) {
-            if (state is HistoryLoaded) {
-              isLoadingMore = state.isLoadMore;
-              cannotLoadMore = state.cannotLoadMore;
-              historyStatus = state.historyStatus;
-              orderHistoryList = state.orderHistoryList;
+            if (state is HistoryLoadSuccess) {
+              historyStatus = state.chosenStatus;
+              orderHistoryGroup = state.orderHistoryGroup!;
             }
           },
           child: RefreshIndicator(
             onRefresh: () async {
-              _bloc.add(LoadHistory(historyStatus: historyStatus));
+              _bloc.add(HistoryLoadMoreInformationByStatus());
             },
             child: Container(
               width: MediaQuery.of(context).size.width,
@@ -85,25 +88,32 @@ class _HistoryPageState extends State<HistoryPage> {
                   const SizedBox(
                     height: AppDimen.spacing,
                   ),
-                  const HistoryFilter(),
+                  HistoryFilter(
+                    historyStatus: historyStatus,
+                    initPage: initPage,
+                    initSize: initSize,
+                  ),
                   Expanded(
                     child: BlocBuilder<HistoryBloc, HistoryState>(
                       builder: (context, state) {
                         switch (state) {
                           case HistoryNotAuth():
                             return HistoryNotAuthWidget();
-                          case HistoryLoading():
+                          case HistoryLoadInProcess():
                             return HistorySkeleton();
-                          case HistoryLoaded():
+                          case HistoryLoadSuccess():
+                            final orderHistoryList =
+                                orderHistoryGroup.orderHistoryList;
                             if (orderHistoryList.isNotEmpty) {
                               return ListView.separated(
                                 padding: EdgeInsets.only(top: AppDimen.spacing),
                                 controller: scrollController,
-                                itemCount: isLoadingMore
+                                itemCount: orderHistoryGroup.isLoadMore
                                     ? orderHistoryList.length + 1
                                     : orderHistoryList.length,
                                 itemBuilder: (context, index) => index <
-                                        orderHistoryList.length
+                                        orderHistoryGroup
+                                            .orderHistoryList.length
                                     ? InkWell(
                                         onTap: () {
                                           NavigationUtil.pushNamed(
@@ -111,17 +121,22 @@ class _HistoryPageState extends State<HistoryPage> {
                                                   arguments:
                                                       orderHistoryList[index]
                                                           .id)
-                                              .then((value) {
-                                            if (value != null &&
-                                                value as bool == true) {
-                                              _bloc.add(LoadHistory(
-                                                  historyStatus:
-                                                      historyStatus));
+                                              .then((refresh) {
+                                            if (refresh != null &&
+                                                refresh as bool == true) {
+                                              _bloc.add(
+                                                  HistoryLoadInformationInitialize(
+                                                      historyStatus:
+                                                          historyStatus,
+                                                      initPage: initPage,
+                                                      initSize: initSize));
                                             }
                                           });
                                         },
                                         child: HistoryItem(
-                                          index: index,
+                                          orderHistory: orderHistoryList[index],
+                                          isLastItem: index ==
+                                              orderHistoryList.length - 1,
                                         ),
                                       )
                                     : const Padding(
@@ -142,7 +157,7 @@ class _HistoryPageState extends State<HistoryPage> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Image.asset(
-                                      AppPath.icCoffee,
+                                      AppPath.icNoHistory,
                                       width: 60,
                                       height: 60,
                                     ),
@@ -150,8 +165,7 @@ class _HistoryPageState extends State<HistoryPage> {
                                       height: 16,
                                     ),
                                     Text(
-                                      getEmptyListString(state.historyStatus) ??
-                                          "",
+                                      getEmptyListString(historyStatus) ?? "",
                                       style: AppStyle.mediumTextStyleDark
                                           .copyWith(
                                               color: AppColor.nonactiveColor),

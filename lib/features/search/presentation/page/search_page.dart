@@ -150,7 +150,7 @@ class _SearchPageState extends State<SearchPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Image.asset(
-                            AppPath.icCoffee,
+                            AppPath.icNoProduct,
                             width: 60,
                             height: 60,
                           ),
