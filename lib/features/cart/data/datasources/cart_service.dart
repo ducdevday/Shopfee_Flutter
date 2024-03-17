@@ -17,7 +17,7 @@ class CartService {
     return response;
   }
 
-  Future<Response> createShippingOrder(CartModel cart, String userId) async {
+  Future<Response> createShippingOrder(CartModel cart, String userId, double totalCartPrice) async {
     Map<String, dynamic> body = {
       "userId": userId,
       "itemList": OrderGroupModel.groupOrders(cart.orders).map((e) => e.toJson()).toList(),
@@ -25,7 +25,8 @@ class CartService {
       "addressId": cart.address?.id,
       "shippingFee":cart.shippingFee,
       "paymentType": cart.paymentType!.name,
-      "total": cart.totalPrice
+      "total": totalCartPrice,
+      "coin": cart.coin
     };
     print(body);
     final response =
@@ -33,7 +34,7 @@ class CartService {
     return response;
   }
 
-  Future<Response> createTakeAwayOrder(CartModel cart, String userId) async {
+  Future<Response> createTakeAwayOrder(CartModel cart, String userId, double totalCartPrice) async {
     Map<String, dynamic> body = {
       "userId": userId,
       "itemList": OrderGroupModel.groupOrders(cart.orders).map((e) => e.toJson()).toList(),
@@ -41,16 +42,34 @@ class CartService {
       "paymentType": cart.paymentType!.name,
       "receiveTime": cart.receiveTime?.toIso8601String(),
       "branchId": cart.store?.id,
-      "total": cart.totalPrice
+      "total": totalCartPrice,
+      "coin": cart.coin
     };
     final response =
         await DioService.instance.post("${DioService.orderPath}/onsite", data: body);
     return response;
   }
 
-  Future<Response> getNearestStore(double latitude, double longitude) async {
+  Future<Response> getNearestStore(double latitude, double longitude,String time) async {
+    Map<String, dynamic> queryParameters = {
+      "lat": latitude,
+      "lng": longitude,
+      "time": time,
+    };
     final response =
-        await DioService.instance.get("${DioService.branchPath}/1/view");
+    await DioService.instance.get("${DioService.branchPath}/nearest", queryParameters: queryParameters);
+    // final response =
+    //     await DioService.instance.get("${DioService.branchPath}/1/view");
+    return response;
+  }
+
+  Future<Response> getShippingFee(double latitude, double longitude) async {
+    Map<String, dynamic> queryParameters = {
+      "lat": latitude,
+      "lng": longitude,
+    };
+    final response =
+    await DioService.instance.get("${DioService.orderPath}/shipping-fee", queryParameters: queryParameters);
     return response;
   }
 

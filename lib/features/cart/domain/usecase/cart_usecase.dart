@@ -7,7 +7,7 @@ import 'package:shopfee/features/store_detail/domain/entities/store_detail_entit
 abstract class CartUseCase {
   Future<AddressEntity?> getDefaultAddress(String userId);
 
-  Future<AddressEntity?> getChosenAddress(String addressId);
+  Future<AddressEntity?> getChosenShippingAddress(String addressId);
 
   Future<OrderResult> createShippingOrder(CartEntity cart, String userId);
 
@@ -17,6 +17,7 @@ abstract class CartUseCase {
 
   Future<StoreDetailEntity> getDetailStore(String branchId);
 
+  Future<double?> getShippingFee(double lat, double lng);
 }
 
 class CartUseCaseImpl extends CartUseCase {
@@ -30,8 +31,8 @@ class CartUseCaseImpl extends CartUseCase {
   }
 
   @override
-  Future<AddressEntity?> getChosenAddress(String addressId) async {
-    return await _cartRepository.getChosenAddress(addressId);
+  Future<AddressEntity?> getChosenShippingAddress(String addressId) async {
+    return await _cartRepository.getChosenShippingAddress(addressId);
   }
 
   @override
@@ -54,5 +55,10 @@ class CartUseCaseImpl extends CartUseCase {
   @override
   Future<StoreDetailEntity> getDetailStore(String branchId) async{
     return await _cartRepository.getDetailStore(branchId);
+  }
+
+  @override
+  Future<double?> getShippingFee(double lat, double lng) async{
+    return await _cartRepository.getShippingFee(lat, lng);
   }
 }

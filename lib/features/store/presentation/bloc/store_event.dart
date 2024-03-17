@@ -5,16 +5,18 @@ abstract class StoreEvent extends Equatable {
 }
 
 class StoreLoadInformation extends StoreEvent {
+  final bool getAll;
   final int page;
   final int size;
 
   const StoreLoadInformation({
+    this.getAll = false,
     required this.page,
     required this.size,
   });
 
   @override
-  List<Object?> get props => [page, size];
+  List<Object?> get props => [getAll, page, size];
 }
 
 class StoreLoadMoreInformation extends StoreEvent {

@@ -24,6 +24,7 @@ CartModel _$CartModelFromJson(Map<String, dynamic> json) => CartModel(
       paymentType:
           $enumDecodeNullable(_$PaymentTypeEnumMap, json['paymentType']),
       shippingFee: (json['shippingFee'] as num?)?.toDouble(),
+      coin: json['coin'] as num?,
     );
 
 Map<String, dynamic> _$CartModelToJson(CartModel instance) => <String, dynamic>{
@@ -35,6 +36,7 @@ Map<String, dynamic> _$CartModelToJson(CartModel instance) => <String, dynamic>{
       'receiveTime': instance.receiveTime?.toIso8601String(),
       'paymentType': instance.paymentType,
       'shippingFee': instance.shippingFee,
+      'coin': instance.coin,
     };
 
 const _$OrderTypeEnumMap = {

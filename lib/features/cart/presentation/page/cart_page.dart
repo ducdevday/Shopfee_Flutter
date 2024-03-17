@@ -119,10 +119,6 @@ class _CartPageState extends State<CartPage> {
                           const Divider(
                             height: 20,
                           ),
-                          buildPaymentMethod(state, context),
-                          const Divider(
-                            height: 20,
-                          ),
                           TextFormField(
                             onChanged: (value) => {
                               context
@@ -150,40 +146,26 @@ class _CartPageState extends State<CartPage> {
                       height: 4,
                       color: const Color(0xffEFEBE9),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
+                    const Padding(
+                      padding: EdgeInsets.symmetric(
+                          vertical: 10, horizontal: AppDimen.screenPadding),
+                      child: PaymentMethod(),
+                    ),
+                    Container(
+                      height: 4,
+                      color: const Color(0xffEFEBE9),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(
                           vertical: 10, horizontal: AppDimen.screenPadding),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            "Coupon",
-                            style: AppStyle.mediumTitleStyleDark.copyWith(
-                                color: AppColor.headingColor,
-                                fontWeight: FontWeight.w500),
-                          ),
-                          SizedBox(
-                            height: 4,
-                          ),
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.discount,
-                                color: AppColor.primaryColor,
-                              ),
-                              SizedBox(
-                                width: 4,
-                              ),
-                              Expanded(
-                                child: Text("Add coupon",
-                                    style: AppStyle.normalTextStylePrimary),
-                              ),
-                              Icon(Icons.keyboard_arrow_right_rounded)
-                            ],
-                          ),
+                          CouponAppliedWidget(),
                           Divider(
                             height: 20,
                           ),
+                          CoinAppliedWidget()
                         ],
                       ),
                     ),
@@ -191,87 +173,9 @@ class _CartPageState extends State<CartPage> {
                       height: 4,
                       color: const Color(0xffEFEBE9),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(AppDimen.screenPadding),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Payment Summary",
-                              style: AppStyle.mediumTitleStyleDark
-                                  .copyWith(color: AppColor.headingColor)),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Price",
-                                style: AppStyle.normalTextStyleDark
-                                    .copyWith(fontWeight: FontWeight.w400),
-                              ),
-                              Text(
-                                FormatUtil.formatMoney(state.cart.totalPrice),
-                                style: AppStyle.normalTextStyleDark
-                                    .copyWith(fontWeight: FontWeight.w400),
-                              )
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Shipping fee",
-                                style: AppStyle.normalTextStyleDark
-                                    .copyWith(fontWeight: FontWeight.w400),
-                              ),
-                              Text(
-                                FormatUtil.formatMoney(state.cart.shippingFee!),
-                                style: AppStyle.normalTextStyleDark
-                                    .copyWith(fontWeight: FontWeight.w400),
-                              )
-                            ],
-                          ),
-                          // SizedBox(
-                          //   height: 8,
-                          // ),
-                          // Row(
-                          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          //   children: [
-                          //     Text(
-                          //       "Voucher",
-                          //       style: AppStyle.normalTextStyleDark
-                          //           .copyWith(fontWeight: FontWeight.w400),
-                          //     ),
-                          //     Text(
-                          //       "-30,000đ",
-                          //       style: AppStyle.normalTextStyleDark
-                          //           .copyWith(fontWeight: FontWeight.w400),
-                          //     )
-                          //   ],
-                          // ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Total",
-                                style: AppStyle.mediumTitleStyleDark,
-                              ),
-                              Text(
-                                FormatUtil.formatMoney(state.cart.totalPrice +
-                                    state.cart.shippingFee!),
-                                style: AppStyle.mediumTitleStyleDark,
-                              )
-                            ],
-                          )
-                        ],
-                      ),
+                    const Padding(
+                      padding: EdgeInsets.all(AppDimen.screenPadding),
+                      child: PaymentSummary(),
                     )
                   ],
                 ),
@@ -282,22 +186,22 @@ class _CartPageState extends State<CartPage> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: AppDimen.screenPadding),
                     child: ElevatedButton(
-                      onPressed:state.isValid ? () {
-                        if (state.cart.orderType == OrderType.SHIPPING) {
-                          context
-                              .read<CartBloc>()
-                              .add(CartCreateShippingOrder());
-                        } else {
-                          context
-                              .read<CartBloc>()
-                              .add(CartCreateTakeAwayOrder());
-                        }
-                      } : null,
-                      style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(40))),
+                      onPressed: state.cart.isOrderValid()
+                          ? () {
+                              if (state.cart.orderType == OrderType.SHIPPING) {
+                                context
+                                    .read<CartBloc>()
+                                    .add(CartCreateShippingOrder());
+                              } else {
+                                context
+                                    .read<CartBloc>()
+                                    .add(CartCreateTakeAwayOrder());
+                              }
+                            }
+                          : null,
+                      style: AppStyle.elevatedButtonStylePrimary,
                       child: Text(
-                          "Order (${FormatUtil.formatMoney(state.cart.totalPrice + state.cart.shippingFee!)})"),
+                          "Order (${FormatUtil.formatMoney(state.cart.getTotalCartPrice())})"),
                     ),
                   )),
             );
@@ -319,63 +223,6 @@ class _CartPageState extends State<CartPage> {
           style: AppStyle.mediumTitleStyleDark
               .copyWith(color: AppColor.headingColor));
     }
-  }
-
-  Widget buildPaymentMethod(CartLoaded state, BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        buildShowPaymentBottomSheet(context);
-      },
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "Payment Method",
-            style: AppStyle.mediumTitleStyleDark.copyWith(
-                color: AppColor.headingColor, fontWeight: FontWeight.w500),
-          ),
-          const SizedBox(
-            height: 4,
-          ),
-          Builder(builder: (context) {
-            if (state.cart.paymentType == PaymentType.CASHING) {
-              return Row(
-                children: [
-                  Image.asset(
-                    AppPath.icCash,
-                    width: 24,
-                    height: 24,
-                  ),
-                  const SizedBox(
-                    width: 4,
-                  ),
-                  Expanded(
-                      child: Text("Cash", style: AppStyle.normalTextStyleDark)),
-                  const Icon(Icons.keyboard_arrow_right_rounded)
-                ],
-              );
-            } else {
-              return Row(
-                children: [
-                  Image.asset(
-                    AppPath.icVnPay,
-                    width: 24,
-                    height: 24,
-                  ),
-                  const SizedBox(
-                    width: 4,
-                  ),
-                  Expanded(
-                      child:
-                          Text("VNPay", style: AppStyle.normalTextStyleDark)),
-                  const Icon(Icons.keyboard_arrow_right_rounded)
-                ],
-              );
-            }
-          }),
-        ],
-      ),
-    );
   }
 
   Scaffold buildEmptyCart(BuildContext context) {
@@ -460,19 +307,6 @@ Future<void> buildShowDeliveryBottomSheet(BuildContext context) {
     context: context,
     builder: (BuildContext context) {
       return const DeliveryBottomSheet();
-    },
-  );
-}
-
-Future<void> buildShowPaymentBottomSheet(BuildContext context) {
-  return showModalBottomSheet<void>(
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-    ),
-    context: context,
-    builder: (BuildContext context) {
-      return const PaymentBottomSheet();
     },
   );
 }

@@ -68,10 +68,10 @@ class CartChooseOrderType extends CartEvent {
   List<Object> get props => [typeOrder];
 }
 
-class CartChooseAddress extends CartEvent {
+class CartChooseShippingAddress extends CartEvent {
   final String addressId;
 
-  const CartChooseAddress({required this.addressId});
+  const CartChooseShippingAddress({required this.addressId});
 
   @override
   List<Object> get props => [addressId];
@@ -124,13 +124,33 @@ class CartChooseTime extends CartEvent {
 //   List<Object> get props => [voucher];
 // }
 
-class SetShippingFee extends CartEvent {
-  final double shippingFee;
+class CartSetShippingFee extends CartEvent {
+  final double lat;
+  final double lng;
 
-  const SetShippingFee({required this.shippingFee});
+  const CartSetShippingFee({
+    required this.lat,
+    required this.lng,
+  });
 
   @override
-  List<Object> get props => [shippingFee];
+  List<Object> get props => [lat,lng];
+}
+
+class CartApplyCoin extends CartEvent {
+  final num? coin;
+
+  @override
+  List<Object?> get props => [coin];
+
+  const CartApplyCoin({
+    this.coin,
+  });
+}
+
+class CartRemoveCoin extends CartEvent {
+  @override
+  List<Object> get props => [];
 }
 
 class CartCreateShippingOrder extends CartEvent {

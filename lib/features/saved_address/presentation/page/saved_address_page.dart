@@ -158,6 +158,7 @@ class _SavedAddressPageState extends State<SavedAddressPage> {
                     Text(
                       state.addressList[index].detail ?? "",
                       style: AppStyle.normalTextStyleDark,
+                      overflow: TextOverflow.clip,
                     ),
                   ],
                 ),

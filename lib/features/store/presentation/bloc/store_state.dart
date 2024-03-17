@@ -16,6 +16,7 @@ class StoreLoadInProcess extends StoreState {
 
 class StoreLoadSuccess extends StoreState {
   final List<StoreInformationEntity> stores;
+  final bool getAll;
   final bool isLoadMore;
   final bool cannotLoadMore;
   final Position? currentPosition;
@@ -23,6 +24,7 @@ class StoreLoadSuccess extends StoreState {
 
   const StoreLoadSuccess({
     required this.stores,
+    required this.getAll,
     this.isLoadMore = false,
     this.cannotLoadMore = false,
     this.currentPosition,
@@ -30,10 +32,12 @@ class StoreLoadSuccess extends StoreState {
   });
 
   @override
-  List<Object?> get props => [stores, isLoadMore, cannotLoadMore, currentPosition, viewType];
+  List<Object?> get props =>
+      [stores, getAll, isLoadMore, cannotLoadMore, currentPosition, viewType,];
 
   StoreLoadSuccess copyWith({
     List<StoreInformationEntity>? stores,
+    bool? getAll,
     bool? isLoadMore,
     bool? cannotLoadMore,
     Position? currentPosition,
@@ -41,6 +45,7 @@ class StoreLoadSuccess extends StoreState {
   }) {
     return StoreLoadSuccess(
       stores: stores ?? this.stores,
+      getAll: getAll ?? this.getAll,
       isLoadMore: isLoadMore ?? this.isLoadMore,
       cannotLoadMore: cannotLoadMore ?? this.cannotLoadMore,
       currentPosition: currentPosition ?? this.currentPosition,

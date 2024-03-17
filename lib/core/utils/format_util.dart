@@ -31,6 +31,11 @@ class FormatUtil {
     return dateTime;
   }
 
+  static String formatSQLTime(DateTime time){
+    DateFormat formatter = DateFormat('HH:mm:ss');
+    return formatter.format(time);
+  }
+
   static String formatQueryString(String? s) {
     if (s == null) {
       return "";
@@ -62,6 +67,13 @@ class FormatUtil {
       return "";
     }
     return '${NumberFormat.decimalPattern().format(price)}đ';
+  }
+
+  static String formatCoin(num? coin) {
+    if (coin == null) {
+      return "";
+    }
+    return '${NumberFormat.decimalPattern().format(coin)} ${coin > 1 ? "coins" : "coin"}';
   }
 
   static String formatMoneyByK(num? price) {

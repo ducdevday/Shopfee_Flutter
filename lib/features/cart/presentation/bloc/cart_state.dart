@@ -29,24 +29,6 @@ class CartLoaded extends CartState {
   @override
   List<Object> get props => [cart];
 
-  bool get isValid {
-    if (cart.orderType == OrderType.SHIPPING) {
-      if (cart.address == null) {
-        return false;
-      }
-    } else if (cart.orderType == OrderType.ONSITE) {
-      if (cart.store == null) {
-        return false;
-      } else if (DateTime.now().isBefore(
-              FormatUtil.formatOpenCloseTime(cart.store!.openTime!)) ||
-          DateTime.now().isAfter(
-              FormatUtil.formatOpenCloseTime(cart.store!.closeTime!))) {
-        return false;
-      }
-    }
-    return true;
-  }
-
   factory CartLoaded.fromJson(Map<String, dynamic> json) {
     return CartLoaded(
       cart: CartEntity.fromModel(CartModel.fromJson(json["cart"])),

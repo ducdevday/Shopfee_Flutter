@@ -10,7 +10,8 @@ class TimeSetter extends StatelessWidget {
     return BlocBuilder<CartBloc, CartState>(
       builder: (context, state) {
         if (state is CartLoaded) {
-          if (state.cart.orderType == OrderType.ONSITE && state.cart.store != null) {
+          if (state.cart.orderType == OrderType.ONSITE &&
+              state.cart.isTakeAwayOrderValid()) {
             DateTime openTime =
                 FormatUtil.formatOpenCloseTime(state.cart.store!.openTime!);
             DateTime closeTime =

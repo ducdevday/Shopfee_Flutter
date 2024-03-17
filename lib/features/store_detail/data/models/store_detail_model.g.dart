@@ -14,13 +14,9 @@ StoreDetailModel _$StoreDetailModelFromJson(Map<String, dynamic> json) =>
       imageUrl: json['imageUrl'] as String?,
       longitude: (json['longitude'] as num?)?.toDouble(),
       latitude: (json['latitude'] as num?)?.toDouble(),
-      province: json['province'] as String?,
-      district: json['district'] as String?,
-      ward: json['ward'] as String?,
-      detail: json['detail'] as String?,
       openTime: json['openTime'] as String?,
       closeTime: json['closeTime'] as String?,
-      status: $enumDecodeNullable(_$StoreStatusEnumMap, json['status']),
+      fullAddress: json['fullAddress'] as String?,
       isValid: json['isValid'] as bool?,
     );
 
@@ -32,17 +28,8 @@ Map<String, dynamic> _$StoreDetailModelToJson(StoreDetailModel instance) =>
       'imageUrl': instance.imageUrl,
       'longitude': instance.longitude,
       'latitude': instance.latitude,
-      'province': instance.province,
-      'district': instance.district,
-      'ward': instance.ward,
-      'detail': instance.detail,
       'openTime': instance.openTime,
       'closeTime': instance.closeTime,
-      'status': instance.status,
+      'fullAddress': instance.fullAddress,
       'isValid': instance.isValid,
     };
-
-const _$StoreStatusEnumMap = {
-  StoreStatus.ACTIVE: 'ACTIVE',
-  StoreStatus.UNACTIVE: 'UNACTIVE',
-};

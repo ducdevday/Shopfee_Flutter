@@ -19,13 +19,17 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
       }
       Position currentPosition = await GlobalData.ins.getCurrentPosition();
       final stores = await _storeUseCase.getAllStores(StoreAllParamsEntity(
-          lat: currentPosition.latitude,
-          lng: currentPosition.longitude,
-          page: event.page,
-          size: event.size));
+        all: event.getAll,
+        lat: currentPosition.latitude,
+        lng: currentPosition.longitude,
+        page: event.page,
+        size: event.size,
+      ));
       if (stores != null) {
-        emit(
-            StoreLoadSuccess(stores: stores, currentPosition: currentPosition));
+        emit(StoreLoadSuccess(
+            getAll: event.getAll,
+            stores: stores,
+            currentPosition: currentPosition));
       } else {
         emit(StoreLoadFailure());
       }
@@ -42,6 +46,7 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
         final currentState = state as StoreLoadSuccess;
         emit(currentState.copyWith(isLoadMore: true));
         final stores = await _storeUseCase.getAllStores(StoreAllParamsEntity(
+            all: currentState.getAll,
             lat: currentState.currentPosition!.latitude,
             lng: currentState.currentPosition!.longitude,
             page: event.page,
@@ -70,15 +75,16 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
         if (event.viewType == StoreViewType.Map_View &&
             currentState.stores.isEmpty) {
           final stores = await _storeUseCase.getAllStores(StoreAllParamsEntity(
+              all: currentState.getAll,
               lat: currentState.currentPosition!.latitude,
               lng: currentState.currentPosition!.longitude,
               page: 1,
-              size: 10));
+              size: 1000));
           if (stores!.isNotEmpty) {
             emit(currentState.copyWith(
-                stores: List.from(currentState.stores)..addAll(stores),
-                isLoadMore: false,
-                cannotLoadMore: true,
+              stores: List.from(currentState.stores)..addAll(stores),
+              isLoadMore: false,
+              cannotLoadMore: true,
             ));
           }
         }

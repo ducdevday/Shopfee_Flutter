@@ -76,7 +76,7 @@ class _ReceiptPageState extends State<ReceiptPage> {
                                   height: 4,
                                   color: Color(0xffEFEBE9),
                                 ),
-                                DeliveryInformation(),
+                                ReceiptStatusInformation(),
                                 Container(
                                   height: 4,
                                   color: Color(0xffEFEBE9),

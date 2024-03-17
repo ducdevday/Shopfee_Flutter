@@ -59,7 +59,7 @@ class ProductByCategoryBottom extends StatelessWidget {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text(FormatUtil.formatMoney(state.cart.totalPrice),
+                      Text(FormatUtil.formatMoney(state.cart.totalItemPrice),
                           style: AppStyle.mediumTitleStyle
                               .copyWith(fontWeight: FontWeight.w500)),
                       SizedBox(

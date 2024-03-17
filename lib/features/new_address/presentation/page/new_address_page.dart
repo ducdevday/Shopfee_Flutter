@@ -20,6 +20,8 @@ class _NewAddressPageState extends State<NewAddressPage> {
   ValueNotifier<bool> allFieldValid = ValueNotifier(false);
   bool currentDefault = false;
   GeoResultEntity? geoResultEntity;
+  double? currentLatitude;
+  double? currentLongitude;
 
   @override
   void initState() {
@@ -96,7 +98,9 @@ class _NewAddressPageState extends State<NewAddressPage> {
               phoneNumberTextController.text = state.address.phoneNumber ?? "";
               defaultNotifier.value = state.address.isDefault ?? false;
               currentDefault = state.address.isDefault ?? false;
-              checkValidField();
+              currentLatitude = state.address.latitude;
+              currentLongitude = state.address.longitude;
+          checkValidField();
             case NewAddressFinished():
               NavigationUtil.pop(result: true);
               break;
@@ -333,8 +337,8 @@ class _NewAddressPageState extends State<NewAddressPage> {
                                                     addressNameTextController
                                                         .text
                                                         .trim(),
-                                                latitude: geoResultEntity?.lat,
-                                                longitude: geoResultEntity?.lng,
+                                                latitude: geoResultEntity?.lat ?? currentLatitude,
+                                                longitude: geoResultEntity?.lng ?? currentLongitude,
                                                 note: addressNoteTextController
                                                     .text
                                                     .trim(),

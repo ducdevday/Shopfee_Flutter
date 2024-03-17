@@ -162,7 +162,7 @@ class _StoreDetailPageState extends State<StoreDetailPage> {
                                         longitude: state.store.longitude!);
                                   },
                                   child: Text(
-                                    state.store.address,
+                                    "${state.store.fullAddress}",
                                     style: AppStyle.normalTextStyleDark,
                                     overflow: TextOverflow.clip,
                                   ),
@@ -226,7 +226,7 @@ class _StoreDetailPageState extends State<StoreDetailPage> {
                                 child: GestureDetector(
                                   onTap: () async {
                                     _makeShareLocation(
-                                        address: state.store.address,
+                                        address: "${state.store.fullAddress}",
                                         latitude: state.store.latitude!,
                                         longitude: state.store.longitude!);
                                   },

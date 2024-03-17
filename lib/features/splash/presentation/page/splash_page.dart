@@ -17,9 +17,9 @@ class _SplashPageState extends State<SplashPage> {
       if (SharedService.getIsFirstTime()) {
         NavigationUtil.pushNamedAndRemoveUntil(OnBoardingPage.route);
       } else if (SharedService.getUserId() != null) {
-        // NavigationUtil.pushNamedAndRemoveUntil( DefaultPage.route);
-        NavigationUtil.pushNamedAndRemoveUntil(ReceiptPage.route,
-            arguments: "OB000000010");
+        NavigationUtil.pushNamedAndRemoveUntil( DefaultPage.route);
+        // NavigationUtil.pushNamedAndRemoveUntil(ReceiptPage.route,
+        //     arguments: "OB000000010");
       } else {
         NavigationUtil.pushNamedAndRemoveUntil(LoginPage.route);
       }

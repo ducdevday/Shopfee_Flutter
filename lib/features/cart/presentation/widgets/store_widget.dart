@@ -28,11 +28,11 @@ class StoreWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "${state.cart.store!.name}",
+                            "${state.cart.store?.name}",
                             style: AppStyle.mediumTextStyleDark,
                           ),
                           Text(
-                            "${state.cart.store!.address}",
+                            "${state.cart.store?.fullAddress}",
                             style: AppStyle.normalTextStyleDark,
                             overflow: TextOverflow.clip,
                           ),
@@ -48,7 +48,7 @@ class StoreWidget extends StatelessWidget {
               );
             } else {
               return Text(
-                "No Store Available",
+                "There are no stores still operating",
                 style: AppStyle.normalTextStyleDark,
               );
             }

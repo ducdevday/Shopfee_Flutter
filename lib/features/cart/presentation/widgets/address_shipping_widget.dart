@@ -12,45 +12,58 @@ class AddressShippingWidget extends StatelessWidget {
             if (state.cart.address != null) {
               return GestureDetector(
                 onTap: () {
-                  // Navigator.pushNamed(context, AppRouter.savedAddressRoute,
-                  //     arguments: true)
-                  //     .then((value) =>
-                  //     context.read<CartBloc>().add(ChooseAddress(value as String)));
+                  NavigationUtil.pushNamed(SavedAddressPage.route,
+                          arguments: CartPage.route)
+                      .then((addressId) => {
+                            if (addressId != null)
+                              context.read<CartBloc>().add(
+                                  CartChooseShippingAddress(
+                                      addressId: addressId as String))
+                          });
                 },
-                child: Row(
+                child: Column(
                   children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                state.cart.address!.recipientName!,
-                                style: AppStyle.mediumTextStyleDark
-                                    .copyWith(color: AppColor.headingColor),
+                              Row(
+                                children: [
+                                  Text(
+                                    state.cart.address!.recipientName!,
+                                    style: AppStyle.mediumTextStyleDark
+                                        .copyWith(color: AppColor.headingColor),
+                                  ),
+                                  Text(
+                                    "  |  ",
+                                    style: AppStyle.normalTextStyleDark,
+                                  ),
+                                  Text(
+                                    state.cart.address!.phoneNumber!,
+                                    style: AppStyle.normalTextStyleDark,
+                                  ),
+                                ],
                               ),
                               Text(
-                                "  |  ",
-                                style: AppStyle.normalTextStyleDark,
-                              ),
-                              Text(
-                                state.cart.address!.phoneNumber!,
+                                state.cart.address!.detail ?? "",
                                 style: AppStyle.normalTextStyleDark,
                               ),
                             ],
                           ),
-                          Text(
-                            state.cart.address!.detail ?? "",
-                            style: AppStyle.normalTextStyleDark,
-                          ),
-                        ],
-                      ),
+                        ),
+                        const SizedBox(
+                          width: 40,
+                        ),
+                        const Icon(Icons.keyboard_arrow_right_rounded),
+                      ],
                     ),
-                    const SizedBox(
-                      width: 40,
-                    ),
-                    const Icon(Icons.keyboard_arrow_right_rounded),
+                    if (state.cart.shippingFee == null)
+                      Text(
+                        "This address can't serve your current location and time, please choose another",
+                        style: AppStyle.normalTextStylePrimary.copyWith(color: AppColor.error),
+                      )
                   ],
                 ),
               );

@@ -12,30 +12,23 @@ class StoreDetailModel {
   final String? imageUrl;
   final double? longitude;
   final double? latitude;
-  final String? province;
-  final String? district;
-  final String? ward;
-  final String? detail;
   final String? openTime;
   final String? closeTime;
-  final StoreStatus? status;
+  final String? fullAddress;
   final bool? isValid;
 
-  const StoreDetailModel(
-      {this.id,
-      this.name,
-      this.phoneNumber,
-      this.imageUrl,
-      this.longitude,
-      this.latitude,
-      this.province,
-      this.district,
-      this.ward,
-      this.detail,
-      this.openTime,
-      this.closeTime,
-      this.status,
-      this.isValid});
+  const StoreDetailModel({
+    this.id,
+    this.name,
+    this.phoneNumber,
+    this.imageUrl,
+    this.longitude,
+    this.latitude,
+    this.openTime,
+    this.closeTime,
+    this.fullAddress,
+    this.isValid,
+  });
 
   factory StoreDetailModel.fromJson(Map<String, dynamic> json) {
     return _$StoreDetailModelFromJson(json);
@@ -53,13 +46,11 @@ class StoreDetailModel {
         imageUrl: entity.imageUrl,
         longitude: entity.longitude,
         latitude: entity.latitude,
-        province: entity.province,
-        district: entity.district,
-        ward: entity.ward,
-        detail: entity.detail,
         openTime: entity.openTime,
         closeTime: entity.closeTime,
-        status: entity.status,
+        fullAddress: entity.fullAddress,
         isValid: entity.isValid);
   }
+
+
 }

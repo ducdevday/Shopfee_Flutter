@@ -5,7 +5,8 @@ class StorePage extends StatefulWidget {
   static const int indexPage = 2;
   final String fromRoute;
 
-  const StorePage({Key? key, this.fromRoute = DefaultPage.route}) : super(key: key);
+  const StorePage({Key? key, this.fromRoute = DefaultPage.route})
+      : super(key: key);
 
   @override
   State<StorePage> createState() => _StorePageState();
@@ -18,6 +19,7 @@ class _StorePageState extends State<StorePage> {
   int size = 8;
   late bool isLoadingMore;
   late bool cannotLoadMore;
+  late bool getAll;
   late List<StoreInformationEntity> storeList;
   late ScrollController scrollController;
 
@@ -25,7 +27,8 @@ class _StorePageState extends State<StorePage> {
   void initState() {
     super.initState();
     _bloc = ServiceLocator.sl<StoreBloc>();
-    _bloc.add(StoreLoadInformation(page: page, size: size));
+    getAll = widget.fromRoute == DefaultPage.route;
+    _bloc.add(StoreLoadInformation(getAll: getAll, page: page, size: size));
     scrollController = ScrollController();
     scrollController.addListener(_scrollListener);
   }
@@ -63,12 +66,14 @@ class _StorePageState extends State<StorePage> {
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.white,
-            title: const Text("All Store"),
+            title: Text(widget.fromRoute == DefaultPage.route
+                ? "All Store"
+                : "Choose Store"),
             bottom: const PreferredSize(
               preferredSize: Size.fromHeight(1),
               child: Divider(height: 1),
             ),
-            automaticallyImplyLeading: true,
+            automaticallyImplyLeading: widget.fromRoute != DefaultPage.route,
           ),
           backgroundColor: const Color(0xffEFEBE9),
           body: Column(
@@ -195,17 +200,15 @@ class _StorePageState extends State<StorePage> {
                           return Stack(
                             children: [
                               StoreListView(
-                                storeList: storeList,
-                                isLoadingMore: isLoadingMore,
-                                currentViewType: state.viewType,
-                                  fromRoute: widget.fromRoute
-                              ),
+                                  storeList: storeList,
+                                  isLoadingMore: isLoadingMore,
+                                  currentViewType: state.viewType,
+                                  fromRoute: widget.fromRoute),
                               StoreMapView(
-                                storeList: storeList,
-                                currentPosition: state.currentPosition!,
-                                currentViewType: state.viewType,
-                                  fromRoute: widget.fromRoute
-                              )
+                                  storeList: storeList,
+                                  currentPosition: state.currentPosition!,
+                                  currentViewType: state.viewType,
+                                  fromRoute: widget.fromRoute)
                             ],
                           );
                         } else {

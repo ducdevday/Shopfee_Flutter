@@ -5,16 +5,20 @@ part 'store_all_params_model.g.dart';
 
 @JsonSerializable()
 class StoreAllParamsModel {
+  final bool all;
   final double lat;
   final double lng;
   final int page;
   final int size;
+  final String? key;
 
   const StoreAllParamsModel({
+    required this.all,
     required this.lat,
     required this.lng,
     required this.page,
     required this.size,
+    this.key
   });
 
   factory StoreAllParamsModel.fromJson(Map<String, dynamic> json) {
@@ -27,6 +31,6 @@ class StoreAllParamsModel {
 
   factory StoreAllParamsModel.fromEntity(StoreAllParamsEntity entity) {
     return StoreAllParamsModel(
-        lat: entity.lat, lng: entity.lng, size: entity.size, page: entity.page);
+        all:entity.all, lat: entity.lat, lng: entity.lng, size: entity.size, page: entity.page, key: entity.key);
   }
 }

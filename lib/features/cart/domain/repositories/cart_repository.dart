@@ -6,7 +6,7 @@ import 'package:shopfee/features/store_detail/domain/entities/store_detail_entit
 abstract class CartRepository {
   Future<AddressEntity?> getDefaultAddress(String userId);
 
-  Future<AddressEntity?> getChosenAddress(String addressId);
+  Future<AddressEntity?> getChosenShippingAddress(String addressId);
 
   Future<OrderResult> createShippingOrder(CartEntity cart, String userId);
 
@@ -15,4 +15,6 @@ abstract class CartRepository {
   Future<StoreDetailEntity?> getNearestStore(double latitude, double longitude);
 
   Future<StoreDetailEntity> getDetailStore(String branchId);
+
+  Future<double?> getShippingFee(double lat, double lng);
 }
