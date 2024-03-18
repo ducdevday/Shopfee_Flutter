@@ -5,6 +5,7 @@ import 'package:shopfee/core/config/app_style.dart';
 
 class AppTheme {
   static final ThemeData lightTheme = ThemeData.light().copyWith(
+    textTheme: ThemeData.light().textTheme.apply(fontFamily: "Poppins"),
     colorScheme: ColorScheme.light(primary: AppColor.primaryColor),
     appBarTheme: AppBarTheme(
         elevation: 0,
