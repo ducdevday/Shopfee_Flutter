@@ -23,43 +23,22 @@ class PaymentMethod extends StatelessWidget {
                 const SizedBox(
                   height: 4,
                 ),
-                Builder(builder: (context) {
-                  if (state.cart.paymentType == PaymentType.CASHING) {
-                    return Row(
-                      children: [
-                        Image.asset(
-                          AppPath.icCash,
-                          width: 24,
-                          height: 24,
-                        ),
-                        const SizedBox(
-                          width: 4,
-                        ),
-                        Expanded(
-                            child: Text(
-                                "Cash", style: AppStyle.normalTextStyleDark)),
-                        const Icon(Icons.keyboard_arrow_right_rounded)
-                      ],
-                    );
-                  } else {
-                    return Row(
-                      children: [
-                        Image.asset(
-                          AppPath.icVnPay,
-                          width: 24,
-                          height: 24,
-                        ),
-                        const SizedBox(
-                          width: 4,
-                        ),
-                        Expanded(
-                            child:
-                            Text("VNPay", style: AppStyle.normalTextStyleDark)),
-                        const Icon(Icons.keyboard_arrow_right_rounded)
-                      ],
-                    );
-                  }
-                }),
+                Row(
+                  children: [
+                    Image.asset(
+                      PaymentType.getIconPath(state.cart.paymentType!),
+                      width: 24,
+                      height: 24,
+                    ),
+                    const SizedBox(
+                      width: 4,
+                    ),
+                    Expanded(
+                        child: Text(
+                            PaymentType.getFormattedName(state.cart.paymentType!), style: AppStyle.normalTextStyleDark)),
+                    const Icon(Icons.keyboard_arrow_right_rounded)
+                  ],
+                )
               ],
             ),
           );

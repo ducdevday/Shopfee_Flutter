@@ -27,7 +27,8 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
                     maintainAnimation: true,
                     maintainState: true,
                     child: IconButton(
-                        onPressed: () {}, icon: Icon(Icons.close_rounded)),
+                        onPressed: () {},
+                        icon: const Icon(Icons.close_rounded)),
                   ),
                   Text(
                     "Choose Payment Method",
@@ -39,70 +40,60 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      icon: Icon(Icons.close_rounded))
+                      icon: const Icon(Icons.close_rounded))
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                child: Row(
-                  children: [
-                    Image.asset(
-                      AppPath.icCash,
-                      width: 24,
-                      height: 24,
-                    ),
-                    SizedBox(
-                      width: 4,
-                    ),
-                    Expanded(child: Text("Cash")),
-                    Radio(
-                        activeColor: AppColor.primaryColor,
-                        value: PaymentType.CASHING,
-                        groupValue: state.cart.paymentType,
-                        onChanged: (PaymentType? value) {
-                          context.read<CartBloc>().add(CartChooseTypePayment(typePayment: value!));
-                          Navigator.pop(context);
-                        })
-                  ],
-                ),
-              ),
-              Divider(
-                height: 10,
-                indent: 10,
-                endIndent: 10,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                child: Row(
-                  children: [
-                    Image.asset(
-                      AppPath.icVnPay,
-                      width: 24,
-                      height: 24,
-                    ),
-                    SizedBox(
-                      width: 4,
-                    ),
-                    Expanded(child: Text("VNPAY")),
-                    Radio(
-                        activeColor: AppColor.primaryColor,
-                        value: PaymentType.BANKING_VNPAY,
-                        groupValue: state.cart.paymentType,
-                        onChanged: (PaymentType? value) {
-                          context.read<CartBloc>().add(CartChooseTypePayment(typePayment: value!));
-                          Navigator.pop(context);
-                        })
-                  ],
-                ),
+              Column(
+                children: PaymentType.values.mapIndexed((index, type) {
+                  return Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: Row(
+                          children: [
+                            Image.asset(
+                              PaymentType.getIconPath(
+                                  PaymentType.values[index]),
+                              width: 24,
+                              height: 24,
+                            ),
+                            const SizedBox(
+                              width: 4,
+                            ),
+                            Expanded(
+                                child: Text(PaymentType.getFormattedName(
+                                    PaymentType.values[index]))),
+                            Radio(
+                                activeColor: AppColor.primaryColor,
+                                value: PaymentType.values[index],
+                                groupValue: state.cart.paymentType,
+                                onChanged: (PaymentType? value) {
+                                  context.read<CartBloc>().add(
+                                      CartChooseTypePayment(
+                                          typePayment: value!));
+                                  Navigator.pop(context);
+                                })
+                          ],
+                        ),
+                      ),
+                      if (index < PaymentType.values.length - 1)
+                        const Divider(
+                          height: 10,
+                          indent: 10,
+                          endIndent: 10,
+                        ),
+                    ],
+                  );
+                }).toList(),
               ),
             ],
             // ),
           );
         } else {
-          return SizedBox();
+          return const SizedBox();
         }
       },
     );

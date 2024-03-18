@@ -112,7 +112,7 @@ class PaymentSummary extends StatelessWidget {
                     const SizedBox(
                       height: 4,
                     ),
-                    buildPaymentMethod(state),
+                    buildPaymentMethod(state.receipt.transaction?.type),
                   ],
                 ),
                 const Divider(
@@ -129,7 +129,7 @@ class PaymentSummary extends StatelessWidget {
                             color: AppColor.headingColor,
                             fontWeight: FontWeight.w500),
                       ),
-                      buildPaymentStatus(state),
+                      buildPaymentStatus(state.receipt.transaction?.status),
                     ],
                   ),
                 ),
@@ -165,46 +165,28 @@ class PaymentSummary extends StatelessWidget {
     );
   }
 
-  StatelessWidget buildPaymentStatus(ReceiptLoadSuccess state) {
-    if (state.receipt.transaction!.status == PaymentStatus.UNPAID) {
-      return MyLabel(label: "Unpaid", color: AppColor.warning);
-    } else if (state.receipt.transaction!.status == PaymentStatus.PAID) {
-      return MyLabel(label: "Paid", color: AppColor.success);
-    } else if (state.receipt.transaction!.status == PaymentStatus.REFUNDED) {
-      return MyLabel(label: "Refunded", color: AppColor.info);
-    }
-    return SvgPicture.asset(AppPath.icUnpaid);
+  Widget buildPaymentStatus(PaymentStatus? paymentStatus) {
+    if (paymentStatus == null) return SizedBox();
+    return MyLabel(
+        label: PaymentStatus.getFormattedName(paymentStatus),
+        color: PaymentStatus.getColor(paymentStatus));
   }
 
-  Row buildPaymentMethod(ReceiptLoadSuccess state) {
-    if (state.receipt.transaction!.type == PaymentType.CASHING) {
-      return Row(
-        children: [
-          Image.asset(
-            AppPath.icCash,
-            width: 24,
-            height: 24,
-          ),
-          const SizedBox(
-            width: 4,
-          ),
-          Text("Cash", style: AppStyle.normalTextStyleDark),
-        ],
-      );
-    } else {
-      return Row(
-        children: [
-          Image.asset(
-            AppPath.icVnPay,
-            width: 24,
-            height: 24,
-          ),
-          const SizedBox(
-            width: 4,
-          ),
-          Text("VNPay", style: AppStyle.normalTextStyleDark),
-        ],
-      );
-    }
+  Widget buildPaymentMethod(PaymentType? paymentType) {
+    if (paymentType == null) return SizedBox();
+    return Row(
+      children: [
+        Image.asset(
+          PaymentType.getIconPath(paymentType),
+          width: 24,
+          height: 24,
+        ),
+        const SizedBox(
+          width: 4,
+        ),
+        Text(PaymentType.getFormattedName(paymentType),
+            style: AppStyle.normalTextStyleDark),
+      ],
+    );
   }
 }

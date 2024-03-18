@@ -45,17 +45,9 @@ class _VnPayPageState extends State<VnPayPage> {
           child: BlocConsumer<VnPayCubit, VnPayState>(
             listener: (context, state) {
               if (state is VnPaySuccess) {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: const Text("Payment success"),
-                  backgroundColor: AppColor.primaryColor,
-                ));
                 NavigationUtil.pushNamed(ReceiptPage.route,
                     arguments: widget.orderResult.orderId);
               } else if (state is VnPayCanceled) {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: const Text("Payment canceled"),
-                  backgroundColor: AppColor.primaryColor,
-                ));
                 NavigationUtil.pushNamed(ReceiptPage.route,
                     arguments: widget.orderResult.orderId);
               }
@@ -83,12 +75,8 @@ class _VnPayPageState extends State<VnPayPage> {
                               orderId: widget.orderResult.orderId!);
                         },
                         onNavigationRequest: (NavigationRequest request) {
-                          // if (request.url.startsWith('https://www.youtube.com/')) {
-                          //   return NavigationDecision.prevent;
-                          // }
-                          // return NavigationDecision.navigate;
                           final onNavigationRequest = request.url;
-                          // ? Thanh toán thành công khi vnp_ResponseCode=00, thất bại khi vnp_ResponseCode!=00
+                          // ? VNPAY Thanh toán thành công khi vnp_ResponseCode=00, thất bại khi vnp_ResponseCode!=00
                           if (request.url.contains("vnp_ResponseCode")) {
                             if (request.url.contains("vnp_ResponseCode=00")) {
                               _cubit.handlePayment(
@@ -103,6 +91,14 @@ class _VnPayPageState extends State<VnPayPage> {
                                   orderId: widget.orderResult.orderId!);
                               return NavigationDecision.prevent;
                             }
+                          }
+                          //? ZaloPAY
+                          else if (request.url.contains("status")) {
+                            _cubit.handlePayment(
+                                transactionId:
+                                widget.orderResult.transactionId!,
+                                orderId: widget.orderResult.orderId!);
+                            return NavigationDecision.prevent;
                           }
                           return NavigationDecision.navigate;
                         },

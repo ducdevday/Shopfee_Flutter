@@ -35,6 +35,8 @@ class AppPath {
 
   static const String icVnPay = "assets/icons/ic_vnpay.png";
 
+  static const String icZaloPay = "assets/icons/ic_zalopay.png";
+
   static const String icEdit = "assets/icons/ic_edit.svg";
 
   static const String icUnpaid = "assets/icons/ic_unpaid.svg";
