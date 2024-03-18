@@ -50,7 +50,7 @@ class PaymentSummary extends StatelessWidget {
                           .copyWith(fontWeight: FontWeight.w400),
                     ),
                     Text(
-                      FormatUtil.formatMoney(state.receipt.shippingFee),
+                      FormatUtil.formatMoney(state.receipt.shippingFee ?? 0),
                       style: AppStyle.normalTextStyleDark
                           .copyWith(fontWeight: FontWeight.w400),
                     )

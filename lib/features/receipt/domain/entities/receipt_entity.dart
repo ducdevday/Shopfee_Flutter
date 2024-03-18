@@ -11,11 +11,13 @@ class ReceiptEntity {
   num? shippingFee;
   num? totalItemPrice;
   OrderType? orderType;
-  AddressEntity? address;
+  AddressEntity? shippingInformation;
   DateTime? createdAt;
   List<ReceiptProductEntity>? itemList;
   TransactionEntity? transaction;
+  DateTime? receiveTime;
   String? branchAddress;
+  int? coin;
 
   ReceiptEntity({
     this.id,
@@ -24,11 +26,13 @@ class ReceiptEntity {
     this.shippingFee,
     this.totalItemPrice,
     this.orderType,
-    this.address,
+    this.shippingInformation,
     this.createdAt,
     this.itemList,
     this.transaction,
+    this.receiveTime,
     this.branchAddress,
+    this.coin,
   });
 
   factory ReceiptEntity.fromModel(ReceiptModel model) {
@@ -39,9 +43,9 @@ class ReceiptEntity {
         shippingFee: model.shippingFee,
         totalItemPrice: model.totalItemPrice,
         orderType: model.orderType,
-        address: model.address == null
+        shippingInformation: model.shippingInformation == null
             ? null
-            : AddressEntity.fromModel(model.address!),
+            : AddressEntity.fromModel(model.shippingInformation!),
         createdAt: model.createdAt,
         itemList: model.itemList
             ?.map((e) => ReceiptProductEntity.fromModel(e))
@@ -49,6 +53,8 @@ class ReceiptEntity {
         transaction: model.transaction == null
             ? null
             : TransactionEntity.fromModel(model.transaction!),
-        branchAddress: model.branchAddress);
+        receiveTime: model.receiveTime,
+        branchAddress: model.branchAddress,
+        coin: model.coin);
   }
 }

@@ -13,7 +13,7 @@ ReceiptModel _$ReceiptModelFromJson(Map<String, dynamic> json) => ReceiptModel(
       shippingFee: json['shippingFee'] as num?,
       totalItemPrice: json['totalItemPrice'] as num?,
       orderType: $enumDecodeNullable(_$OrderTypeEnumMap, json['orderType']),
-      address: json['shippingInformation'] == null
+      shippingInformation: json['shippingInformation'] == null
           ? null
           : AddressModel.fromJson(
               json['shippingInformation'] as Map<String, dynamic>),
@@ -27,7 +27,11 @@ ReceiptModel _$ReceiptModelFromJson(Map<String, dynamic> json) => ReceiptModel(
           ? null
           : TransactionModel.fromJson(
               json['transaction'] as Map<String, dynamic>),
+      receiveTime: json['receiveTime'] == null
+          ? null
+          : DateTime.parse(json['receiveTime'] as String),
       branchAddress: json['branchAddress'] as String?,
+      coin: json['coin'] as int?,
     );
 
 Map<String, dynamic> _$ReceiptModelToJson(ReceiptModel instance) =>
@@ -38,11 +42,13 @@ Map<String, dynamic> _$ReceiptModelToJson(ReceiptModel instance) =>
       'shippingFee': instance.shippingFee,
       'totalItemPrice': instance.totalItemPrice,
       'orderType': instance.orderType,
-      'shippingInformation': instance.address,
+      'shippingInformation': instance.shippingInformation,
       'createdAt': instance.createdAt?.toIso8601String(),
       'itemList': instance.itemList,
       'transaction': instance.transaction,
+      'receiveTime': instance.receiveTime?.toIso8601String(),
       'branchAddress': instance.branchAddress,
+      'coin': instance.coin,
     };
 
 const _$OrderTypeEnumMap = {

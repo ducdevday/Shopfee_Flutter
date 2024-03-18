@@ -16,7 +16,7 @@ class ReceiptStatusInformation extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Delivery Information",
+                      "Status Information",
                       style: AppStyle.mediumTitleStyleDark.copyWith(
                           color: AppColor.headingColor,
                           fontWeight: FontWeight.w500),
@@ -40,6 +40,7 @@ class ReceiptStatusInformation extends StatelessWidget {
                 const CancelButton(),
                 const CancelDetail(),
                 const DeliveryInformation(),
+                const TakeAwayInformation()
               ],
             ),
           );

@@ -14,12 +14,13 @@ class ReceiptModel {
   num? shippingFee;
   num? totalItemPrice;
   OrderType? orderType;
-  @JsonKey(name: "shippingInformation")
-  AddressModel? address;
+  AddressModel? shippingInformation;
   DateTime? createdAt;
   List<ReceiptProductModel>? itemList;
   TransactionModel? transaction;
+  DateTime? receiveTime;
   String? branchAddress;
+  int? coin;
 
   ReceiptModel({
     this.id,
@@ -28,11 +29,13 @@ class ReceiptModel {
     this.shippingFee,
     this.totalItemPrice,
     this.orderType,
-    this.address,
+    this.shippingInformation,
     this.createdAt,
     this.itemList,
     this.transaction,
+    this.receiveTime,
     this.branchAddress,
+    this.coin,
   });
 
   factory ReceiptModel.fromJson(Map<String, dynamic> json) {

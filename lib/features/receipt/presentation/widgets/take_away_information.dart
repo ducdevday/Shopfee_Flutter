@@ -1,7 +1,7 @@
 part of receipt;
 
-class DeliveryInformation extends StatelessWidget {
-  const DeliveryInformation({
+class TakeAwayInformation extends StatelessWidget {
+  const TakeAwayInformation({
     super.key,
   });
 
@@ -9,13 +9,13 @@ class DeliveryInformation extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ReceiptBloc, ReceiptState>(builder: (context, state) {
       if (state is ReceiptLoadSuccess) {
-        if (state.receipt.orderType! == OrderType.SHIPPING) {
+        if (state.receipt.orderType! == OrderType.ONSITE) {
           return Column(
             children: [
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "Delivery To",
+                  "Take Away In",
                   style: AppStyle.mediumTitleStyleDark.copyWith(
                       color: AppColor.headingColor,
                       fontWeight: FontWeight.w500),
@@ -27,25 +27,13 @@ class DeliveryInformation extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      Text(
-                        "${state.receipt.shippingInformation?.recipientName}",
-                        style: AppStyle.mediumTextStyleDark
-                            .copyWith(color: AppColor.headingColor),
-                      ),
-                      Text(
-                        "  |  ",
-                        style: AppStyle.normalTextStyleDark,
-                      ),
-                      Text(
-                        "${state.receipt.shippingInformation?.phoneNumber}",
-                        style: AppStyle.normalTextStyleDark,
-                      ),
-                    ],
+                  Text(
+                    "Shopfee ${state.receipt.branchAddress}",
+                    style: AppStyle.normalTextStyleDark
+                        .copyWith(color: AppColor.headingColor),
                   ),
                   Text(
-                    "${state.receipt.shippingInformation?.detail}",
+                    "Chosen Time: ${FormatUtil.formatTime(state.receipt.receiveTime)} - ${FormatUtil.formatDate2(state.receipt.receiveTime)}",
                     style: AppStyle.normalTextStyleDark,
                   ),
                 ],
