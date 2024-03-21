@@ -81,6 +81,29 @@ class PaymentSummary extends StatelessWidget {
                 //     )
                 //   ],
                 // ),
+                if (state.receipt.coin != null && state.receipt.coin != 0)
+                  Column(
+                    children: [
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Applied Coin",
+                            style: AppStyle.normalTextStyleDark
+                                .copyWith(fontWeight: FontWeight.w400),
+                          ),
+                          Text(
+                            "- ${FormatUtil.formatMoney(state.receipt.coin)}",
+                            style: AppStyle.normalTextStyleDark
+                                .copyWith(fontWeight: FontWeight.w400),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
                 const SizedBox(
                   height: 8,
                 ),

@@ -180,30 +180,7 @@ class _CartPageState extends State<CartPage> {
                   ],
                 ),
               ),
-              bottomNavigationBar: BottomAppBar(
-                  height: 70,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: AppDimen.screenPadding),
-                    child: ElevatedButton(
-                      onPressed: state.cart.isOrderValid()
-                          ? () {
-                              if (state.cart.orderType == OrderType.SHIPPING) {
-                                context
-                                    .read<CartBloc>()
-                                    .add(CartCreateShippingOrder());
-                              } else {
-                                context
-                                    .read<CartBloc>()
-                                    .add(CartCreateTakeAwayOrder());
-                              }
-                            }
-                          : null,
-                      style: AppStyle.elevatedButtonStylePrimary,
-                      child: Text(
-                          "Order (${FormatUtil.formatMoney(state.cart.getTotalCartPrice())})"),
-                    ),
-                  )),
+              bottomNavigationBar: const CartBottomBar(),
             );
           }
         } else {

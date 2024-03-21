@@ -12,16 +12,19 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     emit(HomeLoadInProcess());
     try {
       final response = await Future.wait([
+        _homeUseCase.getAllBanner(),
         _homeUseCase.getAllCategory(),
         _homeUseCase.getTopSellingProduct(quantity: 8),
         _homeUseCase.getOutStandingProduct(quantity: 8)
       ]);
-      var categories = response[0] as List<CategoryEntity>;
-      var topSellingProducts = response[1] as List<ProductInformationEntity>;
-      var outStandingProducts = response[2] as List<ProductInformationEntity>;
+      var banners = response[0] as List<BannerEntity>;
+      final categories = response[1] as List<CategoryEntity>;
+      final topSellingProducts = response[2] as List<ProductInformationEntity>;
+      final outStandingProducts = response[3] as List<ProductInformationEntity>;
       await Future.delayed(Duration(seconds: 1));
 
       emit(HomeLoadSuccess(
+          banners: banners,
           categories: categories,
           topSellingProducts: topSellingProducts,
           outstandingProducts: outStandingProducts));

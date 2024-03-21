@@ -6,7 +6,7 @@ part 'order_history_params_model.g.dart';
 
 @JsonSerializable()
 class OrderHistoryParamsModel {
-  @JsonKey(name: "order_staging")
+  @JsonKey(name: "order_phases_status")
   final String historyStatusName;
   final int page;
   final int size;

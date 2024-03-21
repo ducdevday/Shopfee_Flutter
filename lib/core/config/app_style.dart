@@ -7,19 +7,19 @@ class AppStyle {
   static final superLargeTitleStyleDark = TextStyle(
       color: AppColor.headingColor,
       fontSize: AppDimen.superLargeTitle,
-      fontWeight: FontWeight.bold,
+      fontWeight: FontWeight.w600,
       overflow: TextOverflow.clip);
 
   static final largeTitleStyleDark = TextStyle(
       color: AppColor.headingColor,
       fontSize: AppDimen.largeTitle,
-      fontWeight: FontWeight.bold,
+      fontWeight: FontWeight.w600,
       overflow: TextOverflow.clip);
 
   static final mediumTitleStyleDark = TextStyle(
       color: AppColor.headingColor,
       fontSize: AppDimen.mediumTitle,
-      fontWeight: FontWeight.bold,
+      fontWeight: FontWeight.w600,
       overflow: TextOverflow.clip);
   static final mediumTextStyleDark = TextStyle(
       color: AppColor.paragraphColor,
@@ -39,19 +39,19 @@ class AppStyle {
   static final superLargeTitleStyle = TextStyle(
       color: AppColor.lightColor,
       fontSize: AppDimen.superLargeTitle,
-      fontWeight: FontWeight.bold,
+      fontWeight: FontWeight.w600,
       overflow: TextOverflow.clip);
 
   static final largeTitleStyle = TextStyle(
       color: AppColor.lightColor,
       fontSize: AppDimen.largeTitle,
-      fontWeight: FontWeight.bold,
+      fontWeight: FontWeight.w600,
       overflow: TextOverflow.clip);
 
   static final mediumTitleStyle = TextStyle(
       color: AppColor.lightColor,
       fontSize: AppDimen.mediumTitle,
-      fontWeight: FontWeight.bold,
+      fontWeight: FontWeight.w600,
       overflow: TextOverflow.clip);
 
   static final normalTextStyle = TextStyle(
@@ -67,19 +67,19 @@ class AppStyle {
   static final superLargeTitleStylePrimary = TextStyle(
       color: AppColor.primaryColor,
       fontSize: AppDimen.superLargeTitle,
-      fontWeight: FontWeight.bold,
+      fontWeight: FontWeight.w600,
       overflow: TextOverflow.clip);
 
   static final largeTitleStylePrimary = TextStyle(
       color: AppColor.primaryColor,
       fontSize: AppDimen.largeTitle,
-      fontWeight: FontWeight.bold,
+      fontWeight: FontWeight.w600,
       overflow: TextOverflow.clip);
 
   static final mediumTitleStylePrimary = TextStyle(
       color: AppColor.primaryColor,
       fontSize: AppDimen.mediumTitle,
-      fontWeight: FontWeight.bold,
+      fontWeight: FontWeight.w600,
       overflow: TextOverflow.clip);
 
   static final normalTextStylePrimary = TextStyle(

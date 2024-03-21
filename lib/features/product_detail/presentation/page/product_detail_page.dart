@@ -200,7 +200,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                           style: AppStyle.mediumTextStyleDark
                                               .copyWith(
                                                   color: AppColor.headingColor,
-                                                  fontWeight: FontWeight.bold)),
+                                                  fontWeight: FontWeight.w600)),
                                     ),
                                     const SizedBox(
                                       height: 12,
@@ -243,7 +243,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                         style: AppStyle.mediumTextStyleDark
                                             .copyWith(
                                                 color: AppColor.headingColor,
-                                                fontWeight: FontWeight.bold)),
+                                                fontWeight: FontWeight.w600)),
                                   ),
                                   const ToppingFilter()
                                 ],
@@ -273,7 +273,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                         style: AppStyle.mediumTextStyleDark
                                             .copyWith(
                                                 color: AppColor.headingColor,
-                                                fontWeight: FontWeight.bold)),
+                                                fontWeight: FontWeight.w600)),
                                   ),
                                   const SizedBox(
                                     height: 16,

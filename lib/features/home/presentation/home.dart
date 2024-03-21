@@ -21,6 +21,7 @@ import 'package:shopfee/core/utils/format_util.dart';
 import 'package:shopfee/core/utils/navigation_util.dart';
 import 'package:shopfee/features/default/presentation/widgets/bottombar/my_bottom_nav_bar.dart';
 import 'package:shopfee/features/default/presentation/widgets/bottombar/my_bottom_nav_bar_cubit.dart';
+import 'package:shopfee/features/home/domain/entities/banner_entity.dart';
 import 'package:shopfee/features/home/domain/entities/category_entity.dart';
 import 'package:shopfee/features/home/domain/entities/product_infomation_entity.dart';
 import 'package:shopfee/features/home/domain/usecase/home_usecase.dart';

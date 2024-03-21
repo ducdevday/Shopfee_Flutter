@@ -160,7 +160,7 @@ class _StoreSearchPageState extends State<StoreSearchPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Image.asset(
-                            AppPath.icStore,
+                            AppPath.icNoStore,
                             width: 60,
                             height: 60,
                           ),

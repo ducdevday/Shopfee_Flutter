@@ -15,11 +15,13 @@ class HomeLoadInProcess extends HomeState {
 }
 
 class HomeLoadSuccess extends HomeState {
+  final List<BannerEntity> banners;
   final List<CategoryEntity> categories;
   final List<ProductInformationEntity> topSellingProducts;
   final List<ProductInformationEntity> outstandingProducts;
 
   const HomeLoadSuccess({
+    required this.banners,
     required this.categories,
     required this.topSellingProducts,
     required this.outstandingProducts,
@@ -27,7 +29,7 @@ class HomeLoadSuccess extends HomeState {
 
   @override
   List<Object> get props =>
-      [categories, topSellingProducts, outstandingProducts];
+      [banners, categories, topSellingProducts, outstandingProducts];
 }
 
 class HomeLoadError extends HomeState {

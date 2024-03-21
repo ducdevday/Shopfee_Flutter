@@ -33,7 +33,7 @@ class LoginRepositoryImpl implements LoginRepository {
         if (e.response?.statusCode == 400) {
           throw ServerFailure(message: "Account has been locked");
         } else if (e.response?.statusCode == 401) {
-          throw ServerFailure(message: "Password is incorrect");
+          throw ServerFailure(message: "Account or Password is incorrect");
         } else if (e.response?.statusCode == 404) {
           throw ServerFailure(message: "Account doesn't exist");
         }

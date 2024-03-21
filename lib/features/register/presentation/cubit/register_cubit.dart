@@ -5,11 +5,10 @@ class RegisterCubit extends Cubit<RegisterState> {
 
   RegisterCubit(this._registerUseCase) : super(RegisterInitial());
 
-  void checkValidField(
-      {required String firstName,
-      required String lastName,
-      required String email,
-      required String password}) {
+  void checkValidField({required String firstName,
+    required String lastName,
+    required String email,
+    required String password}) {
     if (ValidateFieldUtil.validateName(firstName) &&
         ValidateFieldUtil.validateName(lastName) &&
         ValidateFieldUtil.validateEmail(email) &&
@@ -22,24 +21,28 @@ class RegisterCubit extends Cubit<RegisterState> {
     }
   }
 
-  void goToOTPPage(
-      {required String firstName,
-      required String lastName,
-      required String email,
-      required String password}) async {
-    EasyLoading.show(maskType: EasyLoadingMaskType.black);
-    final emailExist = await _registerUseCase.checkEmailExist(email);
-    await Future.delayed(Duration(seconds: 1));
-    EasyLoading.dismiss();
-    if (emailExist) {
-      EasyLoading.showInfo("Email is exist");
-    } else {
-      emit(RegisterFinished(
-          registerEntity: RegisterEntity(
-              firstName: firstName,
-              lastName: lastName,
-              email: email,
-              password: password)));
+  void goToOTPPage({required String firstName,
+    required String lastName,
+    required String email,
+    required String password}) async {
+    try {
+      EasyLoading.show(maskType: EasyLoadingMaskType.black);
+      final emailExist = await _registerUseCase.checkEmailExist(email);
+      await Future.delayed(Duration(seconds: 1));
+      EasyLoading.dismiss();
+      if (emailExist) {
+        EasyLoading.showInfo("Email is exist");
+      } else {
+        emit(RegisterFinished(
+            registerEntity: RegisterEntity(
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                password: password)));
+      }
+    }
+    catch(e){
+
     }
   }
 }

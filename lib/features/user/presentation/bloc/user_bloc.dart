@@ -5,6 +5,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
   UserBloc(this._userUseCase) : super(UserInitial()) {
     on<UserLoadInformation>(_onUserLoadInformation);
+    on<UserUpdateInformation>(_onUserUpdateInformation);
     on<UserLogout>(_onUserLogout);
   }
 
@@ -20,6 +21,19 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       emit(UserLoadSuccess(user: user));
     } catch (e) {
       emit(UserLoadFailure());
+      ExceptionUtil.handle(e);
+    }
+  }
+
+  FutureOr<void> _onUserUpdateInformation(
+      UserUpdateInformation event, Emitter<UserState> emit) async {
+    try {
+      EasyLoading.show(maskType: EasyLoadingMaskType.black);
+      await _userUseCase.updateUser(event.user);
+      EasyLoading.dismiss();
+      EasyLoading.showInfo("Update Information Successfully",
+          duration: const Duration(milliseconds: 2000));
+    } catch (e) {
       ExceptionUtil.handle(e);
     }
   }

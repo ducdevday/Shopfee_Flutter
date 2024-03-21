@@ -2,8 +2,10 @@ import 'package:shopfee/core/common/models/result.dart';
 import 'package:shopfee/core/common/models/result_list.dart';
 import 'package:shopfee/core/config/app_path.dart';
 import 'package:shopfee/features/home/data/datasource/home_service.dart';
+import 'package:shopfee/features/home/data/models/banner_model.dart';
 import 'package:shopfee/features/home/data/models/category_model.dart';
 import 'package:shopfee/features/home/data/models/product_infomation_model.dart';
+import 'package:shopfee/features/home/domain/entities/banner_entity.dart';
 import 'package:shopfee/features/home/domain/entities/category_entity.dart';
 import 'package:shopfee/features/home/domain/entities/product_infomation_entity.dart';
 import 'package:shopfee/features/home/domain/repositories/home_repository.dart';
@@ -12,6 +14,21 @@ class HomeRepositoryImpl extends HomeRepository {
   final HomeService homeService;
 
   HomeRepositoryImpl(this.homeService);
+
+  @override
+  Future<List<BannerEntity>> getAllBanner() async {
+    final response = await homeService.getAllBanner();
+    final result = ResultList(
+        success: response.data["success"],
+        message: response.data["message"],
+        data: response.data["data"]);
+    List<BannerModel> bannersModel =
+    result.data!.map((p) => BannerModel.fromJson(p)).toList();
+    List<BannerEntity> bannersEntity = bannersModel
+        .map((p) => BannerEntity.fromModel(p))
+        .toList();
+    return bannersEntity;
+  }
 
   @override
   Future<List<CategoryEntity>> getAllCategory() async {
@@ -65,4 +82,6 @@ class HomeRepositoryImpl extends HomeRepository {
         .toList();
     return productsEntity;
   }
+
+
 }

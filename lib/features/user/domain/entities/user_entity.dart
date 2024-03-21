@@ -36,4 +36,28 @@ class UserEntity {
         avatarUrl: userModel.avatarUrl,
         coin: userModel.coin ?? 0);
   }
+
+  UserEntity copyWith({
+    String? id,
+    String? firstName,
+    String? lastName,
+    String? email,
+    Gender? gender,
+    DateTime? birthDate,
+    String? phoneNumber,
+    String? avatarUrl,
+    num? coin,
+  }) {
+    return UserEntity(
+      id: id ?? this.id,
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
+      email: email ?? this.email,
+      gender: gender ?? this.gender,
+      birthDate: birthDate ?? this.birthDate,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      avatarUrl: avatarUrl ?? this.avatarUrl,
+      coin: coin ?? this.coin,
+    );
+  }
 }

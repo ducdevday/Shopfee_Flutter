@@ -7,9 +7,9 @@ class OtpCubit extends Cubit<OtpState> {
 
   Future<void> sendOTP(String email, String fromRoute) async {
     try {
-      EasyLoading.show();
+      // EasyLoading.show();
       await _otpUseCase.sendOtp(email, fromRoute);
-      EasyLoading.dismiss();
+      // EasyLoading.dismiss();
     } catch (e) {
       ExceptionUtil.handle(e);
     }
@@ -38,8 +38,8 @@ class OtpCubit extends Cubit<OtpState> {
         final responseVerifyOtp =
             await _otpUseCase.verifyOtp(email, currentState.otpsSting);
         if (registerEntity != null) {
-          registerEntity.copyWith(code: currentState.otpsSting);
-          var responseRegister = await _otpUseCase.register(registerEntity);
+          var responseRegister = await _otpUseCase
+              .register(registerEntity.copyWith(code: currentState.otpsSting));
           SharedService.setToken(
               responseRegister.userId, responseRegister.accessToken);
         }

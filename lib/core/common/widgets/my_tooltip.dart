@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:overlay_tooltip/overlay_tooltip.dart';
+import 'package:shopfee/core/config/app_style.dart';
 
 class MyTooltip extends StatelessWidget {
   final TooltipController controller;
@@ -39,16 +40,13 @@ class MyTooltip extends StatelessWidget {
               Text.rich(TextSpan(children: [
                 TextSpan(
                   text: title,
-                  style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600),
+                  style: AppStyle.mediumTitleStyleDark
                 ),
                 WidgetSpan(
                   child: Opacity(
                     opacity: totalLength == 1 ? 0 : 1,
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
+                      padding: const EdgeInsets.only(left: 4.0),
                       child: Text(
                         '$currentDisplayIndex OF $totalLength',
                         style: TextStyle(

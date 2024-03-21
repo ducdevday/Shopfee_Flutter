@@ -31,7 +31,7 @@ class SizeFilter extends StatelessWidget {
                               label: Text(
                                 FormatUtil.formatSize(s.size),
                                 style: AppStyle.smallTextStyleDark.copyWith(
-                                    fontWeight: FontWeight.bold,
+                                    fontWeight: FontWeight.w600,
                                     color: state.order.size == s
                                         ? Colors.white
                                         : AppColor.primaryColor),

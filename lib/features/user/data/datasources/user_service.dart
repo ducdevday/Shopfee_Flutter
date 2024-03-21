@@ -15,7 +15,7 @@ class UserService {
 
   Future<Response> updateUser(UserModel user) async {
     final response = await DioService.instance
-        .put("${DioService.userPath}/update/${user.id}", data: user.toJson());
+        .put("${DioService.userPath}/${user.id}", data: user.toJson());
     return response;
   }
 

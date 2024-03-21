@@ -72,7 +72,7 @@ class _EditOrderBottomSheetState extends State<EditOrderBottomSheet> {
                     child: Text("Customize",
                         style: AppStyle.mediumTextStyleDark.copyWith(
                             color: AppColor.headingColor,
-                            fontWeight: FontWeight.bold)),
+                            fontWeight: FontWeight.w600)),
                   ),
                   const SizedBox(
                     height: 12,
@@ -104,7 +104,7 @@ class _EditOrderBottomSheetState extends State<EditOrderBottomSheet> {
                   child: Text("Topping",
                       style: AppStyle.mediumTextStyleDark.copyWith(
                           color: AppColor.headingColor,
-                          fontWeight: FontWeight.bold)),
+                          fontWeight: FontWeight.w600)),
                 ),
                 ToppingFilter()
               ],
@@ -126,7 +126,7 @@ class _EditOrderBottomSheetState extends State<EditOrderBottomSheet> {
                   child: Text("Note",
                       style: AppStyle.mediumTextStyleDark.copyWith(
                           color: AppColor.headingColor,
-                          fontWeight: FontWeight.bold)),
+                          fontWeight: FontWeight.w600)),
                 ),
                 const SizedBox(
                   height: 16,

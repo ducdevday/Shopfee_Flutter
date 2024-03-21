@@ -20,4 +20,10 @@ class HomeService {
         .get("${DioService.productPath}/top-selling/$quantity");
     return response;
   }
+
+  Future<Response> getAllBanner() async {
+    var response = await DioService.instance
+        .get("${DioService.bannerPath}/visible");
+    return response;
+  }
 }

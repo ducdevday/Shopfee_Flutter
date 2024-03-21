@@ -1,8 +1,11 @@
+import 'package:shopfee/features/home/domain/entities/banner_entity.dart';
 import 'package:shopfee/features/home/domain/entities/category_entity.dart';
 import 'package:shopfee/features/home/domain/entities/product_infomation_entity.dart';
 import 'package:shopfee/features/home/domain/repositories/home_repository.dart';
 
 abstract class HomeUseCase {
+  Future<List<BannerEntity>> getAllBanner();
+
   Future<List<CategoryEntity>> getAllCategory();
 
   Future<List<ProductInformationEntity>> getOutStandingProduct(
@@ -16,6 +19,11 @@ class HomeUseCaseImpl extends HomeUseCase {
   final HomeRepository _homeRepository;
 
   HomeUseCaseImpl(this._homeRepository);
+
+  @override
+  Future<List<BannerEntity>> getAllBanner() async{
+    return await _homeRepository.getAllBanner();
+  }
 
   @override
   Future<List<CategoryEntity>> getAllCategory() async {
@@ -33,4 +41,6 @@ class HomeUseCaseImpl extends HomeUseCase {
       {required int quantity}) async {
     return await _homeRepository.getTopSellingProduct(quantity: quantity);
   }
+
+
 }

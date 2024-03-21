@@ -9,7 +9,7 @@ part of 'order_history_params_model.dart';
 OrderHistoryParamsModel _$OrderHistoryParamsModelFromJson(
         Map<String, dynamic> json) =>
     OrderHistoryParamsModel(
-      historyStatusName: json['order_staging'] as String,
+      historyStatusName: json['order_phases_status'] as String,
       page: json['page'] as int,
       size: json['size'] as int,
     );
@@ -17,7 +17,7 @@ OrderHistoryParamsModel _$OrderHistoryParamsModelFromJson(
 Map<String, dynamic> _$OrderHistoryParamsModelToJson(
         OrderHistoryParamsModel instance) =>
     <String, dynamic>{
-      'order_staging': instance.historyStatusName,
+      'order_phases_status': instance.historyStatusName,
       'page': instance.page,
       'size': instance.size,
     };

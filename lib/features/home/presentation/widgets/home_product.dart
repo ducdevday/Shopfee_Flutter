@@ -67,7 +67,7 @@ class HomeProduct extends StatelessWidget {
                                 style: const TextStyle(
                                     color: Color(0xff3C3C3C),
                                     fontSize: 12,
-                                    fontWeight: FontWeight.bold),
+                                    fontWeight: FontWeight.w600),
                               )
                             ],
                           ),
@@ -194,7 +194,7 @@ class HomeProduct extends StatelessWidget {
                                         style: const TextStyle(
                                             color: Color(0xff3C3C3C),
                                             fontSize: 12,
-                                            fontWeight: FontWeight.bold),
+                                            fontWeight: FontWeight.w600),
                                       )
                                     ],
                                   ),
@@ -304,7 +304,7 @@ class HomeProduct extends StatelessWidget {
                                         style: const TextStyle(
                                             color: Color(0xff3C3C3C),
                                             fontSize: 12,
-                                            fontWeight: FontWeight.bold),
+                                            fontWeight: FontWeight.w600),
                                       )
                                     ],
                                   ),
