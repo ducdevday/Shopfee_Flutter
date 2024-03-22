@@ -9,7 +9,7 @@ class TakeAwayInformation extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ReceiptBloc, ReceiptState>(builder: (context, state) {
       if (state is ReceiptLoadSuccess) {
-        if (state.receipt.orderType! == OrderType.ONSITE) {
+        if (state.receipt.orderType == OrderType.ONSITE) {
           return Column(
             children: [
               Align(
@@ -28,12 +28,12 @@ class TakeAwayInformation extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Shopfee ${state.receipt.branchAddress}",
+                    "Shopfee ${state.receipt.branch?.address}",
                     style: AppStyle.normalTextStyleDark
                         .copyWith(color: AppColor.headingColor),
                   ),
                   Text(
-                    "Chosen Time: ${FormatUtil.formatTime(state.receipt.receiveTime)} - ${FormatUtil.formatDate2(state.receipt.receiveTime)}",
+                    "Chosen Time: ${FormatUtil.formatTime(state.receipt.receiverInformation?.receiveTime)} - ${FormatUtil.formatDate2(state.receipt.receiverInformation?.receiveTime)}",
                     style: AppStyle.normalTextStyleDark,
                   ),
                 ],

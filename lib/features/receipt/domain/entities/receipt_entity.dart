@@ -1,6 +1,8 @@
 import 'package:shopfee/core/common/models/order_type.dart';
 import 'package:shopfee/features/receipt/data/models/receipt_model.dart';
+import 'package:shopfee/features/receipt/domain/entities/branch_entity.dart';
 import 'package:shopfee/features/receipt/domain/entities/receipt_product_entity.dart';
+import 'package:shopfee/features/receipt/domain/entities/receiver_information_entity.dart';
 import 'package:shopfee/features/receipt/domain/entities/transaction_entity.dart';
 import 'package:shopfee/features/saved_address/domain/entities/address_entity.dart';
 
@@ -11,12 +13,11 @@ class ReceiptEntity {
   num? shippingFee;
   num? totalItemPrice;
   OrderType? orderType;
-  AddressEntity? shippingInformation;
+  ReceiverInformationEntity? receiverInformation;
   DateTime? createdAt;
   List<ReceiptProductEntity>? itemList;
   TransactionEntity? transaction;
-  DateTime? receiveTime;
-  String? branchAddress;
+  BranchEntity? branch;
   int? coin;
 
   ReceiptEntity({
@@ -26,12 +27,11 @@ class ReceiptEntity {
     this.shippingFee,
     this.totalItemPrice,
     this.orderType,
-    this.shippingInformation,
+    this.receiverInformation,
     this.createdAt,
     this.itemList,
     this.transaction,
-    this.receiveTime,
-    this.branchAddress,
+    this.branch,
     this.coin,
   });
 
@@ -43,9 +43,9 @@ class ReceiptEntity {
         shippingFee: model.shippingFee,
         totalItemPrice: model.totalItemPrice,
         orderType: model.orderType,
-        shippingInformation: model.shippingInformation == null
+        receiverInformation: model.receiverInformation == null
             ? null
-            : AddressEntity.fromModel(model.shippingInformation!),
+            : ReceiverInformationEntity.fromModel(model.receiverInformation!),
         createdAt: model.createdAt,
         itemList: model.itemList
             ?.map((e) => ReceiptProductEntity.fromModel(e))
@@ -53,8 +53,8 @@ class ReceiptEntity {
         transaction: model.transaction == null
             ? null
             : TransactionEntity.fromModel(model.transaction!),
-        receiveTime: model.receiveTime,
-        branchAddress: model.branchAddress,
+        branch:
+            model.branch == null ? null : BranchEntity.fromModel(model.branch!),
         coin: model.coin);
   }
 }

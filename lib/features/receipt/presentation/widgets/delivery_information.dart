@@ -9,7 +9,7 @@ class DeliveryInformation extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ReceiptBloc, ReceiptState>(builder: (context, state) {
       if (state is ReceiptLoadSuccess) {
-        if (state.receipt.orderType! == OrderType.SHIPPING) {
+        if (state.receipt.orderType == OrderType.SHIPPING) {
           return Column(
             children: [
               Align(
@@ -30,7 +30,7 @@ class DeliveryInformation extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        "${state.receipt.shippingInformation?.recipientName}",
+                        "${state.receipt.receiverInformation?.recipientName}",
                         style: AppStyle.mediumTextStyleDark
                             .copyWith(color: AppColor.headingColor),
                       ),
@@ -39,13 +39,13 @@ class DeliveryInformation extends StatelessWidget {
                         style: AppStyle.normalTextStyleDark,
                       ),
                       Text(
-                        "${state.receipt.shippingInformation?.phoneNumber}",
+                        "${state.receipt.receiverInformation?.phoneNumber}",
                         style: AppStyle.normalTextStyleDark,
                       ),
                     ],
                   ),
                   Text(
-                    "${state.receipt.shippingInformation?.detail}",
+                    "${state.receipt.receiverInformation?.detail}",
                     style: AppStyle.normalTextStyleDark,
                   ),
                 ],

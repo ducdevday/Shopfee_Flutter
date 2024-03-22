@@ -1,6 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:shopfee/core/common/models/order_type.dart';
+import 'package:shopfee/features/receipt/data/models/branch_model.dart';
 import 'package:shopfee/features/receipt/data/models/receipt_product_model.dart';
+import 'package:shopfee/features/receipt/data/models/receiver_information_model.dart';
 import 'package:shopfee/features/receipt/data/models/transaction_model.dart';
 import 'package:shopfee/features/saved_address/data/models/address_model.dart';
 
@@ -14,12 +16,11 @@ class ReceiptModel {
   num? shippingFee;
   num? totalItemPrice;
   OrderType? orderType;
-  AddressModel? shippingInformation;
+  ReceiverInformationModel? receiverInformation;
   DateTime? createdAt;
   List<ReceiptProductModel>? itemList;
   TransactionModel? transaction;
-  DateTime? receiveTime;
-  String? branchAddress;
+  BranchModel? branch;
   int? coin;
 
   ReceiptModel({
@@ -29,12 +30,11 @@ class ReceiptModel {
     this.shippingFee,
     this.totalItemPrice,
     this.orderType,
-    this.shippingInformation,
+    this.receiverInformation,
     this.createdAt,
     this.itemList,
     this.transaction,
-    this.receiveTime,
-    this.branchAddress,
+    this.branch,
     this.coin,
   });
 
