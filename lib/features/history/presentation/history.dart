@@ -12,7 +12,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:shopfee/core/common/enum/history_status.dart';
 import 'package:shopfee/core/common/models/order_status.dart';
 import 'package:shopfee/core/common/models/order_type.dart';
-import 'package:shopfee/core/common/widgets/my_skeleton_rectangle.dart';
+import 'package:shopfee/core/common/widgets/my_shimmer_rectangle.dart';
 import 'package:shopfee/core/config/app_color.dart';
 import 'package:shopfee/core/config/app_dimen.dart';
 import 'package:shopfee/core/config/app_path.dart';

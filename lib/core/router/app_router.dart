@@ -18,8 +18,10 @@ import 'package:shopfee/features/otp/presentation/otp.dart';
 import 'package:shopfee/features/personal_information/presentation/personal_information.dart';
 import 'package:shopfee/features/product_by_category/presentation/product_by_category.dart';
 import 'package:shopfee/features/product_detail/presentation/product_detail.dart';
+import 'package:shopfee/features/receipt/domain/entities/receipt_product_entity.dart';
 import 'package:shopfee/features/receipt/presentation/receipt.dart';
 import 'package:shopfee/features/register/presentation/register.dart';
+import 'package:shopfee/features/review/presentation/review.dart';
 import 'package:shopfee/features/saved_address/presentation/saved_address.dart';
 import 'package:shopfee/features/search/presentation/search.dart';
 import 'package:shopfee/features/splash/presentation/splash.dart';
@@ -134,6 +136,10 @@ class AppRouter {
         return MaterialPageRoute(
             builder: (context) =>
                 StoreSearchPage(getAll: settings.arguments as bool));
+      case ReviewPage.route:
+        return MaterialPageRoute(
+            builder: (context) =>
+                ReviewPage(itemList: settings.arguments as List<ReceiptProductEntity>?));
       default:
         return _errorRoute();
     }

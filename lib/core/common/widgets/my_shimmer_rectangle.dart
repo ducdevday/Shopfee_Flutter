@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:shopfee/core/common/widgets/my_skelton.dart';
+import 'package:shopfee/core/common/widgets/my_skeleton.dart';
 
-class MySkeletonRectangle extends MySkeleton {
+class MyShimmerRectangle extends MySkeleton {
   final double? radius;
 
-  const MySkeletonRectangle(
+  const MyShimmerRectangle(
       {super.key,
       required super.width,
       required super.height,

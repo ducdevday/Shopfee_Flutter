@@ -1,15 +1,15 @@
 part of receipt;
 
-class ItemList extends StatefulWidget {
-  const ItemList({
+class BoughtList extends StatefulWidget {
+  const BoughtList({
     super.key,
   });
 
   @override
-  State<ItemList> createState() => _ItemListState();
+  State<BoughtList> createState() => _BoughtListState();
 }
 
-class _ItemListState extends State<ItemList> {
+class _BoughtListState extends State<BoughtList> {
   late int defaultLength = 3;
   late int maxLength = 3;
   late int boughtListLength;
@@ -20,49 +20,46 @@ class _ItemListState extends State<ItemList> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 8.0, top: 8.0, right: 8.0),
-          child: Column(
-            children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "Item list",
-                  style: AppStyle.mediumTitleStyleDark.copyWith(
-                      color: AppColor.headingColor,
-                      fontWeight: FontWeight.w500),
-                ),
+        Column(
+          children: [
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "Item list",
+                style: AppStyle.mediumTitleStyleDark.copyWith(
+                    color: AppColor.headingColor,
+                    fontWeight: FontWeight.w500),
               ),
-              const SizedBox(
-                height: 8,
-              ),
-              BlocBuilder<ReceiptBloc, ReceiptState>(
-                builder: (context, state) {
-                  if (state is ReceiptLoadSuccess) {
-                    boughtListLength = state.receipt.itemList!.length;
-                    return ListView.separated(
-                      padding: EdgeInsets.zero,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: boughtListLength < defaultLength
-                          ? boughtListLength
-                          : maxLength,
-                      itemBuilder: (context, index) {
-                        return buildProductItem(state.receipt.itemList![index]);
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return const Divider(
-                          height: 10,
-                        );
-                      },
-                    );
-                  } else {
-                    return const SizedBox();
-                  }
-                },
-              ),
-            ],
-          ),
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            BlocBuilder<ReceiptBloc, ReceiptState>(
+              builder: (context, state) {
+                if (state is ReceiptLoadSuccess) {
+                  boughtListLength = state.receipt.itemList!.length;
+                  return ListView.separated(
+                    padding: EdgeInsets.zero,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: boughtListLength < defaultLength
+                        ? boughtListLength
+                        : maxLength,
+                    itemBuilder: (context, index) {
+                      return buildProductItem(state.receipt.itemList![index]);
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return const Divider(
+                        height: 10,
+                      );
+                    },
+                  );
+                } else {
+                  return const SizedBox();
+                }
+              },
+            ),
+          ],
         ),
         Builder(builder: (context) {
           if (defaultLength < boughtListLength) {

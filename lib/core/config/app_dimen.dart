@@ -18,6 +18,7 @@ class AppDimen {
   static const double smallSize = 24;
   static const double mediumSize = 32;
   static const double largeSize = 40;
+  static const double smallImageSize = 60;
 
   static const double mediumImageSize = 200;
 }

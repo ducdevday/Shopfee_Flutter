@@ -10,13 +10,9 @@ class ProductListSkeleton extends StatelessWidget {
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
         itemCount: 10,
-        itemBuilder: (context, index) => Shimmer.fromColors(
-          baseColor: Colors.grey.shade300,
-          highlightColor: Colors.grey.shade100,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal:AppDimen.screenPadding),
-            child: ProductItemSkeleton(),
-          ),
+        itemBuilder: (context, index) => Padding(
+          padding: const EdgeInsets.symmetric(horizontal:AppDimen.screenPadding),
+          child: ProductItemSkeleton(),
         ),
         separatorBuilder: (context, int index) => Divider(
           height: 8,

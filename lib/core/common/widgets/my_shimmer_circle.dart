@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:shopfee/core/common/widgets/my_skelton.dart';
+import 'package:shopfee/core/common/widgets/my_skeleton.dart';
 
-class MySkeletonCircle extends MySkeleton {
-  const MySkeletonCircle(
+class MyShimmerCircle extends MySkeleton {
+  const MyShimmerCircle(
       {super.key, required super.width, required super.height});
 
   @override

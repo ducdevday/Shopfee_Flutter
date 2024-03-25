@@ -14,7 +14,7 @@ class StoreSkeleton extends StatelessWidget {
           ClipRRect(
             borderRadius:
             BorderRadius.all(Radius.circular(AppDimen.smallRadius)),
-            child: MySkeletonRectangle(
+            child: MyShimmerRectangle(
               width: 90,
               height: 100,
             ),
@@ -26,17 +26,17 @@ class StoreSkeleton extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                MySkeletonRectangle(
+                MyShimmerRectangle(
                   width: 80,
                   height: 16,
                 ),
                 Spacer(),
-                MySkeletonRectangle(
+                MyShimmerRectangle(
                   width: 100,
                   height: 14,
                 ),
                 SizedBox(height: 4,),
-                MySkeletonRectangle(
+                MyShimmerRectangle(
                   width: 60,
                   height: 16,
                 ),

@@ -12,7 +12,7 @@ import 'package:http/http.dart';
 import 'package:shopfee/core/common/enum/product_view_type.dart';
 import 'package:shopfee/core/common/enum/store_view_type.dart';
 import 'package:shopfee/core/common/widgets/my_error_widget.dart';
-import 'package:shopfee/core/common/widgets/my_skeleton_rectangle.dart';
+import 'package:shopfee/core/common/widgets/my_shimmer_rectangle.dart';
 import 'package:shopfee/core/config/app_color.dart';
 import 'package:shopfee/core/config/app_dimen.dart';
 import 'package:shopfee/core/config/app_path.dart';

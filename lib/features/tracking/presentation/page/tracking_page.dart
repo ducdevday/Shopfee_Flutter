@@ -83,7 +83,7 @@ class _TrackingPageState extends State<TrackingPage> {
                               ),
                             ),
                             builder: TimelineTileBuilder.connected(
-                              itemExtent: 100.0,
+                              itemExtent: 120.0,
                               connectionDirection: ConnectionDirection.before,
                               itemCount: eventlogs.length,
                               contentsBuilder: (context, index) => Padding(

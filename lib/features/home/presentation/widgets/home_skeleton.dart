@@ -13,14 +13,10 @@ class HomeSkeleton extends StatelessWidget {
           ),
           Container(
               margin: const EdgeInsets.symmetric(horizontal: 10),
-              child: Shimmer.fromColors(
-                baseColor: Colors.grey.shade300,
-                highlightColor: Colors.grey.shade100,
-                child: MySkeletonRectangle(
-                  width: MediaQuery.of(context).size.width - 40,
-                  height: 137,
-                  radius: 16,
-                ),
+              child: MyShimmerRectangle(
+                width: MediaQuery.of(context).size.width - 40,
+                height: 137,
+                radius: 16,
               )),
           const SizedBox(
             height: AppDimen.spacing,
@@ -32,15 +28,11 @@ class HomeSkeleton extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
             child: ListView.separated(
                 scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) => Shimmer.fromColors(
-                      baseColor: Colors.grey.shade300,
-                      highlightColor: Colors.grey.shade100,
-                      child: const MySkeletonRectangle(
-                        width: 60,
-                        height: 80,
-                        radius: 16,
-                      ),
-                    ),
+                itemBuilder: (context, index) => const MyShimmerRectangle(
+                  width: 60,
+                  height: 80,
+                  radius: 16,
+                ),
                 separatorBuilder: (context, index) => const SizedBox(
                       width: 20,
                     ),
@@ -53,13 +45,9 @@ class HomeSkeleton extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: AppDimen.screenPadding),
             child: Align(
                 alignment: Alignment.centerLeft,
-                child: Shimmer.fromColors(
-                  baseColor: Colors.grey.shade300,
-                  highlightColor: Colors.grey.shade100,
-                  child: const MySkeletonRectangle(
+                child:  const MyShimmerRectangle(
                     width: 130,
                     height: 20,
-                  ),
                 )),
           ),
           const SizedBox(
@@ -92,53 +80,49 @@ class HomeProductSkeleton extends StatelessWidget {
   Widget build(BuildContext context) {
     return  Padding(
       padding: EdgeInsets.symmetric(vertical: 8.0),
-      child: Shimmer.fromColors(
-        baseColor: Colors.grey.shade300,
-        highlightColor: Colors.grey.shade100,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            MySkeletonCircle(
-              height: 70,
-              width: 70,
-            ),
-            SizedBox(
-              width: 20,
-            ),
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.only(top: 4.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    MySkeletonRectangle(
-                      width: 200,
-                      height: 20,
-                    ),
-                    SizedBox(
-                      height: 4,
-                    ),
-                    MySkeletonRectangle(
-                      width: 300,
-                      height: 30,
-                    )
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(
-              width: 20,
-            ),
-            Padding(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          MyShimmerCircle(
+            height: 70,
+            width: 70,
+          ),
+          SizedBox(
+            width: 20,
+          ),
+          Expanded(
+            child: Padding(
               padding: EdgeInsets.only(top: 4.0),
-              child: MySkeletonRectangle(
-                width: 65,
-                height: 20,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  MyShimmerRectangle(
+                    width: 200,
+                    height: 20,
+                  ),
+                  SizedBox(
+                    height: 4,
+                  ),
+                  MyShimmerRectangle(
+                    width: 300,
+                    height: 30,
+                  )
+                ],
               ),
-            )
-          ],
-        ),
+            ),
+          ),
+          SizedBox(
+            width: 20,
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: 4.0),
+            child: MyShimmerRectangle(
+              width: 65,
+              height: 20,
+            ),
+          )
+        ],
       ),
     );
   }

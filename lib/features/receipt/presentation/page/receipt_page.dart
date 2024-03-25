@@ -71,7 +71,64 @@ class _ReceiptPageState extends State<ReceiptPage> {
                             child: Column(
                               children: [
                                 ReceiptInformation(),
-                                // Review(orderId: orderId),
+                                Row(
+                                  children: [
+                                    Container(
+                                      padding: EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: const BorderRadius.only(
+                                              bottomLeft: Radius.circular(8),
+                                              topLeft: Radius.circular(8)),
+                                          border: Border.all(
+                                              color: Color(0xffF0F0F0))),
+                                      child: const Row(
+                                        children: [
+                                          Icon(
+                                            Icons.star_rounded,
+                                            color: Colors.amber,
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      padding: EdgeInsets.all(8),
+                                      decoration: const BoxDecoration(
+                                        color: Color(0xffF0F0F0),
+                                        borderRadius: BorderRadius.only(
+                                            bottomRight: Radius.circular(8),
+                                            topRight: Radius.circular(8)),
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "You haven't leave a review yet",
+                                            style:
+                                                AppStyle.mediumTextStyleDark,
+                                          ),
+                                          const SizedBox(
+                                            height: 4,
+                                          ),
+                                          InkWell(
+                                            onTap: () {
+                                              NavigationUtil.pushNamed(
+                                                  ReviewPage.route,
+                                                  arguments:
+                                                      state.receipt.itemList);
+                                            },
+                                            child: Text(
+                                              "Review now",
+                                              style: AppStyle
+                                                  .normalTextStylePrimary,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
                                 Container(
                                   height: 4,
                                   color: Color(0xffEFEBE9),
@@ -81,7 +138,7 @@ class _ReceiptPageState extends State<ReceiptPage> {
                                   height: 4,
                                   color: Color(0xffEFEBE9),
                                 ),
-                                ItemList(),
+                                BoughtList(),
                                 Container(
                                   height: 4,
                                   color: Color(0xffEFEBE9),

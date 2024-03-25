@@ -13,7 +13,7 @@ class ProductItemSkeleton extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          MySkeletonCircle(
+          MyShimmerCircle(
             height: 70,
             width: 70,
           ),
@@ -26,14 +26,14 @@ class ProductItemSkeleton extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  MySkeletonRectangle(
+                  MyShimmerRectangle(
                     width: 200,
                     height: 20,
                   ),
                   SizedBox(
                     height: 4,
                   ),
-                  MySkeletonRectangle(
+                  MyShimmerRectangle(
                     width: 300,
                     height: 30,
                   )
@@ -46,7 +46,7 @@ class ProductItemSkeleton extends StatelessWidget {
           ),
           Padding(
             padding: EdgeInsets.only(top: 4.0),
-            child: MySkeletonRectangle(
+            child: MyShimmerRectangle(
               width: 65,
               height: 20,
             ),
