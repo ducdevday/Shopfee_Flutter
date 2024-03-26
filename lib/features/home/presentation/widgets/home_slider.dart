@@ -23,10 +23,21 @@ class _HomeSliderState extends State<HomeSlider> {
                       .map((item) => Container(
                             margin: const EdgeInsets.symmetric(horizontal: 10),
                             child: Center(
-                                child: Image.network(item.imageUrl,
-                                    fit: BoxFit.cover,
-                                    width: MediaQuery.of(context).size.width -
-                                        20)),
+                              child: CachedNetworkImage(
+                                imageUrl: item.imageUrl!,
+                                fit: BoxFit.cover,
+                                width: MediaQuery.of(context).size.width - 20,
+                                placeholder: (context, url) =>
+                                    MyPlaceHolderRectangle(
+                                  width: MediaQuery.of(context).size.width - 20,
+                                  height: 270,
+                                ),
+                                errorWidget: (_, __, ___) => Image.asset(
+                                    AppPath.imgImageError,
+                                    width:
+                                        MediaQuery.of(context).size.width - 20),
+                              ),
+                            ),
                           ))
                       .toList(),
                   carouselController: _controller,

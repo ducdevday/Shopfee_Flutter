@@ -2,6 +2,7 @@ library store;
 
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ import 'package:http/http.dart';
 import 'package:shopfee/core/common/enum/product_view_type.dart';
 import 'package:shopfee/core/common/enum/store_view_type.dart';
 import 'package:shopfee/core/common/widgets/my_error_widget.dart';
+import 'package:shopfee/core/common/widgets/my_placeholder_rectangle.dart';
 import 'package:shopfee/core/common/widgets/my_shimmer_rectangle.dart';
 import 'package:shopfee/core/config/app_color.dart';
 import 'package:shopfee/core/config/app_dimen.dart';

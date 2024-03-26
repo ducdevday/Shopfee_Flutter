@@ -23,7 +23,7 @@ class ProductDetailBloc extends Bloc<ProductDetailEvent, ProductDetailState> {
       emit(ProductDetailLoadInProcess());
       final product =
           await _productDetailUseCase.getProductById(event.productId);
-      await Future.delayed(Duration(seconds: 3));
+      await Future.delayed(Duration(seconds: 1));
       emit(ProductDetailLoadSuccess(
           order: OrderEntity(
         product: product,

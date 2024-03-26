@@ -30,12 +30,23 @@ class StoreItem extends StatelessWidget {
             ClipRRect(
               borderRadius:
               const BorderRadius.all(Radius.circular(AppDimen.smallRadius)),
-              child: Image.network(
-                "${store.imageUrl}",
-                fit: BoxFit.cover,
-                width: 90,
-                height: 100,
-              ),
+              child:
+                CachedNetworkImage(
+                  imageUrl: "${store.imageUrl}",
+                  fit: BoxFit.cover,
+                  width: 90,
+                  height: 100,
+                  placeholder: (context, url) =>
+                      MyPlaceHolderRectangle(
+                        width: 90,
+                        height: 100,
+                      ),
+                  errorWidget: (_, __, ___) => Image.asset(
+                    AppPath.imgImageError,
+                    width: 90,
+                    height: 100,
+                  ),
+                )
             ),
             const SizedBox(
               width: AppDimen.spacing,

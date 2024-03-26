@@ -256,13 +256,23 @@ class _OrderPageState extends State<OrderPage> {
                       },
                       child: Column(
                         children: [
-                          Image(
-                            image: NetworkImage(state.categories[index].image!),
-                            width: 60,
-                            height: 60,
+                          CachedNetworkImage(
+                            imageUrl: state.categories[index].image!,
+                            fit: BoxFit.cover,
+                            width: AppDimen.smallImageSize,
+                            height: AppDimen.smallImageSize,
+                            placeholder: (context, url) =>
+                                MyPlaceHolderRectangle(
+                              width: AppDimen.smallImageSize,
+                              height: AppDimen.smallImageSize,
+                            ),
+                            errorWidget: (_, __, ___) => Image.asset(
+                              AppPath.imgImageError,
+                              width: AppDimen.smallImageSize,
+                              height: AppDimen.smallImageSize,
+                            ),
                           ),
                           SizedBox(
-                            width: 60,
                             child: Text(
                               state.categories[index].name!,
                               style: AppStyle.mediumTextStyleDark

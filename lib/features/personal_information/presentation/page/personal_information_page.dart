@@ -156,7 +156,7 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                                       shape: BoxShape.circle,
                                       image: DecorationImage(
                                           fit: BoxFit.cover,
-                                          image: NetworkImage(
+                                          image: CachedNetworkImageProvider(
                                             AppPath.imgDefaultAvatar,
                                           ))),
                                 );
@@ -168,7 +168,7 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                                       shape: BoxShape.circle,
                                       image: DecorationImage(
                                           fit: BoxFit.cover,
-                                          image: NetworkImage(
+                                          image: CachedNetworkImageProvider(
                                             avatarUrl!,
                                           ))),
                                 );

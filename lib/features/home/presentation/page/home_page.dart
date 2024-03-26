@@ -111,11 +111,26 @@ class _HomePageState extends State<HomePage> {
                                             horizontal: AppDimen.spacing),
                                         child: Column(
                                           children: [
-                                            Image(
-                                              image: NetworkImage(state
-                                                  .categories[index].image!),
-                                              width: 60,
-                                              height: 60,
+                                            // Image(
+                                            //   image: NetworkImage(state
+                                            //       .categories[index].image!),
+                                            //   width: 60,
+                                            //   height: 60,
+                                            // ),
+                                            CachedNetworkImage(
+                                              imageUrl: state
+                                                  .categories[index].image!,
+                                              width: AppDimen.smallImageSize,
+                                              height: AppDimen.smallImageSize,
+                                              placeholder: (context, url) => MyPlaceHolderRectangle(
+                                                width:AppDimen.smallImageSize,
+                                                height:AppDimen.smallImageSize,
+                                              ),
+                                              errorWidget: (_, __, ___) => Image.asset(
+                                                AppPath.imgImageError,
+                                                width:AppDimen.smallImageSize,
+                                                height: AppDimen.smallImageSize,
+                                              ),
                                             ),
                                             Text(
                                               state.categories[index].name!,

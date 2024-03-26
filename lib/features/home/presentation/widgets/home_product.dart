@@ -39,10 +39,15 @@ class HomeProduct extends StatelessWidget {
                           // image: DecorationImage(image: NetworkImage(product.imageUrl,),fit: BoxFit.cover)
                         ),
                       ),
-                      Image.network(
-                        product.imageUrl ?? "",
+                      CachedNetworkImage(
+                        imageUrl: product.imageUrl ?? "",
                         height: 68,
                         width: 58,
+                        errorWidget: (_, __, ___) => Image.asset(
+                          AppPath.imgImageError,
+                          height: 68,
+                          width: 58,
+                        ),
                       ),
                       Positioned(
                         bottom: 0,
@@ -133,15 +138,14 @@ class HomeProduct extends StatelessWidget {
           ],
         ),
       );
-    }
-    else if (viewType == ProductViewType.List_View_Horizontal) {
+    } else if (viewType == ProductViewType.List_View_Horizontal) {
       return GestureDetector(
         onTap: () {
           NavigationUtil.pushNamed(ProductDetailPage.route,
               arguments: product.id);
         },
         child: Card(
-          shape: RoundedRectangleBorder(
+          shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(8.0)),
               side: BorderSide(color: Color(0xfff5f5f5), width: 2)),
           elevation: 0.25,
@@ -157,13 +161,22 @@ class HomeProduct extends StatelessWidget {
                       Stack(
                         children: [
                           Align(
-                            alignment: Alignment.center,
-                            child: Image.network(
-                              product.imageUrl ?? "",
-                              height: 88,
-                              width: 68,
-                            ),
-                          ),
+                              alignment: Alignment.center,
+                              child: CachedNetworkImage(
+                                imageUrl: "${product.imageUrl}",
+                                height: 88,
+                                width: 68,
+                                placeholder: (context, url) =>
+                                    const MyPlaceHolderRectangle(
+                                  height: 88,
+                                  width: 68,
+                                ),
+                                errorWidget: (_, __, ___) => Image.asset(
+                                  AppPath.imgImageError,
+                                  height: 88,
+                                  width: 68,
+                                ),
+                              )),
                           Positioned(
                             bottom: 8,
                             left: 0,
@@ -173,13 +186,13 @@ class HomeProduct extends StatelessWidget {
                               children: [
                                 Container(
                                   padding:
-                                  const EdgeInsets.symmetric(horizontal: 4),
+                                      const EdgeInsets.symmetric(horizontal: 4),
                                   decoration: BoxDecoration(
                                       color: Colors.white.withOpacity(0.75),
                                       borderRadius: BorderRadius.circular(10)),
                                   child: Row(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.center,
+                                        CrossAxisAlignment.center,
                                     children: [
                                       const Icon(
                                         Icons.star_rounded,
@@ -210,9 +223,11 @@ class HomeProduct extends StatelessWidget {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: AppStyle.mediumTextStyleDark.copyWith(
-                                color: Color(0xff555555), height: 1.5)),
+                                color: const Color(0xff555555), height: 1.5)),
                       ),
-                      SizedBox(height: 4,),
+                      const SizedBox(
+                        height: 4,
+                      ),
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(FormatUtil.formatMoney(product.price),
@@ -242,8 +257,7 @@ class HomeProduct extends StatelessWidget {
           ),
         ),
       );
-    }
-    else {
+    } else {
       return InkWell(
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
@@ -252,7 +266,7 @@ class HomeProduct extends StatelessWidget {
               arguments: product.id);
         },
         child: Card(
-          shape: RoundedRectangleBorder(
+          shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(8.0)),
               side: BorderSide(color: Color(0xfff5f5f5), width: 2)),
           elevation: 0.25,
@@ -268,10 +282,15 @@ class HomeProduct extends StatelessWidget {
                         children: [
                           Align(
                             alignment: Alignment.center,
-                            child: Image.network(
-                              product.imageUrl ?? "",
+                            child: CachedNetworkImage(
+                              imageUrl: "${product.imageUrl}",
                               height: 88,
                               width: 68,
+                              errorWidget: (_, __, ___) => Image.asset(
+                                AppPath.imgImageError,
+                                height: 88,
+                                width: 68,
+                              ),
                             ),
                           ),
                           Positioned(
@@ -320,9 +339,11 @@ class HomeProduct extends StatelessWidget {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: AppStyle.mediumTextStyleDark.copyWith(
-                                color: Color(0xff555555), height: 1.5)),
+                                color: const Color(0xff555555), height: 1.5)),
                       ),
-                      SizedBox(height: 4,),
+                      const SizedBox(
+                        height: 4,
+                      ),
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(FormatUtil.formatMoney(product.price),

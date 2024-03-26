@@ -35,15 +35,24 @@ class _ProductImageState extends State<ProductImage> {
               },
               child: GestureDetector(
                 onTap: () {
-                  NavigationUtil.pushNamed(
-                      ImageFullScreen.route, arguments: state.order.product.imageUrl!);
+                  NavigationUtil.pushNamed(ImageFullScreen.route,
+                      arguments: state.order.product.imageUrl!);
                 },
                 child: Hero(
                   tag: "Product",
-                  child: Image.network(
-                    state.order.product.imageUrl!,
+                  child: CachedNetworkImage(
+                    imageUrl: state.order.product.imageUrl!,
                     width: 165,
                     height: 270,
+                    placeholder: (context, url) => MyPlaceHolderRectangle(
+                      width: 165,
+                      height: 270,
+                    ),
+                    errorWidget: (_, __, ___) => Image.asset(
+                      AppPath.imgImageError,
+                      width: AppDimen.largeSize,
+                      height: AppDimen.largeSize,
+                    ),
                   ),
                 ),
               ),
@@ -51,13 +60,22 @@ class _ProductImageState extends State<ProductImage> {
           } else {
             return GestureDetector(
               onTap: () {
-                NavigationUtil.pushNamed(
-                    ImageFullScreen.route, arguments: state.order.product.imageUrl!);
+                NavigationUtil.pushNamed(ImageFullScreen.route,
+                    arguments: state.order.product.imageUrl!);
               },
-              child: Image.network(
-                state.order.product.imageUrl!,
+              child: CachedNetworkImage(
+                imageUrl: state.order.product.imageUrl!,
                 width: 165,
                 height: 270,
+                placeholder: (context, url) => MyPlaceHolderRectangle(
+                  width: 165,
+                  height: 270,
+                ),
+                errorWidget: (_, __, ___) => Image.asset(
+                  AppPath.imgImageError,
+                  width: AppDimen.largeSize,
+                  height: AppDimen.largeSize,
+                ),
               ),
             );
           }

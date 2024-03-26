@@ -280,9 +280,7 @@ class UserAvatar extends StatelessWidget {
                     shape: BoxShape.circle,
                     image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: NetworkImage(
-                          AppPath.imgDefaultAvatar,
-                        ))),
+                        image: CachedNetworkImageProvider(AppPath.imgDefaultAvatar,))),
               ),
               Text(
                 "...",
@@ -302,7 +300,7 @@ class UserAvatar extends StatelessWidget {
                       shape: BoxShape.circle,
                       image: DecorationImage(
                           fit: BoxFit.cover,
-                          image: NetworkImage(
+                          image: CachedNetworkImageProvider(
                             AppPath.imgDefaultAvatar,
                           ))),
                 ),
@@ -323,7 +321,7 @@ class UserAvatar extends StatelessWidget {
                       shape: BoxShape.circle,
                       image: DecorationImage(
                           fit: BoxFit.cover,
-                          image: NetworkImage(
+                          image: CachedNetworkImageProvider(
                             state.user.avatarUrl!,
                           ))),
                 ),

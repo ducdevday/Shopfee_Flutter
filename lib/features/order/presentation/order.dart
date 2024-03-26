@@ -1,5 +1,6 @@
 library order;
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -12,6 +13,7 @@ import 'package:shopfee/core/common/enum/product_view_type.dart';
 import 'package:shopfee/core/common/extensions/product_sort_type.dart';
 import 'package:shopfee/core/common/widgets/my_confirm_dialog.dart';
 import 'package:shopfee/core/common/widgets/my_error_widget.dart';
+import 'package:shopfee/core/common/widgets/my_placeholder_rectangle.dart';
 import 'package:shopfee/core/common/widgets/my_radio.dart';
 import 'package:shopfee/core/config/app_color.dart';
 import 'package:shopfee/core/config/app_dimen.dart';

@@ -79,10 +79,20 @@ class _StoreDetailPageState extends State<StoreDetailPage> {
                           },
                           child: Hero(
                             tag: "Product",
-                            child: Image.network(
-                              "${state.store.imageUrl}",
-                              width: MediaQuery.of(context).size.width,
+                            child: CachedNetworkImage(
+                              imageUrl: "${state.store.imageUrl}",
                               fit: BoxFit.cover,
+                              width: MediaQuery.of(context).size.width,
+                              placeholder: (context, url) =>
+                                  MyPlaceHolderRectangle(
+                                width: MediaQuery.of(context).size.width,
+                                height: 270,
+                              ),
+                              errorWidget: (_, __, ___) => Image.asset(
+                                AppPath.imgImageError,
+                                width: MediaQuery.of(context).size.width ,
+                                height: 270,
+                              ),
                             ),
                           ),
                         ),

@@ -62,4 +62,5 @@ class AppPath {
   static const String imgCoinBackground =
       "assets/images/img_coin_background.png";
   static const String icCoin = "assets/icons/ic_coin.png";
+  static const String imgImageError = "assets/icons/img_image_error.png";
 }

@@ -3,11 +3,13 @@ library store_detail;
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:equatable/equatable.dart';
 import 'package:lottie/lottie.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shopfee/core/common/widgets/my_confirm_dialog.dart';
 import 'package:shopfee/core/common/widgets/my_error_page.dart';
+import 'package:shopfee/core/common/widgets/my_placeholder_rectangle.dart';
 import 'package:shopfee/core/di/service_locator.dart';
 import 'package:shopfee/core/utils/alert_util.dart';
 import 'package:shopfee/core/utils/exception_util.dart';
