@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:shopfee/core/config/app_dimen.dart';
+import 'package:shopfee/core/config/app_path.dart';
 import 'package:shopfee/core/config/app_style.dart';
 
 class MyErrorWidget extends StatelessWidget {
@@ -15,8 +17,8 @@ class MyErrorWidget extends StatelessWidget {
         children: [
           Column(
             children: [
-              Lottie.asset("assets/images/lottie_coffee_error.json",
-                  width: 200, height: 200),
+              Lottie.asset(AppPath.imgError,
+                  width: AppDimen.mediumImageSize, height: AppDimen.mediumImageSize),
               Text(
                 "Some thing went wrong",
                 style: AppStyle.mediumTextStyleDark.copyWith(height: 1.5),

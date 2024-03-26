@@ -8,7 +8,7 @@ class ReviewSummary extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ReceiptBloc, ReceiptState>(
       builder: (context, state) {
-        if (state is ReceiptLoadSuccess ) {
+        if (state is ReceiptLoadSuccess && state.lastEventLog.orderStatus == OrderStatus.SUCCEED) {
           return Column(
             children: [
               Container(

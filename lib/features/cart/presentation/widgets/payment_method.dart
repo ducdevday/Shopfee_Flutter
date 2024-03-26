@@ -26,7 +26,7 @@ class PaymentMethod extends StatelessWidget {
                 Row(
                   children: [
                     Image.asset(
-                      PaymentType.getIconPath(state.cart.paymentType!),
+                      state.cart.paymentType!.getIconPath(),
                       width: 24,
                       height: 24,
                     ),
@@ -35,7 +35,7 @@ class PaymentMethod extends StatelessWidget {
                     ),
                     Expanded(
                         child: Text(
-                            PaymentType.getFormattedName(state.cart.paymentType!), style: AppStyle.normalTextStyleDark)),
+                            state.cart.paymentType!.getFormattedName(), style: AppStyle.normalTextStyleDark)),
                     const Icon(Icons.keyboard_arrow_right_rounded)
                   ],
                 )

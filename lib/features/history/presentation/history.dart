@@ -10,6 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:shopfee/core/common/enum/history_status.dart';
+import 'package:shopfee/core/common/extensions/history_status_extension.dart';
 import 'package:shopfee/core/common/extensions/order_status_extension.dart';
 import 'package:shopfee/core/common/models/order_status.dart';
 import 'package:shopfee/core/common/models/order_type.dart';

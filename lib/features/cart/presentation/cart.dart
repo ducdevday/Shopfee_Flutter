@@ -16,6 +16,7 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:shopfee/core/common/enum/delivery_type.dart';
 import 'package:shopfee/core/common/enum/field_type.dart';
 import 'package:shopfee/core/common/enum/payment_type.dart';
+import 'package:shopfee/core/common/extensions/payment_type.dart';
 import 'package:shopfee/core/common/models/order_type.dart';
 import 'package:shopfee/core/common/widgets/my_confirm_dialog.dart';
 import 'package:shopfee/core/common/widgets/my_input_dialog.dart';

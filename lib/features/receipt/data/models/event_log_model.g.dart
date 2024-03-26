@@ -14,7 +14,7 @@ EventLogModel _$EventLogModelFromJson(Map<String, dynamic> json) =>
           ? null
           : DateTime.parse(json['createdAt'] as String),
       description: json['description'] as String?,
-      makerByEmployee: json['employee'] as bool?,
+      actor: $enumDecodeNullable(_$ActorTypeEnumMap, json['actor']),
     );
 
 Map<String, dynamic> _$EventLogModelToJson(EventLogModel instance) =>
@@ -22,7 +22,7 @@ Map<String, dynamic> _$EventLogModelToJson(EventLogModel instance) =>
       'orderStatus': instance.orderStatus,
       'createdAt': instance.time?.toIso8601String(),
       'description': instance.description,
-      'employee': instance.makerByEmployee,
+      'actor': instance.actor,
     };
 
 const _$OrderStatusEnumMap = {
@@ -36,4 +36,10 @@ const _$OrderStatusEnumMap = {
   OrderStatus.NOT_RECEIVED: 'NOT_RECEIVED',
   OrderStatus.CANCELED: 'CANCELED',
   OrderStatus.SUCCEED: 'SUCCEED',
+};
+
+const _$ActorTypeEnumMap = {
+  ActorType.EMPLOYEE: 'EMPLOYEE',
+  ActorType.USER: 'USER',
+  ActorType.AUTOMATIC: 'AUTOMATIC',
 };

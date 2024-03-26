@@ -112,7 +112,9 @@ class _ReceiptPageState extends State<ReceiptPage> {
             }
           },
         ),
-        bottomNavigationBar: ReceiptBottomAction(),
+        bottomNavigationBar: ReceiptBottomAction(
+          orderId: widget.orderId,
+        ),
       ),
     );
   }

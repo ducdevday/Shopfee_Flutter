@@ -11,7 +11,7 @@ class MyLoadingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+      body: SizedBox(
         width: MediaQuery.of(context).size.width,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -20,8 +20,8 @@ class MyLoadingPage extends StatelessWidget {
               children: [
                 Lottie.asset(
                   AppPath.imgCoffeeLoading,
-                  width: AppDimen.smallImageSize,
-                  height: AppDimen.smallImageSize,
+                  width: AppDimen.mediumImageSize,
+                  height: AppDimen.mediumImageSize,
                 ),
                 Positioned(
                     bottom: AppDimen.spacing,

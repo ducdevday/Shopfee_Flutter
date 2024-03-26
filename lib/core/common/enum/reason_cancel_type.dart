@@ -20,6 +20,4 @@ enum ReasonCancelType {
         return "";
     }
   }
-
-  // static PaymentType fromJson(String json) => values.byName(json);
 }

@@ -50,7 +50,7 @@ class _HistoryFilterState extends State<HistoryFilter> {
                   ),
                 ),
                 label: Text(
-                  HistoryStatus.getName(HistoryStatus.values[index]),
+                  HistoryStatus.values[index].getFormattedName(),
                   style: AppStyle.smallTextStyleDark.copyWith(
                       fontWeight: FontWeight.w600,
                       color: historyStatus == HistoryStatus.values[index]

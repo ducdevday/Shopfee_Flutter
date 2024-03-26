@@ -34,8 +34,7 @@ class _VnPayPageState extends State<VnPayPage> {
         }
         //? Hủy thanh toán
         _cubit.handlePayment(
-            transactionId: widget.orderResult.transactionId!,
-            orderId: widget.orderResult.orderId!);
+            transactionId: widget.orderResult.transactionId!);
         NavigationUtil.pushNamedAndRemoveUntil(ReceiptPage.route,
             arguments: widget.orderResult.orderId);
       },
@@ -71,8 +70,7 @@ class _VnPayPageState extends State<VnPayPage> {
                         onWebResourceError: (WebResourceError error) {
                           final webError = error;
                           _cubit.handlePayment(
-                              transactionId: widget.orderResult.transactionId!,
-                              orderId: widget.orderResult.orderId!);
+                              transactionId: widget.orderResult.transactionId!);
                         },
                         onNavigationRequest: (NavigationRequest request) {
                           final onNavigationRequest = request.url;
@@ -81,14 +79,12 @@ class _VnPayPageState extends State<VnPayPage> {
                             if (request.url.contains("vnp_ResponseCode=00")) {
                               _cubit.handlePayment(
                                   transactionId:
-                                      widget.orderResult.transactionId!,
-                                  orderId: widget.orderResult.orderId!);
+                                      widget.orderResult.transactionId!);
                               return NavigationDecision.prevent;
                             } else {
                               _cubit.handlePayment(
                                   transactionId:
-                                      widget.orderResult.transactionId!,
-                                  orderId: widget.orderResult.orderId!);
+                                      widget.orderResult.transactionId!);
                               return NavigationDecision.prevent;
                             }
                           }
@@ -96,8 +92,7 @@ class _VnPayPageState extends State<VnPayPage> {
                           else if (request.url.contains("status")) {
                             _cubit.handlePayment(
                                 transactionId:
-                                widget.orderResult.transactionId!,
-                                orderId: widget.orderResult.orderId!);
+                                widget.orderResult.transactionId!);
                             return NavigationDecision.prevent;
                           }
                           return NavigationDecision.navigate;

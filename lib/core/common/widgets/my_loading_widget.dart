@@ -18,8 +18,8 @@ class MyLoadingWidget extends StatelessWidget {
             children: [
               Lottie.asset(
                 AppPath.imgCoffeeLoading,
-                width: AppDimen.smallImageSize,
-                height: AppDimen.smallImageSize,
+                width: AppDimen.mediumImageSize,
+                height: AppDimen.mediumImageSize,
               ),
               Positioned(
                   bottom: AppDimen.spacing,

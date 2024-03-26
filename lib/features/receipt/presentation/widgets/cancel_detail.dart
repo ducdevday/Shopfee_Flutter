@@ -31,9 +31,7 @@ class CancelDetail extends StatelessWidget {
                             .copyWith(fontWeight: FontWeight.w400),
                       ),
                       Text(
-                        state.lastEventLog.makerByEmployee!
-                            ? "Employee"
-                            : "Customer",
+                        "${state.lastEventLog.actor?.getFormattedName()}",
                         style: AppStyle.normalTextStyleDark
                             .copyWith(fontWeight: FontWeight.w400),
                       )

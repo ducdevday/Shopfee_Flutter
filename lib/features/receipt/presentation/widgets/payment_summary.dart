@@ -191,8 +191,8 @@ class PaymentSummary extends StatelessWidget {
   Widget buildPaymentStatus(PaymentStatus? paymentStatus) {
     if (paymentStatus == null) return SizedBox();
     return MyLabel(
-        label: PaymentStatus.getFormattedName(paymentStatus),
-        color: PaymentStatus.getColor(paymentStatus));
+        label: paymentStatus.getFormattedName(),
+        color: paymentStatus.getColor());
   }
 
   Widget buildPaymentMethod(PaymentType? paymentType) {
@@ -200,14 +200,14 @@ class PaymentSummary extends StatelessWidget {
     return Row(
       children: [
         Image.asset(
-          PaymentType.getIconPath(paymentType),
+          paymentType.getIconPath(),
           width: 24,
           height: 24,
         ),
         const SizedBox(
           width: 4,
         ),
-        Text(PaymentType.getFormattedName(paymentType),
+        Text(paymentType.getFormattedName(),
             style: AppStyle.normalTextStyleDark),
       ],
     );

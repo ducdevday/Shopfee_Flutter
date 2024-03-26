@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:shopfee/core/common/enum/actor_type.dart';
 import 'package:shopfee/core/common/models/order_status.dart';
 import 'package:shopfee/features/receipt/domain/entities/event_log_entity.dart';
 
@@ -10,14 +11,13 @@ class EventLogModel {
   @JsonKey(name: "createdAt")
   final DateTime? time;
   final String? description;
-  @JsonKey(name: "employee")
-  final bool? makerByEmployee;
+  final ActorType? actor;
 
   const EventLogModel({
     this.orderStatus,
     this.time,
     this.description,
-    this.makerByEmployee,
+    this.actor,
   });
 
   factory EventLogModel.fromJson( Map<String, dynamic> json) {
@@ -33,6 +33,6 @@ class EventLogModel {
         orderStatus: entity.orderStatus,
         time: entity.time,
         description: entity.description,
-        makerByEmployee: entity.makerByEmployee);
+        actor: entity.actor);
   }
 }

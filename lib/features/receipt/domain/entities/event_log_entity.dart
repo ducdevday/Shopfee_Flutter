@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:shopfee/core/common/enum/actor_type.dart';
 import 'package:shopfee/core/common/models/order_status.dart';
 import 'package:shopfee/features/receipt/data/models/event_log_model.dart';
 
@@ -6,13 +7,13 @@ class EventLogEntity extends Equatable {
   final OrderStatus? orderStatus;
   final DateTime? time;
   final String? description;
-  final bool? makerByEmployee;
+  final ActorType? actor;
 
   const EventLogEntity({
     this.orderStatus,
     this.time,
     this.description,
-    this.makerByEmployee,
+    this.actor,
   });
 
   String get descriptionString {
@@ -33,13 +34,13 @@ class EventLogEntity extends Equatable {
   }
 
   @override
-  List<Object?> get props => [orderStatus, time, description];
+  List<Object?> get props => [orderStatus, time, description, actor];
 
   factory EventLogEntity.fromModel(EventLogModel model) {
     return EventLogEntity(
         orderStatus: model.orderStatus,
         time: model.time,
         description: model.description,
-        makerByEmployee: model.makerByEmployee);
+        actor: model.actor);
   }
 }

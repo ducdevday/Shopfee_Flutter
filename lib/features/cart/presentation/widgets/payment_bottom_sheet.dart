@@ -55,8 +55,7 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
                         child: Row(
                           children: [
                             Image.asset(
-                              PaymentType.getIconPath(
-                                  PaymentType.values[index]),
+                              PaymentType.values[index].getIconPath(),
                               width: 24,
                               height: 24,
                             ),
@@ -64,8 +63,8 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
                               width: 4,
                             ),
                             Expanded(
-                                child: Text(PaymentType.getFormattedName(
-                                    PaymentType.values[index]))),
+                                child: Text(PaymentType.values[index]
+                                    .getFormattedName())),
                             Radio(
                                 activeColor: AppColor.primaryColor,
                                 value: PaymentType.values[index],

@@ -18,7 +18,7 @@ extension ReceiptExtension on ReceiptLoadSuccess {
 
   bool showPayNowButton() {
     if (lastEventLog.orderStatus == OrderStatus.CREATED &&
-        receipt.transaction?.paymentUrl != null) {
+        receipt.transaction?.paymentUrl != null && receipt.transaction?.status == PaymentStatus.UNPAID) {
       return true;
     }
     return false;

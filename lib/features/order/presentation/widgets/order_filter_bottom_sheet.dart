@@ -173,7 +173,7 @@ class _OrderFilterBottomSheetState extends State<OrderFilterBottomSheet> {
                                             bottom: AppDimen.spacing,
                                             right: AppDimen.smallPadding),
                                         child: SortItem<ProductSortType>(
-                                            title: ProductSortType.getName(e),
+                                            title: e.getFormattedName(),
                                             value: e,
                                             groupValue: sortType,
                                             callback: (ProductSortType? value) {
@@ -353,7 +353,7 @@ class _OrderFilterBottomSheetState extends State<OrderFilterBottomSheet> {
                   borderRadius: BorderRadius.all(Radius.circular(16)),
                   color: Colors.white),
               child: Text(
-                "Sort By: ${ProductSortType.getName(state.sortType!)}",
+                "Sort By: ${state.sortType!.getFormattedName()}",
                 style: AppStyle.normalTextStyleDark,
               ),
             ),

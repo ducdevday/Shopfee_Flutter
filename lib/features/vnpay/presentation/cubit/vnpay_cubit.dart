@@ -6,7 +6,7 @@ class VnPayCubit extends Cubit<VnPayState> {
   VnPayCubit(this._vnPayUseCase) : super(VnPayInitial());
 
   Future<void> handlePayment(
-      {required String transactionId, required String orderId}) async {
+      {required String transactionId}) async {
     try {
       EasyLoading.show(
           status: 'Processing...', maskType: EasyLoadingMaskType.black);

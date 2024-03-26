@@ -1,7 +1,8 @@
 part of receipt;
 
 class ReceiptBottomAction extends StatelessWidget {
-  const ReceiptBottomAction({Key? key}) : super(key: key);
+  final String orderId;
+  const ReceiptBottomAction({Key? key, required this.orderId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +33,9 @@ class ReceiptBottomAction extends StatelessWidget {
                     onPressed: () {
                       final orderResult = OrderResult(
                           transactionId: state.receipt.transaction?.id,
-                          paymentUrl: state.receipt.transaction?.paymentUrl);
+                          paymentUrl: state.receipt.transaction?.paymentUrl,
+                          orderId: orderId
+                      );
                       NavigationUtil.pushNamed(VnPayPage.route,
                           arguments: orderResult);
                     },
