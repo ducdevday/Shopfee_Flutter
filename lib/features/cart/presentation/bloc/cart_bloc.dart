@@ -9,7 +9,8 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
     on<CartAddItem>(_onCartAddItem);
     on<CartDeleteItem>(_onCartDeleteItem);
     on<CartUpdateItem>(_onCartUpdateItem);
-    on<CartInitAddress>(_onCartInitAddress);
+    on<CartInitAddressAndReceiver>(_onCartInitAddress);
+    on<CartLoadReceiverInformation>(_onCartLoadReceiverInformation);
     on<CartChooseShippingAddress>(_onCartChooseShippingAddress);
     on<CartInitStore>(_onCartInitStore);
     on<CartChooseStore>(_onCartChooseStore);
@@ -103,10 +104,11 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
   }
 
   FutureOr<void> _onCartInitAddress(
-      CartInitAddress event, Emitter<CartState> emit) async {
+      CartInitAddressAndReceiver event, Emitter<CartState> emit) async {
     if (state is CartLoaded) {
       final currentState = state as CartLoaded;
-      if(currentState.cart.address != null) return;
+      if (currentState.cart.address != null ||
+          SharedService.getUserId() == null) return;
       try {
         EasyLoading.show();
         final defaultAddress =
@@ -114,13 +116,27 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
         EasyLoading.dismiss();
         emit(CartLoaded(
           cart: currentState.cart.copyWith(
-            address: defaultAddress,
-          ),
+              address: defaultAddress,
+              receiverOnsite: event.receiverInformation),
         ));
         if (defaultAddress != null) {
           add(CartSetShippingFee(
               lat: defaultAddress.latitude!, lng: defaultAddress.longitude!));
         }
+      } catch (e) {
+        ExceptionUtil.handle(e);
+      }
+    }
+  }
+
+  FutureOr<void> _onCartLoadReceiverInformation(
+      CartLoadReceiverInformation event, Emitter<CartState> emit) {
+    if (state is CartLoaded) {
+      final currentState = state as CartLoaded;
+      try {
+        emit(CartLoaded(
+            cart: currentState.cart
+                .copyWith(receiverOnsite: event.receiverInformation)));
       } catch (e) {
         ExceptionUtil.handle(e);
       }
@@ -161,11 +177,10 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
       CartChooseTime event, Emitter<CartState> emit) {
     if (state is CartLoaded) {
       final currentState = state as CartLoaded;
-      if(currentState.cart.checkChooseValidReceiptTime(event.receiveTime)) {
+      if (currentState.cart.checkChooseValidReceiptTime(event.receiveTime)) {
         emit(CartLoaded(
-          cart: currentState.cart.copyWith(receiveTime: event.receiveTime)));
-      }
-      else{
+            cart: currentState.cart.copyWith(receiveTime: event.receiveTime)));
+      } else {
         EasyLoading.showInfo("Chosen Receive Time Is Not Valid");
       }
     }
@@ -200,8 +215,7 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
             currentPosition.latitude, currentPosition.longitude);
         EasyLoading.dismiss();
         emit(CartLoaded(
-          cart: currentState.cart
-              .copyWith(store: nearestStore),
+          cart: currentState.cart.copyWith(store: nearestStore),
         ));
       } catch (e) {
         ExceptionUtil.handle(e);
@@ -218,8 +232,7 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
         final chosenStore = await _cartUseCase.getDetailStore(event.branchId);
         EasyLoading.dismiss();
         emit(CartLoaded(
-          cart: currentState.cart
-              .copyWith(store: chosenStore),
+          cart: currentState.cart.copyWith(store: chosenStore),
         ));
       } catch (e) {
         ExceptionUtil.handle(e);
@@ -264,7 +277,7 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
             cart: currentState.cart.copyWith(shippingFee: () => shippingFee)));
       }
     } catch (e) {
-      if(e is ServerFailure){
+      if (e is ServerFailure) {
         final currentState = state as CartLoaded;
         emit(CartLoaded(
             cart: currentState.cart.copyWith(shippingFee: () => null)));

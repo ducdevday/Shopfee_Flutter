@@ -92,7 +92,7 @@ class _TrackingPageState extends State<TrackingPage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      OrderStatus.getFormattedName(eventlogs[index].orderStatus),
+                                      "${eventlogs[index].orderStatus?.getFormattedName()}",
                                       style: AppStyle.mediumTextStyleDark
                                           .copyWith(
                                               color: AppColor.primaryColor),

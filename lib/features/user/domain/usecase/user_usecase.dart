@@ -1,8 +1,5 @@
-import 'package:shopfee/core/errors/app_exception.dart';
 import 'package:shopfee/features/user/domain/entities/user_entity.dart';
 import 'package:shopfee/features/user/domain/repositories/user_repository.dart';
-
-import 'package:shopfee/features/template/domain/repositories/template_repository.dart';
 
 abstract class UserUseCase {
   Future<UserEntity> getUser(String userId);
@@ -10,6 +7,8 @@ abstract class UserUseCase {
   Future<void> updateUser(UserEntity userEntity);
 
   Future<void> logoutUser(String userId);
+
+  Future<void> updatePhoneNumber(String userId, String phoneNumber);
 }
 
 class UserUseCaseImpl extends UserUseCase {
@@ -28,7 +27,12 @@ class UserUseCaseImpl extends UserUseCase {
   }
 
   @override
-  Future<void> logoutUser(String userId) async{
+  Future<void> logoutUser(String userId) async {
     await _userRepository.logoutUser(userId);
+  }
+
+  @override
+  Future<void> updatePhoneNumber(String userId, String phoneNumber) async{
+    await _userRepository.updatePhoneNumber(userId, phoneNumber);
   }
 }

@@ -36,7 +36,7 @@ class _VnPayPageState extends State<VnPayPage> {
         _cubit.handlePayment(
             transactionId: widget.orderResult.transactionId!,
             orderId: widget.orderResult.orderId!);
-        Navigator.pushNamed(context, "/receipt",
+        NavigationUtil.pushNamedAndRemoveUntil(ReceiptPage.route,
             arguments: widget.orderResult.orderId);
       },
       child: Scaffold(
@@ -45,10 +45,10 @@ class _VnPayPageState extends State<VnPayPage> {
           child: BlocConsumer<VnPayCubit, VnPayState>(
             listener: (context, state) {
               if (state is VnPaySuccess) {
-                NavigationUtil.pushNamed(ReceiptPage.route,
+                NavigationUtil.pushNamedAndRemoveUntil(ReceiptPage.route,
                     arguments: widget.orderResult.orderId);
               } else if (state is VnPayCanceled) {
-                NavigationUtil.pushNamed(ReceiptPage.route,
+                NavigationUtil.pushNamedAndRemoveUntil(ReceiptPage.route,
                     arguments: widget.orderResult.orderId);
               }
             },

@@ -19,6 +19,7 @@ class ReceiptEntity {
   TransactionEntity? transaction;
   BranchEntity? branch;
   int? coin;
+  bool? needReview;
 
   ReceiptEntity({
     this.id,
@@ -33,6 +34,7 @@ class ReceiptEntity {
     this.transaction,
     this.branch,
     this.coin,
+    this.needReview,
   });
 
   factory ReceiptEntity.fromModel(ReceiptModel model) {
@@ -55,6 +57,8 @@ class ReceiptEntity {
             : TransactionEntity.fromModel(model.transaction!),
         branch:
             model.branch == null ? null : BranchEntity.fromModel(model.branch!),
-        coin: model.coin);
+        coin: model.coin,
+        needReview: model.needReview
+    );
   }
 }

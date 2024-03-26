@@ -20,6 +20,17 @@ class UserUpdateInformation extends UserEvent {
   });
 }
 
+class UserUpdatePhoneNumber extends UserEvent {
+  final String phoneNumber;
+
+  const UserUpdatePhoneNumber({
+    required this.phoneNumber,
+  });
+
+  @override
+  List<Object> get props => [phoneNumber];
+}
+
 class UserLogout extends UserEvent {
   @override
   List<Object> get props => [];

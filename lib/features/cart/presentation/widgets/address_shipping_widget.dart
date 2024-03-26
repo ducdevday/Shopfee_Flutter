@@ -31,8 +31,10 @@ class AddressShippingWidget extends StatelessWidget {
                             children: [
                               Row(
                                 children: [
+                                  Icon(Icons.account_circle_outlined, size: AppDimen.smallSize,color: AppColor.primaryColor,),
+                                  SizedBox(width: AppDimen.smallSpacing,),
                                   Text(
-                                    state.cart.address!.recipientName!,
+                                    "${state.cart.address?.recipientName}",
                                     style: AppStyle.mediumTextStyleDark
                                         .copyWith(color: AppColor.headingColor),
                                   ),
@@ -41,13 +43,13 @@ class AddressShippingWidget extends StatelessWidget {
                                     style: AppStyle.normalTextStyleDark,
                                   ),
                                   Text(
-                                    state.cart.address!.phoneNumber!,
+                                    "${state.cart.address?.phoneNumber}",
                                     style: AppStyle.normalTextStyleDark,
                                   ),
                                 ],
                               ),
                               Text(
-                                state.cart.address!.detail ?? "",
+                                "${state.cart.address?.detail}",
                                 style: AppStyle.normalTextStyleDark,
                               ),
                             ],
@@ -73,7 +75,7 @@ class AddressShippingWidget extends StatelessWidget {
                   Navigator.pushNamed(context, NewAddressPage.route)
                       .then((refresh) {
                     if (refresh != null && refresh == true) {
-                      context.read<CartBloc>().add(CartInitAddress());
+                      context.read<CartBloc>().add(CartInitAddressAndReceiver());
                     }
                   });
                 },

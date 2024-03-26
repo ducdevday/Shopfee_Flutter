@@ -28,13 +28,13 @@ class _ReceiptPageState extends State<ReceiptPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocProvider(
-        create: (context) => _bloc,
-        child: BlocBuilder<ReceiptBloc, ReceiptState>(
+    return BlocProvider(
+      create: (context) => _bloc,
+      child: Scaffold(
+        body: BlocBuilder<ReceiptBloc, ReceiptState>(
           builder: (context, state) {
             if (state is ReceiptLoadInProcess) {
-              return MyLoadingPage();
+              return const MyLoadingPage();
             } else if (state is ReceiptLoadSuccess) {
               return SingleChildScrollView(
                 child: Padding(
@@ -57,94 +57,37 @@ class _ReceiptPageState extends State<ReceiptPage> {
                               NavigationUtil.pop(
                                   result: state.isCancelButtonClicked);
                             },
-                            child: Icon(Icons.close_rounded),
+                            child: const Icon(Icons.close_rounded),
                           ),
                         ),
                       ),
                       Stack(
                         children: [
                           Container(
-                            margin: EdgeInsets.only(top: 40),
+                            margin: const EdgeInsets.only(top: 40),
                             decoration: BoxDecoration(
-                                border: Border.all(color: Color(0xffefebe9)),
+                                border:
+                                    Border.all(color: const Color(0xffefebe9)),
                                 borderRadius: BorderRadius.circular(16)),
                             child: Column(
                               children: [
-                                ReceiptInformation(),
-                                Row(
-                                  children: [
-                                    Container(
-                                      padding: EdgeInsets.all(8),
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: const BorderRadius.only(
-                                              bottomLeft: Radius.circular(8),
-                                              topLeft: Radius.circular(8)),
-                                          border: Border.all(
-                                              color: Color(0xffF0F0F0))),
-                                      child: const Row(
-                                        children: [
-                                          Icon(
-                                            Icons.star_rounded,
-                                            color: Colors.amber,
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      padding: EdgeInsets.all(8),
-                                      decoration: const BoxDecoration(
-                                        color: Color(0xffF0F0F0),
-                                        borderRadius: BorderRadius.only(
-                                            bottomRight: Radius.circular(8),
-                                            topRight: Radius.circular(8)),
-                                      ),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "You haven't leave a review yet",
-                                            style:
-                                                AppStyle.mediumTextStyleDark,
-                                          ),
-                                          const SizedBox(
-                                            height: 4,
-                                          ),
-                                          InkWell(
-                                            onTap: () {
-                                              NavigationUtil.pushNamed(
-                                                  ReviewPage.route,
-                                                  arguments:
-                                                      state.receipt.itemList);
-                                            },
-                                            child: Text(
-                                              "Review now",
-                                              style: AppStyle
-                                                  .normalTextStylePrimary,
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                const ReceiptInformation(),
                                 Container(
                                   height: 4,
-                                  color: Color(0xffEFEBE9),
+                                  color: const Color(0xffEFEBE9),
                                 ),
-                                ReceiptStatusInformation(),
+                                const ReceiptStatusInformation(),
                                 Container(
                                   height: 4,
-                                  color: Color(0xffEFEBE9),
+                                  color: const Color(0xffEFEBE9),
                                 ),
-                                BoughtList(),
+                                const BoughtList(),
                                 Container(
                                   height: 4,
-                                  color: Color(0xffEFEBE9),
+                                  color: const Color(0xffEFEBE9),
                                 ),
-                                PaymentSummary(),
-                                NoteReceipt(),
+                                const PaymentSummary(),
+                                const NoteReceipt(),
                               ],
                             ),
                           ),
@@ -160,33 +103,16 @@ class _ReceiptPageState extends State<ReceiptPage> {
                           }),
                         ],
                       ),
-                      // SizedBox(height: 20),
-                      // ElevatedButton(
-                      //     onPressed: () {
-                      //       Navigator.pushNamed(context, "/review",
-                      //           arguments: orderId);
-                      //     },
-                      //     child: Text(
-                      //       "Review",
-                      //     ),
-                      //     style: ElevatedButton.styleFrom(
-                      //         backgroundColor:
-                      //             AppColor.primaryColorBackground,
-                      //         foregroundColor: AppColor.primaryColor,
-                      //         disabledBackgroundColor:
-                      //             const Color(0xffCACACA),
-                      //         disabledForegroundColor: AppColor.lightColor,
-                      //         shape: RoundedRectangleBorder(
-                      //             borderRadius: BorderRadius.circular(16))))
                     ],
                   ),
                 ),
               );
             } else {
-              return MyErrorPage();
+              return const MyErrorPage();
             }
           },
         ),
+        bottomNavigationBar: ReceiptBottomAction(),
       ),
     );
   }

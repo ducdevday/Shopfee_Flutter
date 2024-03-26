@@ -62,15 +62,19 @@ class _CartBottomBarState extends State<CartBottomBar> {
                 onPressed: isOrderValid
                     ? () {
                   if (userState is UserLoadSuccess) {
-                    if (hasPhoneNumber) {
-                      context.read<CartBloc>().add(
+                    context.read<CartBloc>().add(
                         isShippingOrder
                             ? CartCreateShippingOrder()
-                            : CartCreateTakeAwayOrder(),
-                      );
-                    } else {
-                      showEditPhoneDialog();
-                    }
+                            : CartCreateTakeAwayOrder());
+                    // if (hasPhoneNumber) {
+                    //   context.read<CartBloc>().add(
+                    //     isShippingOrder
+                    //         ? CartCreateShippingOrder()
+                    //         : CartCreateTakeAwayOrder(),
+                    //   );
+                    // } else {
+                    //   showEditPhoneDialog();
+                    // }
                   } else {
                     NavigationUtil.pushNamed(
                       LoginPage.route,

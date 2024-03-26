@@ -4,10 +4,13 @@ import 'package:shopfee/core/common/enum/payment_type.dart';
 import 'package:shopfee/core/common/models/order_type.dart';
 import 'package:shopfee/features/cart/domain/entities/cart_entity.dart';
 import 'package:shopfee/features/product_detail/data/models/order_model.dart';
+import 'package:shopfee/features/receipt/domain/entities/receiver_information_entity.dart';
 import 'package:shopfee/features/saved_address/data/models/address_model.dart';
 import 'package:shopfee/features/store/data/models/store_information_model.dart';
 import 'package:shopfee/features/store_detail/data/models/store_detail_model.dart';
 import 'package:shopfee/features/store_detail/domain/entities/store_detail_entity.dart';
+
+import 'receiver_onsite_model.dart';
 
 part 'cart_model.g.dart';
 
@@ -24,6 +27,7 @@ class CartModel {
   // final Voucher? voucher;
   final double? shippingFee;
   final num? coin;
+  final ReceiverOnsiteModel? receiverOnsite;
 
   const CartModel(
       {required this.orders,
@@ -35,7 +39,8 @@ class CartModel {
       this.paymentType,
       // this.voucher,
       this.shippingFee,
-      this.coin});
+      this.coin,
+      this.receiverOnsite});
 
   factory CartModel.fromJson(Map<String, dynamic> json) {
     return _$CartModelFromJson(json);
@@ -59,6 +64,9 @@ class CartModel {
         receiveTime: entity.receiveTime,
         paymentType: entity.paymentType,
         shippingFee: entity.shippingFee,
-        coin: entity.coin);
+        coin: entity.coin,
+        receiverOnsite: entity.receiverOnsite == null
+            ? null
+            : ReceiverOnsiteModel.fromEntity(entity.receiverOnsite!));
   }
 }

@@ -18,90 +18,93 @@ class _BoughtListState extends State<BoughtList> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Column(
-          children: [
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "Item list",
-                style: AppStyle.mediumTitleStyleDark.copyWith(
-                    color: AppColor.headingColor,
-                    fontWeight: FontWeight.w500),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          Column(
+            children: [
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Item list",
+                  style: AppStyle.mediumTitleStyleDark.copyWith(
+                      color: AppColor.headingColor,
+                      fontWeight: FontWeight.w500),
+                ),
               ),
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            BlocBuilder<ReceiptBloc, ReceiptState>(
-              builder: (context, state) {
-                if (state is ReceiptLoadSuccess) {
-                  boughtListLength = state.receipt.itemList!.length;
-                  return ListView.separated(
-                    padding: EdgeInsets.zero,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: boughtListLength < defaultLength
-                        ? boughtListLength
-                        : maxLength,
-                    itemBuilder: (context, index) {
-                      return buildProductItem(state.receipt.itemList![index]);
-                    },
-                    separatorBuilder: (BuildContext context, int index) {
-                      return const Divider(
-                        height: 10,
-                      );
-                    },
-                  );
-                } else {
-                  return const SizedBox();
-                }
-              },
-            ),
-          ],
-        ),
-        Builder(builder: (context) {
-          if (defaultLength < boughtListLength) {
-            return Column(
-              children: [
-                const SizedBox(
-                  height: 10,
-                ),
-                const Divider(
-                  height: 1,
-                ),
-                Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: TextButton.icon(
-                    onPressed: () {
-                      if (maxLength == 3) {
-                        setState(() {
-                          maxLength = boughtListLength;
-                          defaultText = "Show less";
-                          defaultIcon =
-                              const Icon(Icons.keyboard_arrow_up_rounded);
-                        });
-                      } else {
-                        setState(() {
-                          maxLength = 3;
-                          defaultText = "Show more";
-                          defaultIcon =
-                              const Icon(Icons.keyboard_arrow_down_rounded);
-                        });
-                      }
-                    },
-                    label: Text(defaultText),
-                    icon: defaultIcon,
+              const SizedBox(
+                height: 8,
+              ),
+              BlocBuilder<ReceiptBloc, ReceiptState>(
+                builder: (context, state) {
+                  if (state is ReceiptLoadSuccess) {
+                    boughtListLength = state.receipt.itemList!.length;
+                    return ListView.separated(
+                      padding: EdgeInsets.zero,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: boughtListLength < defaultLength
+                          ? boughtListLength
+                          : maxLength,
+                      itemBuilder: (context, index) {
+                        return buildProductItem(state.receipt.itemList![index]);
+                      },
+                      separatorBuilder: (BuildContext context, int index) {
+                        return const Divider(
+                          height: 10,
+                        );
+                      },
+                    );
+                  } else {
+                    return const SizedBox();
+                  }
+                },
+              ),
+            ],
+          ),
+          Builder(builder: (context) {
+            if (defaultLength < boughtListLength) {
+              return Column(
+                children: [
+                  const SizedBox(
+                    height: 10,
                   ),
-                ),
-              ],
-            );
-          } else {
-            return const Padding(padding: EdgeInsets.only(bottom: 8));
-          }
-        })
-      ],
+                  const Divider(
+                    height: 1,
+                  ),
+                  Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: TextButton.icon(
+                      onPressed: () {
+                        if (maxLength == 3) {
+                          setState(() {
+                            maxLength = boughtListLength;
+                            defaultText = "Show less";
+                            defaultIcon =
+                                const Icon(Icons.keyboard_arrow_up_rounded);
+                          });
+                        } else {
+                          setState(() {
+                            maxLength = 3;
+                            defaultText = "Show more";
+                            defaultIcon =
+                                const Icon(Icons.keyboard_arrow_down_rounded);
+                          });
+                        }
+                      },
+                      label: Text(defaultText),
+                      icon: defaultIcon,
+                    ),
+                  ),
+                ],
+              );
+            } else {
+              return const Padding(padding: EdgeInsets.only(bottom: 8));
+            }
+          })
+        ],
+      ),
     );
   }
 

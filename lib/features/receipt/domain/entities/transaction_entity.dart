@@ -7,15 +7,17 @@ class TransactionEntity {
   PaymentStatus? status;
   PaymentType? type;
   double? totalPaid;
+  String? paymentUrl;
 
-  TransactionEntity({
-    this.id,
-    this.status,
-    this.type,
-    this.totalPaid,
-  });
+  TransactionEntity(
+      {this.id, this.status, this.type, this.totalPaid, this.paymentUrl});
 
-  factory TransactionEntity.fromModel(TransactionModel model){
-    return TransactionEntity(id: model.id, status: model.status, type: model.paymentType, totalPaid: model.totalPaid);
+  factory TransactionEntity.fromModel(TransactionModel model) {
+    return TransactionEntity(
+        id: model.id,
+        status: model.status,
+        type: model.paymentType,
+        totalPaid: model.totalPaid,
+        paymentUrl: model.paymentUrl);
   }
 }

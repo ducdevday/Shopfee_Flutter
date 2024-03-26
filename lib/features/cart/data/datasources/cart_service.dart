@@ -26,9 +26,8 @@ class CartService {
       "shippingFee":cart.shippingFee,
       "paymentType": cart.paymentType!.name,
       "total": totalCartPrice,
-      "coin": cart.coin
+      "coin": cart.coin ?? 0,
     };
-    print(body);
     final response =
         await DioService.instance.post("${DioService.orderPath}/shipping", data: body);
     return response;
@@ -43,7 +42,9 @@ class CartService {
       "receiveTime": cart.receiveTime?.toIso8601String(),
       "branchId": cart.store?.id,
       "total": totalCartPrice,
-      "coin": cart.coin
+      "coin": cart.coin ?? 0,
+      "recipientName": cart.receiverOnsite?.recipientName,
+      "phoneNumber": cart.receiverOnsite?.phoneNumber
     };
     final response =
         await DioService.instance.post("${DioService.orderPath}/onsite", data: body);

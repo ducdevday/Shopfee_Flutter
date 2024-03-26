@@ -59,10 +59,9 @@ class HistoryItem extends StatelessWidget {
                     height: 4,
                   ),
                   Text(
-                    OrderStatus.getFormattedName(orderHistory.statusLastEvent),
+                    "${orderHistory.statusLastEvent?.getFormattedName()}",
                     style: AppStyle.smallTextStyleDark.copyWith(
-                      color: getBadgeColor(), fontWeight: FontWeight.w500
-                    ),
+                        color: getBadgeColor(), fontWeight: FontWeight.w500),
                   )
                 ],
               ),

@@ -13,7 +13,15 @@ class _CartPageState extends State<CartPage> {
   @override
   void initState() {
     super.initState();
-    context.read<CartBloc>().add(CartInitAddress());
+    final userState = context.read<UserBloc>().state;
+    if (userState is UserLoadSuccess) {
+      final ReceiverOnsiteEntity receiverInformation = ReceiverOnsiteEntity(
+          recipientName:
+              "${userState.user.firstName} ${userState.user.lastName}",
+          phoneNumber: userState.user.phoneNumber);
+      context.read<CartBloc>().add(
+          CartInitAddressAndReceiver(receiverInformation: receiverInformation));
+    }
   }
 
   @override
@@ -110,6 +118,7 @@ class _CartPageState extends State<CartPage> {
                           ),
                           const AddressShippingWidget(),
                           const StoreWidget(),
+                          const ReceiverInformationWidget(),
                           const Divider(
                             height: 20,
                           ),

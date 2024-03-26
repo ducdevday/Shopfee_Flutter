@@ -31,6 +31,7 @@ ReceiptModel _$ReceiptModelFromJson(Map<String, dynamic> json) => ReceiptModel(
           ? null
           : BranchModel.fromJson(json['branch'] as Map<String, dynamic>),
       coin: json['coin'] as int?,
+      needReview: json['needReview'] as bool?,
     );
 
 Map<String, dynamic> _$ReceiptModelToJson(ReceiptModel instance) =>
@@ -47,6 +48,7 @@ Map<String, dynamic> _$ReceiptModelToJson(ReceiptModel instance) =>
       'transaction': instance.transaction,
       'branch': instance.branch,
       'coin': instance.coin,
+      'needReview': instance.needReview,
     };
 
 const _$OrderTypeEnumMap = {

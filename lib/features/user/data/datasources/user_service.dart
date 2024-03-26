@@ -19,6 +19,13 @@ class UserService {
     return response;
   }
 
+  Future<Response> updatePhoneNumber(String userId, String phoneNumber) async {
+    Map<String, dynamic> body = {"phoneNumber": phoneNumber};
+    final response = await DioService.instance
+        .patch("${DioService.userPath}/${userId}/add-phone-number", data: body);
+    return response;
+  }
+
   Future<Response> logout() async {
     final response =
         await DioService.instance.get("${DioService.authPath}/logout");

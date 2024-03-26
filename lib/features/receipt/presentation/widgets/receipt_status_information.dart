@@ -38,6 +38,7 @@ class ReceiptStatusInformation extends StatelessWidget {
                   height: 20,
                 ),
                 const CancelButton(),
+                const ReviewSummary(),
                 const CancelDetail(),
                 const DeliveryInformation(),
                 const TakeAwayInformation()

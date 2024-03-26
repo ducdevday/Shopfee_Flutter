@@ -54,6 +54,10 @@ extension CartExTension on CartEntity {
           DateTime.now()
               .isAfter(FormatUtil.formatOpenCloseTime(store!.closeTime!))) {
         return false;
+      } else if (receiverOnsite == null ||
+          receiverOnsite?.phoneNumber == null ||
+          receiverOnsite?.recipientName == null) {
+        return false;
       }
     }
     return true;

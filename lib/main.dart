@@ -24,6 +24,8 @@ import 'package:shopfee/features/order/presentation/order.dart';
 import 'package:shopfee/features/splash/presentation/splash.dart';
 import 'package:shopfee/features/user/presentation/user.dart';
 
+import 'features/receipt/presentation/receipt.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -122,7 +124,7 @@ class _MyAppState extends State<MyApp> {
           return AppRouter.onGenerateRoute(settings);
         },
         initialRoute: SplashPage.route,
-        // home: ReceiptPage(orderId: "65769f84b8b782778bc5c17a"),
+        // home: ReceiptPage(orderId: "OB000000001"),
         builder: EasyLoading.init(),
       ),
     );

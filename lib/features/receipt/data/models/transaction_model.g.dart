@@ -13,6 +13,7 @@ TransactionModel _$TransactionModelFromJson(Map<String, dynamic> json) =>
       paymentType:
           $enumDecodeNullable(_$PaymentTypeEnumMap, json['paymentType']),
       totalPaid: (json['totalPaid'] as num?)?.toDouble(),
+      paymentUrl: json['paymentUrl'] as String?,
     );
 
 Map<String, dynamic> _$TransactionModelToJson(TransactionModel instance) =>
@@ -21,6 +22,7 @@ Map<String, dynamic> _$TransactionModelToJson(TransactionModel instance) =>
       'status': instance.status,
       'paymentType': instance.paymentType,
       'totalPaid': instance.totalPaid,
+      'paymentUrl': instance.paymentUrl,
     };
 
 const _$PaymentStatusEnumMap = {

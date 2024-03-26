@@ -23,6 +23,11 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
+  Future<void> updatePhoneNumber(String userId, String phoneNumber) async {
+    final response = await _userService.updatePhoneNumber(userId, phoneNumber);
+  }
+
+  @override
   Future<void> updateUser(UserEntity userEntity) async {
     final response =
         await _userService.updateUser(UserModel.fromEntity(userEntity));

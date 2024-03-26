@@ -10,12 +10,14 @@ class TransactionModel {
   PaymentStatus? status;
   PaymentType? paymentType;
   double? totalPaid;
+  String? paymentUrl;
 
   TransactionModel({
     this.id,
     this.status,
     this.paymentType,
     this.totalPaid,
+    this.paymentUrl
   });
 
   factory TransactionModel.fromJson(Map<String, dynamic> json) {

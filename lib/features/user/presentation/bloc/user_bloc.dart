@@ -6,6 +6,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   UserBloc(this._userUseCase) : super(UserInitial()) {
     on<UserLoadInformation>(_onUserLoadInformation);
     on<UserUpdateInformation>(_onUserUpdateInformation);
+    on<UserUpdatePhoneNumber>(_onUserUpdatePhoneNumber);
     on<UserLogout>(_onUserLogout);
   }
 
@@ -33,6 +34,25 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       EasyLoading.dismiss();
       EasyLoading.showInfo("Update Information Successfully",
           duration: const Duration(milliseconds: 2000));
+    } catch (e) {
+      ExceptionUtil.handle(e);
+    }
+  }
+
+  FutureOr<void> _onUserUpdatePhoneNumber(
+      UserUpdatePhoneNumber event, Emitter<UserState> emit) async {
+    try {
+      if (state is UserLoadSuccess) {
+        final currentState = state as UserLoadSuccess;
+        EasyLoading.show(maskType: EasyLoadingMaskType.black);
+        await _userUseCase.updatePhoneNumber(
+            SharedService.getUserId()!, event.phoneNumber);
+        EasyLoading.dismiss();
+        EasyLoading.showInfo("Update Phone Number Successfully",
+            duration: const Duration(milliseconds: 2000));
+        emit(UserLoadSuccess(
+            user: currentState.user.copyWith(phoneNumber: event.phoneNumber)));
+      }
     } catch (e) {
       ExceptionUtil.handle(e);
     }

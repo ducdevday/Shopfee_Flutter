@@ -9,9 +9,28 @@ class CartLoadInformation extends CartEvent {
   List<Object> get props => [];
 }
 
-class CartInitAddress extends CartEvent {
+class CartInitAddressAndReceiver extends CartEvent {
+  final ReceiverOnsiteEntity? receiverInformation;
+
+  const CartInitAddressAndReceiver({
+    this.receiverInformation,
+  });
+
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [receiverInformation];
+
+
+}
+
+class CartLoadReceiverInformation extends CartEvent {
+  final ReceiverOnsiteEntity receiverInformation;
+
+  const CartLoadReceiverInformation({
+    required this.receiverInformation,
+  });
+
+  @override
+  List<Object> get props => [receiverInformation];
 }
 
 class CartInitStore extends CartEvent {
@@ -134,7 +153,7 @@ class CartSetShippingFee extends CartEvent {
   });
 
   @override
-  List<Object> get props => [lat,lng];
+  List<Object> get props => [lat, lng];
 }
 
 class CartApplyCoin extends CartEvent {

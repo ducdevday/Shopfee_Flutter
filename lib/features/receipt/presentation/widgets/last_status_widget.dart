@@ -35,7 +35,7 @@ class LastStatusWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  OrderStatus.getFormattedName(lastEventLog.orderStatus),
+                  "${lastEventLog.orderStatus?.getFormattedName()}",
                   style: AppStyle.mediumTextStyleDark
                       .copyWith(color: AppColor.primaryColor),
                 ),

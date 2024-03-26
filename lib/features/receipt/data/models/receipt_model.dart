@@ -22,6 +22,7 @@ class ReceiptModel {
   TransactionModel? transaction;
   BranchModel? branch;
   int? coin;
+  bool? needReview;
 
   ReceiptModel({
     this.id,
@@ -36,6 +37,7 @@ class ReceiptModel {
     this.transaction,
     this.branch,
     this.coin,
+    this.needReview,
   });
 
   factory ReceiptModel.fromJson(Map<String, dynamic> json) {

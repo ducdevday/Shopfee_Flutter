@@ -14,10 +14,13 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:shopfee/core/common/enum/delivery_type.dart';
+import 'package:shopfee/core/common/enum/field_type.dart';
 import 'package:shopfee/core/common/enum/payment_type.dart';
 import 'package:shopfee/core/common/models/order_type.dart';
 import 'package:shopfee/core/common/widgets/my_confirm_dialog.dart';
 import 'package:shopfee/core/common/widgets/my_input_dialog.dart';
+import 'package:shopfee/core/common/widgets/name_input_field.dart';
+import 'package:shopfee/core/common/widgets/phone_input_field.dart';
 import 'package:shopfee/core/config/app_color.dart';
 import 'package:shopfee/core/config/app_dimen.dart';
 import 'package:shopfee/core/config/app_path.dart';
@@ -31,10 +34,12 @@ import 'package:shopfee/core/utils/exception_util.dart';
 import 'package:shopfee/core/utils/format_util.dart';
 import 'package:shopfee/core/utils/navigation_util.dart';
 import 'package:shopfee/core/utils/permission_util.dart';
+import 'package:shopfee/core/utils/validate_field_util.dart';
 import 'package:shopfee/features/cart/data/models/cart_model.dart';
 import 'package:shopfee/features/cart/data/models/order_result.dart';
 import 'package:shopfee/features/cart/domain/entities/cart_entity.dart';
 import 'package:shopfee/features/cart/domain/entities/cart_extension.dart';
+import 'package:shopfee/features/cart/domain/entities/receiver_onsite_entity.dart';
 import 'package:shopfee/features/cart/domain/usecase/cart_usecase.dart';
 import 'package:shopfee/features/default/presentation/page/default_page.dart';
 import 'package:shopfee/features/login/presentation/login.dart';
@@ -86,3 +91,7 @@ part 'widgets/coupon_applied_widget.dart';
 part 'widgets/coin_applied_widget.dart';
 
 part 'widgets/cart_bottom_bar.dart';
+
+part 'widgets/receiver_information_bottom_sheet.dart';
+
+part 'widgets/receiver_information_widget.dart';

@@ -27,9 +27,15 @@ class StoreWidget extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            "${state.cart.store?.name}",
-                            style: AppStyle.mediumTextStyleDark,
+                          Row(
+                            children: [
+                              Image.asset(AppPath.icStoreMark,width: AppDimen.smallSize,height: AppDimen.smallSize),
+                              SizedBox(width: AppDimen.smallSpacing,),
+                              Text(
+                                "${state.cart.store?.name}",
+                                style: AppStyle.mediumTextStyleDark,
+                              ),
+                            ],
                           ),
                           Text(
                             "${state.cart.store?.fullAddress}",
