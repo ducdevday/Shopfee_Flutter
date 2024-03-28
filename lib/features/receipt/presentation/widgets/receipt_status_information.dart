@@ -1,7 +1,10 @@
 part of receipt;
 
 class ReceiptStatusInformation extends StatelessWidget {
-  const ReceiptStatusInformation({Key? key}) : super(key: key);
+  final String orderId;
+
+  const ReceiptStatusInformation({Key? key, required this.orderId})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +41,9 @@ class ReceiptStatusInformation extends StatelessWidget {
                   height: 20,
                 ),
                 const CancelButton(),
-                const ReviewSummary(),
+                ReviewSummary(
+                  orderId: orderId,
+                ),
                 const CancelDetail(),
                 const DeliveryInformation(),
                 const TakeAwayInformation()

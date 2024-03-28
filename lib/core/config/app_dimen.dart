@@ -1,4 +1,5 @@
 class AppDimen {
+  static const double largeRating = 36.0;
   static const double superLargeTitle = 24.0;
   static const double largeTitle = 20.0;
   static const double mediumTitle = 16.0;
@@ -18,8 +19,8 @@ class AppDimen {
   static const double smallSize = 24;
   static const double mediumSize = 32;
   static const double largeSize = 40;
-  static const double smallImageSize = 60;
 
+  static const double smallImageSize = 60;
   static const double mediumImageSize = 200;
 }
 

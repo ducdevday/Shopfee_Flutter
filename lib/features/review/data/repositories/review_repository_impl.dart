@@ -1,8 +1,9 @@
-import 'package:shopfee/core/common/models/result.dart';
+import 'package:shopfee/core/common/models/result_list.dart';
 import 'package:shopfee/features/review/data/datasources/review_service.dart';
+import 'package:shopfee/features/review/data/models/review_information_model.dart';
+import 'package:shopfee/features/review/domain/entities/review_information_entity.dart';
+import 'package:shopfee/features/review/domain/entities/review_params.dart';
 import 'package:shopfee/features/review/domain/repositories/review_repository.dart';
-import 'package:shopfee/features/template/data/models/template_model.dart';
-import 'package:shopfee/features/template/domain/entities/template_entity.dart';
 
 class ReviewRepositoryImpl implements ReviewRepository {
   final ReviewService _reviewService;
@@ -10,15 +11,25 @@ class ReviewRepositoryImpl implements ReviewRepository {
   ReviewRepositoryImpl(this._reviewService);
 
   @override
-  Future<TemplateEntity> getTemplate(String id) async {
-    final response = await _reviewService.doSomeThing(id);
-    final result = Result(
+  Future<List<ReviewInformationEntity>> getOrderReviewItem(
+      String orderId) async {
+    final response = await _reviewService.getOrderReviewItem(orderId);
+    final result = ResultList(
       success: response.data["success"],
       message: response.data["message"],
       data: response.data["data"],
     );
-    final templateModel = TemplateModel.fromJson(json: result.data!);
-    final templateEntity = TemplateEntity.fromModel(templateModel);
-    return templateEntity;
+    List<ReviewInformationModel> reviewsInformationModel =
+        result.data!.map((p) => ReviewInformationModel.fromJson(p)).toList();
+    List<ReviewInformationEntity> reviewsInformationEntity =
+        reviewsInformationModel
+            .map((p) => ReviewInformationEntity.fromModel(p))
+            .toList();
+    return reviewsInformationEntity;
+  }
+
+  @override
+  Future<void> createNewReview(ReviewParams params) async {
+    final response = await _reviewService.createNewReview(params);
   }
 }

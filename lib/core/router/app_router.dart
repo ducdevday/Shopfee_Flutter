@@ -9,6 +9,7 @@ import 'package:shopfee/features/default/presentation/page/default_page.dart';
 import 'package:shopfee/features/forgot_password/presentation/forgot_password.dart';
 import 'package:shopfee/features/google_map/presentation/page/google_map_page.dart';
 import 'package:shopfee/features/history/presentation/history.dart';
+import 'package:shopfee/features/home/domain/entities/rating_summary_entity.dart';
 import 'package:shopfee/features/login/presentation/login.dart';
 import 'package:shopfee/features/new_address/presentation/new_address.dart';
 import 'package:shopfee/features/new_password/presentation/new_password.dart';
@@ -22,6 +23,8 @@ import 'package:shopfee/features/receipt/domain/entities/receipt_product_entity.
 import 'package:shopfee/features/receipt/presentation/receipt.dart';
 import 'package:shopfee/features/register/presentation/register.dart';
 import 'package:shopfee/features/review/presentation/review.dart';
+import 'package:shopfee/features/review_detail/domain/entities/review_detail_arguments.dart';
+import 'package:shopfee/features/review_detail/presentation/review_detail.dart';
 import 'package:shopfee/features/saved_address/presentation/saved_address.dart';
 import 'package:shopfee/features/search/presentation/search.dart';
 import 'package:shopfee/features/splash/presentation/splash.dart';
@@ -139,7 +142,11 @@ class AppRouter {
       case ReviewPage.route:
         return MaterialPageRoute(
             builder: (context) =>
-                ReviewPage(itemList: settings.arguments as List<ReceiptProductEntity>?));
+                ReviewPage(orderId: settings.arguments as String));
+      case ReviewDetailPage.route:
+        return MaterialPageRoute(
+            builder: (context) => ReviewDetailPage(
+                arguments: settings.arguments as ReviewDetailArguments));
       default:
         return _errorRoute();
     }

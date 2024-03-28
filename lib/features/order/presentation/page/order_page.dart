@@ -133,23 +133,9 @@ class _OrderPageState extends State<OrderPage> {
                         productList: state.products);
                   } else {
                     return Expanded(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            AppPath.icNoProduct,
-                            width: 60,
-                            height: 60,
-                          ),
-                          SizedBox(
-                            height: 16,
-                          ),
-                          Text(
-                            "No Result Found",
-                            style: AppStyle.mediumTextStyleDark
-                                .copyWith(color: AppColor.nonactiveColor),
-                          )
-                        ],
+                      child: MyEmptyList(
+                        imgPath: AppPath.icNoProduct,
+                        text: "No Result Found",
                       ),
                     );
                   }

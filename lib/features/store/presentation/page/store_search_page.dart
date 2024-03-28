@@ -168,7 +168,7 @@ class _StoreSearchPageState extends State<StoreSearchPage> {
                             height: 16,
                           ),
                           Text(
-                            "No Result Found",
+                            "No Store Found",
                             style: AppStyle.mediumTextStyleDark
                                 .copyWith(color: AppColor.nonactiveColor),
                           )

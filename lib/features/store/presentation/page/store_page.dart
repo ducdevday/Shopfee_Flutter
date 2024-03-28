@@ -75,7 +75,7 @@ class _StorePageState extends State<StorePage> {
             ),
             automaticallyImplyLeading: widget.fromRoute != DefaultPage.route,
           ),
-          backgroundColor: const Color(0xffEFEBE9),
+          backgroundColor: AppColor.scaffoldColorBackground,
           body: Column(
             children: [
               Container(
@@ -222,24 +222,7 @@ class _StorePageState extends State<StorePage> {
                           );
                         } else {
                           return Expanded(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset(
-                                  AppPath.icNoStore,
-                                  width: 60,
-                                  height: 60,
-                                ),
-                                const SizedBox(
-                                  height: 16,
-                                ),
-                                Text(
-                                  "No Result Found",
-                                  style: AppStyle.mediumTextStyleDark
-                                      .copyWith(color: AppColor.nonactiveColor),
-                                )
-                              ],
-                            ),
+                            child: MyEmptyList(imgPath: AppPath.icNoStore, text: "No Store Found"),
                           );
                         }
                       case StoreLoadFailure():

@@ -165,7 +165,7 @@ class _NewAddressPageState extends State<NewAddressPage> {
               ],
             ),
             body: Container(
-              color: const Color(0xffEFEBE9),
+              color: AppColor.scaffoldColorBackground,
               child: Column(
                 children: [
                   const SizedBox(

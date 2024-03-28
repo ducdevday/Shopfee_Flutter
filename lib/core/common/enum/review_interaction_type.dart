@@ -1,0 +1,4 @@
+enum ReviewInteractionType {
+  LIKE,
+  DISLIKE
+}

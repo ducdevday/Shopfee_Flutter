@@ -29,6 +29,8 @@ import 'package:shopfee/features/product_detail/domain/entities/order_entity.dar
 import 'package:shopfee/features/product_detail/domain/entities/size_entity.dart';
 import 'package:shopfee/features/product_detail/domain/entities/topping_entity.dart';
 import 'package:shopfee/features/product_detail/domain/usecase/product_detail_usecase.dart';
+import 'package:shopfee/features/review_detail/domain/entities/review_detail_arguments.dart';
+import 'package:shopfee/features/review_detail/presentation/review_detail.dart';
 
 part 'bloc/product_detail_bloc.dart';
 part 'bloc/product_detail_event.dart';

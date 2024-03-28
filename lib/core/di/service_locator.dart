@@ -84,6 +84,16 @@ import 'package:shopfee/features/register/data/repositories/register_repository_
 import 'package:shopfee/features/register/domain/repository/register_repository.dart';
 import 'package:shopfee/features/register/domain/usecase/register_usecase.dart';
 import 'package:shopfee/features/register/presentation/register.dart';
+import 'package:shopfee/features/review/data/datasources/review_service.dart';
+import 'package:shopfee/features/review/data/repositories/review_repository_impl.dart';
+import 'package:shopfee/features/review/domain/repositories/review_repository.dart';
+import 'package:shopfee/features/review/domain/usecase/review_usecase.dart';
+import 'package:shopfee/features/review/presentation/review.dart';
+import 'package:shopfee/features/review_detail/data/datasources/review_detail_service.dart';
+import 'package:shopfee/features/review_detail/data/repositories/review_detail_repository_impl.dart';
+import 'package:shopfee/features/review_detail/domain/repositories/review_detail_repository.dart';
+import 'package:shopfee/features/review_detail/domain/usecase/review_detail_usecase.dart';
+import 'package:shopfee/features/review_detail/presentation/review_detail.dart';
 import 'package:shopfee/features/saved_address/data/datasources/saved_address_service.dart';
 import 'package:shopfee/features/saved_address/data/repositories/saved_address_repository_impl.dart';
 import 'package:shopfee/features/saved_address/domain/repositories/saved_address_repository.dart';
@@ -148,6 +158,8 @@ class ServiceLocator {
     _googleMapFeature();
     _personalInformationFeature();
     _storeDetailInformationFeature();
+    _reviewFeature();
+    _reviewDetailFeature();
   }
 
   void _loginFeature() {
@@ -342,8 +354,27 @@ class ServiceLocator {
 
   void _storeDetailInformationFeature() {
     sl.registerLazySingleton(() => StoreDetailService());
-    sl.registerLazySingleton<StoreDetailRepository>(() => StoreDetailRepositoryImpl(sl()));
-    sl.registerLazySingleton<StoreDetailUseCase>(() => StoreDetailUseCaseImpl(sl()));
+    sl.registerLazySingleton<StoreDetailRepository>(
+        () => StoreDetailRepositoryImpl(sl()));
+    sl.registerLazySingleton<StoreDetailUseCase>(
+        () => StoreDetailUseCaseImpl(sl()));
     sl.registerFactory(() => StoreDetailBloc(sl()));
+  }
+
+  void _reviewFeature() {
+    sl.registerLazySingleton(() => ReviewService());
+    sl.registerLazySingleton<ReviewRepository>(
+        () => ReviewRepositoryImpl(sl()));
+    sl.registerLazySingleton<ReviewUseCase>(() => ReviewUseCaseImpl(sl()));
+    sl.registerFactory(() => ReviewBloc(sl()));
+  }
+
+  void _reviewDetailFeature() {
+    sl.registerLazySingleton(() => ReviewDetailService());
+    sl.registerLazySingleton<ReviewDetailRepository>(
+        () => ReviewDetailRepositoryImpl(sl()));
+    sl.registerLazySingleton<ReviewDetailUseCase>(
+        () => ReviewDetailUseCaseImpl(sl()));
+    sl.registerFactory(() => ReviewDetailBloc(sl()));
   }
 }

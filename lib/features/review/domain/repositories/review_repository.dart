@@ -1,7 +1,9 @@
 
 
-import 'package:shopfee/features/template/domain/entities/template_entity.dart';
+import 'package:shopfee/features/review/domain/entities/review_information_entity.dart';
+import 'package:shopfee/features/review/domain/entities/review_params.dart';
 
 abstract class ReviewRepository {
-  Future<TemplateEntity> getTemplate(String id);
+  Future<List<ReviewInformationEntity>> getOrderReviewItem(String orderId) ;
+  Future<void> createNewReview(ReviewParams params);
 }

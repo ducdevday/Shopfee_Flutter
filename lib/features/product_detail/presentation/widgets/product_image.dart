@@ -44,10 +44,6 @@ class _ProductImageState extends State<ProductImage> {
                     imageUrl: state.order.product.imageUrl!,
                     width: 165,
                     height: 270,
-                    placeholder: (context, url) => MyPlaceHolderRectangle(
-                      width: 165,
-                      height: 270,
-                    ),
                     errorWidget: (_, __, ___) => Image.asset(
                       AppPath.imgImageError,
                       width: AppDimen.largeSize,

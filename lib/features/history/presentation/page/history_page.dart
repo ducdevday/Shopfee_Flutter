@@ -151,27 +151,9 @@ class _HistoryPageState extends State<HistoryPage> {
                                 ),
                               );
                             } else {
-                              return Container(
+                              return SizedBox(
                                 width: double.infinity,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Image.asset(
-                                      AppPath.icNoHistory,
-                                      width: 60,
-                                      height: 60,
-                                    ),
-                                    const SizedBox(
-                                      height: 16,
-                                    ),
-                                    Text(
-                                      getEmptyListString(historyStatus) ?? "",
-                                      style: AppStyle.mediumTextStyleDark
-                                          .copyWith(
-                                              color: AppColor.nonactiveColor),
-                                    )
-                                  ],
-                                ),
+                                child: MyEmptyList(imgPath: AppPath.icNoHistory, text: getEmptyListString(historyStatus) ?? "",)
                               );
                             }
                           default:

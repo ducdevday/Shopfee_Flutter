@@ -54,7 +54,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       Container(
                         width: MediaQuery.of(context).size.width,
                         height: 330,
-                        color: const Color(0xffEFEBE9),
+                        color: AppColor.scaffoldColorBackground,
                         child: const Center(
                           child: ProductImage(),
                         ),
@@ -70,7 +70,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(8),
                                   border: Border.all(
-                                      color: const Color(0xffefebe9), width: 1),
+                                      color: AppColor.scaffoldColorBackground, width: 1),
                                   boxShadow: [
                                     BoxShadow(
                                         color: AppColor.shadowColor,
@@ -135,7 +135,19 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                               MainAxisAlignment.spaceBetween,
                                           children: [
                                             InkWell(
-                                              onTap: () {},
+                                              onTap: () {
+                                                final args =
+                                                    ReviewDetailArguments(
+                                                        productId:
+                                                            widget.productId,
+                                                        ratingSummary: state
+                                                            .order
+                                                            .product
+                                                            .ratingSummary!);
+                                                NavigationUtil.pushNamed(
+                                                    ReviewDetailPage.route,
+                                                    arguments: args);
+                                              },
                                               child: Row(
                                                 children: [
                                                   const Icon(
@@ -184,7 +196,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(8),
                                     border: Border.all(
-                                        color: const Color(0xffefebe9),
+                                        color: AppColor.scaffoldColorBackground,
                                         width: 1),
                                     boxShadow: [
                                       BoxShadow(
@@ -228,7 +240,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(8),
                                   border: Border.all(
-                                      color: const Color(0xffefebe9), width: 1),
+                                      color: AppColor.scaffoldColorBackground, width: 1),
                                   boxShadow: [
                                     BoxShadow(
                                         color: AppColor.shadowColor,
@@ -258,7 +270,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(8),
                                   border: Border.all(
-                                      color: const Color(0xffefebe9), width: 1),
+                                      color: AppColor.scaffoldColorBackground, width: 1),
                                   boxShadow: [
                                     BoxShadow(
                                         color: AppColor.shadowColor,
@@ -338,4 +350,3 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     );
   }
 }
-

@@ -22,7 +22,7 @@ class AppPath {
   static const String icNoLocation = "assets/icons/ic_no_location.png";
   static const String icNoStore = "assets/icons/ic_store.png";
   static const String icNoHistory = "assets/icons/ic_history_list.png";
-
+  static const String icNoReview = "assets/icons/img_no_review.png";
   static const String imgAccountBackground =
       "assets/images/img_profile_background.png";
 
@@ -63,4 +63,8 @@ class AppPath {
       "assets/images/img_coin_background.png";
   static const String icCoin = "assets/icons/ic_coin.png";
   static const String imgImageError = "assets/icons/img_image_error.png";
+  static const String imgReview = "assets/images/img_review.svg";
+
+  static const String icLike = "assets/icons/ic_like.svg";
+  static const String icDisLike = "assets/icons/ic_dislike.svg";
 }

@@ -88,12 +88,12 @@ class _CartPageState extends State<CartPage> {
                   children: [
                     Container(
                       height: 4,
-                      color: const Color(0xffEFEBE9),
+                      color: AppColor.scaffoldColorBackground,
                     ),
                     const ProductList(),
                     Container(
                       height: 4,
-                      color: const Color(0xffEFEBE9),
+                      color: AppColor.scaffoldColorBackground,
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(
@@ -153,7 +153,7 @@ class _CartPageState extends State<CartPage> {
                     ),
                     Container(
                       height: 4,
-                      color: const Color(0xffEFEBE9),
+                      color: AppColor.scaffoldColorBackground,
                     ),
                     const Padding(
                       padding: EdgeInsets.symmetric(
@@ -162,7 +162,7 @@ class _CartPageState extends State<CartPage> {
                     ),
                     Container(
                       height: 4,
-                      color: const Color(0xffEFEBE9),
+                      color: AppColor.scaffoldColorBackground,
                     ),
                     const Padding(
                       padding: EdgeInsets.symmetric(
@@ -180,7 +180,7 @@ class _CartPageState extends State<CartPage> {
                     ),
                     Container(
                       height: 4,
-                      color: const Color(0xffEFEBE9),
+                      color: AppColor.scaffoldColorBackground,
                     ),
                     const Padding(
                       padding: EdgeInsets.all(AppDimen.screenPadding),

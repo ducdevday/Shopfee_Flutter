@@ -6,7 +6,7 @@ import 'app_dimen.dart';
 class AppStyle {
   static final superLargeTitleStyleDark = TextStyle(
       color: AppColor.headingColor,
-      fontSize: AppDimen.superLargeTitle,
+      fontSize: AppDimen.largeRating,
       fontWeight: FontWeight.w600,
       overflow: TextOverflow.clip);
 
@@ -14,6 +14,12 @@ class AppStyle {
       color: AppColor.headingColor,
       fontSize: AppDimen.largeTitle,
       fontWeight: FontWeight.w600,
+      overflow: TextOverflow.clip);
+
+  static final largeRatingStyle = TextStyle(
+      color: AppColor.rating,
+      fontSize: AppDimen.largeRating,
+      fontWeight: FontWeight.w500,
       overflow: TextOverflow.clip);
 
   static final mediumTitleStyleDark = TextStyle(

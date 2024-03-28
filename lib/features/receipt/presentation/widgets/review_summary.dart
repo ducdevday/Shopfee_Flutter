@@ -1,14 +1,19 @@
 part of receipt;
+
 class ReviewSummary extends StatelessWidget {
+  final String orderId;
+
   const ReviewSummary({
     super.key,
+    required this.orderId,
   });
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ReceiptBloc, ReceiptState>(
       builder: (context, state) {
-        if (state is ReceiptLoadSuccess && state.lastEventLog.orderStatus == OrderStatus.SUCCEED) {
+        if (state is ReceiptLoadSuccess &&
+            state.lastEventLog.orderStatus == OrderStatus.SUCCEED) {
           return Column(
             children: [
               Container(
@@ -49,7 +54,15 @@ class ReviewSummary extends StatelessWidget {
                             InkWell(
                               onTap: () {
                                 NavigationUtil.pushNamed(ReviewPage.route,
-                                    arguments: state.receipt.itemList);
+                                        arguments: orderId)
+                                    .then((isRefresh) {
+                                  print("isRefresh: $isRefresh");
+                                  if (isRefresh != null && isRefresh == true) {
+                                    context.read<ReceiptBloc>().add(
+                                        ReceiptLoadInformation(
+                                            orderId: orderId));
+                                  }
+                                });
                               },
                               child: Text(
                                 state.receipt.needReview ?? false

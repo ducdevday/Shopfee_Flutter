@@ -12,6 +12,7 @@ import 'package:shopfee/core/common/enum/product_sort_type.dart';
 import 'package:shopfee/core/common/enum/product_view_type.dart';
 import 'package:shopfee/core/common/extensions/product_sort_type.dart';
 import 'package:shopfee/core/common/widgets/my_confirm_dialog.dart';
+import 'package:shopfee/core/common/widgets/my_empty_list.dart';
 import 'package:shopfee/core/common/widgets/my_error_widget.dart';
 import 'package:shopfee/core/common/widgets/my_placeholder_rectangle.dart';
 import 'package:shopfee/core/common/widgets/my_radio.dart';

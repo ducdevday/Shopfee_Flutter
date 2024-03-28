@@ -1,20 +1,29 @@
-
 import 'package:shopfee/core/errors/app_exception.dart';
+import 'package:shopfee/features/review/domain/entities/review_information_entity.dart';
+import 'package:shopfee/features/review/domain/entities/review_params.dart';
+import 'package:shopfee/features/review/domain/repositories/review_repository.dart';
 import 'package:shopfee/features/template/domain/entities/template_entity.dart';
 import 'package:shopfee/features/template/domain/repositories/template_repository.dart';
 
-abstract class TemplateUseCase{
-  Future<TemplateEntity> doSomething(String id);
+abstract class ReviewUseCase {
+  Future<List<ReviewInformationEntity>> getOrderReviewItem(String orderId);
+
+  Future<void> createNewReview(ReviewParams params);
 }
 
-class TemplateUseCaseImpl extends TemplateUseCase{
-  final TemplateRepository _templateRepository;
+class ReviewUseCaseImpl extends ReviewUseCase {
+  final ReviewRepository _reviewRepository;
 
-  TemplateUseCaseImpl(this._templateRepository);
+  ReviewUseCaseImpl(this._reviewRepository);
 
   @override
-  Future<TemplateEntity> doSomething(String id) async{
-    return await _templateRepository.getTemplate(id);
+  Future<List<ReviewInformationEntity>> getOrderReviewItem(
+      String orderId) async {
+    return await _reviewRepository.getOrderReviewItem(orderId);
   }
 
+  @override
+  Future<void> createNewReview(ReviewParams params) async {
+    return await _reviewRepository.createNewReview(params);
+  }
 }

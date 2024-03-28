@@ -67,24 +67,24 @@ class _ReceiptPageState extends State<ReceiptPage> {
                             margin: const EdgeInsets.only(top: 40),
                             decoration: BoxDecoration(
                                 border:
-                                    Border.all(color: const Color(0xffefebe9)),
+                                    Border.all(color: AppColor.scaffoldColorBackground),
                                 borderRadius: BorderRadius.circular(16)),
                             child: Column(
                               children: [
                                 const ReceiptInformation(),
                                 Container(
                                   height: 4,
-                                  color: const Color(0xffEFEBE9),
+                                  color: AppColor.scaffoldColorBackground,
                                 ),
-                                const ReceiptStatusInformation(),
+                                ReceiptStatusInformation(orderId: widget.orderId,),
                                 Container(
                                   height: 4,
-                                  color: const Color(0xffEFEBE9),
+                                  color: AppColor.scaffoldColorBackground,
                                 ),
                                 const BoughtList(),
                                 Container(
                                   height: 4,
-                                  color: const Color(0xffEFEBE9),
+                                  color: AppColor.scaffoldColorBackground,
                                 ),
                                 const PaymentSummary(),
                                 const NoteReceipt(),

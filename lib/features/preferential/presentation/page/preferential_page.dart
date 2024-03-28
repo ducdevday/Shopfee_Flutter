@@ -16,7 +16,7 @@ class PreferentialPage extends StatelessWidget {
         ),
         automaticallyImplyLeading: true,
       ),
-      backgroundColor: const Color(0xffEFEBE9),
+      backgroundColor: AppColor.scaffoldColorBackground,
       body: Column(
         children: [
           Stack(

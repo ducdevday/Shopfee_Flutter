@@ -14,6 +14,8 @@ class AppColor {
   static Color disableColor = const Color(0xffCACACA);
   static Color dividerColor = const Color(0xffBDBDBD);
   static Color bottomColorBackground = const Color(0xffF0F2F6);
+  // static Color scaffoldColorBackground = const Color(0xffEFEBE9);
+  static Color scaffoldColorBackground = const Color(0xffF0F0F0);
 
   static Color lightColor = const Color(0xffFEFEFE);
   static Color success = const Color(0xff43936c);
@@ -21,5 +23,9 @@ class AppColor {
   static Color error = const Color(0xffE87373);
   static Color warning = const Color(0xffeb9525);
   static Color rating = const Color(0xffFFD232);
-  static const Color unLikedColor = Color(0xffF5DCDC);
+  static Color unRating = const Color(0xffE0DDF5);
+  static Color unLikedColor =const Color(0xffF5DCDC);
+
+  static Color likeColor = const Color(0xff82ADD5);
+  static Color disLikeColor = const Color(0xffF08181);
 }

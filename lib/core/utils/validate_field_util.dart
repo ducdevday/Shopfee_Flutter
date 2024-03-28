@@ -41,4 +41,11 @@ class ValidateFieldUtil {
     }
     return true;
   }
+
+  static bool validateContent(String content) {
+    if (content.isEmpty) {
+      return false;
+    }
+    return true;
+  }
 }
