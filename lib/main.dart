@@ -1,8 +1,6 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_config/flutter_config.dart';
@@ -27,7 +25,7 @@ void main() async {
           ? HydratedStorage.webStorageDirectory
           : await getTemporaryDirectory());
   await initData();
-  await setUpPushNotificationService();
+  await PushNotificationService.setUpPushNotification();
   Bloc.observer = SimpleBlocObserver();
   runApp(const MyApp());
 }
@@ -41,53 +39,4 @@ Future<void> initData() async {
   if (GlobalData.ins.currentPosition != null) {
     await GlobalData.ins.getCurrentPosition();
   }
-}
-
-Future<void> setUpPushNotificationService() async{
-  PushNotificationService.localNotificationInit();
-  //Todo for handling in foreground state
-  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    print("Got a message in foreground");
-    String payloadData = jsonEncode(message.data);
-    if (message.notification != null) {
-      PushNotificationService.showNotification(
-          title: message.notification!.title!,
-          body: message.notification!.body!,
-          payload: payloadData);
-    }
-  });
-
-  //Todo for handling in background state
-  FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-    print("Got a message in onMessageOpenedApp");
-    // String payloadData = jsonEncode(message.data);
-    // if (message.notification != null) {
-    //   PushNotificationService.showNotification(
-    //       title: message.notification!.title!,
-    //       body: message.notification!.body!,
-    //       payload: payloadData);
-    // }
-  });
-  FirebaseMessaging.onBackgroundMessage((RemoteMessage message) {
-    print("Got a message in onBackgroundMessage");
-    // String payloadData = jsonEncode(message.data);
-    // if (message.notification != null) {
-    //   PushNotificationService.showNotification(
-    //       title: message.notification!.title!,
-    //       body: message.notification!.body!,
-    //       payload: payloadData);
-    // }
-  });
-
-  //Todo for handling in terminated state
-  FirebaseMessaging.instance.getInitialMessage().then((message) {
-    print("Got a message in terminated state");
-    // String payloadData = jsonEncode(message?.data);
-    // if (message != null && message.notification != null) {
-    //   PushNotificationService.showNotification(
-    //       title: message.notification!.title!,
-    //       body: message.notification!.body!,
-    //       payload: payloadData);
-    // }
-  });
 }

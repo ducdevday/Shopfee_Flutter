@@ -78,10 +78,11 @@ class CartRepositoryImpl implements CartRepository {
           transactionId: result.data!["transactionId"],
           paymentUrl: result.data!["paymentUrl"]);
 
-      await _cartService.sendOrderMessage(
-          "Shopfee For Employee Announce",
-          "The order ${orderResult.orderId} was created. Please tap to see details",
-          orderResult.orderId!);
+      //TODO Send Notify
+      // await _cartService.sendOrderMessage(
+      //     "Shopfee For Employee Announce",
+      //     "The order ${orderResult.orderId} was created. Please tap to see details",
+      //     orderResult.orderId!);
       return orderResult;
     } catch (e) {
       if (e is DioException) {
@@ -108,10 +109,12 @@ class CartRepositoryImpl implements CartRepository {
           orderId: result.data!["orderId"],
           transactionId: result.data!["transactionId"],
           paymentUrl: result.data!["paymentUrl"]);
-      await _cartService.sendOrderMessage(
-          "Shopfee For Employee Announce",
-          "The order ${orderResult.orderId} was created. Please tap to see details",
-          orderResult.orderId!);
+
+      //TODO Send Notify
+      // await _cartService.sendOrderMessage(
+      //     "Shopfee For Employee Announce",
+      //     "The order ${orderResult.orderId} was created. Please tap to see details",
+      //     orderResult.orderId!);
       return orderResult;
     } catch (e) {
       if (e is DioException) {

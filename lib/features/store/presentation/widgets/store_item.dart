@@ -61,6 +61,7 @@ class StoreItem extends StatelessWidget {
                   ),
                   const Spacer(),
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Icon(
                         Icons.location_on_outlined,
@@ -70,6 +71,8 @@ class StoreItem extends StatelessWidget {
                         child: Text(
                           "${store.fullAddress}",
                           style: AppStyle.smallTextStyleDark,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],

@@ -5,10 +5,11 @@ class RegisterCubit extends Cubit<RegisterState> {
 
   RegisterCubit(this._registerUseCase) : super(RegisterInitial());
 
-  void checkValidField({required String firstName,
-    required String lastName,
-    required String email,
-    required String password}) {
+  void checkValidField(
+      {required String firstName,
+      required String lastName,
+      required String email,
+      required String password}) {
     if (ValidateFieldUtil.validateName(firstName) &&
         ValidateFieldUtil.validateName(lastName) &&
         ValidateFieldUtil.validateEmail(email) &&
@@ -21,10 +22,11 @@ class RegisterCubit extends Cubit<RegisterState> {
     }
   }
 
-  void goToOTPPage({required String firstName,
-    required String lastName,
-    required String email,
-    required String password}) async {
+  void goToOTPPage(
+      {required String firstName,
+      required String lastName,
+      required String email,
+      required String password}) async {
     try {
       EasyLoading.show(maskType: EasyLoadingMaskType.black);
       final emailExist = await _registerUseCase.checkEmailExist(email);
@@ -38,11 +40,9 @@ class RegisterCubit extends Cubit<RegisterState> {
                 firstName: firstName,
                 lastName: lastName,
                 email: email,
-                password: password)));
+                password: password,
+                fcmTokenId: SharedService.getFCMTokenId()!)));
       }
-    }
-    catch(e){
-
-    }
+    } catch (e) {}
   }
 }

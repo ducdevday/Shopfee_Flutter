@@ -46,6 +46,8 @@ class ReceiptRepositoryImpl implements ReceiptRepository {
   Future<void> cancelOrder(String orderId, String reason) async {
     try {
       await _receiptService.cancelOrder(orderId, reason);
+
+      //TODO Send Notify
       // await _receiptService.sendOrderMessage(
       //     "Shopfee For Employee Announce",
       //     "The order ${orderId} was canceled. Please tap to see details",
@@ -63,6 +65,7 @@ class ReceiptRepositoryImpl implements ReceiptRepository {
   @override
   Future<void> requestCancelOrder(String orderId, String reason) async {
     await _receiptService.requestCancelOrder(orderId, reason);
+    //TODO Send Notify
     // await _receiptService.sendOrderMessage(
     //     "Shopfee For Employee Announce",
     //     "The order ${orderId} was canceled. Please tap to see details",

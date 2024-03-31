@@ -62,7 +62,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       UserLogout event, Emitter<UserState> emit) async {
     try {
       EasyLoading.show(maskType: EasyLoadingMaskType.black);
-      await _userUseCase.logoutUser(SharedService.getUserId()!);
+      await _userUseCase.logoutUser(
+          SharedService.getUserId()!, SharedService.getFCMTokenId()!);
       SharedService.clearToken();
       emit(UserInitial());
       EasyLoading.dismiss();

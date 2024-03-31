@@ -42,6 +42,7 @@ import 'package:shopfee/features/cart/domain/entities/cart_entity.dart';
 import 'package:shopfee/features/cart/domain/entities/cart_extension.dart';
 import 'package:shopfee/features/cart/domain/entities/receiver_onsite_entity.dart';
 import 'package:shopfee/features/cart/domain/usecase/cart_usecase.dart';
+import 'package:shopfee/features/coupon_in_cart/presentation/coupon_in_cart.dart';
 import 'package:shopfee/features/default/presentation/page/default_page.dart';
 import 'package:shopfee/features/login/presentation/login.dart';
 import 'package:shopfee/features/new_address/presentation/new_address.dart';

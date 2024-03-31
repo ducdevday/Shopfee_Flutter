@@ -5,7 +5,8 @@ class Onboarding {
   String title;
   String discription;
 
-  Onboarding({required this.image, required this.title, required this.discription});
+  Onboarding(
+      {required this.image, required this.title, required this.discription});
 }
 
 class OnBoardingPage extends StatefulWidget {
@@ -15,17 +16,17 @@ class OnBoardingPage extends StatefulWidget {
         title: 'Choose and customize your Drinks',
         image: 'assets/images/onboarding_one.svg',
         discription:
-        "Customize your own drink exactly how you like it by adding any topping you like!!!"),
+            "Customize your own drink exactly how you like it by adding any topping you like!!!"),
     Onboarding(
         title: 'Quickly and easily',
         image: 'assets/images/onboarding_two.svg',
         discription:
-        "You can place your order quickly and easily without wasting time. You can also schedule orders via your smartphone."),
+            "You can place your order quickly and easily without wasting time. You can also schedule orders via your smartphone."),
     Onboarding(
         title: 'Get and Redeem Voucher',
         image: 'assets/images/onboarding_three.svg',
         discription:
-        "Exciting prizes await you! Redeem yours by collecting all the points after purchase in the app!"),
+            "Exciting prizes await you! Redeem yours by collecting all the points after purchase in the app!"),
   ];
 
   OnBoardingPage({super.key});
@@ -48,6 +49,11 @@ class _OnBoardingScreenState extends State<OnBoardingPage> {
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  void handleStartButtonPressed() {
+    SharedService.setIsFirstTime(false);
+    NavigationUtil.pushNamedAndRemoveUntil(NotifyPermissionPage.route);
   }
 
   @override
@@ -104,7 +110,7 @@ class _OnBoardingScreenState extends State<OnBoardingPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: List.generate(
                       widget.contents.length,
-                          (index) => buildDot(index, context),
+                      (index) => buildDot(index, context),
                     ),
                   ),
                 ),
@@ -123,7 +129,7 @@ class _OnBoardingScreenState extends State<OnBoardingPage> {
                         ),
                         onPressed: () {
                           if (currentIndex == widget.contents.length - 1) {
-                            Navigator.pushReplacementNamed(context,NotifyPermissionPage.route);
+                            handleStartButtonPressed();
                           }
                           _controller.nextPage(
                             duration: const Duration(milliseconds: 100),

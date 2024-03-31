@@ -12,29 +12,18 @@ class CouponAppliedWidget extends StatelessWidget {
           children: [
             Text(
               "Coupon",
-              style: AppStyle.mediumTitleStyleDark.copyWith(
-                  color: AppColor.headingColor,
-                  fontWeight: FontWeight.w500),
-            ),
+              style: AppStyle.mediumTitleStyleDark),
             SizedBox(
               height: 4,
             ),
-            Row(
-              children: [
-                Icon(
-                  Icons.discount,
-                  color: AppColor.primaryColor,
+            TextButton.icon(
+                onPressed: () {
+                  NavigationUtil.pushNamed(CouponInCartPage.route);
+                },
+                icon: Icon(
+                  Icons.discount_outlined,
                 ),
-                SizedBox(
-                  width: 4,
-                ),
-                Expanded(
-                  child: Text("Add coupon",
-                      style: AppStyle.normalTextStylePrimary),
-                ),
-                Icon(Icons.keyboard_arrow_right_rounded)
-              ],
-            ),
+                label: Text("Add Coupon"))
           ],
         );
       },

@@ -67,11 +67,7 @@ class _RegisterScreenState extends State<RegisterPage> {
             if (state is RegisterFinished) {
               Navigator.of(context).pushNamed(OtpPage.route, arguments: {
                 "email": emailTextController.text,
-                "registerEntity": RegisterEntity(
-                    firstName: firstNameTextController.text,
-                    lastName: lastNameTextController.text,
-                    email: emailTextController.text,
-                    password: passwordTextController.text),
+                "registerEntity": state.registerEntity,
                 "fromRoute": RegisterPage.route
               });
             }

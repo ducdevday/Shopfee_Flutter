@@ -6,7 +6,7 @@ abstract class UserUseCase {
 
   Future<void> updateUser(UserEntity userEntity);
 
-  Future<void> logoutUser(String userId);
+  Future<void> logoutUser(String userId, String fcmTokenId);
 
   Future<void> updatePhoneNumber(String userId, String phoneNumber);
 }
@@ -27,8 +27,8 @@ class UserUseCaseImpl extends UserUseCase {
   }
 
   @override
-  Future<void> logoutUser(String userId) async {
-    await _userRepository.logoutUser(userId);
+  Future<void> logoutUser(String userId, String fcmTokenId) async {
+    await _userRepository.logoutUser(userId, fcmTokenId);
   }
 
   @override

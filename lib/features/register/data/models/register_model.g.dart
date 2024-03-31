@@ -13,6 +13,7 @@ RegisterModel _$RegisterModelFromJson(Map<String, dynamic> json) =>
       email: json['email'] as String?,
       password: json['password'] as String?,
       code: json['code'] as String?,
+      fcmTokenId: json['fcmTokenId'] as String?,
     );
 
 Map<String, dynamic> _$RegisterModelToJson(RegisterModel instance) =>
@@ -22,4 +23,5 @@ Map<String, dynamic> _$RegisterModelToJson(RegisterModel instance) =>
       'email': instance.email,
       'password': instance.password,
       'code': instance.code,
+      'fcmTokenId': instance.fcmTokenId,
     };

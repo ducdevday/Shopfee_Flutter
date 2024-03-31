@@ -4,13 +4,15 @@ class RegisterEntity{
   final String email;
   final String password;
   final String? code;
+  final String fcmTokenId;
 
   const RegisterEntity({
     required this.firstName,
     required this.lastName,
     required this.email,
     required this.password,
-    this.code
+    this.code,
+    required this.fcmTokenId
   });
 
   RegisterEntity copyWith({
@@ -19,6 +21,7 @@ class RegisterEntity{
     String? email,
     String? password,
     String? code,
+    String? fcmTokenId,
   }) {
     return RegisterEntity(
       firstName: firstName ?? this.firstName,
@@ -26,6 +29,7 @@ class RegisterEntity{
       email: email ?? this.email,
       password: password ?? this.password,
       code: code ?? this.code,
+      fcmTokenId: fcmTokenId ?? this.fcmTokenId,
     );
   }
 }

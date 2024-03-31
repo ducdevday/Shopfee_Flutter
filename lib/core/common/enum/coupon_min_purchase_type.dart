@@ -1,1 +1,1 @@
-enum CouponMinPurchaseType { NONE, MONEY, QUANTITY }
+enum CouponMinPurchaseConditionType { NONE, MONEY, QUANTITY }

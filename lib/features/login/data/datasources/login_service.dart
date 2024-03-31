@@ -34,23 +34,31 @@ class LoginService{
     }
   }
 
-  Future<Response> logInWithGoogleServer(String idToken) async {
+  Future<Response> logInWithGoogleServer(String idToken, String fcmTokenId) async {
+    Map<String, dynamic> body = {
+      "fcmTokenId": fcmTokenId,
+    };
     final response = await DioService.instance.post("${DioService.authPath}/firebase/login",
+        data: body,
         options: Options(
           headers: {"Id-token": idToken},
         ));
     return response;
   }
 
-  Future<Response> registerWithGoogleServer(String idToken) async {
+  Future<Response> registerWithGoogleServer(String idToken, String fcmTokenId) async {
+    Map<String, dynamic> body = {
+      "fcmTokenId": fcmTokenId,
+    };
     final response = await DioService.instance.post("${DioService.authPath}/firebase/register",
+        data: body,
         options: Options(
           headers: {"Id-token": idToken},
         ));
     return response;
   }
 
-  Future<void> saveFCMToken(String userId) async {
+  Future<void> saveFCMTokenToFirestore(String userId) async {
     final String? fcmToken = await FirebaseMessaging.instance.getToken();
     await FirebaseFirestore.instance
         .collection("users")

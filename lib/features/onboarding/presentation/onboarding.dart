@@ -6,7 +6,10 @@ import 'package:shopfee/core/config/app_color.dart';
 import 'package:shopfee/core/config/app_path.dart';
 import 'package:shopfee/core/config/app_dimen.dart';
 import 'package:shopfee/core/config/app_style.dart';
+import 'package:shopfee/core/utils/navigation_util.dart';
 import 'package:shopfee/features/notify_permission/presentation/notify_permission.dart';
+
+import '../../../core/service/shared_service.dart';
 
 part 'page/onboarding_page.dart';
 part 'page/onboarding_page_1.dart';

@@ -14,6 +14,11 @@ import 'package:shopfee/features/choose_address/data/repositories/choose_address
 import 'package:shopfee/features/choose_address/domain/repositories/choose_address_repository.dart';
 import 'package:shopfee/features/choose_address/domain/usecase/choose_address_usecase.dart';
 import 'package:shopfee/features/choose_address/presentation/choose_address.dart';
+import 'package:shopfee/features/coupon_in_cart/data/datasources/coupon_in_cart_service.dart';
+import 'package:shopfee/features/coupon_in_cart/data/repositories/coupon_in_cart_repository_impl.dart';
+import 'package:shopfee/features/coupon_in_cart/domain/repositories/coupon_in_cart_repository.dart';
+import 'package:shopfee/features/coupon_in_cart/domain/usecase/coupon_in_cart_usecase.dart';
+import 'package:shopfee/features/coupon_in_cart/presentation/coupon_in_cart.dart';
 import 'package:shopfee/features/forgot_password/data/datasources/forgot_pasword_service.dart';
 import 'package:shopfee/features/forgot_password/data/repositories/forgot_password_repository_impl.dart';
 import 'package:shopfee/features/forgot_password/domain/repositories/forgot_password_repository.dart';
@@ -49,6 +54,11 @@ import 'package:shopfee/features/new_password/data/repositories/new_password_rep
 import 'package:shopfee/features/new_password/domain/repositories/new_password_repository.dart';
 import 'package:shopfee/features/new_password/domain/usecase/new_password_usecase.dart';
 import 'package:shopfee/features/new_password/presentation/new_password.dart';
+import 'package:shopfee/features/notify_permission/data/datasources/notification_permission_service.dart';
+import 'package:shopfee/features/notify_permission/data/repositories/notification_permission_repository_impl.dart';
+import 'package:shopfee/features/notify_permission/domain/repositories/notification_permission_repository.dart';
+import 'package:shopfee/features/notify_permission/domain/usecase/notification_permission_usecase.dart';
+import 'package:shopfee/features/notify_permission/presentation/notify_permission.dart';
 import 'package:shopfee/features/order/data/datasources/order_service.dart';
 import 'package:shopfee/features/order/data/repositories/order_repository_impl.dart';
 import 'package:shopfee/features/order/domain/repositories/order_repository.dart';
@@ -134,6 +144,7 @@ class ServiceLocator {
   static final sl = GetIt.instance;
 
   Future<void> init() async {
+    _notifyPermissionFeature();
     _loginFeature();
     _registerFeature();
     _otpFeature();
@@ -160,6 +171,16 @@ class ServiceLocator {
     _storeDetailInformationFeature();
     _reviewFeature();
     _reviewDetailFeature();
+    _couponInCartFeature();
+  }
+
+  void _notifyPermissionFeature() {
+    sl.registerLazySingleton(() => NotifyPermissionService());
+    sl.registerLazySingleton<NotificationPermissionRepository>(
+        () => NotificationPermissionRepositoryImpl(sl()));
+    sl.registerLazySingleton<NotificationPermissionUseCase>(
+        () => NotificationPermissionUseCaseImpl(sl()));
+    sl.registerFactory(() => NotificationPermissionCubit(sl()));
   }
 
   void _loginFeature() {
@@ -376,5 +397,14 @@ class ServiceLocator {
     sl.registerLazySingleton<ReviewDetailUseCase>(
         () => ReviewDetailUseCaseImpl(sl()));
     sl.registerFactory(() => ReviewDetailBloc(sl()));
+  }
+
+  void _couponInCartFeature() {
+    sl.registerLazySingleton(() => CouponInCartService());
+    sl.registerLazySingleton<CouponInCartRepository>(
+        () => CouponInCartRepositoryImpl(sl()));
+    sl.registerLazySingleton<CouponInCartUseCase>(
+        () => CouponInCartUseCaseImpl(sl()));
+    sl.registerFactory(() => CouponInCartBloc(sl()));
   }
 }

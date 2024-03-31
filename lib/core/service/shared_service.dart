@@ -59,17 +59,17 @@ class SharedService {
     _pref.remove("accessToken");
   }
 
-  // static String? getGoogleIdToken() {
-  //   return _pref.getString("googleIdToken");
-  // }
-  //
-  // static void setGoogleIdToken(String googleIdToken) {
-  //   _pref.setString("googleIdToken", googleIdToken);
-  // }
-  //
-  // static void removeAccessToken() {
-  //   _pref.remove("accessToken");
-  // }
+  static String? getFCMTokenId(){
+    return _pref.getString("fcmTokenId");
+  }
+
+  static void setFCMTokenId(String fcmTokenId) {
+    _pref.setString("fcmTokenId", fcmTokenId);
+  }
+
+  static void removeFCMTokenId() {
+    _pref.remove("fcmTokenId");
+  }
 
   static void setToken(String userId, String accessToken) {
     setUserId(userId);
@@ -79,5 +79,6 @@ class SharedService {
   static void clearToken() {
     removeUserId();
     removeAccessToken();
+    removeFCMTokenId();
   }
 }

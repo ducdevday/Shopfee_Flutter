@@ -67,4 +67,14 @@ class AppPath {
 
   static const String icLike = "assets/icons/ic_like.svg";
   static const String icDisLike = "assets/icons/ic_dislike.svg";
+
+  static const String imgCouponOrder = "assets/images/img_coupon_order.png";
+  static const String imgCouponProduct = "assets/images/img_coupon_product.png";
+  static const String imgCouponShipping =
+      "assets/images/img_coupon_shipping.png";
+
+  static const String minPurchaseCondition = "assets/icons/ic_min_purchase.png";
+  static const String usageCondition = "assets/icons/ic_usage.png";
+  static const String subjectConditionList = "assets/icons/ic_subject.png";
+  static const String combinationConditionList = "assets/icons/ic_combine.png";
 }

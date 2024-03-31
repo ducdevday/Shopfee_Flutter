@@ -26,7 +26,7 @@ class LoginRepositoryImpl implements LoginRepository {
       );
 
       final token = MyToken.fromJson(result.data!);
-      await _loginService.saveFCMToken(token.userId);
+      await _loginService.saveFCMTokenToFirestore(token.userId);
       return token;
     } catch (e) {
       if (e is DioException) {
@@ -43,7 +43,7 @@ class LoginRepositoryImpl implements LoginRepository {
   }
 
   @override
-  Future<MyToken> loginWithGoogle() async {
+  Future<MyToken> loginWithGoogle(String fcmTokenId) async {
     await _loginService.logInWithGoogleFirebase();
     final String? idToken =
         await FirebaseAuth.instance.currentUser?.getIdToken();
@@ -53,7 +53,7 @@ class LoginRepositoryImpl implements LoginRepository {
         displayName: FirebaseAuth.instance.currentUser?.displayName);
     final emailExist = await checkEmailExist(googleUser.email!);
     if (emailExist) {
-      final response = await _loginService.logInWithGoogleServer(idToken!);
+      final response = await _loginService.logInWithGoogleServer(idToken!, fcmTokenId);
       final result = Result(
         success: response.data["success"],
         message: response.data["message"],
@@ -61,10 +61,10 @@ class LoginRepositoryImpl implements LoginRepository {
       );
 
       final token = MyToken.fromJson(result.data!);
-      await _loginService.saveFCMToken(token.userId);
+      await _loginService.saveFCMTokenToFirestore(token.userId);
       return token;
     } else {
-      final response = await _loginService.registerWithGoogleServer(idToken!);
+      final response = await _loginService.registerWithGoogleServer(idToken!, fcmTokenId);
       final result = Result(
         success: response.data["success"],
         message: response.data["message"],
@@ -72,7 +72,7 @@ class LoginRepositoryImpl implements LoginRepository {
       );
 
       final token = MyToken.fromJson(result.data!);
-      await _loginService.saveFCMToken(token.userId);
+      await _loginService.saveFCMTokenToFirestore(token.userId);
       return token;
     }
   }

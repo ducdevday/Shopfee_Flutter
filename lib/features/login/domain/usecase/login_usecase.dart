@@ -5,7 +5,7 @@ import 'package:shopfee/features/login/domain/repositories/login_repository.dart
 abstract class LoginUseCase {
   Future<MyToken> login(LoginEntity loginEntity);
 
-  Future<MyToken> loginWithGoogle();
+  Future<MyToken> loginWithGoogle(String fcmTokenId);
 }
 
 class LoginUseCaseImpl extends LoginUseCase {
@@ -19,7 +19,7 @@ class LoginUseCaseImpl extends LoginUseCase {
   }
 
   @override
-  Future<MyToken> loginWithGoogle() async{
-    return await _loginRepository.loginWithGoogle();
+  Future<MyToken> loginWithGoogle(String fcmTokenId) async{
+    return await _loginRepository.loginWithGoogle(fcmTokenId);
   }
 }

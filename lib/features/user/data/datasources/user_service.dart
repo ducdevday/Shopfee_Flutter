@@ -26,9 +26,12 @@ class UserService {
     return response;
   }
 
-  Future<Response> logout() async {
-    final response =
-        await DioService.instance.get("${DioService.authPath}/logout");
+  Future<Response> logout(String fcmTokenId) async {
+    Map<String, dynamic> body = {
+      "fcmTokenId": fcmTokenId,
+    };
+    final response = await DioService.instance
+        .post("${DioService.authPath}/logout", data: body);
     return response;
   }
 

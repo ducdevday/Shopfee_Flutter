@@ -7,10 +7,12 @@ part 'login_model.g.dart';
 class LoginModel {
   final String? email;
   final String? password;
+  final String? fcmTokenId;
 
   const LoginModel({
     this.email,
     this.password,
+    this.fcmTokenId
   });
 
   factory LoginModel.fromJson(Map<String, dynamic> json) {
@@ -22,6 +24,6 @@ class LoginModel {
   }
 
   factory LoginModel.fromEntity(LoginEntity loginEntity) {
-    return LoginModel(email: loginEntity.email, password: loginEntity.password);
+    return LoginModel(email: loginEntity.email, password: loginEntity.password, fcmTokenId: loginEntity.fcmTokenId);
   }
 }

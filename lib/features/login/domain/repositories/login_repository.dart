@@ -3,5 +3,5 @@ import 'package:shopfee/features/login/domain/entities/login_entity.dart';
 
 abstract class LoginRepository {
   Future<MyToken> login(LoginEntity loginEntity);
-  Future<MyToken> loginWithGoogle();
+  Future<MyToken> loginWithGoogle(String fcmTokenId);
 }
