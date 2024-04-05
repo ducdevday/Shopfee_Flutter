@@ -1,11 +1,11 @@
 part of cart;
 
-class CartItem extends StatelessWidget {
+class ProductChosenItem extends StatelessWidget {
   final int index;
   final VoidCallback onEdit;
   final VoidCallback onDelete;
 
-  const CartItem(
+  const ProductChosenItem(
       {Key? key,
       required this.index,
       required this.onEdit,
@@ -123,18 +123,50 @@ class CartItem extends StatelessWidget {
                           ],
                         ),
                       ),
-                      Align(
-                        alignment: Alignment.topRight,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                                FormatUtil.formatMoney(
-                                    state.cart.orders[index].total),
-                                style: AppStyle.mediumTitleStyleDark
-                                    .copyWith(color: AppColor.headingColor)),
-                          ],
-                        ),
+                      BlocBuilder<CartBloc, CartState>(
+                        builder: (context, state) {
+                          if (state is CartLoaded) {
+                            final currentPrice = state.cart.orders[index].total;
+                            final newPrice = state.cart
+                                .calculateProductPriceAppliedCoupon(
+                                    state.cart.orders[index]);
+                            if (newPrice == null) {
+                              return Align(
+                                alignment: Alignment.topRight,
+                                child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text(FormatUtil.formatMoney(currentPrice),
+                                          style: AppStyle.mediumTextStyleDark
+                                              .copyWith(
+                                                  color:
+                                                      AppColor.primaryColor)),
+                                    ]),
+                              );
+                            } else {
+                              return Align(
+                                alignment: Alignment.topRight,
+                                child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text(FormatUtil.formatMoney(newPrice),
+                                          style: AppStyle.mediumTextStyleDark
+                                              .copyWith(
+                                                  color:
+                                                      AppColor.primaryColor)),
+                                      Text(FormatUtil.formatMoney(currentPrice),
+                                          style: AppStyle.normalTextStyleDark
+                                              .copyWith(
+                                                  color:
+                                                      AppColor.nonactiveColor,
+                                                  decoration: TextDecoration
+                                                      .lineThrough)),
+                                    ]),
+                              );
+                            }
+                          }
+                          return SizedBox();
+                        },
                       )
                     ],
                   ),

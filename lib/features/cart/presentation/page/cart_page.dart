@@ -90,11 +90,12 @@ class _CartPageState extends State<CartPage> {
                       height: 4,
                       color: AppColor.scaffoldColorBackground,
                     ),
-                    const ProductList(),
+                    const ProductChosenList(),
                     Container(
                       height: 4,
                       color: AppColor.scaffoldColorBackground,
                     ),
+                    const ProductGiftList(),
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           vertical: 10, horizontal: AppDimen.screenPadding),
@@ -104,7 +105,7 @@ class _CartPageState extends State<CartPage> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              buildOrderTypeText(state),
+                              Expanded(child: buildOrderTypeText(state)),
                               TextButton(
                                 child: Text(
                                   "Change",

@@ -23,6 +23,8 @@ class OrderEntity extends Equatable {
       quantity * size!.price +
       quantity * toppings.fold(0, (total, current) => total + current.price);
 
+  double get totalSizePrice =>  quantity * size!.price;
+
   String get toppingOrderString {
     List<String> results = [];
     toppings.map((t) => t.name).forEach((name) {

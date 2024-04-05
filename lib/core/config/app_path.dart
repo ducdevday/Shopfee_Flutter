@@ -8,7 +8,8 @@ class AppPath {
   static const String imgNotifyPermission = "assets/icons/ic_notification.svg";
   static const String imgError = "assets/images/lottie_coffee_error.json";
   static const String imgCoffeeLoading = "assets/images/lottie_coffee_pro.json";
-  static const String imhStoreLoading = "assets/images/lottie_store.json";
+  static const String imgStoreLoading = "assets/images/lottie_store.json";
+  static const String imgCouponLoading = "assets/images/lottie_coupon.json";
   static const String icGoogle = "assets/icons/ic_google.svg";
 
   static const String icHome = "assets/icons/ic_home.svg";
@@ -23,6 +24,7 @@ class AppPath {
   static const String icNoStore = "assets/icons/ic_store.png";
   static const String icNoHistory = "assets/icons/ic_history_list.png";
   static const String icNoReview = "assets/icons/img_no_review.png";
+  static const String icNoCoupon = "assets/icons/ic_no_coupon.png";
   static const String imgAccountBackground =
       "assets/images/img_profile_background.png";
 
@@ -77,4 +79,12 @@ class AppPath {
   static const String usageCondition = "assets/icons/ic_usage.png";
   static const String subjectConditionList = "assets/icons/ic_subject.png";
   static const String combinationConditionList = "assets/icons/ic_combine.png";
+
+  static const String icHomeAddress = "assets/icons/ic_home.png";
+  static const String icOrderCoupon = "assets/icons/ic_order_coupon.png";
+  static const String icProductCoupon = "assets/icons/ic_product_coupon.png";
+  static const String icShippingCoupon = "assets/icons/ic_shipping_coupon.png";
+  static const String icClock = "assets/icons/ic_clock.png";
+
+  static const String imgQRCode = "assets/images/img_qrcode.png";
 }

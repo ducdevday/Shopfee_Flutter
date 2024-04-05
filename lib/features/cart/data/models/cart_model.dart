@@ -1,16 +1,12 @@
+
 import 'package:json_annotation/json_annotation.dart';
-import 'package:shopfee/core/common/enum/delivery_type.dart';
 import 'package:shopfee/core/common/enum/payment_type.dart';
 import 'package:shopfee/core/common/models/order_type.dart';
+import 'package:shopfee/features/cart/data/models/receiver_onsite_model.dart';
 import 'package:shopfee/features/cart/domain/entities/cart_entity.dart';
 import 'package:shopfee/features/product_detail/data/models/order_model.dart';
-import 'package:shopfee/features/receipt/domain/entities/receiver_information_entity.dart';
 import 'package:shopfee/features/saved_address/data/models/address_model.dart';
-import 'package:shopfee/features/store/data/models/store_information_model.dart';
 import 'package:shopfee/features/store_detail/data/models/store_detail_model.dart';
-import 'package:shopfee/features/store_detail/domain/entities/store_detail_entity.dart';
-
-import 'receiver_onsite_model.dart';
 
 part 'cart_model.g.dart';
 
@@ -23,8 +19,6 @@ class CartModel {
   final StoreDetailModel? store;
   final DateTime? receiveTime;
   final PaymentType? paymentType;
-
-  // final Voucher? voucher;
   final double? shippingFee;
   final num? coin;
   final ReceiverOnsiteModel? receiverOnsite;
@@ -37,7 +31,6 @@ class CartModel {
       this.store,
       this.receiveTime,
       this.paymentType,
-      // this.voucher,
       this.shippingFee,
       this.coin,
       this.receiverOnsite});

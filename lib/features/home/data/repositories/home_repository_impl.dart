@@ -70,7 +70,7 @@ class HomeRepositoryImpl extends HomeRepository {
   Future<List<ProductInformationEntity>> getTopSellingProduct(
       {required int quantity}) async {
     final response =
-        await homeService.getOutStandingProduct(quantity: quantity);
+        await homeService.getTopSellingProduct(quantity: quantity);
     final result = ResultList(
         success: response.data["success"],
         message: response.data["message"],

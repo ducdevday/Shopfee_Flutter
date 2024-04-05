@@ -11,6 +11,7 @@ import 'package:shopfee/features/cart/presentation/cart.dart';
 import 'package:shopfee/features/default/presentation/widgets/bottombar/my_bottom_nav_bar_cubit.dart';
 import 'package:shopfee/features/home/presentation/home.dart';
 import 'package:shopfee/features/order/presentation/order.dart';
+import 'package:shopfee/features/preferential/presentation/preferential.dart';
 import 'package:shopfee/features/splash/presentation/splash.dart';
 import 'package:shopfee/features/user/presentation/user.dart';
 
@@ -84,7 +85,10 @@ class _MyAppState extends State<MyApp> {
                 ServiceLocator.sl<HomeBloc>()..add(HomeLoadInformation())),
         BlocProvider(
             create: (context) => ServiceLocator.sl<OrderBloc>()
-              ..add(OrderLoadInformation(page: 1, size: 8))),
+              ..add(const OrderLoadInformation(page: 1, size: 8))),
+        BlocProvider(
+            create: (context) => ServiceLocator.sl<PreferentialBloc>()
+              ..add(const PreferentialLoadTopCoupon(quantityTop: 5))),
         BlocProvider(
             create: (context) =>
                 ServiceLocator.sl<CartBloc>()..add(CartLoadInformation()))

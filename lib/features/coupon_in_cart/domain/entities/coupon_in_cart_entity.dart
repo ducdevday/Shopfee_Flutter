@@ -1,38 +1,38 @@
+import 'package:shopfee/core/common/enum/coupon_type.dart';
 import 'package:shopfee/features/coupon_in_cart/data/models/coupon_in_cart_model.dart';
 import 'package:shopfee/features/coupon_in_cart/domain/entities/coupon_informaiton_entity.dart';
 
 class CouponInCartEntity {
-  final bool? canCombinedWithShippingCoupon;
+  final List<CouponType>? noShippingWithCoupon;
   final List<CouponInformationEntity>? shippingCouponList;
-  final bool? canCombinedWithOrderCoupon;
+  final List<CouponType>? noOrderWithCoupon;
   final List<CouponInformationEntity>? orderCouponList;
-  final bool? canCombinedWithProductCoupon;
+  final List<CouponType>? noProductWithCoupon;
   final List<CouponInformationEntity>? productCouponList;
 
   const CouponInCartEntity({
-    this.canCombinedWithShippingCoupon,
+    required this.noShippingWithCoupon,
     this.shippingCouponList,
-    this.canCombinedWithOrderCoupon,
+    required this.noOrderWithCoupon,
     this.orderCouponList,
-    this.canCombinedWithProductCoupon,
+    required this.noProductWithCoupon,
     this.productCouponList,
   });
 
   factory CouponInCartEntity.fromModel(CouponInCartModel model) {
     return CouponInCartEntity(
-      canCombinedWithShippingCoupon: model.canCombinedWithShippingCoupon,
+      noShippingWithCoupon: model.noShippingWithCoupon,
       shippingCouponList: model.shippingCouponList
           ?.map((e) => CouponInformationEntity.fromModel(e))
           .toList(),
-      canCombinedWithOrderCoupon: model.canCombinedWithOrderCoupon,
+      noOrderWithCoupon: model.noOrderWithCoupon,
       orderCouponList: model.orderCouponList
           ?.map((e) => CouponInformationEntity.fromModel(e))
           .toList(),
-      canCombinedWithProductCoupon: model.canCombinedWithProductCoupon,
+      noProductWithCoupon: model.noProductWithCoupon,
       productCouponList: model.productCouponList
           ?.map((e) => CouponInformationEntity.fromModel(e))
           .toList(),
     );
   }
-
 }

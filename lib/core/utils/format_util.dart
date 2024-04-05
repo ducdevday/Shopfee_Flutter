@@ -68,6 +68,12 @@ class FormatUtil {
     }
     return '${NumberFormat.decimalPattern().format(price)}đ';
   }
+  static String formatPercent(num? percent) {
+    if (percent == null) {
+      return "";
+    }
+    return '${NumberFormat.decimalPattern().format(percent)}%';
+  }
 
   static String formatCoin(num? coin) {
     if (coin == null) {

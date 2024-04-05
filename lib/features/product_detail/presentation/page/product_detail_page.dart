@@ -84,17 +84,18 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                     return Column(
                                       children: [
                                         Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            Text(
-                                              state.order.product.name!,
-                                              style: AppStyle
-                                                  .largeTitleStyleDark
-                                                  .copyWith(
-                                                      fontSize: 18,
-                                                      fontWeight:
-                                                          FontWeight.w500),
+                                            Expanded(
+                                              child: Text(
+                                                state.order.product.name!,
+                                                style: AppStyle
+                                                    .largeTitleStyleDark
+                                                    .copyWith(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                              ),
                                             ),
                                             Text(
                                               FormatUtil.formatMoney(
@@ -105,6 +106,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                                       fontSize: 18,
                                                       fontWeight:
                                                           FontWeight.w500),
+                                              textAlign: TextAlign.end,
                                             )
                                           ],
                                         ),
@@ -218,15 +220,14 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                       height: 12,
                                     ),
                                     Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text("Size",
                                             style: AppStyle.normalTextStyleDark
                                                 .copyWith(
                                                     color:
                                                         AppColor.headingColor)),
-                                        const SizeFilter()
+                                        SizedBox(width: AppDimen.smallPadding,),
+                                        Expanded(child: const SizeFilter())
                                       ],
                                     ),
                                   ],

@@ -17,26 +17,45 @@ class CartService {
     return response;
   }
 
-  Future<Response> createShippingOrder(CartModel cart, String userId, double totalCartPrice) async {
+  Future<Response> createShippingOrder(
+      CartModel cart,
+      String userId,
+      double totalCartPrice,
+      String? productCouponCode,
+      String? orderCouponCode,
+      String? shippingCouponCode) async {
     Map<String, dynamic> body = {
       "userId": userId,
-      "itemList": OrderGroupModel.groupOrders(cart.orders).map((e) => e.toJson()).toList(),
+      "itemList": OrderGroupModel.groupOrders(cart.orders)
+          .map((e) => e.toJson())
+          .toList(),
       "note": cart.note,
       "addressId": cart.address?.id,
-      "shippingFee":cart.shippingFee,
+      "shippingFee": cart.shippingFee,
       "paymentType": cart.paymentType!.name,
       "total": totalCartPrice,
       "coin": cart.coin ?? 0,
+      "productCouponCode": productCouponCode,
+      "orderCouponCode": orderCouponCode,
+      "shippingCouponCode": shippingCouponCode,
     };
-    final response =
-        await DioService.instance.post("${DioService.orderPath}/shipping", data: body);
+    final response = await DioService.instance
+        .post("${DioService.orderPath}/shipping", data: body);
     return response;
   }
 
-  Future<Response> createTakeAwayOrder(CartModel cart, String userId, double totalCartPrice) async {
+  Future<Response> createTakeAwayOrder(
+      CartModel cart,
+      String userId,
+      double totalCartPrice,
+      String? productCouponCode,
+      String? orderCouponCode,
+      String? shippingCouponCode) async {
     Map<String, dynamic> body = {
       "userId": userId,
-      "itemList": OrderGroupModel.groupOrders(cart.orders).map((e) => e.toJson()).toList(),
+      "itemList": OrderGroupModel.groupOrders(cart.orders)
+          .map((e) => e.toJson())
+          .toList(),
       "note": cart.note,
       "paymentType": cart.paymentType!.name,
       "receiveTime": cart.receiveTime?.toIso8601String(),
@@ -44,23 +63,26 @@ class CartService {
       "total": totalCartPrice,
       "coin": cart.coin ?? 0,
       "recipientName": cart.receiverOnsite?.recipientName,
-      "phoneNumber": cart.receiverOnsite?.phoneNumber
+      "phoneNumber": cart.receiverOnsite?.phoneNumber,
+      "productCouponCode": productCouponCode,
+      "orderCouponCode": orderCouponCode,
+      "shippingCouponCode": shippingCouponCode,
     };
-    final response =
-        await DioService.instance.post("${DioService.orderPath}/onsite", data: body);
+    final response = await DioService.instance
+        .post("${DioService.orderPath}/onsite", data: body);
     return response;
   }
 
-  Future<Response> getNearestStore(double latitude, double longitude,String time) async {
+  Future<Response> getNearestStore(
+      double latitude, double longitude, String time) async {
     Map<String, dynamic> queryParameters = {
       "lat": latitude,
       "lng": longitude,
       "time": time,
     };
-    final response =
-    await DioService.instance.get("${DioService.branchPath}/nearest", queryParameters: queryParameters);
-    // final response =
-    //     await DioService.instance.get("${DioService.branchPath}/1/view");
+    final response = await DioService.instance.get(
+        "${DioService.branchPath}/nearest",
+        queryParameters: queryParameters);
     return response;
   }
 
@@ -69,14 +91,38 @@ class CartService {
       "lat": latitude,
       "lng": longitude,
     };
-    final response =
-    await DioService.instance.get("${DioService.orderPath}/shipping-fee", queryParameters: queryParameters);
+    final response = await DioService.instance.get(
+        "${DioService.orderPath}/shipping-fee",
+        queryParameters: queryParameters);
     return response;
   }
 
   Future<Response> getDetailStore(String branchId) async {
     final response = await DioService.instance
         .get("${DioService.branchPath}/$branchId/view");
+    return response;
+  }
+
+  Future<Response> checkCouponInCart(
+      CartModel cart,
+      double totalItemPrice,
+      double totalCartPrice,
+      String? shippingCouponCode,
+      String? orderCouponCode,
+      String? productCouponCode) async {
+    Map<String, dynamic> body = {
+      "orderItemList": OrderGroupModel.groupOrders(cart.orders)
+          .map((e) => e.toJson())
+          .toList(),
+      "shippingFee": cart.shippingFee,
+      "totalItemPrice": totalItemPrice,
+      "totalPayment": totalCartPrice,
+      "shippingCouponCode": shippingCouponCode,
+      "orderCouponCode": orderCouponCode,
+      "productCouponCode": productCouponCode
+    };
+    final response = await DioService.instance
+        .post("${DioService.couponPath}/check-coupon-in-cart", data: body);
     return response;
   }
 

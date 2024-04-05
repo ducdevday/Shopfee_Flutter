@@ -1,7 +1,5 @@
-
-
-import 'package:shopfee/features/template/domain/entities/template_entity.dart';
+import 'package:shopfee/features/preferential/domain/entities/coupon_by_type_entity.dart';
 
 abstract class PreferentialRepository {
-  Future<TemplateEntity> getTemplate(String id);
+  Future<List<CouponByTypeEntity>> getTopCoupons(int quantity);
 }

@@ -5,12 +5,13 @@ import 'package:shopfee/features/cart/data/models/order_result.dart';
 import 'package:shopfee/features/cart/presentation/cart.dart';
 import 'package:shopfee/features/change_password/presentation/change_password.dart';
 import 'package:shopfee/features/choose_address/presentation/choose_address.dart';
+import 'package:shopfee/features/coupon/presentation/coupon.dart';
+import 'package:shopfee/features/coupon_detail/presentation/coupon_detail.dart';
 import 'package:shopfee/features/coupon_in_cart/presentation/coupon_in_cart.dart';
 import 'package:shopfee/features/default/presentation/page/default_page.dart';
 import 'package:shopfee/features/forgot_password/presentation/forgot_password.dart';
 import 'package:shopfee/features/google_map/presentation/page/google_map_page.dart';
 import 'package:shopfee/features/history/presentation/history.dart';
-import 'package:shopfee/features/home/domain/entities/rating_summary_entity.dart';
 import 'package:shopfee/features/login/presentation/login.dart';
 import 'package:shopfee/features/new_address/presentation/new_address.dart';
 import 'package:shopfee/features/new_password/presentation/new_password.dart';
@@ -20,7 +21,6 @@ import 'package:shopfee/features/otp/presentation/otp.dart';
 import 'package:shopfee/features/personal_information/presentation/personal_information.dart';
 import 'package:shopfee/features/product_by_category/presentation/product_by_category.dart';
 import 'package:shopfee/features/product_detail/presentation/product_detail.dart';
-import 'package:shopfee/features/receipt/domain/entities/receipt_product_entity.dart';
 import 'package:shopfee/features/receipt/presentation/receipt.dart';
 import 'package:shopfee/features/register/presentation/register.dart';
 import 'package:shopfee/features/review/presentation/review.dart';
@@ -47,15 +47,13 @@ class AppRouter {
         return MaterialPageRoute(builder: (context) => RegisterPage());
       case LoginPage.route:
         return MaterialPageRoute(
-            builder: (context) =>
-                LoginPage(
+            builder: (context) => LoginPage(
                   fromRoute: settings.arguments as String?,
                 ));
       case OtpPage.route:
         final args = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
-            builder: (context) =>
-                OtpPage(
+            builder: (context) => OtpPage(
                   email: args["email"],
                   fromRoute: args["fromRoute"],
                   registerEntity: args["registerEntity"],
@@ -65,8 +63,7 @@ class AppRouter {
       case ChangePasswordPage.route:
         final args = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
-            builder: (context) =>
-                ChangePasswordPage(
+            builder: (context) => ChangePasswordPage(
                   email: args["email"],
                   code: args["code"],
                 ));
@@ -77,10 +74,9 @@ class AppRouter {
       case ProductByCategoryPage.route:
         final args = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
-            builder: (context) =>
-                ProductByCategoryPage(
-                    categoryId: args["categoryId"],
-                    categoryName: args["categoryName"]));
+            builder: (context) => ProductByCategoryPage(
+                categoryId: args["categoryId"],
+                categoryName: args["categoryName"]));
       case SearchPage.route:
         return PageTransition(
             child: SearchPage(), type: PageTransitionType.topToBottom);
@@ -96,8 +92,7 @@ class AppRouter {
                 SavedAddressPage(fromRoute: settings.arguments as String));
       case NewAddressPage.route:
         return MaterialPageRoute(
-            builder: (context) =>
-                NewAddressPage(
+            builder: (context) => NewAddressPage(
                   addressId: settings.arguments as String?,
                 ));
       case ChooseAddressPage.route:
@@ -119,8 +114,7 @@ class AppRouter {
             child: HistoryPage(), type: PageTransitionType.rightToLeft);
       case GoogleMapPage.route:
         return MaterialPageRoute(
-            builder: (context) =>
-                GoogleMapPage(
+            builder: (context) => GoogleMapPage(
                   addressString: settings.arguments as String,
                 ));
       case PersonalInformationPage.route:
@@ -152,21 +146,25 @@ class AppRouter {
                 ReviewPage(orderId: settings.arguments as String));
       case ReviewDetailPage.route:
         return MaterialPageRoute(
-            builder: (context) =>
-                ReviewDetailPage(
-                    arguments: settings.arguments as ReviewDetailArguments));
+            builder: (context) => ReviewDetailPage(
+                arguments: settings.arguments as ReviewDetailArguments));
       case CouponInCartPage.route:
         return MaterialPageRoute(
             builder: (context) => const CouponInCartPage());
-            default:
-            return _errorRoute();
+      case CouponPage.route:
+        return MaterialPageRoute(builder: (context) => const CouponPage());
+      case CouponDetailPage.route:
+        return MaterialPageRoute(
+            builder: (context) =>
+                CouponDetailPage(couponId: settings.arguments as String));
+      default:
+        return _errorRoute();
     }
   }
 
   static Route _errorRoute() {
     return MaterialPageRoute(
-        builder: (context) =>
-            Scaffold(
+        builder: (context) => Scaffold(
               appBar: AppBar(
                 title: Text("Some thing went wrong"),
               ),

@@ -13,7 +13,7 @@ class VnPayCubit extends Cubit<VnPayState> {
       final status = await _vnPayUseCase.updateTransaction(transactionId);
       if (status == "PAID") {
         emit(VnPaySuccess());
-        AlertUtil.showToast("Payment success");
+        // AlertUtil.showToast("Payment success");
       } else {
         // final eventLog = EventLogEntity(
         //     orderStatus: OrderStatus.CANCELED,
@@ -22,7 +22,7 @@ class VnPayCubit extends Cubit<VnPayState> {
         //     makerByEmployee: false);
         // await _vnPayUseCase.addEventLog(orderId, eventLog);
         emit(VnPayCanceled());
-        AlertUtil.showToast("Payment canceled");
+        // AlertUtil.showToast("Payment canceled");
       }
       EasyLoading.dismiss();
     } catch (e) {

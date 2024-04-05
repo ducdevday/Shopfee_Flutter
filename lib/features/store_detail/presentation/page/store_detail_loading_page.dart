@@ -14,9 +14,9 @@ class StoreDetailLoadingPage extends StatelessWidget {
             Stack(
               children: [
                 Lottie.asset(
-                  AppPath.imhStoreLoading,
-                  width: AppDimen.smallImageSize,
-                  height: AppDimen.smallImageSize,
+                  AppPath.imgStoreLoading,
+                  width: AppDimen.mediumImageSize,
+                  height: AppDimen.mediumImageSize,
                 ),
                 Positioned(
                     bottom: AppDimen.spacing,

@@ -2,6 +2,7 @@ part of preferential;
 
 class PreferentialPage extends StatelessWidget {
   static const int page = 3;
+
   const PreferentialPage({Key? key}) : super(key: key);
 
   @override
@@ -17,57 +18,113 @@ class PreferentialPage extends StatelessWidget {
         automaticallyImplyLeading: true,
       ),
       backgroundColor: AppColor.scaffoldColorBackground,
-      body: Column(
-        children: [
-          Stack(
-            children: [
-              Image.asset(AppPath.imgCoinBackground),
-              Positioned.fill(
-                left: AppDimen.screenPadding,
-                child: BlocBuilder<UserBloc, UserState>(
-                  builder: (context, state) {
-                    switch (state) {
-                      case UserInitial():
-                        return Row(
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                NavigationUtil.pushNamed(LoginPage.route,
-                                    arguments: DefaultPage.route);
-                              },
-                              child: Text(
-                                "Login / Register\nTo Get Preferential",
+      body: Padding(
+        padding: const EdgeInsets.all(AppDimen.spacing),
+        child: Column(
+          children: [
+            Stack(
+              children: [
+                Image.asset(AppPath.imgCoinBackground),
+                Positioned.fill(
+                  left: AppDimen.screenPadding,
+                  child: BlocBuilder<UserBloc, UserState>(
+                    builder: (context, state) {
+                      switch (state) {
+                        case UserInitial():
+                          return Row(
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  NavigationUtil.pushNamed(LoginPage.route,
+                                      arguments: DefaultPage.route);
+                                },
+                                child: Text(
+                                  "Login / Register\nTo Get Preferential",
+                                  style: AppStyle.mediumTitleStylePrimary
+                                      .copyWith(color: AppColor.secondaryColor),
+                                ),
+                              ),
+                            ],
+                          );
+                        case UserLoadSuccess():
+                          return Row(
+                            children: [
+                              Text(
+                                "Your coin: ${state.user.coin}",
                                 style: AppStyle.mediumTitleStylePrimary
                                     .copyWith(color: AppColor.secondaryColor),
                               ),
-                            ),
-                          ],
-                        );
-                      case UserLoadSuccess():
-                        return Row(
-                          children: [
-                            Text(
-                              "Your coin: ${state.user.coin}",
-                              style: AppStyle.mediumTitleStylePrimary
-                                  .copyWith(color: AppColor.secondaryColor),
-                            ),
-                            SizedBox(width: 4,),
-                            Image.asset(
-                              AppPath.icCoin,
-                              width: 24,
-                              height: 24,
-                            )
-                          ],
-                        );
-                      default:
-                        return SizedBox();
-                    }
-                  },
+                              const SizedBox(
+                                width: 4,
+                              ),
+                              Image.asset(
+                                AppPath.icCoin,
+                                width: 24,
+                                height: 24,
+                              )
+                            ],
+                          );
+                        default:
+                          return const SizedBox();
+                      }
+                    },
+                  ),
+                )
+              ],
+            ),
+            const SizedBox(
+              height: AppDimen.smallSize,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "New Coupon",
+                      style: AppStyle.mediumTextStyleDark,
+                    ),
+                    Text(
+                      "Tap to see detail",
+                      style: AppStyle.smallTextStyleDark,
+                    )
+                  ],
                 ),
-              )
-            ],
-          )
-        ],
+                OutlinedButton(
+                  onPressed: () {
+                    NavigationUtil.pushNamed(CouponPage.route);
+                  },
+                  child: const Text("All Coupon"),
+                  style: AppStyle.outlineSmallButtonStylePrimary,
+                )
+              ],
+            ),
+            BlocBuilder<PreferentialBloc, PreferentialState>(
+              builder: (context, state) {
+                switch (state) {
+                  case PreferentialLoadInProcess():
+                    return Expanded(child: const CouponSkeletonList());
+                  case PreferentialLoadSuccess():
+                    if (state.coupons.isNotEmpty) {
+                      return Expanded(
+                          child: CouponByTypeList(coupons: state.coupons));
+                    } else {
+                      return Expanded(
+                        child: const MyEmptyList(
+                            imgPath: AppPath.icNoCoupon,
+                            text: "No Coupon Found"),
+                      );
+                    }
+                  case PreferentialLoadFailure():
+                    return Expanded(child: const MyErrorWidget());
+                  default:
+                    return const SizedBox();
+                }
+              },
+            )
+          ],
+        ),
       ),
     );
   }

@@ -1,15 +1,15 @@
 part of cart;
 
-class ProductList extends StatefulWidget {
-  const ProductList({
+class ProductChosenList extends StatefulWidget {
+  const ProductChosenList({
     super.key,
   });
 
   @override
-  State<ProductList> createState() => _ProductListState();
+  State<ProductChosenList> createState() => _ProductChosenListState();
 }
 
-class _ProductListState extends State<ProductList> {
+class _ProductChosenListState extends State<ProductChosenList> {
   late int defaultLength = 3;
   late int maxLength = 3;
   late int productListLength;
@@ -30,7 +30,7 @@ class _ProductListState extends State<ProductList> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Product list",
+                      "Chosen Product List",
                       style: AppStyle.mediumTitleStyleDark.copyWith(
                           color: AppColor.headingColor,
                           fontWeight: FontWeight.w500),
@@ -45,7 +45,7 @@ class _ProductListState extends State<ProductList> {
                           ? productListLength
                           : maxLength,
                       itemBuilder: (context, index) {
-                        return CartItem(
+                        return ProductChosenItem(
                             index: index,
                             onEdit: () {
                               buildShowEditOrderBottomSheet(

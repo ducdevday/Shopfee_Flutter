@@ -17,8 +17,8 @@ class VnPayRepositoryImpl implements VnPayRepository {
       message: response.data["message"],
       data: response.data["data"],
     );
-    final String status = result.data!["status"];
-    return status;
+    // final String status = result.data!["status"];
+    return "status";
   }
 
   @override

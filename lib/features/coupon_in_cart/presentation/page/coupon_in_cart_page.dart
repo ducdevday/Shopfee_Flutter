@@ -13,6 +13,9 @@ class _CouponInCartPageState extends State<CouponInCartPage> {
   late CouponInCartBloc _bloc;
   late CartEntity cart;
 
+  List<CouponType> noShippingWithCoupon = [];
+  List<CouponType> noOrderWithCoupon = [];
+  List<CouponType> noProductWithCoupon = [];
   List<CouponInformationEntity> shippingCouponList = [];
   List<CouponInformationEntity> orderCouponList = [];
   List<CouponInformationEntity> productCouponList = [];
@@ -24,7 +27,11 @@ class _CouponInCartPageState extends State<CouponInCartPage> {
     final cartState = context.read<CartBloc>().state;
     if (cartState is CartLoaded) {
       cart = cartState.cart;
-      _bloc.add(CouponInCartLoadInformation(cart: cart));
+      _bloc.add(CouponInCartLoadInitInformation(
+          cart: cart,
+          shippingCouponChosenCode: cart.shippingCouponCode,
+          orderCouponChosenCode: cart.orderCouponCode,
+          productCouponChosenCode: cart.productCouponCode));
     }
   }
 
@@ -35,6 +42,11 @@ class _CouponInCartPageState extends State<CouponInCartPage> {
         child: BlocListener<CouponInCartBloc, CouponInCartState>(
           listener: (context, state) {
             if (state is CouponInCartLoadSuccess) {
+              noShippingWithCoupon =
+                  state.couponInCart.noShippingWithCoupon ?? [];
+              noOrderWithCoupon = state.couponInCart.noOrderWithCoupon ?? [];
+              noProductWithCoupon =
+                  state.couponInCart.noProductWithCoupon ?? [];
               shippingCouponList = state.couponInCart.shippingCouponList ?? [];
               orderCouponList = state.couponInCart.orderCouponList ?? [];
               productCouponList = state.couponInCart.productCouponList ?? [];
@@ -63,16 +75,25 @@ class _CouponInCartPageState extends State<CouponInCartPage> {
                           children: [
                             CouponInformationList(
                                 couponInformationList: shippingCouponList,
+                                conflictList: noShippingWithCoupon,
                                 type: CouponType.SHIPPING),
-                            SizedBox(height: AppDimen.smallPadding,),
-                            CouponInformationList(
-                                couponInformationList: productCouponList,
-                                type: CouponType.PRODUCT),
-                            SizedBox(height: AppDimen.smallPadding,),
+                            SizedBox(
+                              height: AppDimen.smallPadding,
+                            ),
                             CouponInformationList(
                                 couponInformationList: orderCouponList,
+                                conflictList: noOrderWithCoupon,
                                 type: CouponType.ORDER),
-                            SizedBox(height: AppDimen.smallPadding,),
+                            SizedBox(
+                              height: AppDimen.smallPadding,
+                            ),
+                            CouponInformationList(
+                                couponInformationList: productCouponList,
+                                conflictList: noProductWithCoupon,
+                                type: CouponType.PRODUCT),
+                            SizedBox(
+                              height: AppDimen.smallPadding,
+                            ),
                           ],
                         ),
                       );
@@ -82,6 +103,39 @@ class _CouponInCartPageState extends State<CouponInCartPage> {
                       return SizedBox();
                   }
                 },
+              ),
+            ),
+            bottomNavigationBar: BottomAppBar(
+              height: 70,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppDimen.screenPadding,
+                ),
+                child: BlocBuilder<CouponInCartBloc, CouponInCartState>(
+                  builder: (context, state) {
+                    if (state is CouponInCartLoadSuccess) {
+                      return ElevatedButton(
+                        onPressed: () {
+                          context.read<CartBloc>().add(CartUpdateChosenCoupon(
+                              shippingCouponChosenCode:
+                                  state.shippingCouponChosenCode,
+                              orderCouponChosenCode:
+                                  state.orderCouponChosenCode,
+                              productCouponChosenCode:
+                                  state.productCouponChosenCode));
+                          NavigationUtil.pop();
+                        },
+                        style: AppStyle.elevatedButtonStylePrimary,
+                        child: Text("Confirm"),
+                      );
+                    }
+                    return ElevatedButton(
+                      onPressed: null,
+                      style: AppStyle.elevatedButtonStylePrimary,
+                      child: Text("Confirm"),
+                    );
+                  },
+                ),
               ),
             ),
           ),

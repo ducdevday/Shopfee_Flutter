@@ -20,25 +20,26 @@ class _ToppingFilterState extends State<ToppingFilter> {
             itemCount: toppings.length,
             padding: EdgeInsets.zero,
             shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) => Container(
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    toppings[index].name,
-                    style: AppStyle.normalTextStyleDark
-                        .copyWith(color: AppColor.headingColor),
+                  Expanded(
+                    child: Text(
+                      toppings[index].name,
+                      style: AppStyle.normalTextStyleDark
+                          .copyWith(color: AppColor.headingColor),
+                    ),
                   ),
                   Row(
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.add_rounded,
                         size: 16,
                       ),
                       Text(FormatUtil.formatMoney(toppings[index].price),
                           style: AppStyle.mediumTitleStylePrimary
-                              .copyWith(color: Color(0xff3A3A3C))),
+                              .copyWith(color: const Color(0xff3A3A3C))),
                       Checkbox(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(2)),
@@ -55,12 +56,12 @@ class _ToppingFilterState extends State<ToppingFilter> {
                 ],
               ),
             ),
-            separatorBuilder: (context, index) => Divider(
+            separatorBuilder: (context, index) => const Divider(
               height: 1,
             ),
           );
         } else {
-          return SizedBox();
+          return const SizedBox();
         }
       },
     );

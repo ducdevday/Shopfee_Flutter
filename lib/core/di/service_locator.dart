@@ -14,6 +14,16 @@ import 'package:shopfee/features/choose_address/data/repositories/choose_address
 import 'package:shopfee/features/choose_address/domain/repositories/choose_address_repository.dart';
 import 'package:shopfee/features/choose_address/domain/usecase/choose_address_usecase.dart';
 import 'package:shopfee/features/choose_address/presentation/choose_address.dart';
+import 'package:shopfee/features/coupon/data/datasources/coupon_service.dart';
+import 'package:shopfee/features/coupon/data/repositories/coupon_repository_impl.dart';
+import 'package:shopfee/features/coupon/domain/repositories/coupon_repository.dart';
+import 'package:shopfee/features/coupon/domain/usecase/coupon_usecase.dart';
+import 'package:shopfee/features/coupon/presentation/coupon.dart';
+import 'package:shopfee/features/coupon_detail/data/datasources/coupon_detail_service.dart';
+import 'package:shopfee/features/coupon_detail/data/repositories/coupon_detail_repository_impl.dart';
+import 'package:shopfee/features/coupon_detail/domain/repositories/coupon_detail_repository.dart';
+import 'package:shopfee/features/coupon_detail/domain/usecase/coupon_detail_usecase.dart';
+import 'package:shopfee/features/coupon_detail/presentation/coupon_detail.dart';
 import 'package:shopfee/features/coupon_in_cart/data/datasources/coupon_in_cart_service.dart';
 import 'package:shopfee/features/coupon_in_cart/data/repositories/coupon_in_cart_repository_impl.dart';
 import 'package:shopfee/features/coupon_in_cart/domain/repositories/coupon_in_cart_repository.dart';
@@ -74,6 +84,11 @@ import 'package:shopfee/features/personal_information/data/repositories/personal
 import 'package:shopfee/features/personal_information/domain/repositories/personal_information_repository.dart';
 import 'package:shopfee/features/personal_information/domain/usecase/personal_information_usecase.dart';
 import 'package:shopfee/features/personal_information/presentation/personal_information.dart';
+import 'package:shopfee/features/preferential/data/datasources/preferential_service.dart';
+import 'package:shopfee/features/preferential/data/repositories/preferential_repository_impl.dart';
+import 'package:shopfee/features/preferential/domain/repositories/preferential_repository.dart';
+import 'package:shopfee/features/preferential/domain/usecase/preferential_usecase.dart';
+import 'package:shopfee/features/preferential/presentation/preferential.dart';
 import 'package:shopfee/features/product_by_category/data/datasources/product_by_category_service.dart';
 import 'package:shopfee/features/product_by_category/data/repositories/product_by_category_repository_impl.dart';
 import 'package:shopfee/features/product_by_category/domain/repositories/product_by_category_repository.dart';
@@ -155,6 +170,7 @@ class ServiceLocator {
     _homeFeature();
     _orderFeature();
     _storeFeature();
+    _preferentialFeature();
     _productByCategoryFeature();
     _searchProductFeature();
     _productDetailFeature();
@@ -172,6 +188,8 @@ class ServiceLocator {
     _reviewFeature();
     _reviewDetailFeature();
     _couponInCartFeature();
+    _couponFeature();
+    _couponDetailFeature();
   }
 
   void _notifyPermissionFeature() {
@@ -406,5 +424,31 @@ class ServiceLocator {
     sl.registerLazySingleton<CouponInCartUseCase>(
         () => CouponInCartUseCaseImpl(sl()));
     sl.registerFactory(() => CouponInCartBloc(sl()));
+  }
+
+  void _preferentialFeature() {
+    sl.registerLazySingleton(() => PreferentialService());
+    sl.registerLazySingleton<PreferentialRepository>(
+        () => PreferentialRepositoryImpl(sl()));
+    sl.registerLazySingleton<PreferentialUseCase>(
+        () => PreferentialUseCaseImpl(sl()));
+    sl.registerFactory(() => PreferentialBloc(sl()));
+  }
+
+  void _couponFeature() {
+    sl.registerLazySingleton(() => CouponService());
+    sl.registerLazySingleton<CouponRepository>(
+        () => CouponRepositoryImpl(sl()));
+    sl.registerLazySingleton<CouponUseCase>(() => CouponUseCaseImpl(sl()));
+    sl.registerFactory(() => CouponBloc(sl()));
+  }
+
+  void _couponDetailFeature() {
+    sl.registerLazySingleton(() => CouponDetailService());
+    sl.registerLazySingleton<CouponDetailRepository>(
+        () => CouponDetailRepositoryImpl(sl()));
+    sl.registerLazySingleton<CouponDetailUseCase>(
+        () => CouponDetailUseCaseImpl(sl()));
+    sl.registerFactory(() => CouponDetailBloc(sl()));
   }
 }

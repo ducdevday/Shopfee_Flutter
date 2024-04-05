@@ -1,20 +1,18 @@
 
-import 'package:shopfee/core/errors/app_exception.dart';
-import 'package:shopfee/features/template/domain/entities/template_entity.dart';
-import 'package:shopfee/features/template/domain/repositories/template_repository.dart';
+import 'package:shopfee/features/coupon_detail/domain/entities/coupon_detail_entity.dart';
+import 'package:shopfee/features/coupon_detail/domain/repositories/coupon_detail_repository.dart';
 
-abstract class TemplateUseCase{
-  Future<TemplateEntity> doSomething(String id);
+abstract class CouponDetailUseCase{
+  Future<CouponDetailEntity> getCouponDetail(String couponId);
 }
 
-class TemplateUseCaseImpl extends TemplateUseCase{
-  final TemplateRepository _templateRepository;
+class CouponDetailUseCaseImpl extends CouponDetailUseCase{
+  final CouponDetailRepository _couponRepository;
 
-  TemplateUseCaseImpl(this._templateRepository);
+  CouponDetailUseCaseImpl(this._couponRepository);
 
   @override
-  Future<TemplateEntity> doSomething(String id) async{
-    return await _templateRepository.getTemplate(id);
+  Future<CouponDetailEntity> getCouponDetail(String couponId) async{
+    return await _couponRepository.getCouponDetail(couponId);
   }
-
 }

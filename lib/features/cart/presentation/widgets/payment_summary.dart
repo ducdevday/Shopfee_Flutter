@@ -21,17 +21,22 @@ class PaymentSummary extends StatelessWidget {
                 height: 8,
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "Item Price",
-                    style: AppStyle.normalTextStyleDark
-                        .copyWith(fontWeight: FontWeight.w400),
+                  Expanded(
+                    child: Text(
+                      "Item Price",
+                      style: AppStyle.normalTextStyleDark
+                          .copyWith(fontWeight: FontWeight.w400),
+                    ),
                   ),
-                  Text(
-                    FormatUtil.formatMoney(cart.totalItemPrice),
-                    style: AppStyle.normalTextStyleDark
-                        .copyWith(fontWeight: FontWeight.w400),
+                  Expanded(
+                    child: Text(
+                      FormatUtil.formatMoney(cart.totalItemPrice),
+                      style: AppStyle.normalTextStyleDark
+                          .copyWith(fontWeight: FontWeight.w400),
+                      textAlign: TextAlign.end,
+                    ),
                   )
                 ],
               ),
@@ -39,38 +44,25 @@ class PaymentSummary extends StatelessWidget {
                 height: 8,
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "Shipping fee",
-                    style: AppStyle.normalTextStyleDark
-                        .copyWith(fontWeight: FontWeight.w400),
+                  Expanded(
+                    child: Text(
+                      "Shipping fee",
+                      style: AppStyle.normalTextStyleDark
+                          .copyWith(fontWeight: FontWeight.w400),
+                    ),
                   ),
-                  Text(
-                    FormatUtil.formatMoney(cart.getCalculatedShippingFee()),
-                    style: AppStyle.normalTextStyleDark
-                        .copyWith(fontWeight: FontWeight.w400),
+                  Expanded(
+                    child: Text(
+                      FormatUtil.formatMoney(cart.getCalculatedShippingFee()),
+                      style: AppStyle.normalTextStyleDark
+                          .copyWith(fontWeight: FontWeight.w400),
+                      textAlign: TextAlign.end,
+                    ),
                   )
                 ],
               ),
-              // SizedBox(
-              //   height: 8,
-              // ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //   children: [
-              //     Text(
-              //       "Voucher",
-              //       style: AppStyle.normalTextStyleDark
-              //           .copyWith(fontWeight: FontWeight.w400),
-              //     ),
-              //     Text(
-              //       "-30,000đ",
-              //       style: AppStyle.normalTextStyleDark
-              //           .copyWith(fontWeight: FontWeight.w400),
-              //     )
-              //   ],
-              // ),
               if (cart.coin != null)
                 Column(
                   children: [
@@ -78,17 +70,50 @@ class PaymentSummary extends StatelessWidget {
                       height: 8,
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          "Applied Coin",
-                          style: AppStyle.normalTextStyleDark
-                              .copyWith(fontWeight: FontWeight.w400),
+                        Expanded(
+                          child: Text(
+                            "Applied Coin",
+                            style: AppStyle.normalTextStyleDark
+                                .copyWith(fontWeight: FontWeight.w400),
+                          ),
                         ),
-                        Text(
-                          "- ${FormatUtil.formatMoney(cart.coin)}",
-                          style: AppStyle.normalTextStyleDark
-                              .copyWith(fontWeight: FontWeight.w400),
+                        Expanded(
+                          child: Text(
+                            "- ${FormatUtil.formatMoney(cart.coin)}",
+                            style: AppStyle.normalTextStyleDark
+                                .copyWith(fontWeight: FontWeight.w400, color: AppColor.rating),
+                            textAlign: TextAlign.end,
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+              if (cart.isAppliedCoupon())
+                Column(
+                  children: [
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            "Applied Coupon",
+                            style: AppStyle.normalTextStyleDark
+                                .copyWith(fontWeight: FontWeight.w400),
+                          ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            "- ${FormatUtil.formatMoney(cart.getTotalCouponValue())}",
+                            style: AppStyle.normalTextStylePrimary
+                                .copyWith(fontWeight: FontWeight.w400),
+                            textAlign: TextAlign.end,
+                          ),
                         )
                       ],
                     ),
@@ -98,15 +123,20 @@ class PaymentSummary extends StatelessWidget {
                 height: 8,
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "Total",
-                    style: AppStyle.mediumTitleStyleDark,
+                  Expanded(
+                    child: Text(
+                      "Total",
+                      style: AppStyle.mediumTitleStyleDark,
+                    ),
                   ),
-                  Text(
-                    FormatUtil.formatMoney(cart.getTotalCartPrice()),
-                    style: AppStyle.mediumTitleStyleDark,
+                  Expanded(
+                    child: Text(
+                      FormatUtil.formatMoney(cart.getCartTotalPrice()),
+                      style: AppStyle.mediumTitleStyleDark,
+                      textAlign: TextAlign.end,
+                    ),
                   )
                 ],
               )

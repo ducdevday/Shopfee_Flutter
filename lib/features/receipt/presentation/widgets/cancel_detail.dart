@@ -23,57 +23,67 @@ class CancelDetail extends StatelessWidget {
                     height: 8,
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Request by",
-                        style: AppStyle.normalTextStyleDark
-                            .copyWith(fontWeight: FontWeight.w400),
-                      ),
-                      Text(
-                        "${state.lastEventLog.actor?.getFormattedName()}",
-                        style: AppStyle.normalTextStyleDark
-                            .copyWith(fontWeight: FontWeight.w400),
-                      )
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Request at",
-                        style: AppStyle.normalTextStyleDark
-                            .copyWith(fontWeight: FontWeight.w400),
-                      ),
-                      Text(
-                        "${FormatUtil.formatTime(state.lastEventLog.time)} - ${FormatUtil.formatDate2(state.lastEventLog.time)}",
-                        style: AppStyle.normalTextStyleDark
-                            .copyWith(fontWeight: FontWeight.w400),
-                      )
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        "Reason",
-                        style: AppStyle.normalTextStyleDark
-                            .copyWith(fontWeight: FontWeight.w400),
+                      Expanded(
+                        child: Text(
+                          "Request by",
+                          style: AppStyle.normalTextStyleDark
+                              .copyWith(fontWeight: FontWeight.w400),
+                        ),
                       ),
-                      Container(
-                        width: MediaQuery.of(context).size.width / 2,
+                      Expanded(
+                        child: Text(
+                          "${state.lastEventLog.actor?.getFormattedName()}",
+                          style: AppStyle.normalTextStyleDark
+                              .copyWith(fontWeight: FontWeight.w400),
+                          textAlign: TextAlign.end,
+                        ),
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          "Request at",
+                          style: AppStyle.normalTextStyleDark
+                              .copyWith(fontWeight: FontWeight.w400),
+                        ),
+                      ),
+                      Expanded(
+                        child: Text(
+                          "${FormatUtil.formatTime(state.lastEventLog.time)} - ${FormatUtil.formatDate2(state.lastEventLog.time)}",
+                          style: AppStyle.normalTextStyleDark
+                              .copyWith(fontWeight: FontWeight.w400),
+                          textAlign: TextAlign.end,
+                        ),
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          "Reason",
+                          style: AppStyle.normalTextStyleDark
+                              .copyWith(fontWeight: FontWeight.w400),
+                        ),
+                      ),
+                      Expanded(
                         child: Text(
                           "${state.lastEventLog.description}",
                           style: AppStyle.normalTextStyleDark
                               .copyWith(fontWeight: FontWeight.w400),
-                          textAlign: TextAlign.right,
+                          textAlign: TextAlign.end,
                         ),
                       )
                     ],

@@ -12,7 +12,7 @@ class HistoryPage extends StatefulWidget {
 class _HistoryPageState extends State<HistoryPage> {
   late final HistoryBloc _bloc;
   final scrollController = ScrollController();
-  HistoryStatus historyStatus = HistoryStatus.IN_PROCESS;
+  HistoryStatus historyStatus = HistoryStatus.WAITING;
   int initPage = 1;
   int initSize = 8;
   late OrderHistoryGroupEntity orderHistoryGroup;

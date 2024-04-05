@@ -33,18 +33,12 @@ class AddressShippingWidget extends StatelessWidget {
                                 children: [
                                   Icon(Icons.account_circle_outlined, size: AppDimen.smallSize,color: AppColor.primaryColor,),
                                   SizedBox(width: AppDimen.smallSpacing,),
-                                  Text(
-                                    "${state.cart.address?.recipientName}",
-                                    style: AppStyle.mediumTextStyleDark
-                                        .copyWith(color: AppColor.headingColor),
-                                  ),
-                                  Text(
-                                    "  |  ",
-                                    style: AppStyle.normalTextStyleDark,
-                                  ),
-                                  Text(
-                                    "${state.cart.address?.phoneNumber}",
-                                    style: AppStyle.normalTextStyleDark,
+                                  Expanded(
+                                    child: Text(
+                                      "${state.cart.address?.recipientName} | ${state.cart.address?.phoneNumber}",
+                                      style: AppStyle.mediumTextStyleDark
+                                          .copyWith(color: AppColor.headingColor),
+                                    ),
                                   ),
                                 ],
                               ),

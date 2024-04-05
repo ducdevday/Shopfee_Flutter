@@ -53,9 +53,9 @@ class DeliveryBottomSheet extends StatelessWidget {
                   child: Row(
                     children: [
                       SvgPicture.asset(
-                        "assets/icons/ic_delivery.svg",
-                        width: 60,
-                        height: 60,
+                        AppPath.icDelivery,
+                        width: AppDimen.smallImageSize,
+                        height:  AppDimen.smallImageSize,
                       ),
                       const SizedBox(
                         width: 4,
@@ -93,9 +93,9 @@ class DeliveryBottomSheet extends StatelessWidget {
                   child: Row(
                     children: [
                       SvgPicture.asset(
-                        "assets/icons/ic_take_away.svg",
-                        width: 60,
-                        height: 60,
+                        AppPath.icTakeAway,
+                        width: AppDimen.smallImageSize,
+                        height: AppDimen.smallImageSize,
                       ),
                       const SizedBox(
                         width: 4,

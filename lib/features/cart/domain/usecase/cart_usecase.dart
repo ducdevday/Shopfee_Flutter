@@ -1,6 +1,7 @@
 import 'package:shopfee/features/cart/data/models/order_result.dart';
 import 'package:shopfee/features/cart/domain/entities/cart_entity.dart';
 import 'package:shopfee/features/cart/domain/repositories/cart_repository.dart';
+import 'package:shopfee/features/coupon_in_cart/domain/entities/coupon_check_result_entity.dart';
 import 'package:shopfee/features/saved_address/domain/entities/address_entity.dart';
 import 'package:shopfee/features/store_detail/domain/entities/store_detail_entity.dart';
 
@@ -18,6 +19,8 @@ abstract class CartUseCase {
   Future<StoreDetailEntity> getDetailStore(String branchId);
 
   Future<double?> getShippingFee(double lat, double lng);
+
+  Future<List<CouponCheckResultEntity>> checkCouponInCart(CartEntity cart,);
 }
 
 class CartUseCaseImpl extends CartUseCase {
@@ -60,5 +63,10 @@ class CartUseCaseImpl extends CartUseCase {
   @override
   Future<double?> getShippingFee(double lat, double lng) async{
     return await _cartRepository.getShippingFee(lat, lng);
+  }
+
+  @override
+  Future<List<CouponCheckResultEntity>> checkCouponInCart(CartEntity cart) async{
+    return await _cartRepository.checkCouponInCart(cart);
   }
 }

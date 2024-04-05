@@ -26,8 +26,8 @@ class MyRadio<T> extends StatelessWidget {
         }
       },
       child: Container(
-        width: 28,
-        height: 28,
+        width: 26,
+        height: 26,
         decoration: BoxDecoration(
             color: AppColor.secondaryColor, shape: BoxShape.circle),
         child: isSelected

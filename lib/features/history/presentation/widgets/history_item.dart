@@ -36,17 +36,13 @@ class HistoryItem extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      Text(
-                        orderHistory.productName ?? "",
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: AppStyle.mediumTextStyleDark.copyWith(
-                          color: AppColor.headingColor,
-                        ),
-                      ),
-                    ],
+                  Text(
+                    orderHistory.productName ?? "",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppStyle.mediumTextStyleDark.copyWith(
+                      color: AppColor.headingColor,
+                    ),
                   ),
                   const SizedBox(
                     height: 4,

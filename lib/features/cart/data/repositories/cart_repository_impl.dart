@@ -9,6 +9,8 @@ import 'package:shopfee/features/cart/data/models/order_result.dart';
 import 'package:shopfee/features/cart/domain/entities/cart_entity.dart';
 import 'package:shopfee/features/cart/domain/entities/cart_extension.dart';
 import 'package:shopfee/features/cart/domain/repositories/cart_repository.dart';
+import 'package:shopfee/features/coupon_in_cart/data/models/coupon_check_result_model.dart';
+import 'package:shopfee/features/coupon_in_cart/domain/entities/coupon_check_result_entity.dart';
 import 'package:shopfee/features/saved_address/data/models/address_model.dart';
 import 'package:shopfee/features/saved_address/domain/entities/address_entity.dart';
 import 'package:shopfee/features/store_detail/data/models/store_detail_model.dart';
@@ -67,7 +69,7 @@ class CartRepositoryImpl implements CartRepository {
       CartEntity cart, String userId) async {
     try {
       final response = await _cartService.createShippingOrder(
-          CartModel.fromEntity(cart), userId, cart.getTotalCartPrice());
+          CartModel.fromEntity(cart), userId, cart.getCartTotalPrice(),  cart.productCouponCode, cart.orderCouponCode, cart.shippingCouponCode);
       final result = Result(
         success: response.data["success"],
         message: response.data["message"],
@@ -99,7 +101,7 @@ class CartRepositoryImpl implements CartRepository {
       CartEntity cart, String userId) async {
     try {
       final response = await _cartService.createTakeAwayOrder(
-          CartModel.fromEntity(cart), userId, cart.getTotalCartPrice());
+          CartModel.fromEntity(cart), userId, cart.getCartTotalPrice(), cart.productCouponCode, cart.orderCouponCode, cart.shippingCouponCode);
       final result = Result(
         success: response.data["success"],
         message: response.data["message"],
@@ -117,11 +119,11 @@ class CartRepositoryImpl implements CartRepository {
       //     orderResult.orderId!);
       return orderResult;
     } catch (e) {
-      if (e is DioException) {
-        if (e.response?.statusCode == 500) {
-          throw ServerFailure(message: "VNPAY are only applicable for orders over ${FormatUtil.formatMoney(10000)}");
-        }
-      }
+      // if (e is DioException) {
+      //   if (e.response?.statusCode == 500) {
+      //     throw ServerFailure(message: "VNPAY are only applicable for orders over ${FormatUtil.formatMoney(10000)}");
+      //   }
+      // }
       rethrow;
     }
   }
@@ -176,5 +178,22 @@ class CartRepositoryImpl implements CartRepository {
       }
       rethrow;
     }
+  }
+
+  @override
+  Future<List<CouponCheckResultEntity>> checkCouponInCart(CartEntity cart) async{
+    final response =
+        await _cartService.checkCouponInCart(CartModel.fromEntity(cart),cart.totalItemPrice, cart.getCartTotalPrice(), cart.shippingCouponCode, cart.orderCouponCode, cart.productCouponCode);
+    final resultList = ResultList(
+      success: response.data["success"],
+      message: response.data["message"],
+      data: response.data["data"],
+    );
+    List<CouponCheckResultModel> couponChecksModel =
+    resultList.data!.map((c) => CouponCheckResultModel.fromJson(c)).toList();
+    List<CouponCheckResultEntity> couponChecksEntity = couponChecksModel
+        .map((c) => CouponCheckResultEntity.fromModel(c))
+        .toList();
+    return couponChecksEntity;
   }
 }

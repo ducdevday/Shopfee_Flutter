@@ -47,7 +47,7 @@ class _CartBottomBarState extends State<CartBottomBar> {
       builder: (context, state) {
         if (state is CartLoaded) {
           final cart = state.cart;
-          final totalPrice = cart.getTotalCartPrice();
+          final totalPrice = cart.getCartTotalPrice();
           final isOrderValid = cart.isOrderValid();
           final isShippingOrder = cart.orderType == OrderType.SHIPPING;
           final hasPhoneNumber = user.phoneNumber != null;

@@ -66,15 +66,20 @@ class ReceiptInformation extends StatelessWidget {
                   height: 16,
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "ID Transaction",
-                      style: AppStyle.mediumTitleStyleDark,
+                    Expanded(
+                      child: Text(
+                        "ID Transaction",
+                        style: AppStyle.mediumTitleStyleDark,
+                      ),
                     ),
-                    Text(
-                      state.receipt.id!,
-                      style: AppStyle.normalTextStyleDark,
+                    Expanded(
+                      child: Text(
+                        state.receipt.id!,
+                        style: AppStyle.normalTextStyleDark,
+                        textAlign: TextAlign.end,
+                      ),
                     )
                   ],
                 ),
@@ -82,15 +87,20 @@ class ReceiptInformation extends StatelessWidget {
                   height: 8,
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "Date",
-                      style: AppStyle.mediumTitleStyleDark,
+                    Expanded(
+                      child: Text(
+                        "Date",
+                        style: AppStyle.mediumTitleStyleDark,
+                      ),
                     ),
-                    Text(
-                      FormatUtil.formatDate(state.receipt.createdAt),
-                      style: AppStyle.normalTextStyleDark,
+                    Expanded(
+                      child: Text(
+                        FormatUtil.formatDate(state.receipt.createdAt),
+                        style: AppStyle.normalTextStyleDark,
+                        textAlign: TextAlign.end,
+                      ),
                     )
                   ],
                 ),
@@ -98,15 +108,20 @@ class ReceiptInformation extends StatelessWidget {
                   height: 8,
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "Time",
-                      style: AppStyle.mediumTitleStyleDark,
+                    Expanded(
+                      child: Text(
+                        "Time",
+                        style: AppStyle.mediumTitleStyleDark,
+                      ),
                     ),
-                    Text(
-                      FormatUtil.formatTime(state.receipt.createdAt),
-                      style: AppStyle.normalTextStyleDark,
+                    Expanded(
+                      child: Text(
+                        FormatUtil.formatTime(state.receipt.createdAt),
+                        style: AppStyle.normalTextStyleDark,
+                        textAlign: TextAlign.end,
+                      ),
                     )
                   ],
                 ),

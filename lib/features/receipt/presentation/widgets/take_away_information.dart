@@ -27,14 +27,32 @@ class TakeAwayInformation extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "Shopfee ${state.receipt.branch?.address}",
-                    style: AppStyle.normalTextStyleDark
-                        .copyWith(color: AppColor.headingColor),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Image.asset(AppPath.icStoreMark, width: AppDimen.xSmallSize,height: AppDimen.xSmallSize,),
+                      SizedBox(width: AppDimen.smallSpacing,),
+                      Expanded(
+                        child: Text(
+                          "Shopfee ${state.receipt.branch?.address}",
+                          style: AppStyle.normalTextStyleDark,
+                        ),
+                      ),
+                    ],
                   ),
-                  Text(
-                    "Chosen Time: ${FormatUtil.formatTime(state.receipt.receiverInformation?.receiveTime)} - ${FormatUtil.formatDate2(state.receipt.receiverInformation?.receiveTime)}",
-                    style: AppStyle.normalTextStyleDark,
+                  SizedBox(height: AppDimen.spacing,),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Image.asset(AppPath.icClock, width: AppDimen.xSmallSize,height: AppDimen.xSmallSize,),
+                      SizedBox(width: AppDimen.smallSpacing,),
+                      Expanded(
+                        child: Text(
+                          "Chosen Time: ${FormatUtil.formatTime(state.receipt.receiverInformation?.receiveTime)} - ${FormatUtil.formatDate2(state.receipt.receiverInformation?.receiveTime)}",
+                          style: AppStyle.normalTextStyleDark,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

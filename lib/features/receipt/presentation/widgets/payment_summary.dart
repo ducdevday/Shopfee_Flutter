@@ -24,35 +24,45 @@ class PaymentSummary extends StatelessWidget {
                   height: 8,
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "Item Price",
-                      style: AppStyle.normalTextStyleDark
-                          .copyWith(fontWeight: FontWeight.w400),
+                    Expanded(
+                      child: Text(
+                        "Item Price",
+                        style: AppStyle.normalTextStyleDark
+                            .copyWith(fontWeight: FontWeight.w400),
+                      ),
                     ),
-                    Text(
-                      FormatUtil.formatMoney(state.receipt.totalItemPrice),
-                      style: AppStyle.normalTextStyleDark
-                          .copyWith(fontWeight: FontWeight.w400),
-                    )
+                    Expanded(
+                      child: Text(
+                        FormatUtil.formatMoney(state.receipt.totalItemPrice),
+                        style: AppStyle.normalTextStyleDark
+                            .copyWith(fontWeight: FontWeight.w400),
+                        textAlign: TextAlign.end,
+                      ),
+                    ),
                   ],
                 ),
                 const SizedBox(
                   height: 8,
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "Shipping fee",
-                      style: AppStyle.normalTextStyleDark
-                          .copyWith(fontWeight: FontWeight.w400),
+                    Expanded(
+                      child: Text(
+                        "Shipping fee",
+                        style: AppStyle.normalTextStyleDark
+                            .copyWith(fontWeight: FontWeight.w400),
+                      ),
                     ),
-                    Text(
-                      FormatUtil.formatMoney(state.receipt.shippingFee ?? 0),
-                      style: AppStyle.normalTextStyleDark
-                          .copyWith(fontWeight: FontWeight.w400),
+                    Expanded(
+                      child: Text(
+                        FormatUtil.formatMoney(state.receipt.shippingFee ?? 0),
+                        style: AppStyle.normalTextStyleDark
+                            .copyWith(fontWeight: FontWeight.w400),
+                        textAlign: TextAlign.end,
+                      ),
                     )
                   ],
                 ),
@@ -88,17 +98,22 @@ class PaymentSummary extends StatelessWidget {
                         height: 8,
                       ),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            "Applied Coin",
-                            style: AppStyle.normalTextStyleDark
-                                .copyWith(fontWeight: FontWeight.w400),
+                          Expanded(
+                            child: Text(
+                              "Applied Coin",
+                              style: AppStyle.normalTextStyleDark
+                                  .copyWith(fontWeight: FontWeight.w400),
+                            ),
                           ),
-                          Text(
-                            "- ${FormatUtil.formatMoney(state.receipt.coin)}",
-                            style: AppStyle.normalTextStyleDark
-                                .copyWith(fontWeight: FontWeight.w400),
+                          Expanded(
+                            child: Text(
+                              "- ${FormatUtil.formatMoney(state.receipt.coin)}",
+                              style: AppStyle.normalTextStyleDark
+                                  .copyWith(fontWeight: FontWeight.w400),
+                              textAlign: TextAlign.end,
+                            ),
                           )
                         ],
                       ),
@@ -108,15 +123,20 @@ class PaymentSummary extends StatelessWidget {
                   height: 8,
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "Total",
-                      style: AppStyle.mediumTitleStyleDark,
+                    Expanded(
+                      child: Text(
+                        "Total",
+                        style: AppStyle.mediumTitleStyleDark,
+                      ),
                     ),
-                    Text(
-                      FormatUtil.formatMoney(state.receipt.totalPayment),
-                      style: AppStyle.mediumTitleStyleDark,
+                    Expanded(
+                      child: Text(
+                        FormatUtil.formatMoney(state.receipt.totalPayment),
+                        style: AppStyle.mediumTitleStyleDark,
+                        textAlign: TextAlign.end,
+                      ),
                     )
                   ],
                 ),
