@@ -23,6 +23,7 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
     on<CartSetShippingFee>(_onCartSetShippingFee);
     on<CartUpdateChosenCoupon>(_onCartUpdateChosenCoupon);
     on<CartCheckCoupon>(_onCartCheckCoupon);
+    on<CartUpdateOrderInformation>(_onCartUpdateOrderInformation);
     on<CartCreateShippingOrder>(_onCartCreateShippingOrder);
     on<CartCreateTakeAwayOrder>(_onCartCreateTakeAwayOrder);
   }
@@ -372,6 +373,24 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
                 shippingCouponResult: () => shippingCouponResult,
                 orderCouponResult: () => orderCouponResult,
                 productCouponResult: () => productCouponResult)));
+      }
+    } catch (e) {
+      ExceptionUtil.handle(e);
+    }
+  }
+
+  FutureOr<void> _onCartUpdateOrderInformation(
+      CartUpdateOrderInformation event, Emitter<CartState> emit) async {
+    try {
+      if (state is CartLoaded) {
+        final currentState = state as CartLoaded;
+        EasyLoading.show();
+        final updatedInformationOrders =
+            await _cartUseCase.updateOrderInformation(currentState.cart.orders);
+        emit(CartLoaded(
+            cart:
+                currentState.cart.copyWith(orders: updatedInformationOrders)));
+        EasyLoading.dismiss();
       }
     } catch (e) {
       ExceptionUtil.handle(e);

@@ -5,6 +5,12 @@ import 'package:shopfee/features/cart/data/models/cart_model.dart';
 import 'package:shopfee/features/cart/data/models/order_group_model.dart';
 
 class CartService {
+  Future<Response> getProductById(String productId) async {
+    final response = await DioService.instance
+        .get("${DioService.productPath}/$productId/view");
+    return response;
+  }
+
   Future<Response> getAllAddress(String userId) async {
     final response =
         await DioService.instance.get("${DioService.addressPath}/user/$userId");

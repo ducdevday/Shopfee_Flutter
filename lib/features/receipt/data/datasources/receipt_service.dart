@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:shopfee/core/base/dio_service.dart';
 import 'package:shopfee/core/base/fcm_service.dart';
-import 'package:shopfee/features/receipt/data/models/event_log_model.dart';
 
 class ReceiptService {
   Future<Response> getDetailsOrder(String orderId) async {

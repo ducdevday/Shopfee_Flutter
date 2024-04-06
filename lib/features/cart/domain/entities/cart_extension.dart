@@ -34,7 +34,7 @@ extension CartExTension on CartEntity {
         result += orderCouponResult!.reward!.moneyReward?.value ?? 0;
       } else if (orderCouponResult?.reward?.moneyReward?.unit ==
           RewardUnit.PERCENTAGE) {
-        result += getTotalItemPriceInCart() *
+        result += (getTotalItemPriceInCart() - getProductCouponValue()) *
             ((orderCouponResult!.reward!.moneyReward?.value ?? 0) / 100);
       }
     }

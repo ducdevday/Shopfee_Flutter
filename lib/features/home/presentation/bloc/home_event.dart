@@ -8,3 +8,8 @@ class HomeLoadInformation extends HomeEvent {
   @override
   List<Object?> get props => [];
 }
+
+class HomeRefreshInformation extends HomeEvent {
+  @override
+  List<Object> get props => [];
+}

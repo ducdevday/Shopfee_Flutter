@@ -9,6 +9,11 @@ class CartLoadInformation extends CartEvent {
   List<Object> get props => [];
 }
 
+class CartUpdateOrderInformation extends CartEvent {
+  @override
+  List<Object> get props => [];
+}
+
 class CartInitAddressAndReceiver extends CartEvent {
   final ReceiverOnsiteEntity? receiverInformation;
 

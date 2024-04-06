@@ -11,6 +11,8 @@ import 'package:shopfee/features/cart/domain/entities/cart_extension.dart';
 import 'package:shopfee/features/cart/domain/repositories/cart_repository.dart';
 import 'package:shopfee/features/coupon_in_cart/data/models/coupon_check_result_model.dart';
 import 'package:shopfee/features/coupon_in_cart/domain/entities/coupon_check_result_entity.dart';
+import 'package:shopfee/features/product_detail/data/models/product_detail_model.dart';
+import 'package:shopfee/features/product_detail/domain/entities/product_detail_entity.dart';
 import 'package:shopfee/features/saved_address/data/models/address_model.dart';
 import 'package:shopfee/features/saved_address/domain/entities/address_entity.dart';
 import 'package:shopfee/features/store_detail/data/models/store_detail_model.dart';
@@ -20,6 +22,20 @@ class CartRepositoryImpl implements CartRepository {
   final CartService _cartService;
 
   CartRepositoryImpl(this._cartService);
+
+  @override
+  Future<ProductDetailEntity> getProductById(String productId) async {
+    final response = await _cartService.getProductById(productId);
+    final result = Result(
+      success: response.data["success"],
+      message: response.data["message"],
+      data: response.data["data"],
+    );
+    final productDetailModel = ProductDetailModel.fromJson(result.data!);
+    final productDetailEntity =
+    ProductDetailEntity.fromModel(productDetailModel);
+    return productDetailEntity;
+  }
 
   @override
   Future<AddressEntity?> getDefaultAddress(String userId) async {

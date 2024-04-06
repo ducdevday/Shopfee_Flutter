@@ -1,10 +1,10 @@
 import 'package:shopfee/core/common/models/order_type.dart';
 import 'package:shopfee/features/receipt/data/models/receipt_model.dart';
 import 'package:shopfee/features/receipt/domain/entities/branch_entity.dart';
+import 'package:shopfee/features/receipt/domain/entities/discount_information_entity.dart';
 import 'package:shopfee/features/receipt/domain/entities/receipt_product_entity.dart';
 import 'package:shopfee/features/receipt/domain/entities/receiver_information_entity.dart';
 import 'package:shopfee/features/receipt/domain/entities/transaction_entity.dart';
-import 'package:shopfee/features/saved_address/domain/entities/address_entity.dart';
 
 class ReceiptEntity {
   String? id;
@@ -16,6 +16,7 @@ class ReceiptEntity {
   ReceiverInformationEntity? receiverInformation;
   DateTime? createdAt;
   List<ReceiptProductEntity>? itemList;
+  DiscountInformationEntity? discountInformation;
   TransactionEntity? transaction;
   BranchEntity? branch;
   int? coin;
@@ -31,6 +32,7 @@ class ReceiptEntity {
     this.receiverInformation,
     this.createdAt,
     this.itemList,
+    this.discountInformation,
     this.transaction,
     this.branch,
     this.coin,
@@ -52,13 +54,15 @@ class ReceiptEntity {
         itemList: model.itemList
             ?.map((e) => ReceiptProductEntity.fromModel(e))
             .toList(),
+        discountInformation: model.discountInformation == null
+            ? null
+            : DiscountInformationEntity.fromModel(model.discountInformation!),
         transaction: model.transaction == null
             ? null
             : TransactionEntity.fromModel(model.transaction!),
         branch:
             model.branch == null ? null : BranchEntity.fromModel(model.branch!),
         coin: model.coin,
-        needReview: model.needReview
-    );
+        needReview: model.needReview);
   }
 }

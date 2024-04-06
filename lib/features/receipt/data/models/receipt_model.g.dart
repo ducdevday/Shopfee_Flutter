@@ -23,6 +23,10 @@ ReceiptModel _$ReceiptModelFromJson(Map<String, dynamic> json) => ReceiptModel(
       itemList: (json['itemList'] as List<dynamic>?)
           ?.map((e) => ReceiptProductModel.fromJson(e as Map<String, dynamic>))
           .toList(),
+      discountInformation: json['rewardInformation'] == null
+          ? null
+          : DiscountInformationModel.fromJson(
+              json['rewardInformation'] as Map<String, dynamic>),
       transaction: json['transaction'] == null
           ? null
           : TransactionModel.fromJson(
@@ -45,6 +49,7 @@ Map<String, dynamic> _$ReceiptModelToJson(ReceiptModel instance) =>
       'receiverInformation': instance.receiverInformation,
       'createdAt': instance.createdAt?.toIso8601String(),
       'itemList': instance.itemList,
+      'rewardInformation': instance.discountInformation,
       'transaction': instance.transaction,
       'branch': instance.branch,
       'coin': instance.coin,

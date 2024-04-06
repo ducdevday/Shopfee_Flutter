@@ -27,7 +27,7 @@ class _BoughtListState extends State<BoughtList> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "Item list",
+                  "Bought List",
                   style: AppStyle.mediumTitleStyleDark.copyWith(
                       color: AppColor.headingColor,
                       fontWeight: FontWeight.w500),
