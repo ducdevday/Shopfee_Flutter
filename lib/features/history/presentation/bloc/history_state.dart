@@ -15,59 +15,49 @@ class HistoryLoadInProcess extends HistoryState {
 }
 
 class HistoryLoadSuccess extends HistoryState {
-  final HistoryStatus chosenStatus;
-  final OrderHistoryGroupEntity? orderWaitingGroup;
-  final OrderHistoryGroupEntity? orderProcessingGroup;
-  final OrderHistoryGroupEntity? orderSucceedGroup;
-  final OrderHistoryGroupEntity? orderCanceledGroup;
+  final HistoryStatus historyStatus;
+  final List<OrderHistoryEntity> orderHistoryList;
+  final int page;
+  final int size;
+  final bool isLoadMore;
+  final bool cannotLoadMore;
 
   const HistoryLoadSuccess({
-    required this.chosenStatus,
-    this.orderWaitingGroup,
-    this.orderProcessingGroup,
-    this.orderSucceedGroup,
-    this.orderCanceledGroup,
+    required this.historyStatus,
+    required this.orderHistoryList,
+    required this.page,
+    required this.size,
+    this.isLoadMore = false,
+    this.cannotLoadMore = false,
   });
 
-  OrderHistoryGroupEntity? get orderHistoryGroup {
-    switch(chosenStatus){
-      case HistoryStatus.WAITING:
-        return orderWaitingGroup;
-      case HistoryStatus.IN_PROCESS:
-        return orderProcessingGroup;
-      case HistoryStatus.SUCCEED:
-        return orderSucceedGroup;
-      case HistoryStatus.CANCELED:
-        return orderCanceledGroup;
-    }
-  }
-
+  @override
+  List<Object?> get props => [
+        historyStatus,
+        orderHistoryList,
+        page,
+        size,
+        isLoadMore,
+        cannotLoadMore,
+      ];
 
   HistoryLoadSuccess copyWith({
-    HistoryStatus? chosenStatus,
-    OrderHistoryGroupEntity? orderWaitingGroup,
-    OrderHistoryGroupEntity? orderProcessingGroup,
-    OrderHistoryGroupEntity? orderSucceedGroup,
-    OrderHistoryGroupEntity? orderCanceledGroup,
+    HistoryStatus? historyStatus,
+    List<OrderHistoryEntity>? orderHistoryList,
+    int? page,
+    int? size,
+    bool? isLoadMore,
+    bool? cannotLoadMore,
   }) {
     return HistoryLoadSuccess(
-      chosenStatus: chosenStatus ?? this.chosenStatus,
-      orderWaitingGroup: orderWaitingGroup ?? this.orderWaitingGroup,
-      orderProcessingGroup: orderProcessingGroup ?? this.orderProcessingGroup,
-      orderSucceedGroup: orderSucceedGroup ?? this.orderSucceedGroup,
-      orderCanceledGroup: orderCanceledGroup ?? this.orderCanceledGroup,
+      historyStatus: historyStatus ?? this.historyStatus,
+      orderHistoryList: orderHistoryList ?? this.orderHistoryList,
+      page: page ?? this.page,
+      size: size ?? this.size,
+      isLoadMore: isLoadMore ?? this.isLoadMore,
+      cannotLoadMore: cannotLoadMore ?? this.cannotLoadMore,
     );
   }
-
-  @override
-  List<Object?> get props =>
-      [
-        chosenStatus,
-        orderWaitingGroup,
-        orderProcessingGroup,
-        orderSucceedGroup,
-        orderCanceledGroup,
-      ];
 }
 
 class HistoryNotAuth extends HistoryState {

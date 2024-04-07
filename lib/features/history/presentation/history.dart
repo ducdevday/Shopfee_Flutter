@@ -42,4 +42,4 @@ part 'widgets/history_filter.dart';
 part 'widgets/history_item.dart';
 part 'widgets/history_not_auth.dart';
 part 'widgets/history_skeleton.dart';
-
+part 'widgets/history_list.dart';
