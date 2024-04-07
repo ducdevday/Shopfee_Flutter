@@ -5,6 +5,7 @@ class ReviewBloc extends Bloc<ReviewEvent, ReviewState> {
 
   ReviewBloc(this._reviewUseCase) : super(ReviewInitial()) {
     on<ReviewLoadInformation>(_onReviewLoadInformation);
+    on<ReviewRefreshInformation>(_onReviewRefreshInformation);
     on<ReviewCreateNew>(_onReviewCreateNew);
   }
 
@@ -19,6 +20,23 @@ class ReviewBloc extends Bloc<ReviewEvent, ReviewState> {
           haveChanged: event.haveChanged));
     } catch (e) {
       emit(ReviewLoadFailure());
+    }
+  }
+
+  FutureOr<void> _onReviewRefreshInformation(
+      ReviewRefreshInformation event, Emitter<ReviewState> emit) async {
+    try {
+      if (state is ReviewLoadSuccess) {
+        final currentState = state as ReviewLoadSuccess;
+        final reviews =
+            await _reviewUseCase.getOrderReviewItem(currentState.orderId);
+        emit(ReviewLoadSuccess(
+            orderId: currentState.orderId,
+            reviewInformationList: reviews,
+            haveChanged: currentState.haveChanged));
+      }
+    } catch (e) {
+      ExceptionUtil.handle(e);
     }
   }
 

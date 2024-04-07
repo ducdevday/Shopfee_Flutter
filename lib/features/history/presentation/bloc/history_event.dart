@@ -40,3 +40,16 @@ class HistoryLoadMoreInformationByStatus extends HistoryEvent {
   @override
   List<Object> get props => [];
 }
+
+class HistoryRefreshInformationByStatus extends HistoryEvent {
+  final int initPage;
+  final int initSize;
+
+  const HistoryRefreshInformationByStatus({
+    required this.initPage,
+    required this.initSize,
+  });
+
+  @override
+  List<Object> get props => [initPage, initSize];
+}

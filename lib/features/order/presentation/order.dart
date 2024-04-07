@@ -8,6 +8,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shopfee/core/common/enum/product_sort_type.dart';
 import 'package:shopfee/core/common/enum/product_view_type.dart';
 import 'package:shopfee/core/common/extensions/product_sort_type.dart';

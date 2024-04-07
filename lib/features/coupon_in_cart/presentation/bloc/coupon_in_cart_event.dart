@@ -44,3 +44,8 @@ class CouponInCartLoadChosenInformation extends CouponInCartEvent {
   @override
   List<Object> get props => [];
 }
+
+class CouponInCartRefreshInformation extends CouponInCartEvent {
+  @override
+  List<Object> get props => [];
+}

@@ -7,6 +7,7 @@ class CouponInCartBloc extends Bloc<CouponInCartEvent, CouponInCartState> {
     on<CouponInCartLoadInitInformation>(_onCouponInCartLoadInitInformation);
     on<CouponInCartChooseItem>(_onCouponInCartChooseItem);
     on<CouponInCartLoadChosenInformation>(_onCouponInCartLoadChosenInformation);
+    on<CouponInCartRefreshInformation>(_onCouponInCartRefreshInformation);
   }
 
   FutureOr<void> _onCouponInCartLoadInitInformation(
@@ -66,6 +67,25 @@ class CouponInCartBloc extends Bloc<CouponInCartEvent, CouponInCartState> {
             currentState.orderCouponChosenCode,
             currentState.productCouponChosenCode);
         EasyLoading.dismiss();
+        emit(currentState.copyWith(
+          couponInCart: result,
+          currentCart: currentState.currentCart,
+        ));
+      }
+    } catch (e) {
+      emit(CouponInCartLoadFailure());
+    }
+  }
+
+  FutureOr<void> _onCouponInCartRefreshInformation(CouponInCartRefreshInformation event, Emitter<CouponInCartState> emit) async{
+    try {
+      if (state is CouponInCartLoadSuccess) {
+        final currentState = state as CouponInCartLoadSuccess;
+        final result = await _couponInCartUseCase.getCouponListInCart(
+            currentState.currentCart,
+            currentState.shippingCouponChosenCode,
+            currentState.orderCouponChosenCode,
+            currentState.productCouponChosenCode);
         emit(currentState.copyWith(
           couponInCart: result,
           currentCart: currentState.currentCart,

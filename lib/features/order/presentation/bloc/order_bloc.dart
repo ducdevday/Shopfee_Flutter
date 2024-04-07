@@ -6,6 +6,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
   OrderBloc(this._orderUseCase) : super(OrderInitial()) {
     on<OrderLoadInformation>(_onOrderLoadInformation);
     on<OrderLoadMoreInformation>(_onOrderLoadMoreInformation);
+    on<OrderRefreshInformation>(_onOrderRefreshInformation);
     on<OrderChooseCategory>(_onOrderChooseCategory);
     on<OrderClearFilter>(_onOrderClearFilter);
     on<OrderChangeViewType>(_onOrderChangeViewType);
@@ -18,10 +19,8 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       final categories = await _orderUseCase.getAllCategory();
       List<ProductInformationEntity> products = [];
       if (categories.isNotEmpty) {
-        products = await _orderUseCase.getProductsByCategoryId(
-            categories[0].id,
-            page: event.page,
-            size: event.size);
+        products = await _orderUseCase.getProductsByCategoryId(categories[0].id,
+            page: event.page, size: event.size);
       }
       emit(OrderLoadSuccess(
           categories: categories,
@@ -62,6 +61,29 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     } catch (e) {
       ExceptionUtil.handle(e);
       emit(OrderLoadFailure());
+    }
+  }
+
+  FutureOr<void> _onOrderRefreshInformation(
+      OrderRefreshInformation event, Emitter<OrderState> emit) async {
+    try {
+      if (state is OrderLoadSuccess) {
+        final currentState = state as OrderLoadSuccess;
+        final products = await _orderUseCase.getProductsByCategoryId(
+            currentState.chosenCategory!.id,
+            page: event.page,
+            size: event.size);
+        emit(currentState.copyWith(
+            products: products,
+            isLoadMore: false,
+            cannotLoadMore: false,
+            minPrice: () => null,
+            maxPrice: () => null,
+            minStar: () => null,
+            sortType: () => null));
+      }
+    } catch (e) {
+      ExceptionUtil.handle(e);
     }
   }
 

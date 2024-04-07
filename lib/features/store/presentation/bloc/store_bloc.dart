@@ -6,6 +6,7 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
   StoreBloc(this._storeUseCase) : super(StoreInitial()) {
     on<StoreLoadInformation>(_onStoreLoadInformation);
     on<StoreLoadMoreInformation>(_onStoreLoadMoreInformation);
+    on<StoreRefreshInformation>(_onStoreRefreshInformation);
     on<StoreChangeViewType>(_onStoreChangeViewType);
   }
 
@@ -23,11 +24,13 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
         all: event.getAll,
         lat: currentPosition.latitude,
         lng: currentPosition.longitude,
-        page: event.page,
-        size: event.size,
+        page: event.initPage,
+        size: event.initSize,
       ));
       if (stores != null) {
         emit(StoreLoadSuccess(
+            page: event.initPage,
+            size: event.initSize,
             query: event.query,
             getAll: event.getAll,
             stores: stores,
@@ -37,7 +40,6 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
       }
     } catch (e) {
       emit(StoreLoadFailure());
-      ExceptionUtil.handle(e);
     }
   }
 
@@ -52,8 +54,8 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
             all: currentState.getAll,
             lat: currentState.currentPosition!.latitude,
             lng: currentState.currentPosition!.longitude,
-            page: event.page,
-            size: event.size));
+            page: currentState.page + 1,
+            size: currentState.size));
         await Future.delayed(Duration(milliseconds: 1000));
         if (stores!.isNotEmpty) {
           emit(currentState.copyWith(
@@ -66,6 +68,36 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
     } catch (e) {
       emit(StoreLoadFailure());
       ExceptionUtil.handle(e);
+    }
+  }
+
+  FutureOr<void> _onStoreRefreshInformation(
+      StoreRefreshInformation event, Emitter<StoreState> emit) async {
+    try {
+      if (state is StoreLoadSuccess) {
+        final currentState = state as StoreLoadSuccess;
+        final stores = await _storeUseCase.getAllStores(StoreAllParamsEntity(
+          key: currentState.query,
+          all: currentState.getAll,
+          lat: currentState.currentPosition!.latitude,
+          lng: currentState.currentPosition!.longitude,
+          page: 1,
+          size: currentState.size,
+        ));
+        if (stores != null) {
+          emit(StoreLoadSuccess(
+              page: 1,
+              size: currentState.size,
+              query: currentState.query,
+              getAll: currentState.getAll,
+              stores: stores,
+              currentPosition: currentState.currentPosition));
+        } else {
+          emit(StoreLoadFailure());
+        }
+      }
+    } catch (e) {
+      emit(StoreLoadFailure());
     }
   }
 

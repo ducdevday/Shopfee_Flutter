@@ -8,6 +8,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
     on<HistoryLoadInformationByStatus>(_onHistoryLoadInformationByStatus);
     on<HistoryLoadMoreInformationByStatus>(
         _onHistoryLoadMoreInformationByStatus);
+    on<HistoryRefreshInformationByStatus>(_onHistoryRefreshInformationByStatus);
   }
 
   FutureOr<void> _onHistoryLoadInformationInitialize(
@@ -63,27 +64,23 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
         //If type of history Loaded
         switch (event.historyStatus) {
           case HistoryStatus.WAITING:
-            if(currentState.orderWaitingGroup != null) {
-              emit(currentState.copyWith(
-                  chosenStatus: event.historyStatus));
+            if (currentState.orderWaitingGroup != null) {
+              emit(currentState.copyWith(chosenStatus: event.historyStatus));
               return;
             }
           case HistoryStatus.IN_PROCESS:
-            if(currentState.orderProcessingGroup != null) {
-              emit(currentState.copyWith(
-                  chosenStatus: event.historyStatus));
+            if (currentState.orderProcessingGroup != null) {
+              emit(currentState.copyWith(chosenStatus: event.historyStatus));
               return;
             }
           case HistoryStatus.SUCCEED:
-            if(currentState.orderSucceedGroup != null) {
-              emit(currentState.copyWith(
-                  chosenStatus: event.historyStatus));
+            if (currentState.orderSucceedGroup != null) {
+              emit(currentState.copyWith(chosenStatus: event.historyStatus));
               return;
             }
           case HistoryStatus.CANCELED:
-            if(currentState.orderCanceledGroup != null) {
-              emit(currentState.copyWith(
-                  chosenStatus: event.historyStatus));
+            if (currentState.orderCanceledGroup != null) {
+              emit(currentState.copyWith(chosenStatus: event.historyStatus));
               return;
             }
         }
@@ -124,6 +121,32 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
                 orderCanceledGroup: orderHistoryGroup));
             break;
         }
+      }
+    } catch (e) {
+      emit(HistoryLoadFailure());
+      ExceptionUtil.handle(e);
+    }
+  }
+
+  FutureOr<void> _onHistoryRefreshInformationByStatus(
+      HistoryRefreshInformationByStatus event,
+      Emitter<HistoryState> emit) async {
+    try {
+      if (state is HistoryLoadSuccess) {
+        final currentState = state as HistoryLoadSuccess;
+        final orderHistoryList = await _historyUseCase.getHistoryOrder(
+            SharedService.getUserId()!,
+            OrderHistoryParamsEntity(
+                historyStatus: currentState.chosenStatus,
+                page: event.initPage,
+                size: event.initSize));
+        await Future.delayed(Duration(seconds: 2));
+        final orderHistoryGroup = OrderHistoryGroupEntity(
+          orderHistoryList: orderHistoryList,
+          page: event.initPage,
+          size: event.initSize,
+        );
+        emit(currentState.copyWith(orderCanceledGroup: orderHistoryGroup));
       }
     } catch (e) {
       emit(HistoryLoadFailure());

@@ -42,33 +42,36 @@ class _ReviewPageState extends State<ReviewPage> {
             }
             NavigationUtil.pop(result: haveChanged);
           },
-          child: Scaffold(
-            backgroundColor: AppColor.scaffoldColorBackground,
-            appBar: AppBar(
-                backgroundColor: Colors.white,
-                title: const Text("Review Order"),
-                centerTitle: true,
-                bottom: const PreferredSize(
-                  preferredSize: Size.fromHeight(1),
-                  child: Divider(height: 1),
-                )),
-            body: Padding(
-              padding: const EdgeInsets.all(AppDimen.spacing),
-              child: BlocBuilder<ReviewBloc, ReviewState>(
-                builder: (context, state) {
-                  switch (state) {
-                    case ReviewLoadInProcess():
-                      return const Center(
-                        child: CupertinoActivityIndicator(),
-                      );
-                    case ReviewLoadSuccess():
-                      return const ReviewInformationList();
-                    case ReviewLoadFailure():
-                      return const MyErrorWidget();
-                    default:
-                      return const SizedBox();
-                  }
-                },
+          child: RefreshConfiguration.copyAncestor(
+            context: context,
+            child: Scaffold(
+              backgroundColor: AppColor.scaffoldColorBackground,
+              appBar: AppBar(
+                  backgroundColor: Colors.white,
+                  title: const Text("Review Order"),
+                  centerTitle: true,
+                  bottom: const PreferredSize(
+                    preferredSize: Size.fromHeight(1),
+                    child: Divider(height: 1),
+                  )),
+              body: Padding(
+                padding: const EdgeInsets.all(AppDimen.spacing),
+                child: BlocBuilder<ReviewBloc, ReviewState>(
+                  builder: (context, state) {
+                    switch (state) {
+                      case ReviewLoadInProcess():
+                        return const Center(
+                          child: CupertinoActivityIndicator(),
+                        );
+                      case ReviewLoadSuccess():
+                        return const ReviewInformationList();
+                      case ReviewLoadFailure():
+                        return const MyErrorWidget();
+                      default:
+                        return const SizedBox();
+                    }
+                  },
+                ),
               ),
             ),
           ),

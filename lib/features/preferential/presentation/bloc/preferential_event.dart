@@ -14,3 +14,15 @@ class PreferentialLoadTopCoupon extends PreferentialEvent {
   @override
   List<Object> get props => [quantityTop];
 }
+
+class PreferentialRefreshTopCoupon extends PreferentialEvent {
+  final int quantityTop;
+
+  const PreferentialRefreshTopCoupon({
+    required this.quantityTop,
+  });
+
+  @override
+  List<Object> get props => [quantityTop];
+}
+

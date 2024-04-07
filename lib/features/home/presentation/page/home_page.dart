@@ -10,20 +10,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late final ScrollController scrollController;
-  RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
-  GlobalKey _refresherKey = GlobalKey();
+  late final ScrollController _scrollController;
+  late final RefreshController _refreshController;
 
   @override
   void initState() {
     super.initState();
-    scrollController = ScrollController();
+    _scrollController = ScrollController();
+    _refreshController = RefreshController(initialRefresh: false);
   }
 
   @override
   void dispose() {
-    scrollController.dispose();
+    _scrollController.dispose();
+    _refreshController.dispose();
     super.dispose();
   }
 
@@ -33,7 +33,7 @@ class _HomePageState extends State<HomePage> {
       body: RefreshConfiguration.copyAncestor(
         context: context,
         child: NestedScrollView(
-          controller: scrollController,
+          controller: _scrollController,
           floatHeaderSlivers: true,
           headerSliverBuilder: (BuildContext context, bool isScrolled) {
             return [
@@ -85,7 +85,6 @@ class _HomePageState extends State<HomePage> {
                 return const HomeSkeleton();
               } else if (state is HomeLoadSuccess) {
                 return SmartRefresher(
-                  key: _refresherKey,
                   controller: _refreshController,
                   enablePullUp: false,
                   physics: BouncingScrollPhysics(),

@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shopfee/core/common/enum/coupon_type.dart';
 import 'package:shopfee/core/common/extensions/coupon_type_extension.dart';
 import 'package:shopfee/core/common/widgets/my_error_widget.dart';

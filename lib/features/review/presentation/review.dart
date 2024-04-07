@@ -10,6 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shopfee/core/common/enum/field_type.dart';
 import 'package:shopfee/core/common/widgets/my_container.dart';
 import 'package:shopfee/core/common/widgets/my_error_widget.dart';

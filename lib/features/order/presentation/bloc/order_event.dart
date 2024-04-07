@@ -14,8 +14,20 @@ class OrderLoadInformation extends OrderEvent {
   });
 
   @override
-  List<Object?> get props =>
-      [page, size];
+  List<Object?> get props => [page, size];
+}
+
+class OrderRefreshInformation extends OrderEvent {
+  final int page;
+  final int size;
+
+  const OrderRefreshInformation({
+    required this.page,
+    required this.size,
+  });
+
+  @override
+  List<Object?> get props => [page, size];
 }
 
 class OrderLoadMoreInformation extends OrderEvent {
@@ -44,12 +56,22 @@ class OrderChooseCategory extends OrderEvent {
     required this.category,
     required this.page,
     required this.size,
-    this.minPrice, this.maxPrice, this.minStar, this.sortType,
+    this.minPrice,
+    this.maxPrice,
+    this.minStar,
+    this.sortType,
   });
 
   @override
-  List<Object?> get props =>
-      [category, page, size, minPrice, maxPrice, minStar, sortType,];
+  List<Object?> get props => [
+        category,
+        page,
+        size,
+        minPrice,
+        maxPrice,
+        minStar,
+        sortType,
+      ];
 }
 
 class OrderClearFilter extends OrderEvent {
