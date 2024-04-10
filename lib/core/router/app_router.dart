@@ -22,6 +22,7 @@ import 'package:shopfee/features/personal_information/presentation/personal_info
 import 'package:shopfee/features/product_by_category/presentation/product_by_category.dart';
 import 'package:shopfee/features/product_detail/presentation/product_detail.dart';
 import 'package:shopfee/features/receipt/presentation/receipt.dart';
+import 'package:shopfee/features/refund/presentation/refund.dart';
 import 'package:shopfee/features/register/presentation/register.dart';
 import 'package:shopfee/features/review/presentation/review.dart';
 import 'package:shopfee/features/review_detail/domain/entities/review_detail_arguments.dart';
@@ -29,6 +30,7 @@ import 'package:shopfee/features/review_detail/presentation/review_detail.dart';
 import 'package:shopfee/features/saved_address/presentation/saved_address.dart';
 import 'package:shopfee/features/search/presentation/search.dart';
 import 'package:shopfee/features/splash/presentation/splash.dart';
+import 'package:shopfee/features/statistics/presentation/statistics.dart';
 import 'package:shopfee/features/store/presentation/store.dart';
 import 'package:shopfee/features/store_detail/presentation/store_detail.dart';
 import 'package:shopfee/features/tracking/presentation/tracking.dart';
@@ -157,6 +159,12 @@ class AppRouter {
         return MaterialPageRoute(
             builder: (context) =>
                 CouponDetailPage(couponId: settings.arguments as String));
+      case RefundPage.route:
+        return MaterialPageRoute(
+            builder: (context) =>
+                RefundPage(orderId: settings.arguments as String?));
+      case StatisticsPage.route:
+        return MaterialPageRoute(builder: (context) => const StatisticsPage());
       default:
         return _errorRoute();
     }

@@ -79,6 +79,6 @@ class SharedService {
   static void clearToken() {
     removeUserId();
     removeAccessToken();
-    removeFCMTokenId();
+    // removeFCMTokenId();
   }
 }

@@ -22,16 +22,32 @@ class FormatUtil {
     return DateFormat('hh:mm a').format(dateTime.toLocal());
   }
 
-  static DateTime formatOpenCloseTime(String timeString){
+  static String formattedStatisticDatetimeToString(DateTime? dateTime) {
+    if (dateTime == null) {
+      return "";
+    }
+    return DateFormat('yyyy-MM-dd').format(dateTime);
+  }
+
+  static DateTime? formattedStatisticStringToDatetime(String? dateString) {
+    if (dateString == null) {
+      return null;
+    }
+    return DateTime.parse(dateString);
+  }
+
+  static DateTime formatOpenCloseTime(String timeString) {
     List<String> timeParts = timeString.split(':');
     int hours = int.parse(timeParts[0]);
     int minutes = int.parse(timeParts[1]);
 
-    DateTime dateTime = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, hours, minutes).toLocal(); // Using
+    DateTime dateTime = DateTime(DateTime.now().year, DateTime.now().month,
+            DateTime.now().day, hours, minutes)
+        .toLocal(); // Using
     return dateTime;
   }
 
-  static String formatSQLTime(DateTime time){
+  static String formatSQLTime(DateTime time) {
     DateFormat formatter = DateFormat('HH:mm:ss');
     return formatter.format(time);
   }
@@ -68,11 +84,19 @@ class FormatUtil {
     }
     return '${NumberFormat.decimalPattern().format(price)}đ';
   }
+
   static String formatPercent(num? percent) {
     if (percent == null) {
       return "";
     }
     return '${NumberFormat.decimalPattern().format(percent)}%';
+  }
+
+  static num calculatePercent(double? number, double? total) {
+    if (number == null || total == null) {
+      return 0;
+    }
+    return (number / total) * 100;
   }
 
   static String formatCoin(num? coin) {

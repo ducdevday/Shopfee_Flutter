@@ -129,6 +129,11 @@ import 'package:shopfee/features/search/data/repositories/search_repository_impl
 import 'package:shopfee/features/search/domain/repositories/search_repository.dart';
 import 'package:shopfee/features/search/domain/usecase/search_usecase.dart';
 import 'package:shopfee/features/search/presentation/search.dart';
+import 'package:shopfee/features/statistics/data/datasources/statistics_service.dart';
+import 'package:shopfee/features/statistics/data/repositories/statistics_repository_impl.dart';
+import 'package:shopfee/features/statistics/domain/repositories/statistics_repository.dart';
+import 'package:shopfee/features/statistics/domain/usecase/statistics_usecase.dart';
+import 'package:shopfee/features/statistics/presentation/statistics.dart';
 import 'package:shopfee/features/store/data/datasources/store_service.dart';
 import 'package:shopfee/features/store/data/repositories/store_repository_impl.dart';
 import 'package:shopfee/features/store/domain/repositories/store_repository.dart';
@@ -190,6 +195,7 @@ class ServiceLocator {
     _couponInCartFeature();
     _couponFeature();
     _couponDetailFeature();
+    _statisticsFeature();
   }
 
   void _notifyPermissionFeature() {
@@ -450,5 +456,14 @@ class ServiceLocator {
     sl.registerLazySingleton<CouponDetailUseCase>(
         () => CouponDetailUseCaseImpl(sl()));
     sl.registerFactory(() => CouponDetailBloc(sl()));
+  }
+
+  void _statisticsFeature() {
+    sl.registerLazySingleton(() => StatisticsService());
+    sl.registerLazySingleton<StatisticsRepository>(
+            () => StatisticsRepositoryImpl(sl()));
+    sl.registerLazySingleton<StatisticsUseCase>(
+            () => StatisticsUseCaseImpl(sl()));
+    sl.registerFactory(() => StatisticsBloc(sl()));
   }
 }

@@ -87,4 +87,5 @@ class AppPath {
   static const String icClock = "assets/icons/ic_clock.png";
 
   static const String imgQRCode = "assets/images/img_qrcode.png";
+  static const String icStatistic = "assets/icons/ic_statistic.svg";
 }

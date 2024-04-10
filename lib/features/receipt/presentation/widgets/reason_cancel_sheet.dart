@@ -52,8 +52,8 @@ class ReasonCancelSheet extends StatelessWidget {
                           child: Row(
                             children: [
                               Expanded(
-                                  child: Text(ReasonCancelType.getString(
-                                      ReasonCancelType.values[index]))),
+                                  child: Text(ReasonCancelType.values[index]
+                                      .getString())),
                               const SizedBox(
                                 width: 4,
                               ),
@@ -99,7 +99,6 @@ class ReasonCancelSheet extends StatelessWidget {
                                             .read<ReceiptBloc>()
                                             .add(ReceiptDoCancelOrder(
                                               orderId: state.receipt.id!,
-
                                             ));
                                         Navigator.pop(dialogContext);
                                       },

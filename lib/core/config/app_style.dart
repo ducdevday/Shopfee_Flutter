@@ -115,14 +115,27 @@ class AppStyle {
   static final outlineButtonStylePrimary = OutlinedButton.styleFrom(
       disabledBackgroundColor: const Color(0xffCACACA),
       disabledForegroundColor: AppColor.lightColor,
-      padding: EdgeInsets.symmetric(vertical: AppDimen.spacing, horizontal: AppDimen.spacing,),
+      padding: EdgeInsets.symmetric(
+        vertical: AppDimen.spacing,
+        horizontal: AppDimen.spacing,
+      ),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)));
 
   static final outlineSmallButtonStylePrimary = OutlinedButton.styleFrom(
+    disabledBackgroundColor: const Color(0xffCACACA),
+    disabledForegroundColor: AppColor.lightColor,
+    padding: EdgeInsets.symmetric(
+      horizontal: AppDimen.spacing,
+    ),
+  );
+
+  static final outlineSmallButtonStyleGrey = OutlinedButton.styleFrom(
       disabledBackgroundColor: const Color(0xffCACACA),
       disabledForegroundColor: AppColor.lightColor,
-    padding: EdgeInsets.symmetric( horizontal: AppDimen.spacing,),
-  );
+      padding: EdgeInsets.symmetric(horizontal: AppDimen.smallSpacing),
+      side: BorderSide(color: AppColor.nonactiveColor),
+      foregroundColor: AppColor.nonactiveColor,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)));
 
   static final outlineInputBorderDefault = OutlineInputBorder(
       borderSide: const BorderSide(color: Color(0xffCCCCCC)),

@@ -41,13 +41,13 @@ class ReceiptBloc extends Bloc<ReceiptEvent, ReceiptState> {
           EasyLoading.show(maskType: EasyLoadingMaskType.black);
           if (currentState.cancelType == OrderStatus.CANCELED) {
             await _receiptUseCase.cancelOrder(event.orderId,
-                ReasonCancelType.getString(currentState.reasonCancel));
+               currentState.reasonCancel!.getString());
             EasyLoading.dismiss();
             EasyLoading.showSuccess("Canceled",
                 duration: const Duration(seconds: 1));
           } else {
             await _receiptUseCase.requestCancelOrder(event.orderId,
-                ReasonCancelType.getString(currentState.reasonCancel));
+                currentState.reasonCancel!.getString());
             EasyLoading.dismiss();
             EasyLoading.showSuccess("Cancel Request Send",
                 duration: const Duration(seconds: 1));

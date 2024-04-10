@@ -62,12 +62,16 @@ dependencies:
   timeago: ^3.6.1
   badges: ^3.1.2
   pull_to_refresh: ^2.0.0
+  syncfusion_flutter_charts: ^25.1.39+1
+  calendar_date_picker2: ^0.5.3
+  
   #  Firebase
   firebase_core: ^2.19.0
   firebase_auth: ^4.11.1
   google_sign_in: ^6.1.5
   firebase_messaging: ^14.7.3
   cloud_firestore: ^4.13.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

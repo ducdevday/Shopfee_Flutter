@@ -4,8 +4,8 @@ enum ReasonCancelType {
   NO_BUY,
   ORDER_REASON;
 
-  static String getString(ReasonCancelType? type) {
-    switch (type) {
+  String getString() {
+    switch (this) {
       case ReasonCancelType.UPDATE_ADDRESS:
         return "I want to update address";
       case ReasonCancelType.UPDATE_PRODUCT:
@@ -14,8 +14,6 @@ enum ReasonCancelType {
         return "I don't want to buy anymore";
       case ReasonCancelType.ORDER_REASON:
         return "I couldn't find a reasonable reason to cancel";
-      case null:
-       return "";
       default:
         return "";
     }

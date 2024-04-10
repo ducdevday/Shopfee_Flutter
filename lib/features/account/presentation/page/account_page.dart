@@ -108,6 +108,18 @@ class AccountPage extends StatelessWidget {
                                           HistoryPage.route);
                                     },
                                   ),
+                                  const Divider(
+                                    height: 1,
+                                    indent: 8,
+                                  ),
+                                  MenuItem(
+                                    iconData: Icons.show_chart,
+                                    content: "Statistics",
+                                    callback: () {
+                                      NavigationUtil.pushNamed(
+                                          StatisticsPage.route);
+                                    },
+                                  ),
                                 ],
                               ),
                             ),
@@ -200,7 +212,8 @@ class AccountPage extends StatelessWidget {
                                                     .add(UserLogout());
                                                 context
                                                     .read<MyBottomNavBarCubit>()
-                                                    .selectPage(HomePage.indexPage);
+                                                    .selectPage(
+                                                        HomePage.indexPage);
                                                 Navigator.pop(dialogContext);
                                               },
                                               callbackCancel: () {
@@ -280,7 +293,9 @@ class UserAvatar extends StatelessWidget {
                     shape: BoxShape.circle,
                     image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: CachedNetworkImageProvider(AppPath.imgDefaultAvatar,))),
+                        image: CachedNetworkImageProvider(
+                          AppPath.imgDefaultAvatar,
+                        ))),
               ),
               Text(
                 "...",
