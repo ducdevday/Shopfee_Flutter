@@ -7,6 +7,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:equatable/equatable.dart';
 import 'package:lottie/lottie.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:shopfee/core/common/widgets/network_img_full_screen.dart';
 import 'package:shopfee/core/common/widgets/my_confirm_dialog.dart';
 import 'package:shopfee/core/common/widgets/my_error_page.dart';
 import 'package:shopfee/core/common/widgets/my_placeholder_rectangle.dart';

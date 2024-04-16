@@ -18,6 +18,7 @@ class LoginCubit extends Cubit<LoginState> {
     if (checkValidField(email: email, password: password) == false) return;
     try {
       EasyLoading.show(maskType: EasyLoadingMaskType.black);
+      String? fcm = SharedService.getFCMTokenId();
       final response = await _loginUseCase
           .login(LoginEntity(email: email, password: password, fcmTokenId: SharedService.getFCMTokenId()!));
       SharedService.setToken(

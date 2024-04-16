@@ -9,8 +9,7 @@ extension ReceiptExtension on ReceiptLoadSuccess {
   }
 
   bool showRequestReturnOrRefund() {
-    if (lastEventLog.orderStatus == OrderStatus.SUCCEED &&
-        lastEventLog.orderStatus == OrderStatus.CANCELED) {
+    if (lastEventLog.orderStatus == OrderStatus.SUCCEED) {
       return true;
     }
     return false;

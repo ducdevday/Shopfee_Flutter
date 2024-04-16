@@ -10,6 +10,7 @@ class AppColor {
   static Color headingColor = const Color(0xff3C3C3C);
   static Color paragraphColor = const Color(0xff555555);
   static Color nonactiveColor = const Color(0xff868686);
+  static Color greyColor = const Color(0xffF5F5F5);
   static Color shadowColor = const Color(0x33868686);
   static Color disableColor = const Color(0xffCACACA);
   static Color dividerColor = const Color(0xffBDBDBD);

@@ -1,11 +1,15 @@
-part of product_detail;
+import 'dart:io';
 
-class ImageFullScreen extends StatelessWidget {
-  static const String route = "/img_full_screen";
-  final String imgPath;
+import 'package:flutter/material.dart';
+import 'package:shopfee/core/config/app_color.dart';
+import 'package:shopfee/core/config/app_dimen.dart';
 
-  const ImageFullScreen({
-    required this.imgPath,
+class LocalImageFullScreen extends StatelessWidget {
+  static const String route = "/local_img_full_screen";
+  final File file;
+
+  const LocalImageFullScreen({
+    required this.file,
   });
 
   @override
@@ -15,17 +19,8 @@ class ImageFullScreen extends StatelessWidget {
       body: Stack(children: [
         Center(
           child: Hero(
-            tag: "Product",
-            child: CachedNetworkImage(
-              imageUrl: imgPath,
-              errorWidget: (_, __, ___) => Container(
-                  color: AppColor.unLikedColor,
-                  child: const Icon(
-                    Icons.error_outline_rounded,
-                    color: Colors.red,
-                    size: AppDimen.largeSize,
-                  )),
-            ),
+            tag: "IMG",
+            child: Image.file(file),
           ),
         ),
         Positioned(

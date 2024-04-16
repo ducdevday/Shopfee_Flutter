@@ -1,9 +1,16 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:shopfee/core/common/widgets/local_img_full_screen.dart';
+import 'package:shopfee/core/common/widgets/local_video_full_screen.dart';
+import 'package:shopfee/core/common/widgets/network_img_full_screen.dart';
 import 'package:shopfee/core/common/widgets/my_page_route.dart';
+import 'package:shopfee/core/common/widgets/network_video_full_screen.dart';
 import 'package:shopfee/features/cart/data/models/order_result.dart';
 import 'package:shopfee/features/cart/presentation/cart.dart';
 import 'package:shopfee/features/change_password/presentation/change_password.dart';
+import 'package:shopfee/features/chatbot/presentation/chatbot.dart';
 import 'package:shopfee/features/choose_address/presentation/choose_address.dart';
 import 'package:shopfee/features/coupon/presentation/coupon.dart';
 import 'package:shopfee/features/coupon_detail/presentation/coupon_detail.dart';
@@ -128,10 +135,28 @@ class AppRouter {
               branchId: settings.arguments as String,
             ),
             type: PageTransitionType.bottomToTop);
-      case ImageFullScreen.route:
+      case NetworkImageFullScreen.route:
         return PageTransition(
-            child: ImageFullScreen(
-              imgPath: settings.arguments as String,
+            child: NetworkImageFullScreen(
+              url: settings.arguments as String,
+            ),
+            type: PageTransitionType.fade);
+      case NetworkVideoFullScreen.route:
+        return PageTransition(
+            child: NetworkVideoFullScreen(
+              url: settings.arguments as String,
+            ),
+            type: PageTransitionType.fade);
+      case LocalImageFullScreen.route:
+        return PageTransition(
+            child: LocalImageFullScreen(
+              file: settings.arguments as File,
+            ),
+            type: PageTransitionType.fade);
+      case LocalVideoFullScreen.route:
+        return PageTransition(
+            child: LocalVideoFullScreen(
+              file: settings.arguments as File,
             ),
             type: PageTransitionType.fade);
       case StorePage.route:
@@ -162,9 +187,11 @@ class AppRouter {
       case RefundPage.route:
         return MaterialPageRoute(
             builder: (context) =>
-                RefundPage(orderId: settings.arguments as String?));
+                RefundPage(orderId: settings.arguments as String));
       case StatisticsPage.route:
         return MaterialPageRoute(builder: (context) => const StatisticsPage());
+      case ChatBotPage.route:
+        return MaterialPageRoute(builder: (context) => const ChatBotPage());
       default:
         return _errorRoute();
     }

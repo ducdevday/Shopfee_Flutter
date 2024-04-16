@@ -10,6 +10,7 @@ import 'package:shopfee/core/config/app_path.dart';
 import 'package:shopfee/core/config/app_style.dart';
 import 'package:shopfee/core/utils/navigation_util.dart';
 import 'package:shopfee/features/cart/presentation/cart.dart';
+import 'package:shopfee/features/chatbot/presentation/chatbot.dart';
 import 'package:shopfee/features/default/presentation/page/default_page.dart';
 import 'package:shopfee/features/default/presentation/widgets/bottombar/my_bottom_nav_bar_cubit.dart';
 import 'package:shopfee/features/history/presentation/history.dart';

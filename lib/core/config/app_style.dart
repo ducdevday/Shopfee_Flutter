@@ -104,6 +104,13 @@ class AppStyle {
       padding: EdgeInsets.symmetric(vertical: 14, horizontal: 24),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)));
 
+  static final elevatedButtonStyleRed = ElevatedButton.styleFrom(
+      disabledBackgroundColor: const Color(0xffCACACA),
+      disabledForegroundColor: AppColor.lightColor,
+      backgroundColor: AppColor.error,
+      padding: EdgeInsets.symmetric(vertical: 14, horizontal: 24),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)));
+
   static final elevatedButtonStyleSecondary = ElevatedButton.styleFrom(
       foregroundColor: AppColor.primaryColor,
       backgroundColor: AppColor.secondaryColor,

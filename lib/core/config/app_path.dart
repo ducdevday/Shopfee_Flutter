@@ -88,4 +88,9 @@ class AppPath {
 
   static const String imgQRCode = "assets/images/img_qrcode.png";
   static const String icStatistic = "assets/icons/ic_statistic.svg";
+
+  static const String icRequestPending =
+      "assets/icons/ic_consider_complain.png";
+  static const String icRequestAccepted = "assets/icons/ic_accept_complain.png";
+  static const String icRequestReject = "assets/icons/ic_reject_complain.png";
 }

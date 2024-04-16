@@ -166,9 +166,11 @@ class AccountPage extends StatelessWidget {
                           indent: 8,
                         ),
                         MenuItem(
-                          iconData: Icons.help_outline_rounded,
-                          content: "About us",
-                          callback: () {},
+                          iconData: Icons.chat_outlined,
+                          content: "Help",
+                          callback: () {
+                            NavigationUtil.pushNamed(ChatBotPage.route);
+                          },
                         ),
                         const Divider(
                           height: 1,

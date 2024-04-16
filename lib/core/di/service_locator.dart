@@ -104,6 +104,11 @@ import 'package:shopfee/features/receipt/data/repositories/receipt_repository_im
 import 'package:shopfee/features/receipt/domain/repositories/receipt_repository.dart';
 import 'package:shopfee/features/receipt/domain/usecase/receipt_usecase.dart';
 import 'package:shopfee/features/receipt/presentation/receipt.dart';
+import 'package:shopfee/features/refund/data/datasources/refund_service.dart';
+import 'package:shopfee/features/refund/data/repositories/refund_repository_impl.dart';
+import 'package:shopfee/features/refund/domain/repositories/refund_repository.dart';
+import 'package:shopfee/features/refund/domain/usecase/refund_usecase.dart';
+import 'package:shopfee/features/refund/presentation/refund.dart';
 import 'package:shopfee/features/register/data/datasource/register_service.dart';
 import 'package:shopfee/features/register/data/repositories/register_repository_impl.dart';
 import 'package:shopfee/features/register/domain/repository/register_repository.dart';
@@ -196,6 +201,7 @@ class ServiceLocator {
     _couponFeature();
     _couponDetailFeature();
     _statisticsFeature();
+    _refundFeature();
   }
 
   void _notifyPermissionFeature() {
@@ -465,5 +471,14 @@ class ServiceLocator {
     sl.registerLazySingleton<StatisticsUseCase>(
             () => StatisticsUseCaseImpl(sl()));
     sl.registerFactory(() => StatisticsBloc(sl()));
+  }
+
+  void _refundFeature() {
+    sl.registerLazySingleton(() => RefundService());
+    sl.registerLazySingleton<RefundRepository>(
+            () => RefundRepositoryImpl(sl()));
+    sl.registerLazySingleton<RefundUseCase>(
+            () => RefundUseCaseImpl(sl()));
+    sl.registerFactory(() => RefundBloc(sl()));
   }
 }
