@@ -41,7 +41,6 @@ Map<String, dynamic> _$CouponConditionModelToJson(
 const _$ConditionTypeEnumMap = {
   ConditionType.MIN_PURCHASE: 'MIN_PURCHASE',
   ConditionType.COMBINATION: 'COMBINATION',
-  ConditionType.APPLICABLE_CUSTOMER: 'APPLICABLE_CUSTOMER',
   ConditionType.USAGE: 'USAGE',
-  ConditionType.TARGET_OBJECT: 'TARGET_OBJECT',
+  ConditionType.SUBJECT: 'SUBJECT',
 };

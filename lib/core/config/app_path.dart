@@ -93,4 +93,8 @@ class AppPath {
       "assets/icons/ic_consider_complain.png";
   static const String icRequestAccepted = "assets/icons/ic_accept_complain.png";
   static const String icRequestReject = "assets/icons/ic_reject_complain.png";
+
+  static const String icMicOff = "assets/icons/ic_mic_off.png";
+  static const String icMicOn = "assets/icons/ic_mic_on.png";
+
 }

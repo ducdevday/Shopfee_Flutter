@@ -19,6 +19,8 @@ import 'package:shopfee/features/home/domain/entities/product_infomation_entity.
 import 'package:shopfee/features/home/presentation/home.dart';
 import 'package:shopfee/features/product_by_category/presentation/product_by_category.dart';
 import 'package:shopfee/features/search/domain/usecase/search_usecase.dart';
+import 'package:speech_to_text/speech_recognition_result.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 
 part 'cubit/search_cubit.dart';
 part 'cubit/search_state.dart';

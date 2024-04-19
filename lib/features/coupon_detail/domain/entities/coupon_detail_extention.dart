@@ -55,7 +55,7 @@ extension CouponDetailExtension on CouponDetailEntity {
   String? subjectConditionString() {
     if (conditionList == null) return null;
     for (var condition in conditionList!) {
-      if (condition.type == ConditionType.TARGET_OBJECT &&
+      if (condition.type == ConditionType.SUBJECT &&
           condition.subjectConditionList != null) {
         List<String> resultList = <String>[];
         for (var subjectCondition in condition.subjectConditionList!) {

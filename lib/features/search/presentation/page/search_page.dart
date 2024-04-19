@@ -2,6 +2,7 @@ part of search;
 
 class SearchPage extends StatefulWidget {
   static const route = "/search";
+
   const SearchPage({Key? key}) : super(key: key);
 
   @override
@@ -11,11 +12,16 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   late SearchCubit _cubit;
   late ScrollController scrollController;
+  late TextEditingController textEditingController;
   late DebounceController debounceController;
   String query = "";
   late bool isLoadingMore;
   late bool cannotLoadMore;
   late List<ProductInformationEntity> productList;
+
+  final SpeechToText _speechToText = SpeechToText();
+  ValueNotifier<bool> micNotifier = ValueNotifier(false);
+  bool enableMic = false;
 
   @override
   void initState() {
@@ -23,6 +29,7 @@ class _SearchPageState extends State<SearchPage> {
     _cubit = ServiceLocator.sl<SearchCubit>();
     scrollController = ScrollController();
     scrollController.addListener(_scrollListener);
+    textEditingController = TextEditingController();
     debounceController = DebounceController();
   }
 
@@ -30,11 +37,13 @@ class _SearchPageState extends State<SearchPage> {
   void dispose() {
     _cubit.close();
     scrollController.dispose();
+    textEditingController.dispose();
     debounceController.dispose();
+    micNotifier.dispose();
     super.dispose();
   }
 
-  void handleSearchProduct(String value){
+  void handleSearchProduct(String value) {
     debounceController.run(() => _cubit.searchProduct(value));
   }
 
@@ -44,6 +53,25 @@ class _SearchPageState extends State<SearchPage> {
         scrollController.position.maxScrollExtent) {
       _cubit.loadMoreProduct();
     }
+  }
+
+  Future<void> _initSpeech() async {
+    enableMic = await _speechToText.initialize();
+  }
+
+  Future<void> _startListening() async {
+    await _speechToText.listen(onResult: _onSpeechResult);
+  }
+
+  Future<void> _stopListening() async {
+    await _speechToText.stop();
+  }
+
+  void _onSpeechResult(SpeechRecognitionResult result) {
+    final _lastWords = result.recognizedWords;
+    textEditingController.text = _lastWords;
+    handleSearchProduct(textEditingController.text);
+    micNotifier.value = false;
   }
 
   @override
@@ -73,6 +101,7 @@ class _SearchPageState extends State<SearchPage> {
                         child: TextField(
                           autofocus: true,
                           style: AppStyle.smallTextStyleDark,
+                          controller: textEditingController,
                           onChanged: (value) => handleSearchProduct(value),
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.all(8),
@@ -87,7 +116,8 @@ class _SearchPageState extends State<SearchPage> {
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(16),
-                              borderSide: BorderSide(color: AppColor.primaryColor),
+                              borderSide:
+                                  BorderSide(color: AppColor.primaryColor),
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(16),
@@ -120,10 +150,9 @@ class _SearchPageState extends State<SearchPage> {
             ),
             body: BlocBuilder<SearchCubit, SearchState>(
               builder: (context, state) {
-                if(state is SearchLoadInProcess){
+                if (state is SearchLoadInProcess) {
                   return Center(child: CupertinoActivityIndicator());
-                }
-                else if (state is SearchLoadSuccess) {
+                } else if (state is SearchLoadSuccess) {
                   if (productList.isNotEmpty && query.isNotEmpty) {
                     return ListView.separated(
                       controller: scrollController,
@@ -133,7 +162,10 @@ class _SearchPageState extends State<SearchPage> {
                           : productList.length,
                       itemBuilder: (context, index) =>
                           index < productList.length
-                              ? HomeProduct(product: productList[index], viewType: ProductViewType.List_View_Vertical,)
+                              ? HomeProduct(
+                                  product: productList[index],
+                                  viewType: ProductViewType.List_View_Vertical,
+                                )
                               : const Padding(
                                   padding: EdgeInsets.all(AppDimen.spacing),
                                   child: CupertinoActivityIndicator(),
@@ -168,16 +200,52 @@ class _SearchPageState extends State<SearchPage> {
                   } else {
                     return SizedBox();
                   }
-                }
-                else if(state is SearchLoadFailure){
+                } else if (state is SearchLoadFailure) {
                   return MyErrorWidget();
-                }
-                else {
+                } else {
                   return SizedBox();
                 }
               },
             ),
+            floatingActionButton: buildMicButton(),
           ),
         ));
+  }
+
+  ValueListenableBuilder<bool> buildMicButton() {
+    return ValueListenableBuilder(
+      valueListenable: micNotifier,
+      builder: (BuildContext context, bool micOn, Widget? child) {
+        if (micOn) {
+          return FloatingActionButton(
+            onPressed: () async {
+              micNotifier.value = false;
+              await _stopListening();
+            },
+            child: Image.asset(
+              AppPath.icMicOn,
+              width: AppDimen.mediumSize,
+              height: AppDimen.mediumSize,
+            ),
+          );
+        } else {
+          return FloatingActionButton(
+            onPressed: () async {
+              if (!enableMic) {
+                _initSpeech();
+              } else {
+                micNotifier.value = true;
+                await _startListening();
+              }
+            },
+            child: Image.asset(
+              AppPath.icMicOff,
+              width: AppDimen.mediumSize,
+              height: AppDimen.mediumSize,
+            ),
+          );
+        }
+      },
+    );
   }
 }

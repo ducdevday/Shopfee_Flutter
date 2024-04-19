@@ -65,6 +65,7 @@ dependencies:
   calendar_date_picker2: ^0.5.3
   video_player: ^2.8.5
   dialog_flowtter: ^0.3.3
+  speech_to_text: ^6.6.0
   #  Firebase
   firebase_core: ^2.19.0
   firebase_auth: ^4.11.1
