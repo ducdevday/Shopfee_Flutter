@@ -185,9 +185,12 @@ class AppRouter {
             builder: (context) =>
                 CouponDetailPage(couponId: settings.arguments as String));
       case RefundPage.route:
+        final args = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
-            builder: (context) =>
-                RefundPage(orderId: settings.arguments as String));
+            builder: (context) => RefundPage(
+                  orderId: args["orderId"],
+                  refundRequestStatus: args["refundRequestStatus"],
+                ));
       case StatisticsPage.route:
         return MaterialPageRoute(builder: (context) => const StatisticsPage());
       case ChatBotPage.route:

@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:shopfee/core/common/enum/refund_request_status.dart';
 import 'package:shopfee/core/common/models/order_type.dart';
 import 'package:shopfee/features/receipt/data/models/branch_model.dart';
 import 'package:shopfee/features/receipt/data/models/discount_information_model.dart';
@@ -26,6 +27,8 @@ class ReceiptModel {
   BranchModel? branch;
   int? coin;
   bool? needReview;
+  @JsonKey(name: "refundStatus")
+  RefundRequestStatus? refundRequestStatus;
 
   ReceiptModel({
     this.id,
@@ -42,6 +45,7 @@ class ReceiptModel {
     this.branch,
     this.coin,
     this.needReview,
+    this.refundRequestStatus
   });
 
   factory ReceiptModel.fromJson(Map<String, dynamic> json) {

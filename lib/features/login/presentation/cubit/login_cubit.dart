@@ -19,13 +19,14 @@ class LoginCubit extends Cubit<LoginState> {
     try {
       EasyLoading.show(maskType: EasyLoadingMaskType.black);
       String? fcm = SharedService.getFCMTokenId();
-      final response = await _loginUseCase
-          .login(LoginEntity(email: email, password: password, fcmTokenId: SharedService.getFCMTokenId()!));
-      SharedService.setToken(
-          response.userId, response.accessToken);
+      final response = await _loginUseCase.login(LoginEntity(
+          email: email,
+          password: password,
+          fcmTokenId: SharedService.getFCMTokenId()!));
+      SharedService.setToken(response.userId, response.accessToken);
       EasyLoading.dismiss();
       EasyLoading.showSuccess("Login Success");
-      emit(LoginSuccess());
+      NavigationUtil.pushNamedAndRemoveUntil(DefaultPage.route);
     } catch (e) {
       ExceptionUtil.handle(e);
     }
@@ -34,12 +35,12 @@ class LoginCubit extends Cubit<LoginState> {
   Future<void> doLoginGoogle() async {
     try {
       EasyLoading.show(maskType: EasyLoadingMaskType.black);
-      final response = await _loginUseCase.loginWithGoogle(SharedService.getFCMTokenId()!);
-      SharedService.setToken(
-          response.userId, response.accessToken);
+      final response =
+          await _loginUseCase.loginWithGoogle(SharedService.getFCMTokenId()!);
+      SharedService.setToken(response.userId, response.accessToken);
       EasyLoading.dismiss();
       EasyLoading.showSuccess("Login Success");
-      emit(LoginSuccess());
+      NavigationUtil.pushNamedAndRemoveUntil(DefaultPage.route);
     } catch (e) {
       ExceptionUtil.handle(e);
     }

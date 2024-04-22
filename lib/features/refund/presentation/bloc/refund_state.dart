@@ -47,6 +47,11 @@ class RefundRequestPhase2State extends RefundState {
   }
 }
 
+class RefundRequestFinished extends RefundState {
+  @override
+  List<Object> get props => [];
+}
+
 class RefundLoadDetailSuccessState extends RefundState {
   final RefundDetailEntity refundDetail;
 

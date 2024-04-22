@@ -192,76 +192,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                             const SizedBox(
                               height: 8,
                             ),
-                            Container(
-                                padding: const EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(8),
-                                    border: Border.all(
-                                        color: AppColor.scaffoldColorBackground,
-                                        width: 1),
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: AppColor.shadowColor,
-                                          spreadRadius: 0,
-                                          blurRadius: 1)
-                                    ]),
-                                child: Column(
-                                  children: [
-                                    Align(
-                                      alignment: Alignment.topLeft,
-                                      child: Text("Customize",
-                                          style: AppStyle.mediumTextStyleDark
-                                              .copyWith(
-                                                  color: AppColor.headingColor,
-                                                  fontWeight: FontWeight.w600)),
-                                    ),
-                                    const SizedBox(
-                                      height: 12,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text("Size",
-                                            style: AppStyle.normalTextStyleDark
-                                                .copyWith(
-                                                    color:
-                                                        AppColor.headingColor)),
-                                        SizedBox(width: AppDimen.smallPadding,),
-                                        Expanded(child: const SizeFilter())
-                                      ],
-                                    ),
-                                  ],
-                                )),
+                            const SizeFilter(),
                             const SizedBox(
                               height: 8,
                             ),
-                            Container(
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(8),
-                                  border: Border.all(
-                                      color: AppColor.scaffoldColorBackground, width: 1),
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: AppColor.shadowColor,
-                                        spreadRadius: 0,
-                                        blurRadius: 1)
-                                  ]),
-                              child: Column(
-                                children: [
-                                  Align(
-                                    alignment: Alignment.topLeft,
-                                    child: Text("Topping",
-                                        style: AppStyle.mediumTextStyleDark
-                                            .copyWith(
-                                                color: AppColor.headingColor,
-                                                fontWeight: FontWeight.w600)),
-                                  ),
-                                  const ToppingFilter()
-                                ],
-                              ),
-                            ),
+                            const ToppingFilter(),
                             const SizedBox(
                               height: 8,
                             ),

@@ -24,7 +24,7 @@ class ReceiptBloc extends Bloc<ReceiptEvent, ReceiptState> {
       emit(ReceiptLoadSuccess(
           receipt: receipt,
           lastEventLog: lastEventLog,
-          isCancelButtonClicked: event.isCancelButtonClicked,
+          isCancelButtonClicked: event.haveChanged,
           cancelType: cancelType));
     } catch (e) {
       emit(ReceiptLoadFailure());
@@ -54,7 +54,7 @@ class ReceiptBloc extends Bloc<ReceiptEvent, ReceiptState> {
           }
           //! Reload Page
           add(ReceiptLoadInformation(
-              orderId: event.orderId, isCancelButtonClicked: true));
+              orderId: event.orderId, haveChanged: true));
         }
       } catch (e) {
         EasyLoading.showError("Something went wrong");

@@ -33,6 +33,13 @@ class ReceiptProductDetailEntity {
               ? 0
               : toppings!.fold(0, (total, current) => total + current.price));
 
+  double get totalAfterDiscount =>
+      quantity! * (price! - productDiscount!) +
+          quantity! *
+              (toppings == null
+                  ? 0
+                  : toppings!.fold(0, (total, current) => total + current.price));
+
   factory ReceiptProductDetailEntity.fromModel(
       ReceiptProductDetailModel model) {
     return ReceiptProductDetailEntity(

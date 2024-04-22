@@ -3,8 +3,11 @@ part of refund;
 class RefundPage extends StatefulWidget {
   static const String route = "/refund";
   final String orderId;
+  final RefundRequestStatus refundRequestStatus;
 
-  const RefundPage({Key? key, required this.orderId}) : super(key: key);
+  const RefundPage(
+      {Key? key, required this.orderId, required this.refundRequestStatus})
+      : super(key: key);
 
   @override
   State<RefundPage> createState() => _RefundPageState();
@@ -18,8 +21,12 @@ class _RefundPageState extends State<RefundPage> {
   @override
   void initState() {
     super.initState();
-    _bloc = ServiceLocator.sl<RefundBloc>()
-      ..add(RefundLoadDetail(orderId: widget.orderId));
+    _bloc = ServiceLocator.sl<RefundBloc>();
+    if (widget.refundRequestStatus == RefundRequestStatus.REFUNDED) {
+      _bloc.add(RefundLoadDetail(orderId: widget.orderId));
+    } else {
+      _bloc.add(RefundInitRequest());
+    }
   }
 
   @override
@@ -51,6 +58,9 @@ class _RefundPageState extends State<RefundPage> {
                   if (state is RefundRequestPhase2State) {
                     mediaList = state.mediaList;
                     note = state.note;
+                  } else if (state is RefundRequestFinished) {
+                    const haveChanged = true;
+                    NavigationUtil.pop(result: haveChanged);
                   }
                 },
                 builder: (context, state) {

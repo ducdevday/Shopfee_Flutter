@@ -2,14 +2,15 @@ part of receipt;
 
 extension ReceiptExtension on ReceiptLoadSuccess {
   bool showBottomAction() {
-    if (showRequestReturnOrRefund() || showPayNowButton()) {
+    if (showRequestRefund() || showPayNowButton()) {
       return true;
     }
     return false;
   }
 
-  bool showRequestReturnOrRefund() {
-    if (lastEventLog.orderStatus == OrderStatus.SUCCEED) {
+  bool showRequestRefund() {
+    if (lastEventLog.orderStatus == OrderStatus.SUCCEED &&
+        receipt.refundRequestStatus != RefundRequestStatus.NOT_REFUND) {
       return true;
     }
     return false;
@@ -17,7 +18,8 @@ extension ReceiptExtension on ReceiptLoadSuccess {
 
   bool showPayNowButton() {
     if (lastEventLog.orderStatus == OrderStatus.CREATED &&
-        receipt.transaction?.paymentUrl != null && receipt.transaction?.status == PaymentStatus.UNPAID) {
+        receipt.transaction?.paymentUrl != null &&
+        receipt.transaction?.status == PaymentStatus.UNPAID) {
       return true;
     }
     return false;

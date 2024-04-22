@@ -60,34 +60,12 @@ class _EditOrderBottomSheetState extends State<EditOrderBottomSheet> {
             height: 4,
             color: Color(0xffEFEBE9),
           ),
+          SizeFilter(),
           Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: Colors.white,
-              ),
-              child: Column(
-                children: [
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text("Customize",
-                        style: AppStyle.mediumTextStyleDark.copyWith(
-                            color: AppColor.headingColor,
-                            fontWeight: FontWeight.w600)),
-                  ),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Size",
-                          style: AppStyle.normalTextStyleDark
-                              .copyWith(color: AppColor.headingColor)),
-                      const SizeFilter()
-                    ],
-                  ),
-                ],
-              )),
+            height: 4,
+            color: Color(0xffEFEBE9),
+          ),
+          ToppingFilter(),
           Container(
             height: 4,
             color: Color(0xffEFEBE9),
@@ -96,28 +74,7 @@ class _EditOrderBottomSheetState extends State<EditOrderBottomSheet> {
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               color: Colors.white,
-            ),
-            child: Column(
-              children: [
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Text("Topping",
-                      style: AppStyle.mediumTextStyleDark.copyWith(
-                          color: AppColor.headingColor,
-                          fontWeight: FontWeight.w600)),
-                ),
-                ToppingFilter()
-              ],
-            ),
-          ),
-          Container(
-            height: 4,
-            color: Color(0xffEFEBE9),
-          ),
-          Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: Colors.white,
+              borderRadius: BorderRadius.circular(8),
             ),
             child: Column(
               children: [

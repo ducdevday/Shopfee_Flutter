@@ -26,13 +26,13 @@ extension CouponCheckResultExtension on CouponCheckResultEntity {
   }
 
   String? minPurchaseConditionString() {
-    if (violatedCondition == null &&
+    if (violatedCondition == null ||
         violatedCondition?.minPurchaseCondition == null) return null;
     return "Min Purchase: ${FormatUtil.formatMoney(violatedCondition?.minPurchaseCondition!.value)}";
   }
 
   String? usageConditionString() {
-    if (violatedCondition == null &&
+    if (violatedCondition == null ||
         violatedCondition?.usageConditionList == null) return null;
     List<String> resultList = <String>[];
     for (var usageCondition in violatedCondition!.usageConditionList!) {
@@ -47,7 +47,7 @@ extension CouponCheckResultExtension on CouponCheckResultEntity {
   }
 
   String? subjectConditionString() {
-    if (violatedCondition == null &&
+    if (violatedCondition == null ||
         violatedCondition?.subjectConditionList == null) return null;
     List<String> resultList = <String>[];
     for (var subjectCondition in violatedCondition!.subjectConditionList!) {
@@ -58,7 +58,7 @@ extension CouponCheckResultExtension on CouponCheckResultEntity {
   }
 
   String? combinationConditionString() {
-    if (violatedCondition == null &&
+    if (violatedCondition == null ||
         violatedCondition?.combinationConditionList == null) return null;
     List<String> resultList = <String>[];
     for (var combinationCondition

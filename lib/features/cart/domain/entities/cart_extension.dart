@@ -47,8 +47,8 @@ extension CartExTension on CartEntity {
         productCouponResult?.reward?.productRewardList == null) {
       if (productCouponResult?.reward?.moneyReward?.unit == RewardUnit.MONEY) {
         result += getTotalProductById(
-                orderCouponResult!.reward!.subjectInformation!.id!) *
-            (orderCouponResult!.reward!.moneyReward?.value ?? 0);
+                productCouponResult!.reward!.subjectInformation!.id!) *
+            (productCouponResult!.reward!.moneyReward?.value ?? 0);
       } else if (productCouponResult?.reward?.moneyReward?.unit ==
           RewardUnit.PERCENTAGE) {
         result += getTotalProductPriceById(
@@ -69,8 +69,11 @@ extension CartExTension on CartEntity {
   }
 
   int getTotalProductById(String id) {
-    final product = orders.where((element) => element.product.id == id);
-    return product.length;
+    final product =
+        orders.where((element) => element.product.id == id).toList();
+    final productTotal =
+        product.fold(0, (total, current) => total + current.quantity);
+    return productTotal;
   }
 
   double getTotalProductPriceById(String id) {
@@ -109,7 +112,7 @@ extension CartExTension on CartEntity {
     double currentSizePrice = orderEntity.size?.price ?? 0;
     double newProductPrice = 0;
     if (productCouponResult?.reward?.moneyReward?.unit == RewardUnit.MONEY) {
-      discount += (orderCouponResult!.reward!.moneyReward?.value ?? 0);
+      discount += (productCouponResult!.reward!.moneyReward?.value ?? 0);
       currentSizePrice = currentSizePrice - discount;
       newProductPrice = orderEntity.quantity * currentSizePrice +
           orderEntity.quantity *

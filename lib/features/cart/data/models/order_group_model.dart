@@ -21,7 +21,7 @@ class OrderGroupModel {
       groupedOrders[order.product.id!]!.add({
         'quantity': order.quantity,
         'toppingNameList': order.toppings.map((t) => t.name).toList(),
-        'size': order.size?.size,
+        'size': order.size?.size != "" ? order.size?.size : null,
         'note': order.note,
       });
     }

@@ -1,3 +1,4 @@
+import 'package:shopfee/core/common/enum/refund_request_status.dart';
 import 'package:shopfee/core/common/models/order_type.dart';
 import 'package:shopfee/features/receipt/data/models/receipt_model.dart';
 import 'package:shopfee/features/receipt/domain/entities/branch_entity.dart';
@@ -21,23 +22,24 @@ class ReceiptEntity {
   BranchEntity? branch;
   int? coin;
   bool? needReview;
+  RefundRequestStatus? refundRequestStatus;
 
-  ReceiptEntity({
-    this.id,
-    this.note,
-    this.totalPayment,
-    this.shippingFee,
-    this.totalItemPrice,
-    this.orderType,
-    this.receiverInformation,
-    this.createdAt,
-    this.itemList,
-    this.discountInformation,
-    this.transaction,
-    this.branch,
-    this.coin,
-    this.needReview,
-  });
+  ReceiptEntity(
+      {this.id,
+      this.note,
+      this.totalPayment,
+      this.shippingFee,
+      this.totalItemPrice,
+      this.orderType,
+      this.receiverInformation,
+      this.createdAt,
+      this.itemList,
+      this.discountInformation,
+      this.transaction,
+      this.branch,
+      this.coin,
+      this.needReview,
+      this.refundRequestStatus});
 
   factory ReceiptEntity.fromModel(ReceiptModel model) {
     return ReceiptEntity(
@@ -63,6 +65,7 @@ class ReceiptEntity {
         branch:
             model.branch == null ? null : BranchEntity.fromModel(model.branch!),
         coin: model.coin,
-        needReview: model.needReview);
+        needReview: model.needReview,
+        refundRequestStatus: model.refundRequestStatus);
   }
 }

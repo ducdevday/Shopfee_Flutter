@@ -14,22 +14,14 @@ class ReceiptBottomAction extends StatelessWidget {
           return BottomAppBar(
             child: Row(
               children: [
-                if (state.showRequestReturnOrRefund())
+                if (state.showRequestRefund())
                   Expanded(
-                      child: OutlinedButton(
-                    onPressed: () {
-                      NavigationUtil.pushNamed(RefundPage.route,
-                          arguments: orderId);
-                    },
-                    style: AppStyle.outlineButtonStylePrimary,
-                    child: Text(
-                      "Request Refund",
-                      textAlign: TextAlign.center,
-                    ),
-                  )),
-                SizedBox(
-                  width: AppDimen.spacing,
-                ),
+                      child: buildRefundRequestButton(
+                          context, orderId, state.receipt.refundRequestStatus)),
+                if (state.showRequestRefund())
+                  SizedBox(
+                    width: AppDimen.spacing,
+                  ),
                 if (state.showPayNowButton())
                   Expanded(
                       child: SizedBox(
@@ -54,5 +46,44 @@ class ReceiptBottomAction extends StatelessWidget {
         return SizedBox();
       },
     );
+  }
+
+  OutlinedButton buildRefundRequestButton(BuildContext context, String orderId,
+      RefundRequestStatus? refundRequestStatus) {
+    if (refundRequestStatus == RefundRequestStatus.CAN_REFUND) {
+      return OutlinedButton(
+        onPressed: () {
+          NavigationUtil.pushNamed(RefundPage.route, arguments: {
+            "orderId": orderId,
+            "refundRequestStatus": refundRequestStatus
+          }).then((haveChanged) {
+            if (haveChanged != null && haveChanged as bool == true) {
+              context
+                  .read<ReceiptBloc>()
+                  .add(ReceiptLoadInformation(orderId: orderId, haveChanged: true));
+            }
+          });
+        },
+        style: AppStyle.outlineButtonStylePrimary,
+        child: Text(
+          "Create Request Refund",
+          textAlign: TextAlign.center,
+        ),
+      );
+    } else {
+      return OutlinedButton(
+        onPressed: () {
+          NavigationUtil.pushNamed(RefundPage.route, arguments: {
+            "orderId": orderId,
+            "refundRequestStatus": refundRequestStatus
+          });
+        },
+        style: AppStyle.outlineButtonStylePrimary,
+        child: Text(
+          "Show Request Refund",
+          textAlign: TextAlign.center,
+        ),
+      );
+    }
   }
 }

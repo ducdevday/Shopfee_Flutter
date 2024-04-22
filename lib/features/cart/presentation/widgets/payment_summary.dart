@@ -25,7 +25,7 @@ class PaymentSummary extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      "Item Price",
+                      "Item Price (Origin)",
                       style: AppStyle.normalTextStyleDark
                           .copyWith(fontWeight: FontWeight.w400),
                     ),
@@ -48,7 +48,7 @@ class PaymentSummary extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      "Shipping fee",
+                      "Shipping Fee",
                       style: AppStyle.normalTextStyleDark
                           .copyWith(fontWeight: FontWeight.w400),
                     ),

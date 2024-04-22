@@ -10,6 +10,7 @@ class ProductDetailEntity extends Equatable {
   final String? name;
   final String? imageUrl;
   final List<SizeEntity>? sizeList;
+  final double? price;
   final String? description;
   final List<ToppingEntity>? toppingList;
   final ProductStatus? status;
@@ -20,6 +21,7 @@ class ProductDetailEntity extends Equatable {
       this.name,
       this.imageUrl,
       this.sizeList,
+      this.price,
       this.description,
       this.toppingList,
       this.status,
@@ -31,6 +33,7 @@ class ProductDetailEntity extends Equatable {
         name: model.name,
         imageUrl: model.imageUrl,
         sizeList: model.sizeList?.map((s) => SizeEntity.fromModel(s)).toList(),
+        price: model.price,
         description: model.description,
         toppingList:
             model.toppingList?.map((t) => ToppingEntity.fromModel(t)).toList(),
@@ -40,14 +43,13 @@ class ProductDetailEntity extends Equatable {
             : RatingSummaryEntity.fromModel(model.ratingSummary!));
   }
 
-
-
   @override
   List<Object?> get props => [
         id,
         name,
         imageUrl,
         sizeList,
+        price,
         description,
         toppingList,
         status,
@@ -59,6 +61,7 @@ class ProductDetailEntity extends Equatable {
     String? name,
     String? imageUrl,
     List<SizeEntity>? sizeList,
+    double? price,
     String? description,
     List<ToppingEntity>? toppingList,
     ProductStatus? status,
@@ -69,6 +72,7 @@ class ProductDetailEntity extends Equatable {
       name: name ?? this.name,
       imageUrl: imageUrl ?? this.imageUrl,
       sizeList: sizeList ?? this.sizeList,
+      price: price ?? this.price,
       description: description ?? this.description,
       toppingList: toppingList ?? this.toppingList,
       status: status ?? this.status,

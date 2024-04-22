@@ -36,6 +36,8 @@ ReceiptModel _$ReceiptModelFromJson(Map<String, dynamic> json) => ReceiptModel(
           : BranchModel.fromJson(json['branch'] as Map<String, dynamic>),
       coin: json['coin'] as int?,
       needReview: json['needReview'] as bool?,
+      refundRequestStatus: $enumDecodeNullable(
+          _$RefundRequestStatusEnumMap, json['refundStatus']),
     );
 
 Map<String, dynamic> _$ReceiptModelToJson(ReceiptModel instance) =>
@@ -54,9 +56,17 @@ Map<String, dynamic> _$ReceiptModelToJson(ReceiptModel instance) =>
       'branch': instance.branch,
       'coin': instance.coin,
       'needReview': instance.needReview,
+      'refundStatus':
+          _$RefundRequestStatusEnumMap[instance.refundRequestStatus],
     };
 
 const _$OrderTypeEnumMap = {
   OrderType.SHIPPING: 'SHIPPING',
   OrderType.ONSITE: 'ONSITE',
+};
+
+const _$RefundRequestStatusEnumMap = {
+  RefundRequestStatus.CAN_REFUND: 'CAN_REFUND',
+  RefundRequestStatus.REFUNDED: 'REFUNDED',
+  RefundRequestStatus.NOT_REFUND: 'NOT_REFUND',
 };

@@ -29,7 +29,7 @@ class ProductDetailBloc extends Bloc<ProductDetailEvent, ProductDetailState> {
         product: product,
         size: (product.sizeList != null && product.sizeList!.isNotEmpty)
             ? product.sizeList![0]
-            : null,
+            : SizeEntity(size: "", price: product.price!),
       )));
     } catch (e) {
       emit(ProductDetailLoadFailure());

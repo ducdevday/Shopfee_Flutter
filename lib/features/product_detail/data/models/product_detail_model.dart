@@ -13,6 +13,7 @@ class ProductDetailModel {
   final String? name;
   final String? imageUrl;
   final List<SizeModel>? sizeList;
+  final double? price;
   final String? description;
   final List<ToppingModel>? toppingList;
   final ProductStatus? status;
@@ -23,6 +24,7 @@ class ProductDetailModel {
       this.name,
       this.imageUrl,
       this.sizeList,
+      this.price,
       this.description,
       this.toppingList,
       this.status,
@@ -42,6 +44,7 @@ class ProductDetailModel {
       name: entity.name,
       imageUrl: entity.imageUrl,
       sizeList: entity.sizeList?.map((e) => SizeModel.fromEntity(e)).toList(),
+      price: entity.price,
       description: entity.description,
       toppingList:
           entity.toppingList?.map((e) => ToppingModel.fromEntity(e)).toList(),

@@ -102,6 +102,7 @@ class RefundBloc extends Bloc<RefundEvent, RefundState> {
             note: event.note);
         await _refundUseCase.createRefundRequest(event.orderId, requestParams);
         EasyLoading.dismiss();
+        emit(RefundRequestFinished());
       }
     } catch (e) {
       ExceptionUtil.handle(e);
