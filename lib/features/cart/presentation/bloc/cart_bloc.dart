@@ -196,7 +196,7 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
       CartChooseOrderType event, Emitter<CartState> emit) async {
     if (state is CartLoaded) {
       final currentState = state as CartLoaded;
-      if (event.typeOrder == OrderType.SHIPPING) {
+      if (event.typeOrder == OrderType.ONSITE) {
         if (await PermissionUtil.requestLocationPermission() == false) {
           AlertUtil.showToast("You must enable location to use Take Away");
           return;

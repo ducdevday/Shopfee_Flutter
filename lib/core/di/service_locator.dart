@@ -14,6 +14,11 @@ import 'package:shopfee/features/choose_address/data/repositories/choose_address
 import 'package:shopfee/features/choose_address/domain/repositories/choose_address_repository.dart';
 import 'package:shopfee/features/choose_address/domain/usecase/choose_address_usecase.dart';
 import 'package:shopfee/features/choose_address/presentation/choose_address.dart';
+import 'package:shopfee/features/coin/data/datasources/coin_service.dart';
+import 'package:shopfee/features/coin/data/repositories/coin_repository_impl.dart';
+import 'package:shopfee/features/coin/domain/repositories/coin_repository.dart';
+import 'package:shopfee/features/coin/domain/usecase/coin_usecase.dart';
+import 'package:shopfee/features/coin/presentation/coin.dart';
 import 'package:shopfee/features/coupon/data/datasources/coupon_service.dart';
 import 'package:shopfee/features/coupon/data/repositories/coupon_repository_impl.dart';
 import 'package:shopfee/features/coupon/domain/repositories/coupon_repository.dart';
@@ -202,6 +207,7 @@ class ServiceLocator {
     _couponDetailFeature();
     _statisticsFeature();
     _refundFeature();
+    _coinFeature();
   }
 
   void _notifyPermissionFeature() {
@@ -480,5 +486,14 @@ class ServiceLocator {
     sl.registerLazySingleton<RefundUseCase>(
             () => RefundUseCaseImpl(sl()));
     sl.registerFactory(() => RefundBloc(sl()));
+  }
+
+  void _coinFeature() {
+    sl.registerLazySingleton(() => CoinService());
+    sl.registerLazySingleton<CoinRepository>(
+            () => CoinRepositoryImpl(sl()));
+    sl.registerLazySingleton<CoinUseCase>(
+            () => CoinUseCaseImpl(sl()));
+    sl.registerFactory(() => CoinBloc(sl()));
   }
 }

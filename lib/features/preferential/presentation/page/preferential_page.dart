@@ -50,22 +50,49 @@ class PreferentialPage extends StatelessWidget {
                               ],
                             );
                           case UserLoadSuccess():
-                            return Row(
-                              children: [
-                                Text(
-                                  "Your coin: ${state.user.coin}",
-                                  style: AppStyle.mediumTitleStylePrimary
-                                      .copyWith(color: AppColor.secondaryColor),
-                                ),
-                                const SizedBox(
-                                  width: 4,
-                                ),
-                                Image.asset(
-                                  AppPath.icCoin,
-                                  width: 24,
-                                  height: 24,
-                                )
-                              ],
+                            return GestureDetector(
+                              onTap: () {
+                                NavigationUtil.pushNamed(CoinPage.route,
+                                    arguments: SharedService.getUserId()!);
+                              },
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "Your coin: ${state.user.coin}",
+                                        style: AppStyle.mediumTitleStylePrimary
+                                            .copyWith(
+                                                color: AppColor.secondaryColor),
+                                      ),
+                                      const SizedBox(
+                                        width: 4,
+                                      ),
+                                      Image.asset(
+                                        AppPath.icCoin,
+                                        width: 24,
+                                        height: 24,
+                                      )
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "Tap to see history",
+                                        style: AppStyle.mediumTitleStylePrimary
+                                            .copyWith(
+                                                color: AppColor.secondaryColor),
+                                      ),
+                                      Icon(
+                                        Icons.arrow_forward_ios_rounded,
+                                        color: AppColor.secondaryColor,
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
                             );
                           default:
                             return const SizedBox();

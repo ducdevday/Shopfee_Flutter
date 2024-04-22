@@ -21,6 +21,10 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     _bloc = ServiceLocator.sl<ProductDetailBloc>()
       ..add(ProductDetailLoadInformation(widget.productId));
     _controller = TooltipController();
+    EventLog.logEvent("product_view", params: {
+      "product_id": widget.productId,
+      "user_id": SharedService.getUserId() ?? ""
+    });
   }
 
   @override
@@ -70,7 +74,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(8),
                                   border: Border.all(
-                                      color: AppColor.scaffoldColorBackground, width: 1),
+                                      color: AppColor.scaffoldColorBackground,
+                                      width: 1),
                                   boxShadow: [
                                     BoxShadow(
                                         color: AppColor.shadowColor,
@@ -84,7 +89,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                     return Column(
                                       children: [
                                         Row(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Expanded(
                                               child: Text(
@@ -206,7 +212,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(8),
                                   border: Border.all(
-                                      color: AppColor.scaffoldColorBackground, width: 1),
+                                      color: AppColor.scaffoldColorBackground,
+                                      width: 1),
                                   boxShadow: [
                                     BoxShadow(
                                         color: AppColor.shadowColor,

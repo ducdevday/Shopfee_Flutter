@@ -12,6 +12,7 @@ import 'package:shopfee/features/cart/presentation/cart.dart';
 import 'package:shopfee/features/change_password/presentation/change_password.dart';
 import 'package:shopfee/features/chatbot/presentation/chatbot.dart';
 import 'package:shopfee/features/choose_address/presentation/choose_address.dart';
+import 'package:shopfee/features/coin/presentation/coin.dart';
 import 'package:shopfee/features/coupon/presentation/coupon.dart';
 import 'package:shopfee/features/coupon_detail/presentation/coupon_detail.dart';
 import 'package:shopfee/features/coupon_in_cart/presentation/coupon_in_cart.dart';
@@ -195,6 +196,10 @@ class AppRouter {
         return MaterialPageRoute(builder: (context) => const StatisticsPage());
       case ChatBotPage.route:
         return MaterialPageRoute(builder: (context) => const ChatBotPage());
+      case CoinPage.route:
+        return MaterialPageRoute(
+            builder: (context) =>
+                CoinPage(userId: settings.arguments as String));
       default:
         return _errorRoute();
     }

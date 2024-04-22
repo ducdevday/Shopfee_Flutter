@@ -72,6 +72,7 @@ dependencies:
   google_sign_in: ^6.1.5
   firebase_messaging: ^14.7.3
   cloud_firestore: ^4.13.1
+  firebase_analytics: ^10.10.2
 
 dev_dependencies:
   flutter_test:

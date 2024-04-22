@@ -97,4 +97,6 @@ class AppPath {
   static const String icMicOff = "assets/icons/ic_mic_off.png";
   static const String icMicOn = "assets/icons/ic_mic_on.png";
 
+  static const String icNoCoin = "assets/icons/img_no_coin.png";
+
 }
