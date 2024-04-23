@@ -52,10 +52,10 @@ class _CouponInCartPageState extends State<CouponInCartPage> {
           listener: (context, state) {
             if (state is CouponInCartLoadSuccess) {
               noShippingWithCoupon =
-                  state.couponInCart.noShippingWithCoupon ?? [];
-              noOrderWithCoupon = state.couponInCart.noOrderWithCoupon ?? [];
+                  state.couponInCart.shippingNoCombineBy ?? [];
+              noOrderWithCoupon = state.couponInCart.orderNoCombineBy ?? [];
               noProductWithCoupon =
-                  state.couponInCart.noProductWithCoupon ?? [];
+                  state.couponInCart.productNoCombineBy ?? [];
               shippingCouponList = state.couponInCart.shippingCouponList ?? [];
               orderCouponList = state.couponInCart.orderCouponList ?? [];
               productCouponList = state.couponInCart.productCouponList ?? [];

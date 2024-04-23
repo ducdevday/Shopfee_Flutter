@@ -6,19 +6,19 @@ part 'coupon_in_cart_model.g.dart';
 
 @JsonSerializable()
 class CouponInCartModel {
-  final List<CouponType>? noShippingWithCoupon;
+  final List<CouponType>? shippingNoCombineBy;
   final List<CouponInformationModel>? shippingCouponList;
-  final List<CouponType>? noOrderWithCoupon;
+  final List<CouponType>? orderNoCombineBy;
   final List<CouponInformationModel>? orderCouponList;
-  final List<CouponType>? noProductWithCoupon;
+  final List<CouponType>? productNoCombineBy;
   final List<CouponInformationModel>? productCouponList;
 
   const CouponInCartModel({
-    this.noShippingWithCoupon,
+    this.shippingNoCombineBy,
     this.shippingCouponList,
-    this.noOrderWithCoupon,
+    this.orderNoCombineBy,
     this.orderCouponList,
-    this.noProductWithCoupon,
+    this.productNoCombineBy,
     this.productCouponList,
   });
 
