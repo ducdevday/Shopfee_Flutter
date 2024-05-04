@@ -44,3 +44,4 @@ part 'widgets/store_item.dart';
 part 'widgets/store_skeleton.dart';
 part 'widgets/store_list_view.dart';
 part 'widgets/store_map_view.dart';
+part 'widgets/store_no_permission_widget.dart';

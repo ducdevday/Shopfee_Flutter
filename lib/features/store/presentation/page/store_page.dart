@@ -182,34 +182,7 @@ class _StorePageState extends State<StorePage> {
                             itemCount: 10,
                           );
                         case StoreNoLocationPermission():
-                          return Center(
-                            child: Column(
-                              children: [
-                                Image.asset(
-                                  AppPath.icNoLocation,
-                                  width: 60,
-                                  height: 60,
-                                ),
-                                const SizedBox(
-                                  height: 16,
-                                ),
-                                Text(
-                                  "Please enable location to see all Stores",
-                                  style: AppStyle.normalTextStyleDark,
-                                ),
-                                const SizedBox(
-                                  height: 8,
-                                ),
-                                ElevatedButton(
-                                    onPressed: () {
-                                      _bloc.add(StoreLoadInformation(
-                                          initPage: initPage, initSize: initSize));
-                                    },
-                                    style: AppStyle.elevatedButtonStylePrimary,
-                                    child: const Text("Enable"))
-                              ],
-                            ),
-                          );
+                          return StoreNoPermission(initPage: initPage, initSize: initSize);
                         case StoreLoadSuccess():
                           if (state.stores.isNotEmpty) {
                             return Stack(
@@ -249,29 +222,5 @@ class _StorePageState extends State<StorePage> {
         ),
       ),
     );
-  }
-}
-
-class StorePageData extends InheritedWidget {
-  final RefreshController refreshController;
-  final int page;
-  final int size;
-
-  const StorePageData({
-    required this.refreshController,
-    required this.page,
-    required this.size,
-    required Widget child,
-  }) : super(child: child);
-
-  static StorePageData? of(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<StorePageData>();
-  }
-
-  @override
-  bool updateShouldNotify(StorePageData oldWidget) {
-    return refreshController != oldWidget.refreshController ||
-        page != oldWidget.page ||
-        size != oldWidget.size;
   }
 }

@@ -4,7 +4,10 @@ class GoongService {
   static const String GOONG_PATH = "https://rsapi.goong.io/";
 
   //api goong route
+  static const String autoCompletePath = "Place/AutoComplete";
   static const String geocodePath = "Geocode";
+  static const String distancePath = "DistanceMatrix";
+
 
   late Dio _dio;
   static final GoongService _instance = GoongService._internal();

@@ -66,3 +66,14 @@ class ChooseAddressLoadFailure extends ChooseAddressState {
   @override
   List<Object> get props => [];
 }
+
+class ChooseAddressFinished extends ChooseAddressState {
+  final GeoResultEntity geoResultEntity;
+
+  const ChooseAddressFinished({
+    required this.geoResultEntity,
+  });
+
+  @override
+  List<Object> get props => [geoResultEntity];
+}

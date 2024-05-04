@@ -41,3 +41,8 @@ class ChooseAddressPickWard extends ChooseAddressEvent {
   @override
   List<Object?> get props => [ward];
 }
+
+class ChooseAddressUseCurrentPosition extends ChooseAddressEvent {
+  @override
+  List<Object> get props => [];
+}

@@ -42,8 +42,6 @@ class _StoreSearchPageState extends State<StoreSearchPage> {
   }
 
   void handleSearchProduct(String value) {
-    initPage = 1;
-    initSize = 8;
     debounceController.run(() => _bloc.add(StoreLoadInformation(
         query: value, getAll: getAll, initPage: initPage, initSize: initSize)));
   }
@@ -133,6 +131,9 @@ class _StoreSearchPageState extends State<StoreSearchPage> {
               builder: (context, state) {
                 if (state is StoreLoadInProcess) {
                   return Center(child: CupertinoActivityIndicator());
+                } else if (state is StoreNoLocationPermission) {
+                  return StoreNoPermission(
+                      initPage: initPage, initSize: initSize);
                 } else if (state is StoreLoadSuccess) {
                   if (storeList.isNotEmpty && query.isNotEmpty) {
                     return ListView.separated(
