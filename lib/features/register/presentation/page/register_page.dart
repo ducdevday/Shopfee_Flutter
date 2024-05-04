@@ -14,6 +14,7 @@ class _RegisterScreenState extends State<RegisterPage> {
   late final TextEditingController lastNameTextController;
   late final TextEditingController emailTextController;
   late final TextEditingController passwordTextController;
+  late final TextEditingController confirmPasswordTextController;
   late final RegisterCubit _cubit;
 
   @override
@@ -23,6 +24,7 @@ class _RegisterScreenState extends State<RegisterPage> {
     lastNameTextController = TextEditingController();
     emailTextController = TextEditingController();
     passwordTextController = TextEditingController();
+    confirmPasswordTextController = TextEditingController();
     _cubit = ServiceLocator.sl<RegisterCubit>();
   }
 
@@ -41,7 +43,8 @@ class _RegisterScreenState extends State<RegisterPage> {
         firstName: firstNameTextController.text,
         lastName: lastNameTextController.text,
         email: emailTextController.text,
-        password: passwordTextController.text);
+        password: passwordTextController.text,
+        confirmPassword: confirmPasswordTextController.text);
     if (type == FieldType.firstName && !ValidateFieldUtil.validateName(text)) {
       return "First name is not valid";
     } else if (type == FieldType.lastName &&
@@ -53,6 +56,12 @@ class _RegisterScreenState extends State<RegisterPage> {
     } else if (type == FieldType.password &&
         !ValidateFieldUtil.validatePassword(text)) {
       return "Password must have greater or equal 6 digits";
+    } else if (type == FieldType.confirmPassword &&
+        !ValidateFieldUtil.validatePassword(text)) {
+      return "Password must have greater or equal 6 digits";
+    } else if (type == FieldType.confirmPassword &&
+        passwordTextController.text != confirmPasswordTextController.text) {
+      return "Password and confirm password not match";
     }
     return null;
   }
@@ -139,6 +148,16 @@ class _RegisterScreenState extends State<RegisterPage> {
                             getErrorText(value, FieldType.password),
                         controller: passwordTextController,
                       ),
+                      const SizedBox(
+                        height: AppDimen.spacing,
+                      ),
+                      PasswordInputField(
+                        title: "Confirm Password",
+                        hint: "Input Your Confirm Password",
+                        validateField: (String value) =>
+                            getErrorText(value, FieldType.confirmPassword),
+                        controller: confirmPasswordTextController,
+                      ),
                     ],
                   ),
                   Column(
@@ -203,11 +222,11 @@ class _RegisterScreenState extends State<RegisterPage> {
                                   ? () {
                                       _cubit.goToOTPPage(
                                           firstName:
-                                              firstNameTextController.text,
-                                          lastName: lastNameTextController.text,
-                                          email: emailTextController.text,
+                                              firstNameTextController.text.trim(),
+                                          lastName: lastNameTextController.text.trim(),
+                                          email: emailTextController.text.trim(),
                                           password:
-                                              passwordTextController.text);
+                                              passwordTextController.text.trim());
                                     }
                                   : null,
                               child: const Text("Register"),

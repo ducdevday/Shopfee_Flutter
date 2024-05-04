@@ -5,15 +5,19 @@ class RegisterCubit extends Cubit<RegisterState> {
 
   RegisterCubit(this._registerUseCase) : super(RegisterInitial());
 
-  void checkValidField(
-      {required String firstName,
-      required String lastName,
-      required String email,
-      required String password}) {
+  void checkValidField({
+    required String firstName,
+    required String lastName,
+    required String email,
+    required String password,
+    required String confirmPassword,
+  }) {
     if (ValidateFieldUtil.validateName(firstName) &&
         ValidateFieldUtil.validateName(lastName) &&
         ValidateFieldUtil.validateEmail(email) &&
-        ValidateFieldUtil.validatePassword(password)) {
+        ValidateFieldUtil.validatePassword(password) &&
+        ValidateFieldUtil.validatePassword(confirmPassword) &&
+        password == confirmPassword) {
       print("RegisterCubit RegisterReady🚩🚩🚩");
       emit(RegisterReady());
     } else {
@@ -43,6 +47,8 @@ class RegisterCubit extends Cubit<RegisterState> {
                 password: password,
                 fcmTokenId: SharedService.getFCMTokenId()!)));
       }
-    } catch (e) {}
+    } catch (e) {
+      ExceptionUtil.handle(e);
+    }
   }
 }

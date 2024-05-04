@@ -42,7 +42,7 @@ class OtpRepositoryImpl implements OtpRepository {
         data: response.data["data"],
       );
       final token = MyToken.fromJson(result.data!);
-      await _otpService.saveFCMToken(token.userId);
+      // await _otpService.saveFCMToken(token.userId);
       return token;
     } catch (e) {
       throw ServerFailure(message: "Register Account Fail! Please try again");

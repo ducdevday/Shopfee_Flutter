@@ -92,6 +92,7 @@ class _PasswordInputFieldState extends State<PasswordInputField> {
                   });
                 },
               ),
+              errorText: errorText,
               contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
               focusedErrorBorder: AppStyle.outlineInputBorderDefault,
               errorBorder: AppStyle.outlineInputBorderDefault,

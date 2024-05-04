@@ -18,16 +18,16 @@ class OtpUseCaseImpl extends OtpUseCase {
 
   @override
   Future<void> sendOtp(String email, String fromRoute) async {
-    _otpRepository.sendOtp(email, fromRoute);
+    await _otpRepository.sendOtp(email, fromRoute);
   }
 
   @override
   Future<void> verifyOtp(String email, String otpString) async {
-    _otpRepository.verifyOtp(email, otpString);
+    await _otpRepository.verifyOtp(email, otpString);
   }
 
   @override
   Future<MyToken> register(RegisterEntity registerEntity) async {
-    return _otpRepository.register(registerEntity);
+    return await _otpRepository.register(registerEntity);
   }
 }
