@@ -15,7 +15,7 @@ class _HomeSliderState extends State<HomeSlider> {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
-        if (state is HomeLoadSuccess) {
+        if (state is HomeLoadSuccess && state.banners.isNotEmpty) {
           return Stack(
             children: [
               CarouselSlider(
@@ -24,7 +24,7 @@ class _HomeSliderState extends State<HomeSlider> {
                             margin: const EdgeInsets.symmetric(horizontal: 10),
                             child: Center(
                               child: CachedNetworkImage(
-                                imageUrl: item.imageUrl!,
+                                imageUrl: item.imageUrl,
                                 fit: BoxFit.cover,
                                 width: MediaQuery.of(context).size.width - 20,
                                 placeholder: (context, url) =>

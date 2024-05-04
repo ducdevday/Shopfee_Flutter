@@ -1,19 +1,15 @@
 part of order;
 
 class OrderFilterBottomSheet extends StatefulWidget {
-  final int size;
   final num? minPrice;
   final num? maxPrice;
   final num? minStar;
-  final ProductSortType? sortType;
 
   const OrderFilterBottomSheet({
     super.key,
-    required this.size,
     required this.minPrice,
     required this.maxPrice,
     required this.minStar,
-    required this.sortType,
   });
 
   @override
@@ -23,30 +19,63 @@ class OrderFilterBottomSheet extends StatefulWidget {
 class _OrderFilterBottomSheetState extends State<OrderFilterBottomSheet> {
   late RangeValues _currentRangeValues;
   late num minStar;
-  ProductSortType? sortType;
+
+  late ValueNotifier<bool> useBudget;
+  late ValueNotifier<bool> useMinStar;
+
+  int initPage = 1;
+  int initSize = 8;
 
   @override
   void initState() {
     super.initState();
+    useBudget = ValueNotifier(widget.minPrice != null ? true : false);
+    useMinStar = ValueNotifier(widget.minStar != null ? true : false);
     _currentRangeValues = RangeValues(
         widget.minPrice != null ? widget.minPrice!.toDouble() : 10000,
         widget.maxPrice != null ? widget.maxPrice!.toDouble() : 30000);
     minStar = widget.minStar != null ? widget.minStar!.toDouble() : 0;
-    sortType = widget.sortType;
+  }
+
+  @override
+  void dispose() {
+    useBudget.dispose();
+    useMinStar.dispose();
+    super.dispose();
+  }
+
+  num? getCheckedMinBudget() {
+    if (useBudget.value == true) {
+      return _currentRangeValues.start;
+    }
+    return null;
+  }
+
+  num? getCheckedMaxBudget() {
+    if (useBudget.value == true) {
+      return _currentRangeValues.end;
+    }
+    return null;
+  }
+
+  num? getCheckedMinStar() {
+    if (useMinStar.value == true) {
+      return minStar;
+    }
+    return null;
   }
 
   @override
   Widget build(BuildContext context) {
     return DraggableScrollableSheet(
-      initialChildSize: 0.8,
-      maxChildSize: 0.8,
+      initialChildSize: 0.75,
+      maxChildSize: 0.75,
       minChildSize: 0.2,
       builder: (BuildContext context, ScrollController scrollController) {
         return Container(
           padding: const EdgeInsets.only(
               left: AppDimen.screenPadding,
-              right: AppDimen.screenPadding,
-              bottom: AppDimen.screenPadding),
+              right: AppDimen.screenPadding,),
           decoration: BoxDecoration(
             color: AppColor.bottomColorBackground,
             borderRadius: BorderRadius.only(
@@ -84,105 +113,18 @@ class _OrderFilterBottomSheetState extends State<OrderFilterBottomSheet> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Choose Your Filter",
+                                "Choose Filter",
                                 style: AppStyle.largeTitleStyleDark,
                               ),
                               const SizedBox(
                                 height: AppDimen.smallPadding,
                               ),
                               buildCurrentFilter(state),
-                              Text(
-                                "Budget",
-                                style: AppStyle.mediumTitleStyleDark,
-                              ),
-                              const SizedBox(
-                                height: AppDimen.mediumPadding,
-                              ),
-                              SliderTheme(
-                                data: SliderThemeData(
-                                  thumbColor: AppColor.primaryColor,
-                                  thumbShape: RoundSliderThumbShape(
-                                      enabledThumbRadius: 20),
-                                  showValueIndicator: ShowValueIndicator.always,
-                                ),
-                                child: RangeSlider(
-                                  values: _currentRangeValues,
-                                  max: 200000,
-                                  divisions: 20,
-                                  inactiveColor: const Color(0xffE5E5E5),
-                                  labels: RangeLabels(
-                                    "${FormatUtil.formatMoney(_currentRangeValues.start.round())}",
-                                    "${FormatUtil.formatMoney(_currentRangeValues.end.round())}",
-                                  ),
-                                  onChanged: (RangeValues values) {
-                                    setState(() {
-                                      _currentRangeValues = values;
-                                    });
-                                  },
-                                ),
-                              ),
+                              buildFilterBudget(),
                               const SizedBox(
                                 height: AppDimen.smallPadding,
                               ),
-                              Text(
-                                "Min Rating",
-                                style: AppStyle.mediumTitleStyleDark,
-                              ),
-                              const SizedBox(
-                                height: AppDimen.smallPadding,
-                              ),
-                              RatingBar(
-                                  minRating: 0,
-                                  maxRating: 5,
-                                  initialRating: minStar.toDouble(),
-                                  glow: false,
-                                  itemPadding: const EdgeInsets.only(
-                                      right: AppDimen.smallPadding),
-                                  ratingWidget: RatingWidget(
-                                      full: Icon(
-                                        Icons.star_rounded,
-                                        color: AppColor.rating,
-                                      ),
-                                      half: Icon(
-                                        Icons.star_half_rounded,
-                                        color: AppColor.rating,
-                                      ),
-                                      empty: Icon(
-                                        Icons.star_rounded,
-                                        color: AppColor.secondaryColor,
-                                      )),
-                                  onRatingUpdate: (value) {
-                                    setState(() {
-                                      minStar = value;
-                                    });
-                                  }),
-                              const SizedBox(
-                                height: AppDimen.smallPadding,
-                              ),
-                              Text(
-                                "Sort By",
-                                style: AppStyle.mediumTitleStyleDark,
-                              ),
-                              const SizedBox(
-                                height: AppDimen.spacing,
-                              ),
-                              ...ProductSortType.values
-                                  .mapIndexed((index, e) => Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: AppDimen.spacing,
-                                            bottom: AppDimen.spacing,
-                                            right: AppDimen.smallPadding),
-                                        child: SortItem<ProductSortType>(
-                                            title: e.getFormattedName(),
-                                            value: e,
-                                            groupValue: sortType,
-                                            callback: (ProductSortType? value) {
-                                              setState(() {
-                                                sortType = value;
-                                              });
-                                            }),
-                                      ))
-                                  .toList(),
+                              buildFilterStar(),
                               const SizedBox(
                                 height: AppDimen.smallPadding,
                               ),
@@ -193,22 +135,21 @@ class _OrderFilterBottomSheetState extends State<OrderFilterBottomSheet> {
                                     child: ElevatedButton(
                                       onPressed: () {
                                         context.read<OrderBloc>().add(
-                                            OrderChooseCategory(
-                                                page: 1,
-                                                size: widget.size,
-                                                minPrice:
-                                                    _currentRangeValues.start,
-                                                maxPrice: _currentRangeValues.end,
-                                                minStar: minStar,
-                                                sortType: sortType,
-                                                category: state.chosenCategory!));
+                                            OrderApplyFilter(
+                                                initPage: initPage,
+                                                initSize: initSize,
+                                                minPrice: getCheckedMinBudget(),
+                                                maxPrice: getCheckedMaxBudget(),
+                                                minStar: getCheckedMinStar()));
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(const SnackBar(
-                                                content: Text("Applied Filter")));
+                                                content:
+                                                    Text("Applied Filter")));
                                         NavigationUtil.pop(result: true);
                                       },
                                       child: Text("Apply"),
-                                      style: AppStyle.elevatedButtonStylePrimary,
+                                      style:
+                                          AppStyle.elevatedButtonStylePrimary,
                                     ),
                                   ),
                                   const SizedBox(
@@ -219,8 +160,7 @@ class _OrderFilterBottomSheetState extends State<OrderFilterBottomSheet> {
                                     child: ElevatedButton(
                                       onPressed: state.maxPrice != null ||
                                               state.minPrice != null ||
-                                              state.minStar != null ||
-                                              state.sortType != null
+                                              state.minStar != null
                                           ? () {
                                               showDialog(
                                                   context: context,
@@ -242,11 +182,12 @@ class _OrderFilterBottomSheetState extends State<OrderFilterBottomSheet> {
                                                 if (value != null &&
                                                     value == true) {
                                                   context.read<OrderBloc>().add(
-                                                      OrderClearFilter(
-                                                          page: 1,
-                                                          size: widget.size,
-                                                          category: state
-                                                              .chosenCategory!));
+                                                      OrderApplyFilter(
+                                                          initPage: initPage,
+                                                          initSize: initSize,
+                                                          minPrice: null,
+                                                          maxPrice: null,
+                                                          minStar: null));
                                                   ScaffoldMessenger.of(context)
                                                       .showSnackBar(const SnackBar(
                                                           content: Text(
@@ -281,88 +222,198 @@ class _OrderFilterBottomSheetState extends State<OrderFilterBottomSheet> {
     );
   }
 
-  Widget buildCurrentFilter(OrderLoadSuccess state) {
-    if (state.maxPrice != null ||
-        state.minPrice != null ||
-        state.minStar != null ||
-        state.sortType != null) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: AppDimen.smallPadding,
-          ),
-          Text(
-            "Current Filter: ",
-            style: AppStyle.mediumTitleStyleDark,
-          ),
-          const SizedBox(
-            height: AppDimen.spacing,
-          ),
-          if (state.minPrice != null || state.maxPrice != null)
-            Container(
-              margin: const EdgeInsets.only(bottom: AppDimen.spacing),
-              padding: EdgeInsets.symmetric(
-                  vertical: AppDimen.spacing,
-                  horizontal: AppDimen.smallPadding),
-              decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(16)),
-                  color: Colors.white),
-              child: Text(
-                "Budget: ${FormatUtil.formatMoney(state.minPrice)} - ${FormatUtil.formatMoney(state.maxPrice)}",
-                style: AppStyle.normalTextStyleDark,
-              ),
+  ValueListenableBuilder<bool> buildFilterStar() {
+    return ValueListenableBuilder<bool>(
+      valueListenable: useMinStar,
+      builder: (BuildContext context, bool isUseMinStar, Widget? child) {
+        return Column(
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    "Min Rating",
+                    style: AppStyle.mediumTitleStyleDark,
+                  ),
+                ),
+                MyCheckbox(
+                    value: useMinStar.value,
+                    onChanged: (isCheck) {
+                      if (isCheck != null) {
+                        useMinStar.value = isCheck;
+                      }
+                    })
+              ],
             ),
-          if (state.minStar != null && state.minStar! != 0)
-            Container(
-              margin: const EdgeInsets.only(bottom: AppDimen.spacing),
-              padding: EdgeInsets.symmetric(
-                  vertical: AppDimen.spacing,
-                  horizontal: AppDimen.smallPadding),
-              decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(16)),
-                  color: Colors.white),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
+            const SizedBox(
+              height: AppDimen.smallPadding,
+            ),
+            if (isUseMinStar)
+              RatingBar(
+                  minRating: 0,
+                  maxRating: 5,
+                  initialRating: minStar.toDouble(),
+                  glow: false,
+                  itemPadding:
+                      const EdgeInsets.only(right: AppDimen.smallPadding),
+                  ratingWidget: RatingWidget(
+                      full: Icon(
+                        Icons.star_rounded,
+                        color: AppColor.rating,
+                      ),
+                      half: Icon(
+                        Icons.star_half_rounded,
+                        color: AppColor.rating,
+                      ),
+                      empty: Icon(
+                        Icons.star_rounded,
+                        color: AppColor.secondaryColor,
+                      )),
+                  onRatingUpdate: (value) {
+                    setState(() {
+                      minStar = value;
+                    });
+                  }),
+          ],
+        );
+      },
+    );
+  }
+
+  ValueListenableBuilder<bool> buildFilterBudget() {
+    return ValueListenableBuilder(
+      valueListenable: useBudget,
+      builder: (BuildContext context, bool isUseBudget, Widget? child) {
+        return Column(
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    "Budget",
+                    style: AppStyle.mediumTitleStyleDark,
+                  ),
+                ),
+                MyCheckbox(
+                    value: useBudget.value,
+                    onChanged: (isCheck) {
+                      if (isCheck != null) {
+                        useBudget.value = isCheck;
+                      }
+                    })
+              ],
+            ),
+            if (isUseBudget)
+              Row(
                 children: [
-                  Text(
-                    "Min Rating: ",
-                    style: AppStyle.normalTextStyleDark,
-                  ),
-                  Icon(
-                    Icons.star_rounded,
-                    color: AppColor.rating,
-                  ),
-                  const SizedBox(
-                    width: 4,
-                  ),
-                  Text(
-                    "${state.minStar}",
-                    style: AppStyle.normalTextStyleDark,
-                  )
+                  Expanded(
+                      child: Text(
+                    "${FormatUtil.formatMoney(_currentRangeValues.start.round())}",
+                    textAlign: TextAlign.center,
+                    style: AppStyle.mediumTitleStyleDark,
+                  )),
+                  Expanded(
+                      child: Text(
+                    "~",
+                    textAlign: TextAlign.center,
+                    style: AppStyle.normalTextStyleDark.copyWith(fontSize: 40),
+                  )),
+                  Expanded(
+                      child: Text(
+                    "${FormatUtil.formatMoney(_currentRangeValues.end.round())}",
+                    textAlign: TextAlign.center,
+                    style: AppStyle.mediumTitleStyleDark,
+                  )),
                 ],
               ),
-            ),
-          if (state.sortType != null)
-            Container(
-              margin: const EdgeInsets.only(bottom: AppDimen.spacing),
-              padding: EdgeInsets.symmetric(
-                  vertical: AppDimen.spacing,
-                  horizontal: AppDimen.smallPadding),
-              decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(16)),
-                  color: Colors.white),
+            if (isUseBudget)
+              RangeSlider(
+                values: _currentRangeValues,
+                max: 500000,
+                divisions: 50,
+                inactiveColor: const Color(0xffE5E5E5),
+                onChanged: (RangeValues values) {
+                  setState(() {
+                    _currentRangeValues = values;
+                  });
+                },
+              ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget buildCurrentFilter(OrderLoadSuccess state) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          height: AppDimen.smallPadding,
+        ),
+        Row(
+          children: [
+            Expanded(
               child: Text(
-                "Sort By: ${state.sortType!.getFormattedName()}",
-                style: AppStyle.normalTextStyleDark,
+                "Current Filter: ",
+                style: AppStyle.mediumTitleStyleDark,
               ),
             ),
-          const SizedBox(
-            height: AppDimen.smallPadding,
+            if (state.maxPrice == null &&
+                state.minPrice == null &&
+                state.minStar == null)
+              Text(
+                "No Options",
+                style: AppStyle.mediumTitleStyleDark,
+              ),
+          ],
+        ),
+        const SizedBox(
+          height: AppDimen.spacing,
+        ),
+        if (state.minPrice != null || state.maxPrice != null)
+          Container(
+            margin: const EdgeInsets.only(bottom: AppDimen.spacing),
+            padding: EdgeInsets.symmetric(
+                vertical: AppDimen.spacing, horizontal: AppDimen.smallPadding),
+            decoration: const BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(16)),
+                color: Colors.white),
+            child: Text(
+              "Budget: ${FormatUtil.formatMoney(state.minPrice)} - ${FormatUtil.formatMoney(state.maxPrice)}",
+              style: AppStyle.normalTextStyleDark,
+            ),
           ),
-        ],
-      );
-    }
-    return const SizedBox();
+        if (state.minStar != null && state.minStar! != 0)
+          Container(
+            margin: const EdgeInsets.only(bottom: AppDimen.spacing),
+            padding: EdgeInsets.symmetric(
+                vertical: AppDimen.spacing, horizontal: AppDimen.smallPadding),
+            decoration: const BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(16)),
+                color: Colors.white),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  "Min Rating: ",
+                  style: AppStyle.normalTextStyleDark,
+                ),
+                Icon(
+                  Icons.star_rounded,
+                  color: AppColor.rating,
+                ),
+                const SizedBox(
+                  width: 4,
+                ),
+                Text(
+                  "${state.minStar}",
+                  style: AppStyle.normalTextStyleDark,
+                )
+              ],
+            ),
+          ),
+      ],
+    );
   }
 }

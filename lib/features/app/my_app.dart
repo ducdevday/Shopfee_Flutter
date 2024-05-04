@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
                 ServiceLocator.sl<HomeBloc>()..add(HomeLoadInformation())),
         BlocProvider(
             create: (context) => ServiceLocator.sl<OrderBloc>()
-              ..add(const OrderLoadInformation(page: 1, size: 8))),
+              ..add(const OrderLoadInformation(initPage: 1, initSize: 8))),
         BlocProvider(
             create: (context) => ServiceLocator.sl<PreferentialBloc>()
               ..add(const PreferentialLoadTopCoupon(quantityTop: 5))),

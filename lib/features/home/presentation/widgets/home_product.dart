@@ -68,7 +68,8 @@ class HomeProduct extends StatelessWidget {
                                 width: 2,
                               ),
                               Text(
-                                "${product.ratingSummary?.quantity}",
+                                FormatUtil.formatStar(
+                                    product.ratingSummary?.star),
                                 style: const TextStyle(
                                     color: Color(0xff3C3C3C),
                                     fontSize: 12,
@@ -203,7 +204,8 @@ class HomeProduct extends StatelessWidget {
                                         width: 2,
                                       ),
                                       Text(
-                                        "${product.ratingSummary?.quantity}",
+                                        FormatUtil.formatStar(
+                                            product.ratingSummary?.star),
                                         style: const TextStyle(
                                             color: Color(0xff3C3C3C),
                                             fontSize: 12,
@@ -319,7 +321,8 @@ class HomeProduct extends StatelessWidget {
                                         width: 2,
                                       ),
                                       Text(
-                                        "${product.ratingSummary?.quantity}",
+                                        FormatUtil.formatStar(
+                                            product.ratingSummary?.star),
                                         style: const TextStyle(
                                             color: Color(0xff3C3C3C),
                                             fontSize: 12,

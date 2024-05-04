@@ -7,8 +7,9 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     on<OrderLoadInformation>(_onOrderLoadInformation);
     on<OrderLoadMoreInformation>(_onOrderLoadMoreInformation);
     on<OrderRefreshInformation>(_onOrderRefreshInformation);
-    on<OrderChooseCategory>(_onOrderChooseCategory);
-    on<OrderClearFilter>(_onOrderClearFilter);
+    on<OrderSelectCategory>(_onOrderSelectCategory);
+    on<OrderApplyFilter>(_onOrderApplyFilter);
+    on<OrderApplySort>(_onOrderApplySort);
     on<OrderChangeViewType>(_onOrderChangeViewType);
   }
 
@@ -20,15 +21,16 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       List<ProductInformationEntity> products = [];
       if (categories.isNotEmpty) {
         products = await _orderUseCase.getProductsByCategoryId(categories[0].id,
-            page: event.page, size: event.size);
+            page: event.initPage, size: event.initSize);
       }
       emit(OrderLoadSuccess(
+          page: event.initPage,
+          size: event.initSize,
           categories: categories,
           products: products,
           chosenCategory: categories[0]));
       EasyLoading.dismiss();
     } catch (e) {
-      ExceptionUtil.handle(e);
       emit(OrderLoadFailure());
     }
   }
@@ -46,13 +48,14 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
             sortType: currentState.sortType);
         final products = await _orderUseCase.getProductsByCategoryId(
             currentState.chosenCategory!.id,
-            page: event.page,
-            size: event.size,
+            page: currentState.page + 1,
+            size: currentState.size,
             query: orderQuery);
         await Future.delayed(Duration(milliseconds: 1000));
         if (products.isNotEmpty) {
           emit(currentState.copyWith(
               products: List.from(currentState.products)..addAll(products),
+              page: currentState.page + 1,
               isLoadMore: false));
         } else {
           emit(currentState.copyWith(cannotLoadMore: true));
@@ -60,7 +63,6 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       }
     } catch (e) {
       ExceptionUtil.handle(e);
-      emit(OrderLoadFailure());
     }
   }
 
@@ -69,112 +71,131 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     try {
       if (state is OrderLoadSuccess) {
         final currentState = state as OrderLoadSuccess;
+        EasyLoading.show();
+        OrderQueryEntity orderQuery;
+
+        orderQuery = OrderQueryEntity(
+            minPrice: currentState.minPrice,
+            maxPrice: currentState.maxPrice,
+            minStar: currentState.minStar,
+            sortType: currentState.sortType);
+
         final products = await _orderUseCase.getProductsByCategoryId(
-            currentState.chosenCategory!.id,
-            page: event.page,
-            size: event.size);
+            currentState.chosenCategory?.id,
+            page: event.initPage,
+            size: event.initSize,
+            query: orderQuery);
         emit(currentState.copyWith(
-            products: products,
-            isLoadMore: false,
-            cannotLoadMore: false,
-            minPrice: () => null,
-            maxPrice: () => null,
-            minStar: () => null,
-            sortType: () => null));
+          products: products,
+          page: event.initPage,
+          size: event.initSize,
+          isLoadMore: false,
+          cannotLoadMore: false,
+        ));
+        EasyLoading.dismiss();
       }
     } catch (e) {
       ExceptionUtil.handle(e);
     }
   }
 
-  FutureOr<void> _onOrderChooseCategory(
-      OrderChooseCategory event, Emitter<OrderState> emit) async {
+  FutureOr<void> _onOrderSelectCategory(
+      OrderSelectCategory event, Emitter<OrderState> emit) async {
     try {
       if (state is OrderLoadSuccess) {
         final currentState = state as OrderLoadSuccess;
         EasyLoading.show();
         OrderQueryEntity orderQuery;
 
-        if (event.minPrice == null &&
-            event.maxPrice == null &&
-            event.minStar == null &&
-            event.sortType == null) {
-          orderQuery = OrderQueryEntity(
-              minPrice: currentState.minPrice,
-              maxPrice: currentState.maxPrice,
-              minStar: currentState.minStar,
-              sortType: currentState.sortType);
-        } else {
-          orderQuery = OrderQueryEntity(
-              minPrice: event.minPrice,
-              maxPrice: event.maxPrice,
-              minStar: event.minStar,
-              sortType: event.sortType);
-        }
+        orderQuery = OrderQueryEntity(
+            minPrice: currentState.minPrice,
+            maxPrice: currentState.maxPrice,
+            minStar: currentState.minStar,
+            sortType: currentState.sortType);
 
         final products = await _orderUseCase.getProductsByCategoryId(
             event.category.id,
-            page: event.page,
-            size: event.size,
+            page: event.initPage,
+            size: event.initSize,
             query: orderQuery);
-
-        if (event.minPrice == null &&
-            event.maxPrice == null &&
-            event.minStar == null &&
-            event.sortType == null) {
-          emit(currentState.copyWith(
-              chosenCategory: event.category,
-              products: products,
-              isLoadMore: false,
-              cannotLoadMore: false,
-              minPrice: () => currentState.minPrice,
-              maxPrice: () => currentState.maxPrice,
-              minStar: () => currentState.minStar,
-              sortType: () => currentState.sortType));
-        } else {
-          emit(currentState.copyWith(
-              chosenCategory: event.category,
-              products: products,
-              isLoadMore: false,
-              cannotLoadMore: false,
-              minPrice: () => event.minPrice,
-              maxPrice: () => event.maxPrice,
-              minStar: () => event.minStar,
-              sortType: () => event.sortType));
-        }
+        emit(currentState.copyWith(
+          chosenCategory: event.category,
+          products: products,
+          page: event.initPage,
+          size: event.initSize,
+          isLoadMore: false,
+          cannotLoadMore: false,
+        ));
         EasyLoading.dismiss();
       }
     } catch (e) {
       ExceptionUtil.handle(e);
-      emit(OrderLoadFailure());
     }
   }
 
-  FutureOr<void> _onOrderClearFilter(
-      OrderClearFilter event, Emitter<OrderState> emit) async {
+  FutureOr<void> _onOrderApplyFilter(
+      OrderApplyFilter event, Emitter<OrderState> emit) async {
     try {
       if (state is OrderLoadSuccess) {
         final currentState = state as OrderLoadSuccess;
         EasyLoading.show();
+        OrderQueryEntity orderQuery;
+        orderQuery = OrderQueryEntity(
+            minPrice: event.minPrice,
+            maxPrice: event.maxPrice,
+            minStar: event.minStar,
+            sortType: currentState.sortType);
+
         final products = await _orderUseCase.getProductsByCategoryId(
-          event.category.id,
-          page: event.page,
-          size: event.size,
-        );
+            currentState.chosenCategory?.id,
+            page: event.initPage,
+            size: event.initSize,
+            query: orderQuery);
         emit(currentState.copyWith(
-            chosenCategory: event.category,
             products: products,
+            page: event.initPage,
+            size: event.initSize,
             isLoadMore: false,
             cannotLoadMore: false,
-            minPrice: () => null,
-            maxPrice: () => null,
-            minStar: () => null,
-            sortType: () => null));
+            minPrice: () => event.minPrice,
+            maxPrice: () => event.maxPrice,
+            minStar: () => event.minStar));
         EasyLoading.dismiss();
       }
     } catch (e) {
       ExceptionUtil.handle(e);
-      emit(OrderLoadFailure());
+    }
+  }
+
+  FutureOr<void> _onOrderApplySort(
+      OrderApplySort event, Emitter<OrderState> emit) async {
+    try {
+      if (state is OrderLoadSuccess) {
+        final currentState = state as OrderLoadSuccess;
+        EasyLoading.show();
+        OrderQueryEntity orderQuery;
+        orderQuery = OrderQueryEntity(
+            minPrice: currentState.minPrice,
+            maxPrice: currentState.maxPrice,
+            minStar: currentState.minStar,
+            sortType: event.sortType);
+
+        final products = await _orderUseCase.getProductsByCategoryId(
+            currentState.chosenCategory?.id,
+            page: event.initPage,
+            size: event.initSize,
+            query: orderQuery);
+        emit(currentState.copyWith(
+            products: products,
+            page: event.initPage,
+            size: event.initSize,
+            isLoadMore: false,
+            cannotLoadMore: false,
+            sortType: () => event.sortType));
+        EasyLoading.dismiss();
+      }
+    } catch (e) {
+      ExceptionUtil.handle(e);
     }
   }
 

@@ -92,6 +92,19 @@ class FormatUtil {
     return '${NumberFormat.decimalPattern().format(percent)}%';
   }
 
+  static String formatStar(num? number) {
+    if (number is int) {
+      return number.toString();
+    } else if (number is double) {
+      if (number == number.truncateToDouble()) {
+        return number.truncate().toString();
+      } else {
+        return number.toString();
+      }
+    }
+    return "";
+  }
+
   static num calculatePercent(double? number, double? total) {
     if (number == null || total == null) {
       return 0;

@@ -19,6 +19,8 @@ class OrderLoadSuccess extends OrderState {
   final CategoryEntity? chosenCategory;
   final List<ProductInformationEntity> products;
   final ProductViewType viewType;
+  final int page;
+  final int size;
   final bool isLoadMore;
   final bool cannotLoadMore;
   final num? minPrice;
@@ -34,6 +36,11 @@ class OrderLoadSuccess extends OrderState {
     if (minStar != null && minStar! > 0) {
       num++;
     }
+    return num;
+  }
+
+  get sortNumber{
+    int num = 0;
     if (sortType != null) {
       num++;
     }
@@ -45,6 +52,8 @@ class OrderLoadSuccess extends OrderState {
       this.chosenCategory,
       required this.products,
       this.viewType = ProductViewType.List_View_Vertical,
+      required this.page,
+      required this.size,
       this.isLoadMore = false,
       this.cannotLoadMore = false,
       this.minPrice,
@@ -58,6 +67,8 @@ class OrderLoadSuccess extends OrderState {
         chosenCategory,
         products,
         viewType,
+        page,
+        size,
         isLoadMore,
         cannotLoadMore,
         minPrice,
@@ -71,6 +82,8 @@ class OrderLoadSuccess extends OrderState {
     CategoryEntity? chosenCategory,
     List<ProductInformationEntity>? products,
     ProductViewType? viewType,
+    int? page,
+    int? size,
     bool? isLoadMore,
     bool? cannotLoadMore,
     ValueGetter<num?>? minPrice,
@@ -83,6 +96,8 @@ class OrderLoadSuccess extends OrderState {
       chosenCategory: chosenCategory ?? this.chosenCategory,
       products: products ?? this.products,
       viewType: viewType ?? this.viewType,
+      page: page ?? this.page,
+      size: size ?? this.size,
       isLoadMore: isLoadMore ?? this.isLoadMore,
       cannotLoadMore: cannotLoadMore ?? this.cannotLoadMore,
       minPrice: minPrice != null ? minPrice() : this.minPrice,

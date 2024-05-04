@@ -12,8 +12,8 @@ class OrderPage extends StatefulWidget {
 class _OrderPageState extends State<OrderPage> {
   // late final OrderBloc context.read<OrderBloc>();
 
-  int page = 1;
-  int size = 8;
+  int initPage = 1;
+  int initSize = 8;
   bool isLoadingMore = false;
   bool cannotLoadMore = false;
   ProductViewType viewType = ProductViewType.List_View_Vertical;
@@ -39,10 +39,7 @@ class _OrderPageState extends State<OrderPage> {
     if (isLoadingMore || cannotLoadMore) return;
     if (scrollController.position.pixels ==
         scrollController.position.maxScrollExtent) {
-      page = page + 1;
-      context
-          .read<OrderBloc>()
-          .add(OrderLoadInformation(page: page, size: size));
+      context.read<OrderBloc>().add(OrderLoadMoreInformation());
     }
   }
 
@@ -88,17 +85,28 @@ class _OrderPageState extends State<OrderPage> {
                           isLabelVisible: state.filterNumber != 0,
                           child: GestureDetector(
                               onTap: () {
-                                buildShowFilterBottomSheet(context, size)
-                                    .then((refresh) {
-                                  if (refresh != null && refresh == true) {
-                                    page = 1;
-                                    print("Apply/Clear Filter");
-                                  }
-                                });
+                                buildShowFilterBottomSheet(context);
                               },
                               child: Icon(Icons.filter_alt_outlined)));
                     } else {
                       return Icon(Icons.filter_alt_outlined);
+                    }
+                  },
+                ),
+                const SizedBox(width: 10),
+                BlocBuilder<OrderBloc, OrderState>(
+                  builder: (context, state) {
+                    if (state is OrderLoadSuccess) {
+                      return Badge(
+                          label: Text("${state.sortNumber}"),
+                          isLabelVisible: state.sortNumber != 0,
+                          child: GestureDetector(
+                              onTap: () {
+                                buildShowSortBottomSheet(context);
+                              },
+                              child: Icon(Icons.sort_rounded)));
+                    } else {
+                      return Icon(Icons.sort_rounded);
                     }
                   },
                 )
@@ -137,8 +145,9 @@ class _OrderPageState extends State<OrderPage> {
                           enablePullUp: false,
                           physics: BouncingScrollPhysics(),
                           onRefresh: () async {
-                            page = 1;
-                            context.read<OrderBloc>().add(OrderRefreshInformation(page: page, size: size));
+                            context.read<OrderBloc>().add(
+                                OrderRefreshInformation(
+                                    initPage: initPage, initSize: initSize));
                             _refreshController.refreshCompleted();
                           },
                           child: ProductList(
@@ -248,13 +257,12 @@ class _OrderPageState extends State<OrderPage> {
                 itemBuilder: (context, index) => GestureDetector(
                       onTap: () {
                         if (state.chosenCategory != state.categories[index]) {
-                          page = 1;
                           isLoadingMore = false;
                           cannotLoadMore = false;
-                          context.read<OrderBloc>().add(OrderChooseCategory(
+                          context.read<OrderBloc>().add(OrderSelectCategory(
                                 category: state.categories[index],
-                                page: page,
-                                size: size,
+                                initPage: initPage,
+                                initSize: initSize,
                               ));
                         }
                       },
@@ -307,7 +315,7 @@ class _OrderPageState extends State<OrderPage> {
   }
 }
 
-Future<bool?> buildShowFilterBottomSheet(BuildContext context, int size) {
+Future<bool?> buildShowFilterBottomSheet(BuildContext context) {
   return showModalBottomSheet<bool?>(
     backgroundColor: Colors.black.withOpacity(0.75),
     isScrollControlled: true,
@@ -319,10 +327,32 @@ Future<bool?> buildShowFilterBottomSheet(BuildContext context, int size) {
           builder: (context, state) {
             if (state is OrderLoadSuccess) {
               return OrderFilterBottomSheet(
-                size: size,
                 minPrice: state.minPrice,
                 maxPrice: state.maxPrice,
                 minStar: state.minStar,
+              );
+            } else {
+              return SizedBox();
+            }
+          },
+        ),
+      );
+    },
+  );
+}
+
+Future<bool?> buildShowSortBottomSheet(BuildContext context) {
+  return showModalBottomSheet<bool?>(
+    backgroundColor: Colors.black.withOpacity(0.75),
+    isScrollControlled: true,
+    context: context,
+    builder: (_) {
+      return BlocProvider.value(
+        value: context.read<OrderBloc>(),
+        child: BlocBuilder<OrderBloc, OrderState>(
+          builder: (context, state) {
+            if (state is OrderLoadSuccess) {
+              return OrderSortBottomSheet(
                 sortType: state.sortType,
               );
             } else {
