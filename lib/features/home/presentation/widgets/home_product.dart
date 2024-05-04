@@ -131,10 +131,13 @@ class HomeProduct extends StatelessWidget {
                 ),
               ),
             if (product.status == ProductStatus.OUT_OF_STOCK)
-              Image.asset(
-                AppPath.imgSoldOut,
-                width: 50,
-                height: 50,
+              Positioned(
+                left: AppDimen.smallSpacing,
+                child: Image.asset(
+                  AppPath.imgSuspended,
+                  width: 50,
+                  height: 50,
+                ),
               ),
           ],
         ),
@@ -249,10 +252,13 @@ class HomeProduct extends StatelessWidget {
                     ),
                   ),
                 if (product.status == ProductStatus.OUT_OF_STOCK)
-                  Image.asset(
-                    AppPath.imgSoldOut,
-                    width: 50,
-                    height: 50,
+                  Positioned(
+                    left: AppDimen.smallSpacing,
+                    child: Image.asset(
+                      AppPath.imgSuspended,
+                      width: 50,
+                      height: 50,
+                    ),
                   ),
               ],
             ),
@@ -366,10 +372,13 @@ class HomeProduct extends StatelessWidget {
                     ),
                   ),
                 if (product.status == ProductStatus.OUT_OF_STOCK)
-                  Image.asset(
-                    AppPath.imgSoldOut,
-                    width: 50,
-                    height: 50,
+                  Positioned(
+                    left: AppDimen.smallSpacing,
+                    child: Image.asset(
+                      AppPath.imgSuspended,
+                      width: 50,
+                      height: 50,
+                    ),
                   ),
               ],
             ),

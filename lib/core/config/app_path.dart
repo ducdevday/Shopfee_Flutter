@@ -54,6 +54,9 @@ class AppPath {
   static const String imgSoldOut = "assets/images/img_sold_out.png";
   static const String imgSoldOut2 = "assets/images/img_sold_out_2.png";
 
+  static const String imgSuspended = "assets/images/img_suspended.png";
+  static const String imgSuspended2 = "assets/images/img_suspended_2.png";
+
   static const String icDirect = "assets/icons/ic_direct.svg";
   static const String icPhone = "assets/icons/ic_phone.svg";
   static const String icShare = "assets/icons/ic_share.svg";
@@ -98,5 +101,4 @@ class AppPath {
   static const String icMicOn = "assets/icons/ic_mic_on.png";
 
   static const String icNoCoin = "assets/icons/img_no_coin.png";
-
 }

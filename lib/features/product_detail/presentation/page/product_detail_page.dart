@@ -276,7 +276,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                             top: 36,
                             right: AppDimen.screenPadding,
                             child: Image.asset(
-                              AppPath.imgSoldOut2,
+                              AppPath.imgSuspended2,
                               width: 100,
                             )),
                     ],
