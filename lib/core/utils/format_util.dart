@@ -89,7 +89,8 @@ class FormatUtil {
     if (percent == null) {
       return "";
     }
-    return '${NumberFormat.decimalPattern().format(percent)}%';
+    final result = '${NumberFormat.decimalPattern().format(percent)}%';
+    return result;
   }
 
   static String formatStar(num? number) {
@@ -106,7 +107,7 @@ class FormatUtil {
   }
 
   static num calculatePercent(double? number, double? total) {
-    if (number == null || total == null) {
+    if (number == null || total == null || total == 0.0) {
       return 0;
     }
     return (number / total) * 100;
