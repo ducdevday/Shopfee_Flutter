@@ -46,6 +46,7 @@ class _CartPageState extends State<CartPage> {
             return buildEmptyCart(context);
           } else {
             return Scaffold(
+              backgroundColor: AppColor.scaffoldColorBackground,
               appBar: AppBar(
                 title: const Text("Cart"),
                 centerTitle: true,
@@ -53,6 +54,7 @@ class _CartPageState extends State<CartPage> {
                   preferredSize: Size.fromHeight(1),
                   child: Divider(height: 1),
                 ),
+                backgroundColor: Colors.white,
                 actions: [
                   IconButton(
                       splashColor: Colors.transparent,
@@ -86,107 +88,113 @@ class _CartPageState extends State<CartPage> {
               body: SingleChildScrollView(
                 child: Column(
                   children: [
-                    Container(
+                    SizedBox(
                       height: 4,
-                      color: AppColor.scaffoldColorBackground,
                     ),
                     const ProductChosenList(),
-                    Container(
+                    SizedBox(
                       height: 4,
-                      color: AppColor.scaffoldColorBackground,
                     ),
-                    const ProductGiftList(),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: AppDimen.screenPadding),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    BlocBuilder<UserBloc, UserState>(
+                      builder: (context, userState) {
+                        if (userState is UserLoadSuccess) {
+                          return Column(
                             children: [
-                              Expanded(child: buildOrderTypeText(state)),
-                              TextButton(
-                                child: Text(
-                                  "Change",
-                                  style: AppStyle.normalTextStylePrimary,
+                              const ProductGiftList(),
+                              CartItemContainerWidget(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(
+                                            child: buildOrderTypeText(state)),
+                                        TextButton(
+                                          child: Text(
+                                            "Change",
+                                            style:
+                                                AppStyle.normalTextStylePrimary,
+                                          ),
+                                          onPressed: () {
+                                            buildShowDeliveryBottomSheet(
+                                                context);
+                                          },
+                                        )
+                                      ],
+                                    ),
+                                    const AddressShippingWidget(),
+                                    const StoreWidget(),
+                                    const ReceiverInformationWidget(),
+                                    const Divider(
+                                      height: 20,
+                                    ),
+                                    const TimeOpenClose(),
+                                    const TimeShipping(),
+                                    const TimeSetter(),
+                                    const Divider(
+                                      height: 20,
+                                    ),
+                                    TextFormField(
+                                      onChanged: (value) => {
+                                        context
+                                            .read<CartBloc>()
+                                            .add(CartAddNote(note: value))
+                                      },
+                                      style: const TextStyle(fontSize: 14),
+                                      decoration: InputDecoration(
+                                        contentPadding: const EdgeInsets.all(8),
+                                        enabledBorder: OutlineInputBorder(
+                                            borderSide: const BorderSide(
+                                                color: Color(0xffCCCCCC)),
+                                            borderRadius:
+                                                BorderRadius.circular(8)),
+                                        focusedBorder: OutlineInputBorder(
+                                            borderSide: const BorderSide(
+                                                color: Color(0xffCCCCCC)),
+                                            borderRadius:
+                                                BorderRadius.circular(8)),
+                                        hintText: "Additional note for shop...",
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                onPressed: () {
-                                  buildShowDeliveryBottomSheet(context);
-                                },
-                              )
+                              ),
+                              SizedBox(
+                                height: 4,
+                              ),
+                              const CartItemContainerWidget(
+                                child: PaymentMethod(),
+                              ),
+                              SizedBox(
+                                height: 4,
+                              ),
+                              const CartItemContainerWidget(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    CouponAppliedWidget(),
+                                    Divider(
+                                      height: 20,
+                                    ),
+                                    CoinAppliedWidget()
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 4,
+                              ),
+                              const CartItemContainerWidget(
+                                child: PaymentSummary(),
+                              ),
                             ],
-                          ),
-                          const AddressShippingWidget(),
-                          const StoreWidget(),
-                          const ReceiverInformationWidget(),
-                          const Divider(
-                            height: 20,
-                          ),
-                          const TimeOpenClose(),
-                          const TimeShipping(),
-                          const TimeSetter(),
-                          const Divider(
-                            height: 20,
-                          ),
-                          TextFormField(
-                            onChanged: (value) => {
-                              context
-                                  .read<CartBloc>()
-                                  .add(CartAddNote(note: value))
-                            },
-                            style: const TextStyle(fontSize: 14),
-                            decoration: InputDecoration(
-                              contentPadding: const EdgeInsets.all(8),
-                              enabledBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                      color: Color(0xffCCCCCC)),
-                                  borderRadius: BorderRadius.circular(8)),
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                      color: Color(0xffCCCCCC)),
-                                  borderRadius: BorderRadius.circular(8)),
-                              hintText: "Additional note for shop...",
-                            ),
-                          ),
-                        ],
-                      ),
+                          );
+                        } else {
+                          return SizedBox();
+                        }
+                      },
                     ),
-                    Container(
-                      height: 4,
-                      color: AppColor.scaffoldColorBackground,
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 10, horizontal: AppDimen.screenPadding),
-                      child: PaymentMethod(),
-                    ),
-                    Container(
-                      height: 4,
-                      color: AppColor.scaffoldColorBackground,
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 10, horizontal: AppDimen.screenPadding),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          CouponAppliedWidget(),
-                          Divider(
-                            height: 20,
-                          ),
-                          CoinAppliedWidget()
-                        ],
-                      ),
-                    ),
-                    Container(
-                      height: 4,
-                      color: AppColor.scaffoldColorBackground,
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.all(AppDimen.screenPadding),
-                      child: PaymentSummary(),
-                    )
                   ],
                 ),
               ),

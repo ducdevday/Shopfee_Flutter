@@ -192,7 +192,7 @@ class AccountPage extends StatelessWidget {
                       if (state is UserLoadSuccess) {
                         return Align(
                             alignment: Alignment.center,
-                            child: Container(
+                            child: SizedBox(
                                 width: double.infinity,
                                 child: ElevatedButton.icon(
                                   onPressed: () {
@@ -241,7 +241,7 @@ class AccountPage extends StatelessWidget {
                       } else {
                         return Align(
                             alignment: Alignment.center,
-                            child: Container(
+                            child: SizedBox(
                                 width: double.infinity,
                                 child: ElevatedButton.icon(
                                   onPressed: () {

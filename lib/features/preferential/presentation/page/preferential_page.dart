@@ -41,7 +41,7 @@ class PreferentialPage extends StatelessWidget {
                                         arguments: DefaultPage.route);
                                   },
                                   child: Text(
-                                    "Login / Register\nTo Get Preferential",
+                                    "Login/Register\nTo Get Preferential",
                                     style: AppStyle.mediumTitleStylePrimary
                                         .copyWith(
                                             color: AppColor.secondaryColor),

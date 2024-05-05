@@ -314,6 +314,9 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
     try {
       if (state is CartLoaded) {
         final currentState = state as CartLoaded;
+        if(currentState.cart.needToCheckCoupon(SharedService.getUserId()) == false){
+          return;
+        }
         final couponResultList =
             await _cartUseCase.checkCouponInCart(currentState.cart);
         String? currentShippingCoupon = currentState.cart.shippingCouponCode;

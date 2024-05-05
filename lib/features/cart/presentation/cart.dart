@@ -7,6 +7,7 @@ import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -103,3 +104,5 @@ part 'widgets/time_shipping.dart';
 part 'widgets/product_gift_list.dart';
 
 part 'widgets/product_gift_item.dart';
+
+part 'widgets/cart_item_container_widget.dart';

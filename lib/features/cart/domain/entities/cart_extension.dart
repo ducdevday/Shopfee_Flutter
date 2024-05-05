@@ -200,4 +200,14 @@ extension CartExTension on CartEntity {
     }
     return getCartTotalPriceWithoutCoin();
   }
+
+  bool needToCheckCoupon(String? userId){
+    if(userId == null) {
+      return false;
+    }
+    if(shippingCouponCode == null && orderCouponCode == null && productCouponCode == null){
+      return false;
+    }
+    return true;
+  }
 }

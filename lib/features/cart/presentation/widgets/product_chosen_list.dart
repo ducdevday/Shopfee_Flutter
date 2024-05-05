@@ -24,8 +24,7 @@ class _ProductChosenListState extends State<ProductChosenList> {
           productListLength = state.cart.orders.length;
           return Column(
             children: [
-              Padding(
-                padding: EdgeInsets.all(AppDimen.screenPadding),
+              CartItemContainerWidget(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
