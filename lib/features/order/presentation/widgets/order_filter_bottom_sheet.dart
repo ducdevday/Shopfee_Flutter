@@ -104,109 +104,110 @@ class _OrderFilterBottomSheetState extends State<OrderFilterBottomSheet> {
                 builder: (context, state) {
                   if (state is OrderLoadSuccess) {
                     return Expanded(
-                      child: ListView(
-                        controller: scrollController,
-                        padding: EdgeInsets.zero,
-                        physics: const ClampingScrollPhysics(),
+                      child: Column(
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Choose Filter",
-                                style: AppStyle.largeTitleStyleDark,
-                              ),
-                              const SizedBox(
-                                height: AppDimen.smallPadding,
-                              ),
-                              buildCurrentFilter(state),
-                              buildFilterBudget(),
-                              const SizedBox(
-                                height: AppDimen.smallPadding,
-                              ),
-                              buildFilterStar(),
-                              const SizedBox(
-                                height: AppDimen.smallPadding,
-                              ),
-                              Column(
+                          Expanded(
+                            child: SingleChildScrollView(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  SizedBox(
-                                    width: double.infinity,
-                                    child: ElevatedButton(
-                                      onPressed: () {
-                                        context.read<OrderBloc>().add(
-                                            OrderApplyFilter(
-                                                initPage: initPage,
-                                                initSize: initSize,
-                                                minPrice: getCheckedMinBudget(),
-                                                maxPrice: getCheckedMaxBudget(),
-                                                minStar: getCheckedMinStar()));
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(const SnackBar(
-                                                content:
-                                                    Text("Applied Filter")));
-                                        NavigationUtil.pop(result: true);
-                                      },
-                                      child: Text("Apply"),
-                                      style:
-                                          AppStyle.elevatedButtonStylePrimary,
-                                    ),
+                                  Text(
+                                    "Choose Filter",
+                                    style: AppStyle.largeTitleStyleDark,
                                   ),
                                   const SizedBox(
-                                    height: AppDimen.spacing,
+                                    height: AppDimen.smallPadding,
                                   ),
-                                  SizedBox(
-                                    width: double.infinity,
-                                    child: ElevatedButton(
-                                      onPressed: state.maxPrice != null ||
-                                              state.minPrice != null ||
-                                              state.minStar != null
-                                          ? () {
-                                              showDialog(
-                                                  context: context,
-                                                  builder: (BuildContext
-                                                          dialogContext) =>
-                                                      MyConfirmDialog(
-                                                        title: "Clear Filter",
-                                                        content:
-                                                            "Are you sure to clear filter",
-                                                        callbackOK: () {
-                                                          Navigator.of(context)
-                                                              .pop(true);
-                                                        },
-                                                        callbackCancel: () {
-                                                          Navigator.of(context)
-                                                              .pop();
-                                                        },
-                                                      )).then((value) {
-                                                if (value != null &&
-                                                    value == true) {
-                                                  context.read<OrderBloc>().add(
-                                                      OrderApplyFilter(
-                                                          initPage: initPage,
-                                                          initSize: initSize,
-                                                          minPrice: null,
-                                                          maxPrice: null,
-                                                          minStar: null));
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(const SnackBar(
-                                                          content: Text(
-                                                              "Cleared Filter")));
-                                                  NavigationUtil.pop(
-                                                      result: true);
-                                                }
-                                              });
-                                            }
-                                          : null,
-                                      child: Text("Reset"),
-                                      style:
-                                          AppStyle.elevatedButtonStyleSecondary,
-                                    ),
-                                  )
+                                  buildCurrentFilter(state),
+                                  buildFilterBudget(),
+                                  const SizedBox(
+                                    height: AppDimen.smallPadding,
+                                  ),
+                                  buildFilterStar(),
                                 ],
-                              )
-                            ],
+                              ),
+                            ),
                           ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: AppDimen.smallPadding),
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      context.read<OrderBloc>().add(
+                                          OrderApplyFilter(
+                                              initPage: initPage,
+                                              initSize: initSize,
+                                              minPrice: getCheckedMinBudget(),
+                                              maxPrice: getCheckedMaxBudget(),
+                                              minStar: getCheckedMinStar()));
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(const SnackBar(
+                                          content:
+                                          Text("Applied Filter")));
+                                      NavigationUtil.pop(result: true);
+                                    },
+                                    child: Text("Apply"),
+                                    style:
+                                    AppStyle.elevatedButtonStylePrimary,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: AppDimen.spacing,
+                                ),
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: ElevatedButton(
+                                    onPressed: state.maxPrice != null ||
+                                        state.minPrice != null ||
+                                        state.minStar != null
+                                        ? () {
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext
+                                          dialogContext) =>
+                                              MyConfirmDialog(
+                                                title: "Clear Filter",
+                                                content:
+                                                "Are you sure to clear filter",
+                                                callbackOK: () {
+                                                  Navigator.of(context)
+                                                      .pop(true);
+                                                },
+                                                callbackCancel: () {
+                                                  Navigator.of(context)
+                                                      .pop();
+                                                },
+                                              )).then((value) {
+                                        if (value != null &&
+                                            value == true) {
+                                          context.read<OrderBloc>().add(
+                                              OrderApplyFilter(
+                                                  initPage: initPage,
+                                                  initSize: initSize,
+                                                  minPrice: null,
+                                                  maxPrice: null,
+                                                  minStar: null));
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(const SnackBar(
+                                              content: Text(
+                                                  "Cleared Filter")));
+                                          NavigationUtil.pop(
+                                              result: true);
+                                        }
+                                      });
+                                    }
+                                        : null,
+                                    child: Text("Reset"),
+                                    style:
+                                    AppStyle.elevatedButtonStyleSecondary,
+                                  ),
+                                )
+                              ],
+                            ),
+                          )
                         ],
                       ),
                     );
