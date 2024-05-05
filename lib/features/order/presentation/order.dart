@@ -25,6 +25,7 @@ import 'package:shopfee/core/config/app_dimen.dart';
 import 'package:shopfee/core/config/app_path.dart';
 import 'package:shopfee/core/config/app_style.dart';
 import 'package:shopfee/core/di/service_locator.dart';
+import 'package:shopfee/core/utils/alert_util.dart';
 import 'package:shopfee/core/utils/exception_util.dart';
 import 'package:shopfee/core/utils/format_util.dart';
 import 'package:shopfee/core/utils/navigation_util.dart';

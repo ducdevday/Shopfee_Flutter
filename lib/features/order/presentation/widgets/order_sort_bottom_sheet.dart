@@ -24,14 +24,15 @@ class _OrderSortBottomSheetState extends State<OrderSortBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return DraggableScrollableSheet(
-      initialChildSize: 0.5,
-      maxChildSize: 0.5,
+      initialChildSize: 0.6,
+      maxChildSize: 0.6,
       minChildSize: 0.2,
       builder: (BuildContext context, ScrollController scrollController) {
         return Container(
           padding: const EdgeInsets.only(
-              left: AppDimen.screenPadding,
-              right: AppDimen.screenPadding,),
+            left: AppDimen.screenPadding,
+            right: AppDimen.screenPadding,
+          ),
           decoration: BoxDecoration(
             color: AppColor.bottomColorBackground,
             borderRadius: BorderRadius.only(
@@ -91,20 +92,21 @@ class _OrderSortBottomSheetState extends State<OrderSortBottomSheet> {
                                                 title: e.getFormattedName(),
                                                 value: e,
                                                 groupValue: sortType,
-                                                callback: (ProductSortType? value) {
+                                                callback:
+                                                    (ProductSortType? value) {
                                                   setState(() {
                                                     sortType = value;
                                                   });
                                                 }),
                                           ))
                                       .toList(),
-
                                 ],
                               ),
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(vertical: AppDimen.smallPadding),
+                            padding: const EdgeInsets.symmetric(
+                                vertical: AppDimen.smallPadding),
                             child: Column(
                               children: [
                                 SizedBox(
@@ -116,15 +118,11 @@ class _OrderSortBottomSheetState extends State<OrderSortBottomSheet> {
                                               initPage: initPage,
                                               initSize: initSize,
                                               sortType: sortType));
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(const SnackBar(
-                                          content:
-                                          Text("Applied Filter")));
+                                      AlertUtil.showToast("Applied Sort Type");
                                       NavigationUtil.pop(result: true);
                                     },
                                     child: Text("Apply"),
-                                    style:
-                                    AppStyle.elevatedButtonStylePrimary,
+                                    style: AppStyle.elevatedButtonStylePrimary,
                                   ),
                                 ),
                                 const SizedBox(
@@ -135,43 +133,41 @@ class _OrderSortBottomSheetState extends State<OrderSortBottomSheet> {
                                   child: ElevatedButton(
                                     onPressed: state.sortType != null
                                         ? () {
-                                      showDialog(
-                                          context: context,
-                                          builder: (BuildContext
-                                          dialogContext) =>
-                                              MyConfirmDialog(
-                                                title: "Clear Sort",
-                                                content:
-                                                "Are you sure to clear sort",
-                                                callbackOK: () {
-                                                  Navigator.of(context)
-                                                      .pop(true);
-                                                },
-                                                callbackCancel: () {
-                                                  Navigator.of(context)
-                                                      .pop();
-                                                },
-                                              )).then((value) {
-                                        if (value != null &&
-                                            value == true) {
-                                          context.read<OrderBloc>().add(
-                                              OrderApplySort(
-                                                  initPage: initPage,
-                                                  initSize: initSize,
-                                                  sortType: null));
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(const SnackBar(
-                                              content: Text(
-                                                  "Cleared Sort")));
-                                          NavigationUtil.pop(
-                                              result: true);
-                                        }
-                                      });
-                                    }
+                                            showDialog(
+                                                context: context,
+                                                builder: (BuildContext
+                                                        dialogContext) =>
+                                                    MyConfirmDialog(
+                                                      title: "Clear Sort",
+                                                      content:
+                                                          "Are you sure to clear sort",
+                                                      callbackOK: () {
+                                                        Navigator.of(context)
+                                                            .pop(true);
+                                                      },
+                                                      callbackCancel: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      },
+                                                    )).then((value) {
+                                              if (value != null &&
+                                                  value == true) {
+                                                context.read<OrderBloc>().add(
+                                                    OrderApplySort(
+                                                        initPage: initPage,
+                                                        initSize: initSize,
+                                                        sortType: null));
+                                                AlertUtil.showToast(
+                                                    "Cleared Sort");
+                                                NavigationUtil.pop(
+                                                    result: true);
+                                              }
+                                            });
+                                          }
                                         : null,
                                     child: Text("Reset"),
                                     style:
-                                    AppStyle.elevatedButtonStyleSecondary,
+                                        AppStyle.elevatedButtonStyleSecondary,
                                   ),
                                 )
                               ],

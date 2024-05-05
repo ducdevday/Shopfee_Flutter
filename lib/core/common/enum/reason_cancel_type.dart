@@ -13,7 +13,7 @@ enum ReasonCancelType {
       case ReasonCancelType.NO_BUY:
         return "I don't want to buy anymore";
       case ReasonCancelType.ORDER_REASON:
-        return "I couldn't find a reasonable reason to cancel";
+        return "I couldn't find a reasonable reason";
       default:
         return "";
     }
