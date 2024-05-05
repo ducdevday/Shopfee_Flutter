@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:shopfee/core/config/app_color.dart';
 import 'package:shopfee/core/config/app_dimen.dart';
+import 'package:shopfee/core/utils/navigation_util.dart';
 
 class LocalImageFullScreen extends StatelessWidget {
   static const String route = "/local_img_full_screen";
@@ -28,7 +29,7 @@ class LocalImageFullScreen extends StatelessWidget {
           left: AppDimen.screenPadding,
           child: GestureDetector(
             onTap: () {
-              Navigator.of(context).pop();
+              NavigationUtil.pop();
             },
             child: Hero(
               tag: "close_button",

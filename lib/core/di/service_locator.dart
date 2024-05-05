@@ -43,7 +43,7 @@ import 'package:shopfee/features/google_map/data/datasources/google_map_service.
 import 'package:shopfee/features/google_map/data/repositories/google_map_repository_impl.dart';
 import 'package:shopfee/features/google_map/domain/repositories/google_map_repository.dart';
 import 'package:shopfee/features/google_map/domain/usecase/google_map_usecase.dart';
-import 'package:shopfee/features/google_map/presentation/bloc/google_map_bloc.dart';
+import 'package:shopfee/features/google_map/presentation/google_map.dart';
 import 'package:shopfee/features/history/data/datasources/history_service.dart';
 import 'package:shopfee/features/history/data/repositories/history_repository_impl.dart';
 import 'package:shopfee/features/history/domain/repositories/history_repository.dart';

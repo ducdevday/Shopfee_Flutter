@@ -74,7 +74,7 @@ class _RegisterScreenState extends State<RegisterPage> {
         child: BlocListener<RegisterCubit, RegisterState>(
           listener: (context, state) {
             if (state is RegisterFinished) {
-              Navigator.of(context).pushNamed(OtpPage.route, arguments: {
+              NavigationUtil.pushNamed(OtpPage.route, arguments: {
                 "email": emailTextController.text,
                 "registerEntity": state.registerEntity,
                 "fromRoute": RegisterPage.route
@@ -266,7 +266,7 @@ class _RegisterScreenState extends State<RegisterPage> {
                                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                               ),
                               onPressed: () {
-                                Navigator.of(context).pop();
+                                NavigationUtil.pop();
                               },
                               child: Text(
                                 "Login",

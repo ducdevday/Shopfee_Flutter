@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:shopfee/core/config/app_color.dart';
 import 'package:shopfee/core/config/app_dimen.dart';
+import 'package:shopfee/core/utils/navigation_util.dart';
 
 class NetworkImageFullScreen extends StatelessWidget {
   static const String route = "/network_img_full_screen";
@@ -36,7 +37,7 @@ class NetworkImageFullScreen extends StatelessWidget {
           left: AppDimen.screenPadding,
           child: GestureDetector(
             onTap: () {
-              Navigator.of(context).pop();
+              NavigationUtil.pop();
             },
             child: Hero(
               tag: "close_button",

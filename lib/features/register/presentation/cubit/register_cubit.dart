@@ -37,7 +37,7 @@ class RegisterCubit extends Cubit<RegisterState> {
       await Future.delayed(Duration(seconds: 1));
       EasyLoading.dismiss();
       if (emailExist) {
-        EasyLoading.showInfo("Email is exist");
+        EasyLoading.showInfo("Email already exists");
       } else {
         emit(RegisterFinished(
             registerEntity: RegisterEntity(

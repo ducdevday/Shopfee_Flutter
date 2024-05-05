@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:shopfee/core/config/app_color.dart';
 import 'package:shopfee/core/config/app_dimen.dart';
+import 'package:shopfee/core/utils/navigation_util.dart';
 import 'package:video_player/video_player.dart';
 
 class LocalVideoFullScreen extends StatefulWidget {
@@ -48,7 +49,7 @@ class _LocalVideoFullScreenState extends State<LocalVideoFullScreen> {
           left: AppDimen.screenPadding,
           child: GestureDetector(
             onTap: () {
-              Navigator.of(context).pop();
+              NavigationUtil.pop();
             },
             child: Container(
                 width: 32,

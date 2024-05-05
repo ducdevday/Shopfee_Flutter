@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shopfee/features/google_map/presentation/bloc/google_map_bloc.dart';
+part of google_map;
 
 class GoogleMapLoadingWidget extends StatelessWidget {
   const GoogleMapLoadingWidget({super.key});

@@ -130,7 +130,7 @@ class _LoginPageState extends State<LoginPage> {
                           alignment: Alignment.centerRight,
                           child: TextButton(
                               onPressed: () {
-                                Navigator.of(context)
+                                NavigationUtil
                                     .pushNamed(ForgotPasswordPage.route);
                               },
                               child: Text(
@@ -152,7 +152,8 @@ class _LoginPageState extends State<LoginPage> {
                               style: ElevatedButton.styleFrom(
                                   disabledBackgroundColor:
                                       const Color(0xffCACACA),
-                                  disabledForegroundColor: AppColor.lightColor,
+                                  disabledForegroundColor:
+                                      AppColor.lightColor,
                                   textStyle: AppStyle.mediumTextStyleDark,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(16),
@@ -164,7 +165,8 @@ class _LoginPageState extends State<LoginPage> {
                     ],
                   ),
                 ),
-                BlocBuilder<LoginCubit, LoginState>(builder: (context, state) {
+                BlocBuilder<LoginCubit, LoginState>(
+                    builder: (context, state) {
                   return Column(mainAxisSize: MainAxisSize.min, children: [
                     const SizedBox(
                       height: 14,
@@ -178,7 +180,8 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          padding:
+                              const EdgeInsets.symmetric(horizontal: 8.0),
                           child: Text(
                             "or",
                             style: AppStyle.normalTextStyleDark,
@@ -229,7 +232,7 @@ class _LoginPageState extends State<LoginPage> {
                               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                             ),
                             onPressed: () {
-                              Navigator.of(context)
+                              NavigationUtil
                                   .pushNamed(RegisterPage.route);
                             },
                             child: Text(

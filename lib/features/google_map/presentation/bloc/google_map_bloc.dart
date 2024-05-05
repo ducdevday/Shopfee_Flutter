@@ -1,16 +1,5 @@
-import 'dart:async';
+part of google_map;
 
-import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:shopfee/features/google_map/domain/entities/auto_complete_result_entity.dart';
-import 'package:shopfee/features/google_map/domain/entities/geo_result_entity.dart';
-import 'package:shopfee/features/google_map/domain/usecase/google_map_usecase.dart';
-
-part 'google_map_event.dart';
-
-part 'google_map_state.dart';
 
 class GoogleMapBloc extends Bloc<GoogleMapEvent, GoogleMapState> {
   final GoogleMapUseCase _googleMapUseCase;

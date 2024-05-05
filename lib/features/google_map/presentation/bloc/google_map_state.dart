@@ -1,4 +1,4 @@
-part of 'google_map_bloc.dart';
+part of google_map;
 
 abstract class GoogleMapState extends Equatable {
   const GoogleMapState();

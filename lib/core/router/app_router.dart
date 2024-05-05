@@ -18,7 +18,7 @@ import 'package:shopfee/features/coupon_detail/presentation/coupon_detail.dart';
 import 'package:shopfee/features/coupon_in_cart/presentation/coupon_in_cart.dart';
 import 'package:shopfee/features/default/presentation/page/default_page.dart';
 import 'package:shopfee/features/forgot_password/presentation/forgot_password.dart';
-import 'package:shopfee/features/google_map/presentation/page/google_map_page.dart';
+import 'package:shopfee/features/google_map/presentation/google_map.dart';
 import 'package:shopfee/features/history/presentation/history.dart';
 import 'package:shopfee/features/login/presentation/login.dart';
 import 'package:shopfee/features/new_address/presentation/new_address.dart';

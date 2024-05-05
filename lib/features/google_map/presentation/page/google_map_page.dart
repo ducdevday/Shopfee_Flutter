@@ -1,21 +1,4 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:shopfee/core/config/app_color.dart';
-import 'package:shopfee/core/config/app_dimen.dart';
-import 'package:shopfee/core/config/app_style.dart';
-import 'package:shopfee/core/controller/debounce_controller.dart';
-import 'package:shopfee/core/di/service_locator.dart';
-import 'package:shopfee/core/utils/navigation_util.dart';
-import 'package:shopfee/features/google_map/domain/entities/geo_result_entity.dart';
-import 'package:shopfee/features/google_map/presentation/bloc/google_map_bloc.dart';
-import 'package:shopfee/features/google_map/presentation/widgets/google_map_list_place.dart';
-import 'package:shopfee/features/google_map/presentation/widgets/google_map_loading_widget.dart';
-import 'package:shopfee/features/google_map/presentation/widgets/google_map_widget.dart';
+part of google_map;
 
 class GoogleMapPage extends StatefulWidget {
   static const String route = "/google_map";
