@@ -14,6 +14,7 @@ EventLogModel _$EventLogModelFromJson(Map<String, dynamic> json) =>
           ? null
           : DateTime.parse(json['createdAt'] as String),
       description: json['description'] as String?,
+      note: json['note'] as String?,
       actor: $enumDecodeNullable(_$ActorTypeEnumMap, json['actor']),
     );
 
@@ -22,6 +23,7 @@ Map<String, dynamic> _$EventLogModelToJson(EventLogModel instance) =>
       'orderStatus': instance.orderStatus,
       'createdAt': instance.time?.toIso8601String(),
       'description': instance.description,
+      'note': instance.note,
       'actor': instance.actor,
     };
 

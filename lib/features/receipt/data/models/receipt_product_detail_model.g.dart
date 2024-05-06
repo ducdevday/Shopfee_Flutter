@@ -12,6 +12,7 @@ ReceiptProductDetailModel _$ReceiptProductDetailModelFromJson(
       quantity: json['quantity'] as int?,
       size: json['size'] as String?,
       price: (json['price'] as num?)?.toDouble(),
+      productDiscount: (json['productDiscount'] as num?)?.toDouble(),
       toppings: (json['toppingList'] as List<dynamic>?)
           ?.map((e) => ToppingModel.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -24,6 +25,7 @@ Map<String, dynamic> _$ReceiptProductDetailModelToJson(
       'quantity': instance.quantity,
       'size': instance.size,
       'price': instance.price,
+      'productDiscount': instance.productDiscount,
       'toppingList': instance.toppings,
       'note': instance.note,
     };

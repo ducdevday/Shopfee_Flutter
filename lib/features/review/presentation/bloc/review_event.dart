@@ -17,6 +17,11 @@ class ReviewLoadInformation extends ReviewEvent {
   List<Object> get props => [orderId, haveChanged];
 }
 
+class ReviewRefreshInformation extends ReviewEvent {
+  @override
+  List<Object> get props => [];
+}
+
 class ReviewCreateNew extends ReviewEvent {
   final String orderItemId;
   final int star;

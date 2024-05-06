@@ -16,31 +16,31 @@ class ReceiptLoadInProcess extends ReceiptState {
 
 class ReceiptLoadSuccess extends ReceiptState {
   final ReceiptEntity receipt;
-  final EventLogEntity lastEventLog;
+  final List<EventLogEntity> eventLogs;
   final ReasonCancelType? reasonCancel;
   final OrderStatus? cancelType;
   final bool
       isCancelButtonClicked; // ? Mục đích reload tại trang history nếu có event thay đổi
 
+  EventLogEntity get lastEventLog => eventLogs.first;
+
   const ReceiptLoadSuccess(
       {required this.receipt,
-      required this.lastEventLog,
+      required this.eventLogs,
       this.reasonCancel,
       this.cancelType,
       this.isCancelButtonClicked = false});
 
-  bool get isOrderSuccess => lastEventLog.orderStatus == OrderStatus.SUCCEED;
-
   ReceiptLoadSuccess copyWith({
     ReceiptEntity? receipt,
-    EventLogEntity? lastEventLog,
+    List<EventLogEntity>? eventLogs,
     ReasonCancelType? reasonCancel,
     OrderStatus? cancelType,
     bool? isCancelButtonClicked,
   }) {
     return ReceiptLoadSuccess(
       receipt: receipt ?? this.receipt,
-      lastEventLog: lastEventLog ?? this.lastEventLog,
+      eventLogs: eventLogs ?? this.eventLogs,
       reasonCancel: reasonCancel ?? this.reasonCancel,
       cancelType: cancelType ?? this.cancelType,
       isCancelButtonClicked:
@@ -51,7 +51,7 @@ class ReceiptLoadSuccess extends ReceiptState {
   @override
   List<Object?> get props => [
         receipt,
-        lastEventLog,
+        eventLogs,
         reasonCancel,
         cancelType,
         isCancelButtonClicked,

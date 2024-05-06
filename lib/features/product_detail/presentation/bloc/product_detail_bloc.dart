@@ -27,7 +27,9 @@ class ProductDetailBloc extends Bloc<ProductDetailEvent, ProductDetailState> {
       emit(ProductDetailLoadSuccess(
           order: OrderEntity(
         product: product,
-        size: product.sizeList![0],
+        size: (product.sizeList != null && product.sizeList!.isNotEmpty)
+            ? product.sizeList![0]
+            : SizeEntity(size: "", price: product.price!),
       )));
     } catch (e) {
       emit(ProductDetailLoadFailure());

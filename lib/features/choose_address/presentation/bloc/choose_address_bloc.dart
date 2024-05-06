@@ -9,6 +9,7 @@ class ChooseAddressBloc extends Bloc<ChooseAddressEvent, ChooseAddressState> {
     on<ChooseAddressPickProvince>(_onChooseAddressPickProvince);
     on<ChooseAddressPickDistrict>(_onChooseAddressPickDistrict);
     on<ChooseAddressPickWard>(_onChooseAddressPickWard);
+    on<ChooseAddressUseCurrentPosition>(_onChooseAddressUseCurrentPosition);
   }
 
   FutureOr<void> _onChooseAddressLoadProvince(
@@ -39,7 +40,7 @@ class ChooseAddressBloc extends Bloc<ChooseAddressEvent, ChooseAddressState> {
             districtList: districtList,
             wardList: [],
             chosenProvince: () => event.province,
-            chosenDistrict:() => null,
+            chosenDistrict: () => null,
             chosenWard: () => null,
           ));
         }
@@ -83,6 +84,27 @@ class ChooseAddressBloc extends Bloc<ChooseAddressEvent, ChooseAddressState> {
           emit(currentState.copyWith(chosenWard: () => event.ward));
         }
       }
+    } catch (e) {
+      ExceptionUtil.handle(e);
+    }
+  }
+
+  FutureOr<void> _onChooseAddressUseCurrentPosition(
+      ChooseAddressUseCurrentPosition event,
+      Emitter<ChooseAddressState> emit) async {
+    try {
+      EasyLoading.show(maskType: EasyLoadingMaskType.black);
+      Position currentPosition =
+          await _chooseAddressUsecase.getCurrentPosition();
+      GeoResultEntity? geoResultEntity =
+          await _chooseAddressUsecase.getAddressFromPosition(
+              currentPosition.latitude, currentPosition.longitude);
+      EasyLoading.dismiss();
+      emit(ChooseAddressFinished(
+          geoResultEntity: GeoResultEntity(
+              formattedAddress: geoResultEntity?.formattedAddress ?? "",
+              lat: currentPosition.latitude,
+              lng: currentPosition.longitude)));
     } catch (e) {
       ExceptionUtil.handle(e);
     }

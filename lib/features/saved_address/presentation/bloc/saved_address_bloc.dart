@@ -5,6 +5,7 @@ class SavedAddressBloc extends Bloc<SavedAddressEvent, SavedAddressState> {
 
   SavedAddressBloc(this._savedAddressUseCase) : super(SavedAddressInitial()) {
     on<SavedAddressLoadInformation>(_onSavedAddressLoadInformation);
+    on<SavedAddressRefreshInformation>(_onSavedAddressRefreshInformation);
   }
 
   FutureOr<void> _onSavedAddressLoadInformation(
@@ -19,7 +20,16 @@ class SavedAddressBloc extends Bloc<SavedAddressEvent, SavedAddressState> {
       emit(SavedAddressLoadSuccess(addressList: savedAddressList));
     } catch (e) {
       emit(SavedAddressLoadFailure());
-      ExceptionUtil.handle(e);
+    }
+  }
+
+  FutureOr<void> _onSavedAddressRefreshInformation(SavedAddressRefreshInformation event, Emitter<SavedAddressState> emit) async{
+    try {
+      var savedAddressList =
+      await _savedAddressUseCase.getAllAddress(SharedService.getUserId()!);
+      emit(SavedAddressLoadSuccess(addressList: savedAddressList));
+    } catch (e) {
+      emit(SavedAddressLoadFailure());
     }
   }
 }

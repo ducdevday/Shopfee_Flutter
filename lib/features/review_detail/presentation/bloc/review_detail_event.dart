@@ -17,6 +17,21 @@ class ReviewDetailLoadInformation extends ReviewDetailEvent {
   List<Object> get props => [productId, initPage, initSize];
 }
 
+class ReviewDetailRefreshInformation extends ReviewDetailEvent {
+  final String productId;
+  final int initPage;
+  final int initSize;
+
+  ReviewDetailRefreshInformation({
+    required this.productId,
+    required this.initPage,
+    required this.initSize,
+  });
+
+  @override
+  List<Object> get props => [productId, initPage, initSize];
+}
+
 class ReviewDetailLoadMoreInformation extends ReviewDetailEvent {
   final String productId;
 

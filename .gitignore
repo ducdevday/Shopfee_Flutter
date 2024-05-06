@@ -32,6 +32,7 @@ migrate_working_dir/
 .pub/
 /build/
 ../.env
+/assets/dialog_flow_auth.json
 # Symbolication related
 app.*.symbols
 

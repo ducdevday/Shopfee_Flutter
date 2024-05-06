@@ -8,3 +8,8 @@ class SavedAddressLoadInformation extends SavedAddressEvent {
   @override
   List<Object> get props => [];
 }
+
+class SavedAddressRefreshInformation extends SavedAddressEvent {
+  @override
+  List<Object> get props => [];
+}

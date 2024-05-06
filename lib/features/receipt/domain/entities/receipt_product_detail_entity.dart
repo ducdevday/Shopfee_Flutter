@@ -5,6 +5,7 @@ class ReceiptProductDetailEntity {
   int? quantity;
   String? size;
   double? price;
+  double? productDiscount;
   List<ToppingEntity>? toppings;
   String? note;
 
@@ -12,6 +13,7 @@ class ReceiptProductDetailEntity {
     this.quantity,
     this.size,
     this.price,
+    this.productDiscount,
     this.toppings,
     this.note,
   });
@@ -26,7 +28,17 @@ class ReceiptProductDetailEntity {
 
   double get total =>
       quantity! * price! +
-          quantity! * (toppings == null ? 0 : toppings!.fold(0, (total, current) => total + current.price));
+      quantity! *
+          (toppings == null
+              ? 0
+              : toppings!.fold(0, (total, current) => total + current.price));
+
+  double get totalAfterDiscount =>
+      quantity! * (price! - productDiscount!) +
+          quantity! *
+              (toppings == null
+                  ? 0
+                  : toppings!.fold(0, (total, current) => total + current.price));
 
   factory ReceiptProductDetailEntity.fromModel(
       ReceiptProductDetailModel model) {
@@ -34,6 +46,7 @@ class ReceiptProductDetailEntity {
       quantity: model.quantity,
       size: model.size,
       price: model.price,
+      productDiscount: model.productDiscount,
       toppings: model.toppings?.map((e) => ToppingEntity.fromModel(e)).toList(),
       note: model.note,
     );

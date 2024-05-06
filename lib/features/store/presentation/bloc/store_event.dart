@@ -7,31 +7,32 @@ abstract class StoreEvent extends Equatable {
 class StoreLoadInformation extends StoreEvent {
   final String query;
   final bool getAll;
-  final int page;
-  final int size;
+  final int initPage;
+  final int initSize;
 
   const StoreLoadInformation({
-    this.query ="",
+    this.query = "",
     this.getAll = false,
-    required this.page,
-    required this.size,
+    required this.initPage,
+    required this.initSize,
   });
 
   @override
-  List<Object?> get props => [query, getAll, page, size];
+  List<Object?> get props => [query, getAll, initPage, initSize];
 }
 
 class StoreLoadMoreInformation extends StoreEvent {
-  final int page;
-  final int size;
-
-  const StoreLoadMoreInformation({
-    required this.page,
-    required this.size,
-  });
+  const StoreLoadMoreInformation();
 
   @override
-  List<Object?> get props => [page, size];
+  List<Object?> get props => [];
+}
+
+class StoreRefreshInformation extends StoreEvent {
+  const StoreRefreshInformation();
+
+  @override
+  List<Object?> get props => [];
 }
 
 class StoreChangeViewType extends StoreEvent {

@@ -4,9 +4,11 @@ import 'dart:async';
 
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:shopfee/core/config/app_color.dart';
 import 'package:shopfee/core/config/app_dimen.dart';
 import 'package:shopfee/core/config/app_style.dart';
@@ -19,7 +21,7 @@ import 'package:shopfee/features/choose_address/domain/entities/ward_entity.dart
 import 'package:shopfee/features/choose_address/domain/usecase/choose_address_usecase.dart';
 import 'package:shopfee/features/google_map/data/models/geo_result_model.dart';
 import 'package:shopfee/features/google_map/domain/entities/geo_result_entity.dart';
-import 'package:shopfee/features/google_map/presentation/page/google_map_page.dart';
+import 'package:shopfee/features/google_map/presentation/google_map.dart';
 
 part 'bloc/choose_address_bloc.dart';
 part 'bloc/choose_address_event.dart';

@@ -25,4 +25,6 @@ Map<String, dynamic> _$OrderQueryModelToJson(OrderQueryModel instance) =>
 const _$ProductSortTypeEnumMap = {
   ProductSortType.PRICE_DESC: 'PRICE_DESC',
   ProductSortType.PRICE_ASC: 'PRICE_ASC',
+  ProductSortType.STAR_ASC: 'STAR_ASC',
+  ProductSortType.STAR_DESC: 'STAR_DESC',
 };

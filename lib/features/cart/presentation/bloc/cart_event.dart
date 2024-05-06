@@ -9,6 +9,11 @@ class CartLoadInformation extends CartEvent {
   List<Object> get props => [];
 }
 
+class CartUpdateOrderInformation extends CartEvent {
+  @override
+  List<Object> get props => [];
+}
+
 class CartInitAddressAndReceiver extends CartEvent {
   final ReceiverOnsiteEntity? receiverInformation;
 
@@ -168,6 +173,31 @@ class CartApplyCoin extends CartEvent {
 }
 
 class CartRemoveCoin extends CartEvent {
+  @override
+  List<Object> get props => [];
+}
+
+class CartUpdateChosenCoupon extends CartEvent {
+  final String? shippingCouponChosenCode;
+  final String? orderCouponChosenCode;
+  final String? productCouponChosenCode;
+
+  const CartUpdateChosenCoupon({
+    this.shippingCouponChosenCode,
+    this.orderCouponChosenCode,
+    this.productCouponChosenCode,
+  });
+
+  @override
+  List<Object?> get props =>
+      [
+        shippingCouponChosenCode,
+        orderCouponChosenCode,
+        productCouponChosenCode,
+      ];
+}
+
+class CartCheckCoupon extends CartEvent {
   @override
   List<Object> get props => [];
 }

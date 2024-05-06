@@ -1,7 +1,7 @@
 
 
-import 'package:shopfee/features/template/domain/entities/template_entity.dart';
+import 'package:shopfee/features/coupon_detail/domain/entities/coupon_detail_entity.dart';
 
 abstract class CouponDetailRepository {
-  Future<TemplateEntity> getTemplate(String id);
+  Future<CouponDetailEntity> getCouponDetail(String couponId);
 }

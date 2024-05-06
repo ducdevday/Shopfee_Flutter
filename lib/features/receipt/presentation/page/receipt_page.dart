@@ -86,6 +86,7 @@ class _ReceiptPageState extends State<ReceiptPage> {
                                   height: 4,
                                   color: AppColor.scaffoldColorBackground,
                                 ),
+                                const GiftList(),
                                 const PaymentSummary(),
                                 const NoteReceipt(),
                               ],

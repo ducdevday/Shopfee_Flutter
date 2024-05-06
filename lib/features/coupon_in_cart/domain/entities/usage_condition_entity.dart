@@ -3,7 +3,7 @@ import 'package:shopfee/features/coupon_in_cart/data/models/usage_condition_mode
 
 class UsageConditionEntity {
   final CouponUsageConditionType type;
-  final num value;
+  final num? value;
 
   const UsageConditionEntity({
     required this.type,
@@ -16,5 +16,4 @@ class UsageConditionEntity {
       value: model.value,
     );
   }
-//
 }

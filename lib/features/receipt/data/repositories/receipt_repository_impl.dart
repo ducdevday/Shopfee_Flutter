@@ -55,7 +55,7 @@ class ReceiptRepositoryImpl implements ReceiptRepository {
     } catch (e) {
       if (e is DioException) {
         if (e.response?.statusCode == 400) {
-          throw ServerFailure(message: "Cant cancel order after 30 minutes");
+          throw ServerFailure(message: "Can't cancel order after 30 minutes");
         }
       }
       rethrow;

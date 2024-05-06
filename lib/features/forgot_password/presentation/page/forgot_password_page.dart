@@ -46,7 +46,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       child: BlocListener<ForgotPasswordCubit, ForgotPasswordState>(
         listener: (context, state) {
           if (state is ForgotPasswordFinished) {
-            Navigator.of(context).pushNamed(OtpPage.route, arguments: {
+            NavigationUtil.pushNamed(OtpPage.route, arguments: {
               "email": emailTextController.text,
               "fromRoute": ForgotPasswordPage.route
             });

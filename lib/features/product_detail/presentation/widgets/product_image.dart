@@ -35,11 +35,11 @@ class _ProductImageState extends State<ProductImage> {
               },
               child: GestureDetector(
                 onTap: () {
-                  NavigationUtil.pushNamed(ImageFullScreen.route,
+                  NavigationUtil.pushNamed(NetworkImageFullScreen.route,
                       arguments: state.order.product.imageUrl!);
                 },
                 child: Hero(
-                  tag: "Product",
+                  tag: "IMG",
                   child: CachedNetworkImage(
                     imageUrl: state.order.product.imageUrl!,
                     width: 165,
@@ -56,7 +56,7 @@ class _ProductImageState extends State<ProductImage> {
           } else {
             return GestureDetector(
               onTap: () {
-                NavigationUtil.pushNamed(ImageFullScreen.route,
+                NavigationUtil.pushNamed(NetworkImageFullScreen.route,
                     arguments: state.order.product.imageUrl!);
               },
               child: CachedNetworkImage(

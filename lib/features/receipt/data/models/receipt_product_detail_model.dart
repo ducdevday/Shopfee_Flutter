@@ -8,6 +8,7 @@ class ReceiptProductDetailModel{
   int? quantity;
   String? size;
   double? price;
+  double? productDiscount;
   @JsonKey(name: "toppingList")
   List<ToppingModel>? toppings;
   String? note;
@@ -16,6 +17,7 @@ class ReceiptProductDetailModel{
     this.quantity,
     this.size,
     this.price,
+    this.productDiscount,
     this.toppings,
     this.note,
   });

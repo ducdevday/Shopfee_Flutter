@@ -16,11 +16,15 @@ class AppDimen {
   static const double smallRadius = 12.0;
   static const double mediumRadius = 24.0;
 
+  static const double xSmallSize = 20;
   static const double smallSize = 24;
   static const double mediumSize = 32;
   static const double largeSize = 40;
 
   static const double smallImageSize = 60;
   static const double mediumImageSize = 200;
+
+  static const double mediumCouponSize = 400;
+  static const double largeCouponSize = 480;
 }
 

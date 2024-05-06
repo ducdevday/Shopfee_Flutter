@@ -35,7 +35,7 @@ class ReceiptStatusInformation extends StatelessWidget {
                   ],
                 ),
                 LastStatusWidget(
-                  lastEventLog: state.lastEventLog,
+                  lastEventLog: state. lastEventLog,
                 ),
                 const Divider(
                   height: 20,

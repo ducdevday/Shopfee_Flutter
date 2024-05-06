@@ -1,7 +1,29 @@
-part of 'google_map_bloc.dart';
+part of google_map;
 
 abstract class GoogleMapEvent extends Equatable {
   const GoogleMapEvent();
+}
+
+class GoogleMapEnterAddressNoText extends GoogleMapEvent {
+  final String input;
+
+  const GoogleMapEnterAddressNoText({
+    required this.input,
+  });
+
+  @override
+  List<Object> get props => [input];
+}
+
+class GoogleMapSelectPlace extends GoogleMapEvent {
+  final AutoCompleteResultEntity autoCompleteResultEntity;
+
+  const GoogleMapSelectPlace({
+    required this.autoCompleteResultEntity,
+  });
+
+  @override
+  List<Object> get props => [autoCompleteResultEntity];
 }
 
 class GoogleMapLoadInitPosition extends GoogleMapEvent {
@@ -26,4 +48,9 @@ class GoogleMapMarkPosition extends GoogleMapEvent {
 
   @override
   List<Object> get props => [latitude, longitude];
+}
+
+class GoogleMapConfirmDone extends GoogleMapEvent {
+  @override
+  List<Object> get props => [];
 }

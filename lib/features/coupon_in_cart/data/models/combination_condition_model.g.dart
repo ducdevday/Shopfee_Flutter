@@ -20,6 +20,6 @@ Map<String, dynamic> _$CombinationConditionModelToJson(
 
 const _$CouponTypeEnumMap = {
   CouponType.SHIPPING: 'SHIPPING',
-  CouponType.PRODUCT: 'PRODUCT',
   CouponType.ORDER: 'ORDER',
+  CouponType.PRODUCT: 'PRODUCT',
 };

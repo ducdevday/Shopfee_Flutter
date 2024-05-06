@@ -13,11 +13,18 @@ class CouponInCartRepositoryImpl implements CouponInCartRepository {
   CouponInCartRepositoryImpl(this._couponInCartService);
 
   @override
-  Future<CouponInCartEntity> getCouponListInCart(CartEntity cart) async {
+  Future<CouponInCartEntity> getCouponListInCart(
+      CartEntity cart,
+      String? shippingCouponCode,
+      String? orderCouponCode,
+      String? productCouponCode) async {
     final response = await _couponInCartService.getCouponListInCart(
         CartModel.fromEntity(cart),
         cart.totalItemPrice,
-        cart.getTotalCartPrice());
+        cart.getCartTotalPrice(),
+        shippingCouponCode,
+        orderCouponCode,
+        productCouponCode);
     final result = Result(
       success: response.data["success"],
       message: response.data["message"],

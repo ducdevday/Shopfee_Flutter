@@ -14,6 +14,7 @@ ProductDetailModel _$ProductDetailModelFromJson(Map<String, dynamic> json) =>
       sizeList: (json['sizeList'] as List<dynamic>?)
           ?.map((e) => SizeModel.fromJson(e as Map<String, dynamic>))
           .toList(),
+      price: (json['price'] as num?)?.toDouble(),
       description: json['description'] as String?,
       toppingList: (json['toppingList'] as List<dynamic>?)
           ?.map((e) => ToppingModel.fromJson(e as Map<String, dynamic>))
@@ -31,6 +32,7 @@ Map<String, dynamic> _$ProductDetailModelToJson(ProductDetailModel instance) =>
       'name': instance.name,
       'imageUrl': instance.imageUrl,
       'sizeList': instance.sizeList,
+      'price': instance.price,
       'description': instance.description,
       'toppingList': instance.toppingList,
       'status': instance.status,

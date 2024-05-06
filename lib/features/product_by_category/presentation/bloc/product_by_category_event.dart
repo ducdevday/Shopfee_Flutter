@@ -20,12 +20,17 @@ class ProductByCategoryLoadInformation extends ProductByCategoryEvent {
 }
 
 class ProductByCategoryLoadMoreInformation extends ProductByCategoryEvent {
+  @override
+  List<Object?> get props => [];
+}
+
+class ProductByCategoryRefreshInformation extends ProductByCategoryEvent {
   final String? categoryId;
   final int page;
   final int size;
 
-  const ProductByCategoryLoadMoreInformation({
-    required this.categoryId,
+  const ProductByCategoryRefreshInformation({
+    this.categoryId,
     required this.page,
     required this.size,
   });

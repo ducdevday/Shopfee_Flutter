@@ -1,30 +1,63 @@
+import 'package:shopfee/core/common/enum/payment_type.dart';
+import 'package:shopfee/core/common/enum/reward_unit.dart';
 import 'package:shopfee/core/common/models/order_type.dart';
 import 'package:shopfee/core/utils/format_util.dart';
 import 'package:shopfee/features/cart/domain/entities/cart_entity.dart';
-import 'package:shopfee/features/cart/domain/entities/shipping_strategy.dart';
-import 'package:shopfee/features/cart/domain/entities/take_away_strategy.dart';
+import 'package:shopfee/features/product_detail/domain/entities/order_entity.dart';
 
 extension CartExTension on CartEntity {
-  double getTotalCartPrice() {
-    if (orderType == OrderType.SHIPPING) {
-      return ShippingStrategy()
-          .calculateTotal(totalItemPrice, shippingFee, coin);
-    } else if (orderType == OrderType.ONSITE) {
-      return TakeAwayStrategy()
-          .calculateTotal(totalItemPrice, shippingFee, coin);
-    }
-    return 0;
+  double getTotalItemPriceInCart() {
+    return totalItemPrice;
   }
 
-  double getTotalCartPriceWithoutCoin() {
-    if (orderType == OrderType.SHIPPING) {
-      return ShippingStrategy()
-          .calculateTotalWithoutCoin(totalItemPrice, shippingFee);
-    } else if (orderType == OrderType.ONSITE) {
-      return TakeAwayStrategy()
-          .calculateTotalWithoutCoin(totalItemPrice, shippingFee);
+  double getShippingCouponValue() {
+    double result = 0;
+    if (shippingCouponCode != null && shippingFee != null) {
+      if (shippingCouponResult?.reward?.moneyReward?.unit == RewardUnit.MONEY) {
+        if (shippingCouponResult!.reward!.moneyReward!.value! < shippingFee!) {
+          result += shippingCouponResult!.reward!.moneyReward?.value ?? 0;
+        } else {
+          result += shippingFee!;
+        }
+      } else if (shippingCouponResult?.reward?.moneyReward?.unit ==
+          RewardUnit.PERCENTAGE) {
+        result += shippingFee! *
+            ((shippingCouponResult!.reward!.moneyReward?.value ?? 0) / 100);
+      }
     }
-    return 0;
+    return result;
+  }
+
+  double getOrderCouponValue() {
+    double result = 0;
+    if (orderCouponCode != null) {
+      if (orderCouponResult?.reward?.moneyReward?.unit == RewardUnit.MONEY) {
+        result += orderCouponResult!.reward!.moneyReward?.value ?? 0;
+      } else if (orderCouponResult?.reward?.moneyReward?.unit ==
+          RewardUnit.PERCENTAGE) {
+        result += (getTotalItemPriceInCart() - getProductCouponValue()) *
+            ((orderCouponResult!.reward!.moneyReward?.value ?? 0) / 100);
+      }
+    }
+    return result;
+  }
+
+  double getProductCouponValue() {
+    double result = 0;
+    if (productCouponCode != null &&
+        productCouponResult?.reward?.productRewardList == null) {
+      if (productCouponResult?.reward?.moneyReward?.unit == RewardUnit.MONEY) {
+        result += getTotalProductById(
+                productCouponResult!.reward!.subjectInformation!.id!) *
+            (productCouponResult!.reward!.moneyReward?.value ?? 0);
+      } else if (productCouponResult?.reward?.moneyReward?.unit ==
+          RewardUnit.PERCENTAGE) {
+        result += getTotalProductPriceById(
+                productCouponResult!.reward!.subjectInformation!.id!) *
+            ((productCouponResult!.reward!.moneyReward?.value ?? 0) / 100);
+      }
+    }
+    return result;
   }
 
   double getCalculatedShippingFee() {
@@ -34,6 +67,82 @@ extension CartExTension on CartEntity {
       return 0;
     }
     return 0;
+  }
+
+  int getTotalProductById(String id) {
+    final product =
+        orders.where((element) => element.product.id == id).toList();
+    final productTotal =
+        product.fold(0, (total, current) => total + current.quantity);
+    return productTotal;
+  }
+
+  double getTotalProductPriceById(String id) {
+    final totalProductPrice = orders
+        .where((element) => element.product.id == id)
+        .fold(0.0, (total, current) => total + current.totalSizePrice);
+    return totalProductPrice;
+  }
+
+  double getTotalCouponValue() {
+    return getShippingCouponValue() +
+        getOrderCouponValue() +
+        getProductCouponValue();
+  }
+
+  double getCartTotalPriceWithoutCoin() {
+    return getTotalItemPriceInCart() +
+        getCalculatedShippingFee() -
+        getShippingCouponValue() -
+        getOrderCouponValue() -
+        getProductCouponValue();
+  }
+
+  double getCartTotalPrice() {
+    return getCartTotalPriceWithoutCoin() - (coin ?? 0);
+  }
+
+  double? calculateProductPriceAppliedCoupon(OrderEntity orderEntity) {
+    if (productCouponCode == null ||
+        productCouponResult?.reward?.productRewardList != null ||
+        orderEntity.product.id !=
+            productCouponResult?.reward?.subjectInformation?.id) {
+      return null;
+    }
+    double discount = 0;
+    double currentSizePrice = orderEntity.size?.price ?? 0;
+    double newProductPrice = 0;
+    if (productCouponResult?.reward?.moneyReward?.unit == RewardUnit.MONEY) {
+      discount += (productCouponResult!.reward!.moneyReward?.value ?? 0);
+      currentSizePrice = currentSizePrice - discount;
+      newProductPrice = orderEntity.quantity * currentSizePrice +
+          orderEntity.quantity *
+              orderEntity.toppings
+                  .fold(0, (total, current) => total + current.price);
+      return newProductPrice;
+    } else if (productCouponResult?.reward?.moneyReward?.unit ==
+        RewardUnit.PERCENTAGE) {
+      discount +=
+          ((productCouponResult!.reward!.moneyReward?.value ?? 0) / 100);
+      currentSizePrice = currentSizePrice * (1 - discount);
+      newProductPrice = orderEntity.quantity * currentSizePrice +
+          orderEntity.quantity *
+              orderEntity.toppings
+                  .fold(0, (total, current) => total + current.price);
+      return newProductPrice;
+    }
+    return null;
+  }
+
+  bool haveProductGiftList() {
+    if (productCouponCode != null &&
+        productCouponResult != null &&
+        productCouponResult!.reward != null &&
+        productCouponResult!.reward!.productRewardList != null &&
+        productCouponResult!.reward!.productRewardList!.isNotEmpty) {
+      return true;
+    }
+    return false;
   }
 
   bool isShippingTypeOrderValid() {
@@ -63,8 +172,30 @@ extension CartExTension on CartEntity {
     return true;
   }
 
+  bool isVnPayOrZaloPayValid(){
+    if(paymentType == PaymentType.CASHING) {
+      return true;
+    }
+    else if(paymentType == PaymentType.VNPAY && getCartTotalPrice() > 10000){
+      return true;
+    }
+    else if(paymentType == PaymentType.ZALOPAY && getCartTotalPrice() > 10000){
+      return true;
+    }
+    return false;
+  }
+
   bool isOrderValid() {
-    if (isShippingTypeOrderValid() && isTakeAwayOrderValid()) {
+    if (isShippingTypeOrderValid() && isTakeAwayOrderValid() && isVnPayOrZaloPayValid()) {
+      return true;
+    }
+    return false;
+  }
+
+  bool isAppliedCoupon() {
+    if (shippingCouponCode != null ||
+        orderCouponCode != null ||
+        productCouponCode != null) {
       return true;
     }
     return false;
@@ -78,9 +209,19 @@ extension CartExTension on CartEntity {
   }
 
   num getValidCoin(num currentUserCoin) {
-    if (currentUserCoin <= getTotalCartPriceWithoutCoin()) {
+    if (currentUserCoin <= getCartTotalPriceWithoutCoin()) {
       return currentUserCoin;
     }
-    return getTotalCartPriceWithoutCoin();
+    return getCartTotalPriceWithoutCoin();
+  }
+
+  bool needToCheckCoupon(String? userId){
+    if(userId == null) {
+      return false;
+    }
+    if(shippingCouponCode == null && orderCouponCode == null && productCouponCode == null){
+      return false;
+    }
+    return true;
   }
 }

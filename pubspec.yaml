@@ -32,7 +32,6 @@ dependencies:
   flutter_typeahead: ^4.8.0
   dio: ^5.1.1
   dio_cookie_manager: ^3.1.1
-  http: ^1.1.0
   get_it: ^7.6.4
   connectivity_plus: ^4.0.2
   flutter_easyloading: ^3.0.5
@@ -60,13 +59,21 @@ dependencies:
   dotted_line: ^3.2.2
   like_button: ^2.0.5
   timeago: ^3.6.1
-
+  badges: ^3.1.2
+  pull_to_refresh: ^2.0.0
+  syncfusion_flutter_charts: ^25.1.39+1
+  calendar_date_picker2: ^0.5.3
+  video_player: ^2.8.5
+  dialog_flowtter: ^0.3.3
+  speech_to_text: ^6.6.0
   #  Firebase
   firebase_core: ^2.19.0
   firebase_auth: ^4.11.1
   google_sign_in: ^6.1.5
   firebase_messaging: ^14.7.3
   cloud_firestore: ^4.13.1
+  firebase_analytics: ^10.10.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -92,6 +99,7 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
+    - assets/dialog_flow_auth.json
   fonts:
     - family: Poppins
       fonts:

@@ -6,13 +6,18 @@ abstract class ReceiptEvent extends Equatable {
 
 class ReceiptLoadInformation extends ReceiptEvent {
   final String orderId;
-  final bool isCancelButtonClicked;
+  final bool haveChanged;
 
   const ReceiptLoadInformation(
-      {required this.orderId, this.isCancelButtonClicked = false});
+      {required this.orderId, this.haveChanged = false});
 
   @override
   List<Object> get props => [orderId];
+}
+
+class ReceiptRefreshInformation extends ReceiptEvent {
+  @override
+  List<Object> get props => [];
 }
 
 class ReceiptDoCancelOrder extends ReceiptEvent {

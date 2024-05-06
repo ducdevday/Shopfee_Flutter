@@ -21,6 +21,9 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
     on<CartApplyCoin>(_onCartApplyCoin);
     on<CartRemoveCoin>(_onCartRemoveCoin);
     on<CartSetShippingFee>(_onCartSetShippingFee);
+    on<CartUpdateChosenCoupon>(_onCartUpdateChosenCoupon);
+    on<CartCheckCoupon>(_onCartCheckCoupon);
+    on<CartUpdateOrderInformation>(_onCartUpdateOrderInformation);
     on<CartCreateShippingOrder>(_onCartCreateShippingOrder);
     on<CartCreateTakeAwayOrder>(_onCartCreateTakeAwayOrder);
   }
@@ -59,6 +62,7 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
           orders: orders,
         ),
       ));
+      add(CartCheckCoupon());
     }
   }
 
@@ -73,6 +77,7 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
           orders: orders,
         ),
       ));
+      add(CartCheckCoupon());
     }
   }
 
@@ -100,16 +105,17 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
           orders: orders,
         ),
       ));
+      add(CartCheckCoupon());
     }
   }
 
   FutureOr<void> _onCartInitAddress(
       CartInitAddressAndReceiver event, Emitter<CartState> emit) async {
-    if (state is CartLoaded) {
-      final currentState = state as CartLoaded;
-      if (currentState.cart.address != null ||
-          SharedService.getUserId() == null) return;
-      try {
+    try {
+      if (state is CartLoaded) {
+        final currentState = state as CartLoaded;
+        if (currentState.cart.address != null ||
+            SharedService.getUserId() == null) return;
         EasyLoading.show();
         final defaultAddress =
             await _cartUseCase.getDefaultAddress(SharedService.getUserId()!);
@@ -123,30 +129,30 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
           add(CartSetShippingFee(
               lat: defaultAddress.latitude!, lng: defaultAddress.longitude!));
         }
-      } catch (e) {
-        ExceptionUtil.handle(e);
       }
+    } catch (e) {
+      ExceptionUtil.handle(e);
     }
   }
 
   FutureOr<void> _onCartLoadReceiverInformation(
       CartLoadReceiverInformation event, Emitter<CartState> emit) {
-    if (state is CartLoaded) {
-      final currentState = state as CartLoaded;
-      try {
+    try {
+      if (state is CartLoaded) {
+        final currentState = state as CartLoaded;
         emit(CartLoaded(
             cart: currentState.cart
                 .copyWith(receiverOnsite: event.receiverInformation)));
-      } catch (e) {
-        ExceptionUtil.handle(e);
       }
+    } catch (e) {
+      ExceptionUtil.handle(e);
     }
   }
 
   FutureOr<void> _onCartChooseShippingAddress(
       CartChooseShippingAddress event, Emitter<CartState> emit) async {
-    if (state is CartLoaded) {
-      try {
+    try {
+      if (state is CartLoaded) {
         final currentState = state as CartLoaded;
         EasyLoading.show();
         final chosenAddress =
@@ -158,9 +164,9 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
           add(CartSetShippingFee(
               lat: chosenAddress.latitude!, lng: chosenAddress.longitude!));
         }
-      } catch (e) {
-        ExceptionUtil.handle(e);
       }
+    } catch (e) {
+      ExceptionUtil.handle(e);
     }
   }
 
@@ -190,7 +196,7 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
       CartChooseOrderType event, Emitter<CartState> emit) async {
     if (state is CartLoaded) {
       final currentState = state as CartLoaded;
-      if (event.typeOrder == OrderType.SHIPPING) {
+      if (event.typeOrder == OrderType.ONSITE) {
         if (await PermissionUtil.requestLocationPermission() == false) {
           AlertUtil.showToast("You must enable location to use Take Away");
           return;
@@ -206,9 +212,9 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
 
   FutureOr<void> _onCartInitStore(
       CartInitStore event, Emitter<CartState> emit) async {
-    if (state is CartLoaded) {
-      final currentState = state as CartLoaded;
-      try {
+    try {
+      if (state is CartLoaded) {
+        final currentState = state as CartLoaded;
         EasyLoading.show();
         final currentPosition = await GlobalData.ins.getCurrentPosition();
         final nearestStore = await _cartUseCase.getNearestStore(
@@ -217,26 +223,26 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
         emit(CartLoaded(
           cart: currentState.cart.copyWith(store: nearestStore),
         ));
-      } catch (e) {
-        ExceptionUtil.handle(e);
       }
+    } catch (e) {
+      ExceptionUtil.handle(e);
     }
   }
 
   FutureOr<void> _onCartChooseStore(
       CartChooseStore event, Emitter<CartState> emit) async {
-    if (state is CartLoaded) {
-      final currentState = state as CartLoaded;
-      try {
+    try {
+      if (state is CartLoaded) {
+        final currentState = state as CartLoaded;
         EasyLoading.show();
         final chosenStore = await _cartUseCase.getDetailStore(event.branchId);
         EasyLoading.dismiss();
         emit(CartLoaded(
           cart: currentState.cart.copyWith(store: chosenStore),
         ));
-      } catch (e) {
-        ExceptionUtil.handle(e);
       }
+    } catch (e) {
+      ExceptionUtil.handle(e);
     }
   }
 
@@ -286,29 +292,136 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
     }
   }
 
+  FutureOr<void> _onCartUpdateChosenCoupon(
+      CartUpdateChosenCoupon event, Emitter<CartState> emit) async {
+    try {
+      if (state is CartLoaded) {
+        final currentState = state as CartLoaded;
+        emit(CartLoaded(
+            cart: currentState.cart.copyWith(
+                shippingCouponCode: () => event.shippingCouponChosenCode,
+                orderCouponCode: () => event.orderCouponChosenCode,
+                productCouponCode: () => event.productCouponChosenCode)));
+        add(CartCheckCoupon());
+      }
+    } catch (e) {
+      ExceptionUtil.handle(e);
+    }
+  }
+
+  FutureOr<void> _onCartCheckCoupon(
+      CartCheckCoupon event, Emitter<CartState> emit) async {
+    try {
+      if (state is CartLoaded) {
+        final currentState = state as CartLoaded;
+        if(currentState.cart.needToCheckCoupon(SharedService.getUserId()) == false){
+          return;
+        }
+        final couponResultList =
+            await _cartUseCase.checkCouponInCart(currentState.cart);
+        String? currentShippingCoupon = currentState.cart.shippingCouponCode;
+        String? currentOrderCoupon = currentState.cart.orderCouponCode;
+        String? currentProductCoupon = currentState.cart.productCouponCode;
+        CouponCheckResultEntity? shippingCouponResult;
+        CouponCheckResultEntity? orderCouponResult;
+        CouponCheckResultEntity? productCouponResult;
+        for (var couponResult in couponResultList) {
+          switch (couponResult.couponType) {
+            case CouponType.SHIPPING:
+              if (couponResult.valid == false) {
+                currentShippingCoupon = null;
+                shippingCouponResult = null;
+                if (couponResult.getViolatedString() != null) {
+                  EasyLoading.showToast(
+                      "Shipping Coupon has been remove because of\n${couponResult.getViolatedString()}");
+                }
+              } else {
+                shippingCouponResult = couponResult;
+              }
+              break;
+            case CouponType.ORDER:
+              if (couponResult.valid == false) {
+                currentOrderCoupon = null;
+                orderCouponResult = null;
+                if (couponResult.getViolatedString() != null) {
+                  EasyLoading.showToast(
+                      "Order Coupon has been remove because of\n${couponResult.getViolatedString()}");
+                }
+              } else {
+                orderCouponResult = couponResult;
+              }
+              break;
+            case CouponType.PRODUCT:
+              if (couponResult.valid == false) {
+                currentProductCoupon = null;
+                productCouponResult = null;
+                if (couponResult.getViolatedString() != null) {
+                  EasyLoading.showToast(
+                      "Product Coupon has been remove because of\n${couponResult.getViolatedString()}");
+                }
+              } else {
+                productCouponResult = couponResult;
+              }
+              break;
+
+            case null:
+              break;
+          }
+        }
+        emit(CartLoaded(
+            cart: currentState.cart.copyWith(
+                shippingCouponCode: () => currentShippingCoupon,
+                orderCouponCode: () => currentOrderCoupon,
+                productCouponCode: () => currentProductCoupon,
+                shippingCouponResult: () => shippingCouponResult,
+                orderCouponResult: () => orderCouponResult,
+                productCouponResult: () => productCouponResult)));
+      }
+    } catch (e) {
+      ExceptionUtil.handle(e);
+    }
+  }
+
+  FutureOr<void> _onCartUpdateOrderInformation(
+      CartUpdateOrderInformation event, Emitter<CartState> emit) async {
+    try {
+      if (state is CartLoaded) {
+        final currentState = state as CartLoaded;
+        EasyLoading.show();
+        final updatedInformationOrders =
+            await _cartUseCase.updateOrderInformation(currentState.cart.orders);
+        emit(CartLoaded(
+            cart:
+                currentState.cart.copyWith(orders: updatedInformationOrders)));
+        EasyLoading.dismiss();
+      }
+    } catch (e) {
+      ExceptionUtil.handle(e);
+    }
+  }
+
   FutureOr<void> _onCartCreateShippingOrder(
       CartCreateShippingOrder event, Emitter<CartState> emit) async {
-    if (state is CartLoaded) {
-      final currentState = state as CartLoaded;
-      try {
+    try {
+      if (state is CartLoaded) {
+        final currentState = state as CartLoaded;
         EasyLoading.show();
         final orderResult = await _cartUseCase.createShippingOrder(
             currentState.cart, SharedService.getUserId()!);
         EasyLoading.dismiss();
         emit(CartFinished(orderResult: orderResult));
-
         add(CartLoadInformation());
-      } catch (e) {
-        ExceptionUtil.handle(e);
       }
+    } catch (e) {
+      ExceptionUtil.handle(e);
     }
   }
 
   FutureOr<void> _onCartCreateTakeAwayOrder(
       CartCreateTakeAwayOrder event, Emitter<CartState> emit) async {
-    if (state is CartLoaded) {
-      final currentState = state as CartLoaded;
-      try {
+    try {
+      if (state is CartLoaded) {
+        final currentState = state as CartLoaded;
         EasyLoading.show();
         OrderResult orderResult;
         if (currentState.cart.receiveTime != null) {
@@ -322,9 +435,9 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
         EasyLoading.dismiss();
         emit(CartFinished(orderResult: orderResult));
         add(CartLoadInformation());
-      } catch (e) {
-        ExceptionUtil.handle(e);
       }
+    } catch (e) {
+      ExceptionUtil.handle(e);
     }
   }
 

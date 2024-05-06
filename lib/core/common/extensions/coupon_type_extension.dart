@@ -13,7 +13,7 @@ extension CouponTypeExtension on CouponType {
     }
   }
 
-  String getTitle(){
+  String getTitle() {
     switch (this) {
       case (CouponType.SHIPPING):
         return "Shipping fees discount code";
@@ -21,6 +21,17 @@ extension CouponTypeExtension on CouponType {
         return "Product discount/reward code";
       case (CouponType.ORDER):
         return "Order discount code";
+    }
+  }
+
+  String getIconType() {
+    switch (this) {
+      case (CouponType.SHIPPING):
+        return AppPath.icShippingCoupon;
+      case (CouponType.PRODUCT):
+        return AppPath.icProductCoupon;
+      case (CouponType.ORDER):
+        return AppPath.icOrderCoupon;
     }
   }
 }

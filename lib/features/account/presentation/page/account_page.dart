@@ -108,6 +108,18 @@ class AccountPage extends StatelessWidget {
                                           HistoryPage.route);
                                     },
                                   ),
+                                  const Divider(
+                                    height: 1,
+                                    indent: 8,
+                                  ),
+                                  MenuItem(
+                                    iconData: Icons.show_chart,
+                                    content: "Statistics",
+                                    callback: () {
+                                      NavigationUtil.pushNamed(
+                                          StatisticsPage.route);
+                                    },
+                                  ),
                                 ],
                               ),
                             ),
@@ -154,9 +166,11 @@ class AccountPage extends StatelessWidget {
                           indent: 8,
                         ),
                         MenuItem(
-                          iconData: Icons.help_outline_rounded,
-                          content: "About us",
-                          callback: () {},
+                          iconData: Icons.chat_outlined,
+                          content: "Help",
+                          callback: () {
+                            NavigationUtil.pushNamed(ChatBotPage.route);
+                          },
                         ),
                         const Divider(
                           height: 1,
@@ -178,7 +192,7 @@ class AccountPage extends StatelessWidget {
                       if (state is UserLoadSuccess) {
                         return Align(
                             alignment: Alignment.center,
-                            child: Container(
+                            child: SizedBox(
                                 width: double.infinity,
                                 child: ElevatedButton.icon(
                                   onPressed: () {
@@ -200,7 +214,8 @@ class AccountPage extends StatelessWidget {
                                                     .add(UserLogout());
                                                 context
                                                     .read<MyBottomNavBarCubit>()
-                                                    .selectPage(HomePage.indexPage);
+                                                    .selectPage(
+                                                        HomePage.indexPage);
                                                 Navigator.pop(dialogContext);
                                               },
                                               callbackCancel: () {
@@ -226,7 +241,7 @@ class AccountPage extends StatelessWidget {
                       } else {
                         return Align(
                             alignment: Alignment.center,
-                            child: Container(
+                            child: SizedBox(
                                 width: double.infinity,
                                 child: ElevatedButton.icon(
                                   onPressed: () {
@@ -280,7 +295,9 @@ class UserAvatar extends StatelessWidget {
                     shape: BoxShape.circle,
                     image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: CachedNetworkImageProvider(AppPath.imgDefaultAvatar,))),
+                        image: CachedNetworkImageProvider(
+                          AppPath.imgDefaultAvatar,
+                        ))),
               ),
               Text(
                 "...",

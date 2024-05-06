@@ -36,13 +36,11 @@ class _OtpPageState extends State<OtpPage> {
           if (state is OtpFinished) {
             switch (widget.fromRoute) {
               case ForgotPasswordPage.route:
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                    ChangePasswordPage.route, (route) => false,
+                NavigationUtil.pushNamedAndRemoveUntil(ChangePasswordPage.route,
                     arguments: {"email": widget.email, "code": state.code});
                 break;
               case RegisterPage.route:
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                    DefaultPage.route, (route) => false);
+                NavigationUtil.pushNamedAndRemoveUntil(DefaultPage.route);
                 break;
             }
           }

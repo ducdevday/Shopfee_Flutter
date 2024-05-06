@@ -1,5 +1,5 @@
 enum CouponType {
   SHIPPING,
-  PRODUCT,
   ORDER,
+  PRODUCT,
 }

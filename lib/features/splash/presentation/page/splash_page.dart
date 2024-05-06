@@ -16,12 +16,8 @@ class _SplashPageState extends State<SplashPage> {
     Future.delayed(const Duration(milliseconds: 3000), () {
       if (SharedService.getIsFirstTime()) {
         NavigationUtil.pushNamedAndRemoveUntil(OnBoardingPage.route);
-      } else if (SharedService.getUserId() != null) {
-        NavigationUtil.pushNamedAndRemoveUntil( DefaultPage.route);
-        // NavigationUtil.pushNamedAndRemoveUntil(ReceiptPage.route,
-        //     arguments: "OB000000002");
       } else {
-        NavigationUtil.pushNamedAndRemoveUntil(LoginPage.route);
+        NavigationUtil.pushNamedAndRemoveUntil(DefaultPage.route);
       }
     });
   }

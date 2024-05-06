@@ -102,6 +102,7 @@ class _ReceiverInformationBottomSheetState
       builder: (context, state) {
         if (state is CartLoaded) {
           return SingleChildScrollView(
+
             child: Column(
               children: [
                 SizedBox(

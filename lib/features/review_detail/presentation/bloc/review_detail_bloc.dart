@@ -6,6 +6,7 @@ class ReviewDetailBloc extends Bloc<ReviewDetailEvent, ReviewDetailState> {
   ReviewDetailBloc(this._reviewDetailUseCase) : super(ReviewDetailInitial()) {
     on<ReviewDetailLoadInformation>(_onReviewDetailLoadInformation);
     on<ReviewDetailLoadMoreInformation>(_onReviewDetailLoadMoreInformation);
+    on<ReviewDetailRefreshInformation>(_onReviewDetailRefreshInformation);
     on<ReviewDetailLikeBtnPressed>(_onReviewDetailLikeBtnPressed);
     on<ReviewDetailDislikeBtnPressed>(_onReviewDetailDislikeBtnPressed);
   }
@@ -54,21 +55,41 @@ class ReviewDetailBloc extends Bloc<ReviewDetailEvent, ReviewDetailState> {
     }
   }
 
-  FutureOr<void> _onReviewDetailLikeBtnPressed(ReviewDetailLikeBtnPressed event, Emitter<ReviewDetailState> emit) async{
-    try{
-      final result = await _reviewDetailUseCase.likeReview(event.productReviewId, SharedService.getUserId()!);
-    }
-    catch(e){
+  FutureOr<void> _onReviewDetailLikeBtnPressed(
+      ReviewDetailLikeBtnPressed event, Emitter<ReviewDetailState> emit) async {
+    try {
+      final result = await _reviewDetailUseCase.likeReview(
+          event.productReviewId, SharedService.getUserId()!);
+    } catch (e) {
       ExceptionUtil.handle(e);
     }
   }
 
-  FutureOr<void> _onReviewDetailDislikeBtnPressed(ReviewDetailDislikeBtnPressed event, Emitter<ReviewDetailState> emit) async{
-    try{
-      final result = await _reviewDetailUseCase.disLikeReview(event.productReviewId, SharedService.getUserId()!);
-    }
-    catch(e){
+  FutureOr<void> _onReviewDetailDislikeBtnPressed(
+      ReviewDetailDislikeBtnPressed event,
+      Emitter<ReviewDetailState> emit) async {
+    try {
+      final result = await _reviewDetailUseCase.disLikeReview(
+          event.productReviewId, SharedService.getUserId()!);
+    } catch (e) {
       ExceptionUtil.handle(e);
+    }
+  }
+
+  FutureOr<void> _onReviewDetailRefreshInformation(
+      ReviewDetailRefreshInformation event,
+      Emitter<ReviewDetailState> emit) async {
+    try {
+      final params =
+          ReviewDetailParams(page: event.initPage, size: event.initSize);
+      final reviewDetailList = await _reviewDetailUseCase.getReviewDetailList(
+          event.productId, params);
+      emit(ReviewDetailLoadSuccess(
+          reviewDetailList: reviewDetailList,
+          page: event.initPage,
+          size: event.initSize));
+    } catch (e) {
+      emit(ReviewDetailLoadFailure());
     }
   }
 }

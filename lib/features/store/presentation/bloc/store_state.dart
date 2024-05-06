@@ -22,6 +22,8 @@ class StoreLoadSuccess extends StoreState {
   final bool cannotLoadMore;
   final Position? currentPosition;
   final StoreViewType viewType;
+  final int page;
+  final int size;
 
   const StoreLoadSuccess({
     required this.stores,
@@ -30,12 +32,23 @@ class StoreLoadSuccess extends StoreState {
     this.isLoadMore = false,
     this.cannotLoadMore = false,
     this.currentPosition,
-    this.viewType = StoreViewType.List_View
+    this.viewType = StoreViewType.List_View,
+    required this.page,
+    required this.size,
   });
 
   @override
-  List<Object?> get props =>
-      [stores,query, getAll, isLoadMore, cannotLoadMore, currentPosition, viewType,];
+  List<Object?> get props => [
+        stores,
+        query,
+        getAll,
+        isLoadMore,
+        cannotLoadMore,
+        currentPosition,
+        viewType,
+        page,
+        size
+      ];
 
   StoreLoadSuccess copyWith({
     List<StoreInformationEntity>? stores,
@@ -45,6 +58,8 @@ class StoreLoadSuccess extends StoreState {
     bool? cannotLoadMore,
     Position? currentPosition,
     StoreViewType? viewType,
+    int? page,
+    int? size,
   }) {
     return StoreLoadSuccess(
       stores: stores ?? this.stores,
@@ -54,6 +69,8 @@ class StoreLoadSuccess extends StoreState {
       cannotLoadMore: cannotLoadMore ?? this.cannotLoadMore,
       currentPosition: currentPosition ?? this.currentPosition,
       viewType: viewType ?? this.viewType,
+      page: page ?? this.page,
+      size: size ?? this.size,
     );
   }
 }

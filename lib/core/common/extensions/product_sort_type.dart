@@ -7,6 +7,10 @@ extension ProductSortTypeExtension on ProductSortType {
         return "High to low price";
       case ProductSortType.PRICE_ASC:
         return "Low to high price";
+      case ProductSortType.STAR_DESC:
+        return "High to low rating";
+      case ProductSortType.STAR_ASC:
+        return "Low to high rating";
       default:
         return "";
     }

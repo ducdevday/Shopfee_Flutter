@@ -51,15 +51,20 @@ class _TrackingPageState extends State<TrackingPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          "ID Transaction",
-                          style: AppStyle.mediumTitleStyleDark,
+                        Expanded(
+                          child: Text(
+                            "ID Transaction",
+                            style: AppStyle.mediumTitleStyleDark,
+                          ),
                         ),
-                        Text(
-                          widget.orderId,
-                          style: AppStyle.normalTextStyleDark,
+                        Expanded(
+                          child: Text(
+                            widget.orderId,
+                            style: AppStyle.normalTextStyleDark,
+                            textAlign: TextAlign.end,
+                          ),
                         )
                       ],
                     ),

@@ -4,6 +4,16 @@ import 'package:shopfee/core/utils/format_util.dart';
 import 'package:shopfee/features/coupon_in_cart/domain/entities/coupon_informaiton_entity.dart';
 
 extension CouponInformationExtension on CouponInformationEntity {
+  bool haveConditionList() {
+    if (minPurchaseConditionString() != null ||
+        usageConditionString() != null ||
+        subjectConditionString() != null ||
+        combinationConditionString() != null) {
+      return true;
+    }
+    return false;
+  }
+
   String? minPurchaseConditionString() {
     if (minPurchaseCondition == null) return null;
     return "Min Purchase: ${FormatUtil.formatMoney(minPurchaseCondition!.value)}";

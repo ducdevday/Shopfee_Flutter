@@ -33,22 +33,21 @@ class _VnPayPageState extends State<VnPayPage> {
           return;
         }
         //? Hủy thanh toán
-        _cubit.handlePayment(
-            transactionId: widget.orderResult.transactionId!);
+        _cubit.handlePayment(transactionId: widget.orderResult.transactionId!);
         NavigationUtil.pushNamedAndRemoveUntil(ReceiptPage.route,
-            arguments: widget.orderResult.orderId);
+                arguments: widget.orderResult.orderId)
+            .then((value) => NavigationUtil.pushNamed(DefaultPage.route));
       },
       child: Scaffold(
         body: BlocProvider(
           create: (context) => _cubit,
           child: BlocConsumer<VnPayCubit, VnPayState>(
             listener: (context, state) {
-              if (state is VnPaySuccess) {
+              if (state is VnPayFinished) {
                 NavigationUtil.pushNamedAndRemoveUntil(ReceiptPage.route,
-                    arguments: widget.orderResult.orderId);
-              } else if (state is VnPayCanceled) {
-                NavigationUtil.pushNamedAndRemoveUntil(ReceiptPage.route,
-                    arguments: widget.orderResult.orderId);
+                        arguments: widget.orderResult.orderId)
+                    .then(
+                        (value) => NavigationUtil.pushNamed(DefaultPage.route));
               }
             },
             builder: (context, state) {
@@ -92,7 +91,7 @@ class _VnPayPageState extends State<VnPayPage> {
                           else if (request.url.contains("status")) {
                             _cubit.handlePayment(
                                 transactionId:
-                                widget.orderResult.transactionId!);
+                                    widget.orderResult.transactionId!);
                             return NavigationDecision.prevent;
                           }
                           return NavigationDecision.navigate;

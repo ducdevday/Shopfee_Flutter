@@ -4,8 +4,8 @@ import 'package:shopfee/core/base/dio_service.dart';
 
 class CouponDetailService{
 
-  Future<Response> doSomeThing(String query) async{
-      final response = await DioService.instance.get("path");
+  Future<Response> getCouponDetail(String couponId) async{
+      final response = await DioService.instance.get("${DioService.couponPath}/release/$couponId");
       return response;
   }
 }

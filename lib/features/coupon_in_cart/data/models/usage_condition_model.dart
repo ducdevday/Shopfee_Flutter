@@ -6,7 +6,7 @@ part "usage_condition_model.g.dart";
 @JsonSerializable()
 class UsageConditionModel {
   final CouponUsageConditionType type;
-  final num value;
+  final num? value;
 
   const UsageConditionModel({
     required this.type,

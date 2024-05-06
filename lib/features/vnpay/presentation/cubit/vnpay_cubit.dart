@@ -5,29 +5,16 @@ class VnPayCubit extends Cubit<VnPayState> {
 
   VnPayCubit(this._vnPayUseCase) : super(VnPayInitial());
 
-  Future<void> handlePayment(
-      {required String transactionId}) async {
+  Future<void> handlePayment({required String transactionId}) async {
     try {
       EasyLoading.show(
           status: 'Processing...', maskType: EasyLoadingMaskType.black);
-      final status = await _vnPayUseCase.updateTransaction(transactionId);
-      if (status == "PAID") {
-        emit(VnPaySuccess());
-        AlertUtil.showToast("Payment success");
-      } else {
-        // final eventLog = EventLogEntity(
-        //     orderStatus: OrderStatus.CANCELED,
-        //     time: DateTime.now(),
-        //     description: "Online Payment Canceled",
-        //     makerByEmployee: false);
-        // await _vnPayUseCase.addEventLog(orderId, eventLog);
-        emit(VnPayCanceled());
-        AlertUtil.showToast("Payment canceled");
-      }
+      await _vnPayUseCase.updateTransaction(transactionId);
       EasyLoading.dismiss();
+      emit(VnPayFinished());
     } catch (e) {
-      emit(VnPayCanceled());
       ExceptionUtil.handle(e);
+      emit(VnPayFinished());
     }
   }
 }

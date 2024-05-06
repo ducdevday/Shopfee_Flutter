@@ -7,8 +7,8 @@ class CancelDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ReceiptBloc, ReceiptState>(
       builder: (context, state) {
-        if (state is ReceiptLoadSuccess &&
-            state.lastEventLog.orderStatus == OrderStatus.CANCELED) {
+        if (state is ReceiptLoadSuccess && state.getCancelDetail() != null) {
+          state.getCancelDetail();
           return Column(
             children: [
               Column(
@@ -23,57 +23,67 @@ class CancelDetail extends StatelessWidget {
                     height: 8,
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Request by",
-                        style: AppStyle.normalTextStyleDark
-                            .copyWith(fontWeight: FontWeight.w400),
-                      ),
-                      Text(
-                        "${state.lastEventLog.actor?.getFormattedName()}",
-                        style: AppStyle.normalTextStyleDark
-                            .copyWith(fontWeight: FontWeight.w400),
-                      )
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Request at",
-                        style: AppStyle.normalTextStyleDark
-                            .copyWith(fontWeight: FontWeight.w400),
-                      ),
-                      Text(
-                        "${FormatUtil.formatTime(state.lastEventLog.time)} - ${FormatUtil.formatDate2(state.lastEventLog.time)}",
-                        style: AppStyle.normalTextStyleDark
-                            .copyWith(fontWeight: FontWeight.w400),
-                      )
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        "Reason",
-                        style: AppStyle.normalTextStyleDark
-                            .copyWith(fontWeight: FontWeight.w400),
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width / 2,
+                      Expanded(
                         child: Text(
-                          "${state.lastEventLog.description}",
+                          "Request by",
                           style: AppStyle.normalTextStyleDark
                               .copyWith(fontWeight: FontWeight.w400),
-                          textAlign: TextAlign.right,
+                        ),
+                      ),
+                      Expanded(
+                        child: Text(
+                          "${state.getCancelDetail()?.actor?.getFormattedName()}",
+                          style: AppStyle.normalTextStyleDark
+                              .copyWith(fontWeight: FontWeight.w400),
+                          textAlign: TextAlign.end,
+                        ),
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          "Request at",
+                          style: AppStyle.normalTextStyleDark
+                              .copyWith(fontWeight: FontWeight.w400),
+                        ),
+                      ),
+                      Expanded(
+                        child: Text(
+                          "${FormatUtil.formatTime(state.getCancelDetail()?.time)} - ${FormatUtil.formatDate2(state.getCancelDetail()?.time)}",
+                          style: AppStyle.normalTextStyleDark
+                              .copyWith(fontWeight: FontWeight.w400),
+                          textAlign: TextAlign.end,
+                        ),
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          "Reason",
+                          style: AppStyle.normalTextStyleDark
+                              .copyWith(fontWeight: FontWeight.w400),
+                        ),
+                      ),
+                      Expanded(
+                        child: Text(
+                          "${state.getCancelDetail()?.note ?? ""}",
+                          style: AppStyle.normalTextStyleDark
+                              .copyWith(fontWeight: FontWeight.w400),
+                          textAlign: TextAlign.end,
                         ),
                       )
                     ],

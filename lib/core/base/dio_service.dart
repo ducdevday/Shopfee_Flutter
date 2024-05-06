@@ -6,6 +6,7 @@ import 'package:shopfee/core/service/shared_service.dart';
 
 class DioService {
   static const String BACKEND_PATH = "http://10.0.2.2:8080/api/";
+  // static const String BACKEND_PATH = "http://172.16.3.55:8080/api/";
 
   //api backend route
   static const String productPath = "product";
@@ -20,6 +21,7 @@ class DioService {
   static const String reviewPath = "review";
   static const String notificationPath = "notification";
   static const String couponPath = "coupon";
+  static const String refundPath = "order-refund";
 
   late Dio _dio;
   static final DioService _instance = DioService._internal();
@@ -44,8 +46,8 @@ class DioService {
     _dio = Dio(
       BaseOptions(
         baseUrl: BACKEND_PATH,
-        connectTimeout: const Duration(milliseconds: 30000),
-        receiveTimeout: const Duration(milliseconds: 30000),
+        connectTimeout: const Duration(milliseconds: 90000),
+        receiveTimeout: const Duration(milliseconds: 90000),
         responseType: ResponseType.json,
         contentType: Headers.jsonContentType,
       ),
@@ -68,13 +70,16 @@ class DioService {
         },
 
         onError: (DioError e, handler) async {
-          if (e.response?.statusCode == 401 &&
-              SharedService.getUserId() != null) {
-            // If a 401 response is received, refresh the access token
-            await setRefreshToken(e);
-            // Repeat the request with the updated header
-            return handler.resolve(await instance.fetch(e.requestOptions));
-          }
+          // if (e.response?.statusCode == 500 &&
+          //     SharedService.getUserId() != null) {
+          //   // If a 401 response is received, refresh the access token
+          //   // await setRefreshToken(e);
+          //   //? Repeat the request with the updated header
+          //   // return handler.resolve(await instance.fetch(e.requestOptions));
+          //   //? Navigate To Login
+          //   SharedService.clearToken();
+          //   NavigationUtil.pushNamedAndRemoveUntil(LoginPage.route);
+          // }
           return handler.next(e); // continue
         },
         // ...

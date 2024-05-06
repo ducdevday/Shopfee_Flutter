@@ -1,45 +1,7 @@
 part of cart;
 
-class CartBottomBar extends StatefulWidget {
+class CartBottomBar extends StatelessWidget {
   const CartBottomBar({Key? key}) : super(key: key);
-
-  @override
-  State<CartBottomBar> createState() => _CartBottomBarState();
-}
-
-class _CartBottomBarState extends State<CartBottomBar> {
-  late UserState userState;
-  late UserEntity user;
-
-  @override
-  void initState() {
-    super.initState();
-    userState = context.read<UserBloc>().state;
-    if (userState is UserLoadSuccess) {
-      user = (userState as UserLoadSuccess).user;
-    }
-  }
-
-  void showEditPhoneDialog() {
-    showDialog(
-      context: context,
-      builder: (BuildContext dialogContext) => MyPhoneInputDialog(
-        title: "Update Your Phone Number",
-        content: "Before order, you must update your phone number",
-        cancelText: "Cancel",
-        confirmText: "Confirm",
-        callbackOK: (String phoneNumber) {
-          Navigator.of(dialogContext).pop();
-          context.read<UserBloc>().add(UserUpdateInformation(
-            user: user.copyWith(phoneNumber: phoneNumber),
-          ));
-        },
-        callbackCancel: () {
-          Navigator.of(dialogContext).pop();
-        },
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,44 +9,53 @@ class _CartBottomBarState extends State<CartBottomBar> {
       builder: (context, state) {
         if (state is CartLoaded) {
           final cart = state.cart;
-          final totalPrice = cart.getTotalCartPrice();
+          final totalPrice = cart.getCartTotalPrice();
           final isOrderValid = cart.isOrderValid();
           final isShippingOrder = cart.orderType == OrderType.SHIPPING;
-          final hasPhoneNumber = user.phoneNumber != null;
 
           return BottomAppBar(
             height: 70,
+            color: Colors.white,
             child: Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: AppDimen.screenPadding,
               ),
-              child: ElevatedButton(
-                onPressed: isOrderValid
-                    ? () {
-                  if (userState is UserLoadSuccess) {
-                    context.read<CartBloc>().add(
-                        isShippingOrder
+              child: BlocBuilder<UserBloc, UserState>(
+                builder: (context, userState) {
+                  if(userState is UserLoadSuccess){
+                    return ElevatedButton(
+                      onPressed: isOrderValid
+                          ? () {
+                        context.read<CartBloc>().add(isShippingOrder
                             ? CartCreateShippingOrder()
                             : CartCreateTakeAwayOrder());
-                    // if (hasPhoneNumber) {
-                    //   context.read<CartBloc>().add(
-                    //     isShippingOrder
-                    //         ? CartCreateShippingOrder()
-                    //         : CartCreateTakeAwayOrder(),
-                    //   );
-                    // } else {
-                    //   showEditPhoneDialog();
-                    // }
-                  } else {
-                    NavigationUtil.pushNamed(
-                      LoginPage.route,
-                      arguments: CartPage.route,
+                      }
+                          : null,
+                      style: AppStyle.elevatedButtonStylePrimary,
+                      child: Text(
+                          "Order (${FormatUtil.formatMoney(totalPrice)})"),
+                    );
+                  }else{
+                    return ElevatedButton(
+                      onPressed: () {
+                        NavigationUtil.pushNamed(LoginPage.route,
+                            arguments: DefaultPage.route);
+                      },
+                      child: const Text("Register / Log In To Order"),
+                      style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 12, horizontal: 24),
+                          disabledBackgroundColor:
+                          const Color(0xffCACACA),
+                          disabledForegroundColor:
+                          AppColor.lightColor,
+                          textStyle: AppStyle.mediumTextStyleDark,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          )),
                     );
                   }
-                }
-                    : null,
-                style: AppStyle.elevatedButtonStylePrimary,
-                child: Text("Order (${FormatUtil.formatMoney(totalPrice)})"),
+                },
               ),
             ),
           );

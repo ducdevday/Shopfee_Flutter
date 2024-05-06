@@ -20,7 +20,7 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
       if (emailExist) {
         emit(ForgotPasswordFinished());
       } else {
-        EasyLoading.showError("Email is not exist");
+        EasyLoading.showError("Email does not exist");
       }
     } catch (e) {
       ExceptionUtil.handle(e);

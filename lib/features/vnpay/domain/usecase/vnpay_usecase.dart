@@ -5,7 +5,7 @@ import 'package:shopfee/features/template/domain/repositories/template_repositor
 import 'package:shopfee/features/vnpay/domain/repositories/vnpay_repository.dart';
 
 abstract class VnPayUseCase {
-  Future<String> updateTransaction(String transactionId);
+  Future<void> updateTransaction(String transactionId);
 
   Future<void> addEventLog(String orderId, EventLogEntity eventLog);
 }
@@ -16,7 +16,7 @@ class VnPayUseCaseImpl extends VnPayUseCase {
   VnPayUseCaseImpl(this._vnPayRepository);
 
   @override
-  Future<String> updateTransaction(String transactionId) async {
+  Future<void> updateTransaction(String transactionId) async {
     return await _vnPayRepository.updateTransaction(transactionId);
   }
 

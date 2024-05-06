@@ -12,23 +12,26 @@ class OrderPage extends StatefulWidget {
 class _OrderPageState extends State<OrderPage> {
   // late final OrderBloc context.read<OrderBloc>();
 
-  int page = 1;
-  int size = 8;
+  int initPage = 1;
+  int initSize = 8;
   bool isLoadingMore = false;
   bool cannotLoadMore = false;
   ProductViewType viewType = ProductViewType.List_View_Vertical;
   late ScrollController scrollController;
+  late RefreshController _refreshController;
 
   @override
   void initState() {
     super.initState();
     scrollController = ScrollController();
     scrollController.addListener(_scrollListener);
+    _refreshController = RefreshController(initialRefresh: false);
   }
 
   @override
   void dispose() {
     scrollController.dispose();
+    _refreshController.dispose();
     super.dispose();
   }
 
@@ -36,121 +39,145 @@ class _OrderPageState extends State<OrderPage> {
     if (isLoadingMore || cannotLoadMore) return;
     if (scrollController.position.pixels ==
         scrollController.position.maxScrollExtent) {
-      page = page + 1;
-      context
-          .read<OrderBloc>()
-          .add(OrderLoadInformation(page: page, size: size));
+      context.read<OrderBloc>().add(OrderLoadMoreInformation());
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        toolbarHeight: 70,
-        title: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
-          child: Row(
-            children: [
-              Expanded(
-                child: GestureDetector(
-                  onTap: () {
-                    NavigationUtil.pushNamed(SearchPage.route);
-                  },
-                  child: Hero(
-                    tag: "Home_Search_Bar",
-                    child: TextField(
-                      enabled: false,
-                      style: AppStyle.smallTextStyleDark,
-                      decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.all(8),
-                        suffixIcon: const Icon(Icons.search),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16)),
-                        hintText: "What would you like to drink today?",
+    return RefreshConfiguration.copyAncestor(
+      context: context,
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          toolbarHeight: 70,
+          title: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () {
+                      NavigationUtil.pushNamed(SearchPage.route);
+                    },
+                    child: Hero(
+                      tag: "Home_Search_Bar",
+                      child: TextField(
+                        enabled: false,
+                        style: AppStyle.smallTextStyleDark,
+                        decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.all(8),
+                          suffixIcon: const Icon(Icons.search),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16)),
+                          hintText: "What would you like to drink today?",
+                        ),
                       ),
                     ),
                   ),
                 ),
+                const SizedBox(width: 10),
+                BlocBuilder<OrderBloc, OrderState>(
+                  builder: (context, state) {
+                    if (state is OrderLoadSuccess) {
+                      return Badge(
+                          label: Text("${state.filterNumber}"),
+                          isLabelVisible: state.filterNumber != 0,
+                          child: GestureDetector(
+                              onTap: () {
+                                buildShowFilterBottomSheet(context);
+                              },
+                              child: Icon(Icons.filter_alt_outlined)));
+                    } else {
+                      return Icon(Icons.filter_alt_outlined);
+                    }
+                  },
+                ),
+                const SizedBox(width: 10),
+                BlocBuilder<OrderBloc, OrderState>(
+                  builder: (context, state) {
+                    if (state is OrderLoadSuccess) {
+                      return Badge(
+                          label: Text("${state.sortNumber}"),
+                          isLabelVisible: state.sortNumber != 0,
+                          child: GestureDetector(
+                              onTap: () {
+                                buildShowSortBottomSheet(context);
+                              },
+                              child: Icon(Icons.sort_rounded)));
+                    } else {
+                      return Icon(Icons.sort_rounded);
+                    }
+                  },
+                )
+              ],
+            ),
+          ),
+          bottom: const PreferredSize(
+            preferredSize: Size.fromHeight(1),
+            child: Divider(height: 1),
+          ),
+        ),
+        body: BlocListener<OrderBloc, OrderState>(
+          listener: (context, state) {
+            if (state is OrderLoadSuccess) {
+              isLoadingMore = state.isLoadMore;
+              cannotLoadMore = state.cannotLoadMore;
+              viewType = state.viewType;
+            }
+          },
+          child: Column(
+            children: [
+              const SizedBox(
+                height: AppDimen.spacing,
               ),
-              const SizedBox(width: 10),
-              BlocBuilder<OrderBloc, OrderState>(
-                builder: (context, state) {
-                  if (state is OrderLoadSuccess) {
-                    return Badge(
-                        label: Text("${state.filterNumber}"),
-                        isLabelVisible: state.filterNumber != 0,
-                        child: GestureDetector(
-                            onTap: () {
-                              buildShowFilterBottomSheet(context, size)
-                                  .then((refresh) {
-                                if (refresh != null && refresh == true) {
-                                  page = 1;
-                                  print("Apply/Clear Filter");
-                                }
-                              });
-                            },
-                            child: Icon(Icons.filter_alt_outlined)));
-                  } else {
-                    return Icon(Icons.filter_alt_outlined);
-                  }
-                },
-              )
+              buildCategoryList(),
+              buildViewType(),
+              BlocBuilder<OrderBloc, OrderState>(builder: (context, state) {
+                switch (state) {
+                  case OrderLoadInProcess():
+                    return ProductListSkeleton();
+                  case OrderLoadSuccess():
+                    if (state.products.isNotEmpty) {
+                      return Expanded(
+                        child: SmartRefresher(
+                          controller: _refreshController,
+                          enablePullUp: false,
+                          physics: BouncingScrollPhysics(),
+                          onRefresh: () async {
+                            context.read<OrderBloc>().add(
+                                OrderRefreshInformation(
+                                    initPage: initPage, initSize: initSize));
+                            _refreshController.refreshCompleted();
+                          },
+                          child: ProductList(
+                              viewType: viewType,
+                              isLoadingMore: isLoadingMore,
+                              cannotLoadMore: cannotLoadMore,
+                              productList: state.products),
+                        ),
+                      );
+                    } else {
+                      return Expanded(
+                        child: MyEmptyList(
+                          imgPath: AppPath.icNoProduct,
+                          text: "No Result Found",
+                        ),
+                      );
+                    }
+                  case OrderLoadFailure():
+                    return MyErrorWidget();
+                  default:
+                    return SizedBox();
+                }
+              }),
             ],
           ),
         ),
-        bottom: const PreferredSize(
-          preferredSize: Size.fromHeight(1),
-          child: Divider(height: 1),
-        ),
+        floatingActionButtonLocation:
+            FloatingActionButtonLocation.miniCenterFloat,
+        floatingActionButton: const HomeFloatAction(),
       ),
-      body: BlocListener<OrderBloc, OrderState>(
-        listener: (context, state) {
-          if (state is OrderLoadSuccess) {
-            isLoadingMore = state.isLoadMore;
-            cannotLoadMore = state.cannotLoadMore;
-            viewType = state.viewType;
-          }
-        },
-        child: Column(
-          children: [
-            const SizedBox(
-              height: AppDimen.spacing,
-            ),
-            buildCategoryList(),
-            buildViewType(),
-            BlocBuilder<OrderBloc, OrderState>(builder: (context, state) {
-              switch (state) {
-                case OrderLoadInProcess():
-                  return ProductListSkeleton();
-                case OrderLoadSuccess():
-                  if (state.products.isNotEmpty) {
-                    return ProductList(
-                        viewType: viewType,
-                        isLoadingMore: isLoadingMore,
-                        cannotLoadMore: cannotLoadMore,
-                        productList: state.products);
-                  } else {
-                    return Expanded(
-                      child: MyEmptyList(
-                        imgPath: AppPath.icNoProduct,
-                        text: "No Result Found",
-                      ),
-                    );
-                  }
-                case OrderLoadFailure():
-                  return MyErrorWidget();
-                default:
-                  return SizedBox();
-              }
-            }),
-          ],
-        ),
-      ),
-      floatingActionButtonLocation:
-          FloatingActionButtonLocation.miniCenterFloat,
-      floatingActionButton: const HomeFloatAction(),
     );
   }
 
@@ -230,13 +257,12 @@ class _OrderPageState extends State<OrderPage> {
                 itemBuilder: (context, index) => GestureDetector(
                       onTap: () {
                         if (state.chosenCategory != state.categories[index]) {
-                          page = 1;
                           isLoadingMore = false;
                           cannotLoadMore = false;
-                          context.read<OrderBloc>().add(OrderChooseCategory(
+                          context.read<OrderBloc>().add(OrderSelectCategory(
                                 category: state.categories[index],
-                                page: page,
-                                size: size,
+                                initPage: initPage,
+                                initSize: initSize,
                               ));
                         }
                       },
@@ -289,7 +315,7 @@ class _OrderPageState extends State<OrderPage> {
   }
 }
 
-Future<bool?> buildShowFilterBottomSheet(BuildContext context, int size) {
+Future<bool?> buildShowFilterBottomSheet(BuildContext context) {
   return showModalBottomSheet<bool?>(
     backgroundColor: Colors.black.withOpacity(0.75),
     isScrollControlled: true,
@@ -301,10 +327,32 @@ Future<bool?> buildShowFilterBottomSheet(BuildContext context, int size) {
           builder: (context, state) {
             if (state is OrderLoadSuccess) {
               return OrderFilterBottomSheet(
-                size: size,
                 minPrice: state.minPrice,
                 maxPrice: state.maxPrice,
                 minStar: state.minStar,
+              );
+            } else {
+              return SizedBox();
+            }
+          },
+        ),
+      );
+    },
+  );
+}
+
+Future<bool?> buildShowSortBottomSheet(BuildContext context) {
+  return showModalBottomSheet<bool?>(
+    backgroundColor: Colors.black.withOpacity(0.75),
+    isScrollControlled: true,
+    context: context,
+    builder: (_) {
+      return BlocProvider.value(
+        value: context.read<OrderBloc>(),
+        child: BlocBuilder<OrderBloc, OrderState>(
+          builder: (context, state) {
+            if (state is OrderLoadSuccess) {
+              return OrderSortBottomSheet(
                 sortType: state.sortType,
               );
             } else {

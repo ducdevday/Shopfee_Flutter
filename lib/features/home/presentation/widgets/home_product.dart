@@ -68,7 +68,8 @@ class HomeProduct extends StatelessWidget {
                                 width: 2,
                               ),
                               Text(
-                                "${product.ratingSummary?.quantity}",
+                                FormatUtil.formatStar(
+                                    product.ratingSummary?.star),
                                 style: const TextStyle(
                                     color: Color(0xff3C3C3C),
                                     fontSize: 12,
@@ -130,10 +131,13 @@ class HomeProduct extends StatelessWidget {
                 ),
               ),
             if (product.status == ProductStatus.OUT_OF_STOCK)
-              Image.asset(
-                AppPath.imgSoldOut,
-                width: 50,
-                height: 50,
+              Positioned(
+                left: AppDimen.smallSpacing,
+                child: Image.asset(
+                  AppPath.imgSuspended,
+                  width: 50,
+                  height: 50,
+                ),
               ),
           ],
         ),
@@ -203,7 +207,8 @@ class HomeProduct extends StatelessWidget {
                                         width: 2,
                                       ),
                                       Text(
-                                        "${product.ratingSummary?.quantity}",
+                                        FormatUtil.formatStar(
+                                            product.ratingSummary?.star),
                                         style: const TextStyle(
                                             color: Color(0xff3C3C3C),
                                             fontSize: 12,
@@ -247,10 +252,13 @@ class HomeProduct extends StatelessWidget {
                     ),
                   ),
                 if (product.status == ProductStatus.OUT_OF_STOCK)
-                  Image.asset(
-                    AppPath.imgSoldOut,
-                    width: 50,
-                    height: 50,
+                  Positioned(
+                    left: AppDimen.smallSpacing,
+                    child: Image.asset(
+                      AppPath.imgSuspended,
+                      width: 50,
+                      height: 50,
+                    ),
                   ),
               ],
             ),
@@ -319,7 +327,8 @@ class HomeProduct extends StatelessWidget {
                                         width: 2,
                                       ),
                                       Text(
-                                        "${product.ratingSummary?.quantity}",
+                                        FormatUtil.formatStar(
+                                            product.ratingSummary?.star),
                                         style: const TextStyle(
                                             color: Color(0xff3C3C3C),
                                             fontSize: 12,
@@ -363,10 +372,13 @@ class HomeProduct extends StatelessWidget {
                     ),
                   ),
                 if (product.status == ProductStatus.OUT_OF_STOCK)
-                  Image.asset(
-                    AppPath.imgSoldOut,
-                    width: 50,
-                    height: 50,
+                  Positioned(
+                    left: AppDimen.smallSpacing,
+                    child: Image.asset(
+                      AppPath.imgSuspended,
+                      width: 50,
+                      height: 50,
+                    ),
                   ),
               ],
             ),

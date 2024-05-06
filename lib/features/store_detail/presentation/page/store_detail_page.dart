@@ -74,11 +74,11 @@ class _StoreDetailPageState extends State<StoreDetailPage> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            NavigationUtil.pushNamed(ImageFullScreen.route,
+                            NavigationUtil.pushNamed(NetworkImageFullScreen.route,
                                 arguments: state.store.imageUrl!);
                           },
                           child: Hero(
-                            tag: "Product",
+                            tag: "IMG",
                             child: CachedNetworkImage(
                               imageUrl: "${state.store.imageUrl}",
                               fit: BoxFit.cover,

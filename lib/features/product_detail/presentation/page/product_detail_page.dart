@@ -21,6 +21,10 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     _bloc = ServiceLocator.sl<ProductDetailBloc>()
       ..add(ProductDetailLoadInformation(widget.productId));
     _controller = TooltipController();
+    EventLog.logEvent("product_view", params: {
+      "product_id": widget.productId,
+      "user_id": SharedService.getUserId() ?? ""
+    });
   }
 
   @override
@@ -70,7 +74,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(8),
                                   border: Border.all(
-                                      color: AppColor.scaffoldColorBackground, width: 1),
+                                      color: AppColor.scaffoldColorBackground,
+                                      width: 1),
                                   boxShadow: [
                                     BoxShadow(
                                         color: AppColor.shadowColor,
@@ -84,17 +89,19 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                     return Column(
                                       children: [
                                         Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
-                                            Text(
-                                              state.order.product.name!,
-                                              style: AppStyle
-                                                  .largeTitleStyleDark
-                                                  .copyWith(
-                                                      fontSize: 18,
-                                                      fontWeight:
-                                                          FontWeight.w500),
+                                            Expanded(
+                                              child: Text(
+                                                state.order.product.name!,
+                                                style: AppStyle
+                                                    .largeTitleStyleDark
+                                                    .copyWith(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                              ),
                                             ),
                                             Text(
                                               FormatUtil.formatMoney(
@@ -105,6 +112,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                                       fontSize: 18,
                                                       fontWeight:
                                                           FontWeight.w500),
+                                              textAlign: TextAlign.end,
                                             )
                                           ],
                                         ),
@@ -190,47 +198,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                             const SizedBox(
                               height: 8,
                             ),
-                            Container(
-                                padding: const EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(8),
-                                    border: Border.all(
-                                        color: AppColor.scaffoldColorBackground,
-                                        width: 1),
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: AppColor.shadowColor,
-                                          spreadRadius: 0,
-                                          blurRadius: 1)
-                                    ]),
-                                child: Column(
-                                  children: [
-                                    Align(
-                                      alignment: Alignment.topLeft,
-                                      child: Text("Customize",
-                                          style: AppStyle.mediumTextStyleDark
-                                              .copyWith(
-                                                  color: AppColor.headingColor,
-                                                  fontWeight: FontWeight.w600)),
-                                    ),
-                                    const SizedBox(
-                                      height: 12,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text("Size",
-                                            style: AppStyle.normalTextStyleDark
-                                                .copyWith(
-                                                    color:
-                                                        AppColor.headingColor)),
-                                        const SizeFilter()
-                                      ],
-                                    ),
-                                  ],
-                                )),
+                            const SizeFilter(),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            const ToppingFilter(),
                             const SizedBox(
                               height: 8,
                             ),
@@ -240,37 +212,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(8),
                                   border: Border.all(
-                                      color: AppColor.scaffoldColorBackground, width: 1),
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: AppColor.shadowColor,
-                                        spreadRadius: 0,
-                                        blurRadius: 1)
-                                  ]),
-                              child: Column(
-                                children: [
-                                  Align(
-                                    alignment: Alignment.topLeft,
-                                    child: Text("Topping",
-                                        style: AppStyle.mediumTextStyleDark
-                                            .copyWith(
-                                                color: AppColor.headingColor,
-                                                fontWeight: FontWeight.w600)),
-                                  ),
-                                  const ToppingFilter()
-                                ],
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            Container(
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(8),
-                                  border: Border.all(
-                                      color: AppColor.scaffoldColorBackground, width: 1),
+                                      color: AppColor.scaffoldColorBackground,
+                                      width: 1),
                                   boxShadow: [
                                     BoxShadow(
                                         color: AppColor.shadowColor,
@@ -333,7 +276,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                             top: 36,
                             right: AppDimen.screenPadding,
                             child: Image.asset(
-                              AppPath.imgSoldOut2,
+                              AppPath.imgSuspended2,
                               width: 100,
                             )),
                     ],

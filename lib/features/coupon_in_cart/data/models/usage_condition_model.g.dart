@@ -9,7 +9,7 @@ part of 'usage_condition_model.dart';
 UsageConditionModel _$UsageConditionModelFromJson(Map<String, dynamic> json) =>
     UsageConditionModel(
       type: $enumDecode(_$CouponUsageConditionTypeEnumMap, json['type']),
-      value: json['value'] as num,
+      value: json['value'] as num?,
     );
 
 Map<String, dynamic> _$UsageConditionModelToJson(

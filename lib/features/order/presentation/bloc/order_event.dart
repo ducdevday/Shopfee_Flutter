@@ -5,66 +5,117 @@ abstract class OrderEvent extends Equatable {
 }
 
 class OrderLoadInformation extends OrderEvent {
-  final int page;
-  final int size;
+  final int initPage;
+  final int initSize;
 
   const OrderLoadInformation({
-    required this.page,
-    required this.size,
+    required this.initPage,
+    required this.initSize,
   });
 
   @override
-  List<Object?> get props =>
-      [page, size];
+  List<Object?> get props => [initPage, initSize];
+}
+
+class OrderRefreshInformation extends OrderEvent {
+  final int initPage;
+  final int initSize;
+
+  const OrderRefreshInformation({
+    required this.initPage,
+    required this.initSize,
+  });
+
+  @override
+  List<Object?> get props => [initPage, initSize];
 }
 
 class OrderLoadMoreInformation extends OrderEvent {
-  final int page;
-  final int size;
-
-  const OrderLoadMoreInformation({
-    required this.page,
-    required this.size,
-  });
-
   @override
-  List<Object> get props => [page, size];
+  List<Object> get props => [];
 }
 
-class OrderChooseCategory extends OrderEvent {
+// class OrderChooseCategory extends OrderEvent {
+//   final CategoryEntity category;
+//   final int page;
+//   final int size;
+//   final num? minPrice;
+//   final num? maxPrice;
+//   final num? minStar;
+//   final ProductSortType? sortType;
+//
+//   const OrderChooseCategory({
+//     required this.category,
+//     required this.page,
+//     required this.size,
+//     this.minPrice,
+//     this.maxPrice,
+//     this.minStar,
+//     this.sortType,
+//   });
+//
+//   @override
+//   List<Object?> get props => [
+//         category,
+//         page,
+//         size,
+//         minPrice,
+//         maxPrice,
+//         minStar,
+//         sortType,
+//       ];
+// }
+
+class OrderSelectCategory extends OrderEvent {
   final CategoryEntity category;
-  final int page;
-  final int size;
+  final int initPage;
+  final int initSize;
+
+  const OrderSelectCategory(
+      {required this.category, required this.initPage, required this.initSize});
+
+  @override
+  List<Object> get props => [category, initPage, initSize];
+}
+
+class OrderApplyFilter extends OrderEvent {
   final num? minPrice;
   final num? maxPrice;
   final num? minStar;
-  final ProductSortType? sortType;
+  final int initPage;
+  final int initSize;
 
-  const OrderChooseCategory({
-    required this.category,
-    required this.page,
-    required this.size,
-    this.minPrice, this.maxPrice, this.minStar, this.sortType,
+  const OrderApplyFilter({
+    this.minPrice,
+    this.maxPrice,
+    this.minStar,
+    required this.initPage,
+    required this.initSize,
   });
 
   @override
-  List<Object?> get props =>
-      [category, page, size, minPrice, maxPrice, minStar, sortType,];
+  List<Object?> get props => [
+        minPrice,
+        maxPrice,
+        minStar,
+        initPage,
+        initSize,
+      ];
 }
 
-class OrderClearFilter extends OrderEvent {
-  final CategoryEntity category;
-  final int page;
-  final int size;
+class OrderApplySort extends OrderEvent {
+  final ProductSortType? sortType;
+  final int initPage;
+  final int initSize;
 
-  const OrderClearFilter({
-    required this.category,
-    required this.page,
-    required this.size,
+  const OrderApplySort({
+    this.sortType,
+    required this.initPage,
+    required this.initSize,
   });
 
   @override
-  List<Object> get props => [category, page, size];
+  List<Object?> get props => [sortType, initPage, initSize];
 }
 
 class OrderChangeViewType extends OrderEvent {

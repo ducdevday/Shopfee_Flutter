@@ -17,207 +17,256 @@ class _CouponInformationItemState extends State<CouponInformationItem> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Stack(
-          children: [
-            InkWell(
-              onTap: () {},
-              child: PhysicalShape(
-                color: Colors.white,
-                elevation: 4,
-                shadowColor: Color(0xFFE4E4E4).withOpacity(0.5),
-                clipper: CouponClipperHorizontal(),
-                child: Stack(
-                  children: <Widget>[
-                    ClipPath(
+    return BlocBuilder<CouponInCartBloc, CouponInCartState>(
+      builder: (context, state) {
+        if (state is CouponInCartLoadSuccess) {
+          final String? currentCoupon;
+          switch (widget.type) {
+            case CouponType.SHIPPING:
+              currentCoupon = state.shippingCouponChosenCode;
+              break;
+            case CouponType.ORDER:
+              currentCoupon = state.orderCouponChosenCode;
+              break;
+            case CouponType.PRODUCT:
+              currentCoupon = state.productCouponChosenCode;
+              break;
+          }
+          return Column(
+            children: [
+              Stack(
+                children: [
+                  InkWell(
+                    onTap: () {
+
+                    },
+                    child: PhysicalShape(
+                      color: Colors.white,
+                      elevation: 4,
+                      shadowColor: Color(0xFFE4E4E4).withOpacity(0.5),
                       clipper: CouponClipperHorizontal(),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: 120,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10.0)),
-                        child: Row(
-                          children: [
-                            Container(
-                              padding:
-                                  const EdgeInsets.all(AppDimen.smallPadding),
-                              width:
-                                  MediaQuery.of(context).size.width * 3 / 10 +
-                                      4,
-                              child: Image.asset(
-                                widget.type.getImage(),
-                                fit: BoxFit.cover,
+                      child: Stack(
+                        children: <Widget>[
+                          ClipPath(
+                            clipper: CouponClipperHorizontal(),
+                            child: Container(
+                              width: MediaQuery
+                                  .of(context)
+                                  .size
+                                  .width,
+                              height: 120,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10.0)),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    padding:
+                                    const EdgeInsets.all(AppDimen.smallPadding),
+                                    width:
+                                    MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width * 3 / 10 +
+                                        4,
+                                    child: Image.asset(
+                                      widget.type.getImage(),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  DottedLine(
+                                    direction: Axis.vertical,
+                                    dashLength: 8.0,
+                                    dashColor: AppColor.dividerColor,
+                                  ),
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: AppDimen.spacing,
+                                          horizontal: AppDimen.smallPadding),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment
+                                            .start,
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "${widget.coupon.description}",
+                                            style: AppStyle.mediumTextStyleDark,
+                                          ),
+                                          Text(
+                                            "Expire: ${FormatUtil.formatDate2(
+                                                widget.coupon.expirationDate)}",
+                                            style: AppStyle.smallTextStyleDark,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  MyRadio<String?>(value: widget.coupon.code,
+                                      groupValue: currentCoupon,
+                                      onChanged: (String? value) {
+                                        context.read<CouponInCartBloc>().add(
+                                            CouponInCartChooseItem(
+                                                couponCode: value,
+                                                couponType: widget.type));
+                                      }),
+                                  SizedBox(width: AppDimen.spacing,)
+                                ],
                               ),
                             ),
-                            DottedLine(
-                              direction: Axis.vertical,
-                              dashLength: 8.0,
-                              dashColor: AppColor.dividerColor,
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: AppDimen.spacing,
-                                    horizontal: AppDimen.smallPadding),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "${widget.coupon.description}",
-                                      style: AppStyle.mediumTextStyleDark,
-                                    ),
-                                    Text(
-                                      "Expire: ${FormatUtil.formatDate2(widget.coupon.expirationDate)}",
-                                      style: AppStyle.smallTextStyleDark,
-                                    ),
-                                  ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  if (widget.coupon.valid == false)
+                    Positioned.fill(
+                        child: PhysicalShape(
+                          color: Colors.white.withOpacity(0.4),
+                          shadowColor: Color(0xFFE4E4E4).withOpacity(0.5),
+                          clipper: CouponClipperHorizontal(),
+                          child: Stack(
+                            children: <Widget>[
+                              ClipPath(
+                                clipper: CouponClipperHorizontal(),
+                                child: Container(
+                                  width: MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width,
+                                  height: 120,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white.withOpacity(0.4),
+                                      borderRadius: BorderRadius.circular(
+                                          10.0)),
                                 ),
                               ),
-                            )
+                            ],
+                          ),
+                        )),
+                ],
+              ),
+              if (widget.coupon.valid == false && widget.coupon.haveConditionList())
+                ExpansionTile(
+                  controller: controller,
+                  tilePadding: EdgeInsets.zero,
+                  backgroundColor: Colors.transparent,
+                  collapsedBackgroundColor: Colors.transparent,
+                  shape: Border(),
+                  title: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start, children: [
+                    Icon(
+                      Icons.info_outline_rounded,
+                      color: AppColor.error,
+                    ),
+                    SizedBox(
+                      width: AppDimen.smallSpacing,
+                    ),
+                    Expanded(
+                        child: Text(
+                          'Coupon cannot be applied due to some condition',
+                          style: AppStyle.smallTextStyleDark,
+                        )),
+                  ]),
+                  children: <Widget>[
+                    if (widget.coupon.minPurchaseCondition != null)
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            bottom: AppDimen.smallSpacing),
+                        child: Row(
+                          children: [
+                            Image.asset(
+                              AppPath.minPurchaseCondition,
+                              width: AppDimen.smallSize,
+                              height: AppDimen.smallSize,
+                            ),
+                            SizedBox(
+                              width: AppDimen.smallSpacing,
+                            ),
+                            Expanded(
+                                child: Text(
+                                  "${widget.coupon
+                                      .minPurchaseConditionString()}",
+                                  style: AppStyle.smallTextStyleDark,
+                                ))
                           ],
                         ),
                       ),
-                    ),
+                    if (widget.coupon.usageConditionList != null)
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            bottom: AppDimen.smallSpacing),
+                        child: Row(
+                          children: [
+                            Image.asset(
+                              AppPath.usageCondition,
+                              width: AppDimen.smallSize,
+                              height: AppDimen.smallSize,
+                            ),
+                            SizedBox(
+                              width: AppDimen.smallSpacing,
+                            ),
+                            Expanded(
+                                child: Text(
+                                  "${widget.coupon.usageConditionString()}",
+                                  style: AppStyle.smallTextStyleDark,
+                                ))
+                          ],
+                        ),
+                      ),
+                    if (widget.coupon.subjectConditionList != null)
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            bottom: AppDimen.smallSpacing),
+                        child: Row(
+                          children: [
+                            Image.asset(
+                              AppPath.subjectConditionList,
+                              width: AppDimen.smallSize,
+                              height: AppDimen.smallSize,
+                            ),
+                            SizedBox(
+                              width: AppDimen.smallSpacing,
+                            ),
+                            Expanded(
+                                child: Text(
+                                  "${widget.coupon.subjectConditionString()}",
+                                  style: AppStyle.smallTextStyleDark,
+                                ))
+                          ],
+                        ),
+                      ),
+                    if (widget.coupon.combinationConditionList != null)
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            bottom: AppDimen.smallSpacing),
+                        child: Row(
+                          children: [
+                            Image.asset(
+                              AppPath.combinationConditionList,
+                              width: AppDimen.smallSize,
+                              height: AppDimen.smallSize,
+                            ),
+                            SizedBox(
+                              width: AppDimen.smallSpacing,
+                            ),
+                            Expanded(
+                                child: Text(
+                                  "${widget.coupon
+                                      .combinationConditionString()}",
+                                  style: AppStyle.smallTextStyleDark,
+                                ))
+                          ],
+                        ),
+                      )
                   ],
                 ),
-              ),
-            ),
-            if (widget.coupon.valid == false)
-              Positioned.fill(
-                  child: PhysicalShape(
-                color: Colors.white.withOpacity(0.4),
-                shadowColor: Color(0xFFE4E4E4).withOpacity(0.5),
-                clipper: CouponClipperHorizontal(),
-                child: Stack(
-                  children: <Widget>[
-                    ClipPath(
-                      clipper: CouponClipperHorizontal(),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: 120,
-                        decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.4),
-                            borderRadius: BorderRadius.circular(10.0)),
-                      ),
-                    ),
-                  ],
-                ),
-              )),
-          ],
-        ),
-        if (widget.coupon.valid == false)
-          ExpansionTile(
-            controller: controller,
-            tilePadding: EdgeInsets.zero,
-            backgroundColor: Colors.transparent,
-            collapsedBackgroundColor: Colors.transparent,
-            shape: Border(),
-            title: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Icon(
-                Icons.info_outline_rounded,
-                color: AppColor.error,
-              ),
-              SizedBox(
-                width: AppDimen.smallSpacing,
-              ),
-              Expanded(
-                  child: Text(
-                'Coupon cannot be applied due to some condition',
-                style: AppStyle.smallTextStyleDark,
-              )),
-            ]),
-            children: <Widget>[
-              if (widget.coupon.minPurchaseCondition != null)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: AppDimen.smallSpacing),
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        AppPath.minPurchaseCondition,
-                        width: AppDimen.smallSize,
-                        height: AppDimen.smallSize,
-                      ),
-                      SizedBox(
-                        width: AppDimen.smallSpacing,
-                      ),
-                      Expanded(
-                          child: Text(
-                        "${widget.coupon.minPurchaseConditionString()}",
-                        style: AppStyle.smallTextStyleDark,
-                      ))
-                    ],
-                  ),
-                ),
-              if (widget.coupon.usageConditionList != null)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: AppDimen.smallSpacing),
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        AppPath.usageCondition,
-                        width: AppDimen.smallSize,
-                        height: AppDimen.smallSize,
-                      ),
-                      SizedBox(
-                        width: AppDimen.smallSpacing,
-                      ),
-                      Expanded(
-                          child: Text(
-                        "${widget.coupon.usageConditionString()}",
-                        style: AppStyle.smallTextStyleDark,
-                      ))
-                    ],
-                  ),
-                ),
-              if (widget.coupon.subjectConditionList != null)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: AppDimen.smallSpacing),
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        AppPath.subjectConditionList,
-                        width: AppDimen.smallSize,
-                        height: AppDimen.smallSize,
-                      ),
-                      SizedBox(
-                        width: AppDimen.smallSpacing,
-                      ),
-                      Expanded(
-                          child: Text(
-                        "${widget.coupon.subjectConditionString()}",
-                        style: AppStyle.smallTextStyleDark,
-                      ))
-                    ],
-                  ),
-                ),
-              if (widget.coupon.combinationConditionList != null)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: AppDimen.smallSpacing),
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        AppPath.combinationConditionList,
-                        width: AppDimen.smallSize,
-                        height: AppDimen.smallSize,
-                      ),
-                      SizedBox(
-                        width: AppDimen.smallSpacing,
-                      ),
-                      Expanded(
-                          child: Text(
-                        "${widget.coupon.combinationConditionString()}",
-                        style: AppStyle.smallTextStyleDark,
-                      ))
-                    ],
-                  ),
-                )
             ],
-          ),
-      ],
+          );
+        }
+        return SizedBox();
+      },
     );
   }
 }

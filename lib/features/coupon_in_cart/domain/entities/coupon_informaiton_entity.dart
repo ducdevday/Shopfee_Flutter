@@ -48,4 +48,29 @@ class CouponInformationEntity {
           .toList(),
     );
   }
+
+  CouponInformationEntity copyWith({
+    String? couponId,
+    String? code,
+    String? description,
+    DateTime? expirationDate,
+    bool? valid,
+    MinPurchaseConditionEntity? minPurchaseCondition,
+    List<UsageConditionEntity>? usageConditionList,
+    List<SubjectConditionEntity>? subjectConditionList,
+    List<CombinationConditionEntity>? combinationConditionList,
+  }) {
+    return CouponInformationEntity(
+      couponId: couponId ?? this.couponId,
+      code: code ?? this.code,
+      description: description ?? this.description,
+      expirationDate: expirationDate ?? this.expirationDate,
+      valid: valid ?? this.valid,
+      minPurchaseCondition: minPurchaseCondition ?? this.minPurchaseCondition,
+      usageConditionList: usageConditionList ?? this.usageConditionList,
+      subjectConditionList: subjectConditionList ?? this.subjectConditionList,
+      combinationConditionList:
+          combinationConditionList ?? this.combinationConditionList,
+    );
+  }
 }

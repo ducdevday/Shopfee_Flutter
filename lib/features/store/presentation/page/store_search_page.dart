@@ -13,8 +13,8 @@ class StoreSearchPage extends StatefulWidget {
 class _StoreSearchPageState extends State<StoreSearchPage> {
   late final StoreBloc _bloc;
 
-  int page = 1;
-  int size = 8;
+  int initPage = 1;
+  int initSize = 8;
   late bool isLoadingMore;
   late bool cannotLoadMore;
   String query = "";
@@ -32,6 +32,7 @@ class _StoreSearchPageState extends State<StoreSearchPage> {
     scrollController.addListener(_scrollListener);
     debounceController = DebounceController();
   }
+
   @override
   void dispose() {
     _bloc.close();
@@ -41,18 +42,15 @@ class _StoreSearchPageState extends State<StoreSearchPage> {
   }
 
   void handleSearchProduct(String value) {
-    page = 1;
-    size = 8;
     debounceController.run(() => _bloc.add(StoreLoadInformation(
-        query: value, getAll: getAll, page: page, size: size)));
+        query: value, getAll: getAll, initPage: initPage, initSize: initSize)));
   }
 
   void _scrollListener() {
     if (isLoadingMore || cannotLoadMore) return;
     if (scrollController.position.pixels ==
         scrollController.position.maxScrollExtent) {
-      page = page + 1;
-      _bloc.add(StoreLoadMoreInformation(page: page, size: size));
+      _bloc.add(StoreLoadMoreInformation());
     }
   }
 
@@ -97,7 +95,8 @@ class _StoreSearchPageState extends State<StoreSearchPage> {
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(16),
-                              borderSide: BorderSide(color: AppColor.primaryColor),
+                              borderSide:
+                                  BorderSide(color: AppColor.primaryColor),
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(16),
@@ -130,10 +129,12 @@ class _StoreSearchPageState extends State<StoreSearchPage> {
             ),
             body: BlocBuilder<StoreBloc, StoreState>(
               builder: (context, state) {
-                if(state is StoreLoadInProcess){
+                if (state is StoreLoadInProcess) {
                   return Center(child: CupertinoActivityIndicator());
-                }
-                else if (state is StoreLoadSuccess) {
+                } else if (state is StoreNoLocationPermission) {
+                  return StoreNoPermission(
+                      initPage: initPage, initSize: initSize);
+                } else if (state is StoreLoadSuccess) {
                   if (storeList.isNotEmpty && query.isNotEmpty) {
                     return ListView.separated(
                       controller: scrollController,
@@ -141,13 +142,15 @@ class _StoreSearchPageState extends State<StoreSearchPage> {
                       itemCount: isLoadingMore
                           ? storeList.length + 1
                           : storeList.length,
-                      itemBuilder: (context, index) =>
-                      index < storeList.length
-                          ? StoreItem(store: storeList[index],fromRoute: StoreSearchPage.route,)
+                      itemBuilder: (context, index) => index < storeList.length
+                          ? StoreItem(
+                              store: storeList[index],
+                              fromRoute: StoreSearchPage.route,
+                            )
                           : const Padding(
-                        padding: EdgeInsets.all(AppDimen.spacing),
-                        child: CupertinoActivityIndicator(),
-                      ),
+                              padding: EdgeInsets.all(AppDimen.spacing),
+                              child: CupertinoActivityIndicator(),
+                            ),
                       separatorBuilder: (context, int index) => const Divider(
                         height: 8,
                         thickness: 0.75,
@@ -178,11 +181,9 @@ class _StoreSearchPageState extends State<StoreSearchPage> {
                   } else {
                     return SizedBox();
                   }
-                }
-                else if(state is SearchLoadFailure){
+                } else if (state is SearchLoadFailure) {
                   return MyErrorWidget();
-                }
-                else {
+                } else {
                   return SizedBox();
                 }
               },

@@ -8,6 +8,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shopfee/core/common/widgets/my_alert_dialog.dart';
 import 'package:shopfee/core/config/app_color.dart';
 import 'package:shopfee/core/config/app_dimen.dart';

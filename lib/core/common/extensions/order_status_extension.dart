@@ -14,7 +14,7 @@ extension OrderStatusExtension on OrderStatus{
       case OrderStatus.CANCELLATION_REQUEST_ACCEPTED:
         return "REQUEST CANCEL ACCEPTED";
       case OrderStatus.PREPARED:
-        return "ACCEPTED";
+        return "PREPARED";
       case OrderStatus.DELIVERING:
         return "DELIVERING";
       case OrderStatus.NOT_RECEIVED:
@@ -23,7 +23,6 @@ extension OrderStatusExtension on OrderStatus{
         return "SUCCEED";
       case OrderStatus.CANCELED:
         return "CANCELED";
-
     }
   }
 }

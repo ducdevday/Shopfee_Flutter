@@ -4,12 +4,12 @@ abstract class HistoryEvent extends Equatable {
   const HistoryEvent();
 }
 
-class HistoryLoadInformationInitialize extends HistoryEvent {
+class HistoryLoadInformation extends HistoryEvent {
   final HistoryStatus historyStatus;
   final int initPage;
   final int initSize;
 
-  const HistoryLoadInformationInitialize({
+  const HistoryLoadInformation({
     required this.historyStatus,
     required this.initPage,
     required this.initSize,
@@ -19,24 +19,22 @@ class HistoryLoadInformationInitialize extends HistoryEvent {
   List<Object> get props => [historyStatus, initPage, initSize];
 }
 
-class HistoryLoadInformationByStatus extends HistoryEvent {
-  final HistoryStatus historyStatus;
-  final int initPage;
-  final int initSize;
-
-  const HistoryLoadInformationByStatus({
-    required this.historyStatus,
-    required this.initPage,
-    required this.initSize,
-  });
-
-  @override
-  List<Object> get props => [historyStatus, initPage, initSize];
-}
-
-class HistoryLoadMoreInformationByStatus extends HistoryEvent {
-  const HistoryLoadMoreInformationByStatus();
+class HistoryLoadMoreInformation extends HistoryEvent {
+  const HistoryLoadMoreInformation();
 
   @override
   List<Object> get props => [];
+}
+
+class HistoryRefreshInformation extends HistoryEvent {
+  final int initPage;
+  final int initSize;
+
+  const HistoryRefreshInformation({
+    required this.initPage,
+    required this.initSize,
+  });
+
+  @override
+  List<Object> get props => [initPage, initSize];
 }

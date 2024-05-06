@@ -1,23 +1,24 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:shopfee/core/common/enum/coupon_type.dart';
 import 'package:shopfee/features/coupon_in_cart/data/models/coupon_information_model.dart';
 
 part 'coupon_in_cart_model.g.dart';
 
 @JsonSerializable()
 class CouponInCartModel {
-  final bool? canCombinedWithShippingCoupon;
+  final List<CouponType>? shippingNoCombineBy;
   final List<CouponInformationModel>? shippingCouponList;
-  final bool? canCombinedWithOrderCoupon;
+  final List<CouponType>? orderNoCombineBy;
   final List<CouponInformationModel>? orderCouponList;
-  final bool? canCombinedWithProductCoupon;
+  final List<CouponType>? productNoCombineBy;
   final List<CouponInformationModel>? productCouponList;
 
   const CouponInCartModel({
-    this.canCombinedWithShippingCoupon,
+    this.shippingNoCombineBy,
     this.shippingCouponList,
-    this.canCombinedWithOrderCoupon,
+    this.orderNoCombineBy,
     this.orderCouponList,
-    this.canCombinedWithProductCoupon,
+    this.productNoCombineBy,
     this.productCouponList,
   });
 

@@ -1,26 +1,24 @@
 import 'package:shopfee/core/common/models/result.dart';
 import 'package:shopfee/features/coupon_detail/data/datasources/coupon_detail_service.dart';
-import 'package:shopfee/features/template/data/datasources/template_service.dart';
-import 'package:shopfee/features/template/data/models/template_model.dart';
-import 'package:shopfee/features/template/domain/entities/template_entity.dart';
+import 'package:shopfee/features/coupon_detail/data/models/coupon_detail_model.dart';
+import 'package:shopfee/features/coupon_detail/domain/entities/coupon_detail_entity.dart';
+import 'package:shopfee/features/coupon_detail/domain/repositories/coupon_detail_repository.dart';
 
-import 'package:shopfee/features/template/domain/repositories/template_repository.dart';
+class CouponDetailRepositoryImpl implements CouponDetailRepository {
+  final CouponDetailService _couponDetailService;
 
-class CouponDetailRepositoryImpl implements TemplateRepository {
-  final CouponDetailService _templateService;
-
-  CouponDetailRepositoryImpl(this._templateService);
+  CouponDetailRepositoryImpl(this._couponDetailService);
 
   @override
-  Future<TemplateEntity> getTemplate(String id) async {
-    final response = await _templateService.doSomeThing(id);
+  Future<CouponDetailEntity> getCouponDetail(String couponId) async{
+    final response = await _couponDetailService.getCouponDetail(couponId);
     final result = Result(
       success: response.data["success"],
       message: response.data["message"],
       data: response.data["data"],
     );
-    final templateModel = TemplateModel.fromJson(json: result.data!);
-    final templateEntity = TemplateEntity.fromModel(templateModel);
-    return templateEntity;
+    final couponDetailModel = CouponDetailModel.fromJson(result.data!);
+    final couponDetailEntity = CouponDetailEntity.fromModel(couponDetailModel);
+    return couponDetailEntity;
   }
 }

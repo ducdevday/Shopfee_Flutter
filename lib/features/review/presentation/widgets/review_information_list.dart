@@ -10,9 +10,18 @@ class ReviewInformationList extends StatefulWidget {
 }
 
 class _ReviewInformationListState extends State<ReviewInformationList> {
+  late RefreshController _refreshController;
+
   @override
   void initState() {
     super.initState();
+    _refreshController = RefreshController(initialRefresh: false);
+  }
+
+  @override
+  void dispose() {
+    _refreshController = RefreshController(initialRefresh: false);
+    super.dispose();
   }
 
   void handleCreateReview(String id) {
@@ -31,19 +40,28 @@ class _ReviewInformationListState extends State<ReviewInformationList> {
     return BlocBuilder<ReviewBloc, ReviewState>(
       builder: (context, state) {
         if (state is ReviewLoadSuccess) {
-          return ListView.separated(
-            padding: EdgeInsets.zero,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: state.reviewInformationList.length,
-            itemBuilder: (context, index) {
-              return buildReviewItem(state.reviewInformationList[index]);
+          return SmartRefresher(
+            controller: _refreshController,
+            enablePullUp: false,
+            physics: BouncingScrollPhysics(),
+            onRefresh: () async {
+              context.read<ReviewBloc>().add(ReviewRefreshInformation());
+              _refreshController.refreshCompleted();
             },
-            separatorBuilder: (BuildContext context, int index) {
-              return const SizedBox(
-                height: AppDimen.spacing,
-              );
-            },
+            child: ListView.separated(
+              padding: EdgeInsets.zero,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: state.reviewInformationList.length,
+              itemBuilder: (context, index) {
+                return buildReviewItem(state.reviewInformationList[index]);
+              },
+              separatorBuilder: (BuildContext context, int index) {
+                return const SizedBox(
+                  height: AppDimen.spacing,
+                );
+              },
+            ),
           );
         }
         return SizedBox();
@@ -141,4 +159,3 @@ class _ReviewInformationListState extends State<ReviewInformationList> {
     );
   }
 }
-
