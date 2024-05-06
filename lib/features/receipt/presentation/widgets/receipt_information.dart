@@ -18,7 +18,7 @@ class ReceiptInformation extends StatelessWidget {
                   height: 40,
                 ),
                 Builder(builder: (context) {
-                  if (state.lastEventLog.orderStatus != OrderStatus.CANCELED) {
+                  if (state. lastEventLog.orderStatus != OrderStatus.CANCELED) {
                     return Column(
                       children: [
                         Text(
@@ -29,7 +29,7 @@ class ReceiptInformation extends StatelessWidget {
                           height: 8,
                         ),
                         Builder(builder: (context) {
-                          if (state.lastEventLog.orderStatus !=
+                          if (state. lastEventLog.orderStatus !=
                               OrderStatus.SUCCEED) {
                             return Text(
                               "Your order in processing",

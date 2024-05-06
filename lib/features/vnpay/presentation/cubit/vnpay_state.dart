@@ -9,12 +9,7 @@ class VnPayInitial extends VnPayState {
   List<Object> get props => [];
 }
 
-class VnPaySuccess extends VnPayState {
-  @override
-  List<Object> get props => [];
-}
-
-class VnPayCanceled extends VnPayState {
+class VnPayFinished extends VnPayState {
   @override
   List<Object> get props => [];
 }

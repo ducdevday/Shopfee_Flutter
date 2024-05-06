@@ -57,11 +57,11 @@ class ReviewSummary extends StatelessWidget {
                                         arguments: orderId)
                                     .then((isRefresh) {
                                   print("isRefresh: $isRefresh");
-                                  if (isRefresh != null && isRefresh == true) {
+                                  // if (isRefresh != null && isRefresh == true) {
                                     context.read<ReceiptBloc>().add(
                                         ReceiptLoadInformation(
                                             orderId: orderId));
-                                  }
+                                  // }
                                 });
                               },
                               child: Text(

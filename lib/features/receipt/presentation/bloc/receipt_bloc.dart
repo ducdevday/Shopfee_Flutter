@@ -5,6 +5,7 @@ class ReceiptBloc extends Bloc<ReceiptEvent, ReceiptState> {
 
   ReceiptBloc(this._receiptUseCase) : super(ReceiptInitial()) {
     on<ReceiptLoadInformation>(_onReceiptLoadInformation);
+    // on<ReceiptRefreshInformation>(_onReceiptRefreshInformation);
     on<ReceiptDoCancelOrder>(_onReceiptDoCancelOrder);
     on<ChooseReasonCancel>(_onChooseReasonCancel);
   }
@@ -15,15 +16,15 @@ class ReceiptBloc extends Bloc<ReceiptEvent, ReceiptState> {
       emit(ReceiptLoadInProcess());
       final response = await Future.wait([
         _receiptUseCase.getDetailsOrder(event.orderId),
-        _receiptUseCase.getLastStatusOrder(event.orderId)
+        _receiptUseCase.getEventLogsOrder(event.orderId)
       ]);
       final ReceiptEntity receipt = response[0] as ReceiptEntity;
-      final EventLogEntity lastEventLog = response[1] as EventLogEntity;
+      final List<EventLogEntity> eventLogs = response[1] as List<EventLogEntity>;
       final OrderStatus? cancelType =
-          _receiptUseCase.determineCancelType(lastEventLog);
+          _receiptUseCase.determineCancelType(eventLogs[0]);
       emit(ReceiptLoadSuccess(
           receipt: receipt,
-          lastEventLog: lastEventLog,
+          eventLogs: eventLogs,
           isCancelButtonClicked: event.haveChanged,
           cancelType: cancelType));
     } catch (e) {
@@ -31,6 +32,30 @@ class ReceiptBloc extends Bloc<ReceiptEvent, ReceiptState> {
       ExceptionUtil.handle(e);
     }
   }
+  // FutureOr<void> _onReceiptRefreshInformation(ReceiptRefreshInformation event, Emitter<ReceiptState> emit)async {
+  //   try {
+  //     if(state is ReceiptLoadSuccess){
+  //       final currentState = state as ReceiptLoadSuccess;
+  //       final response = await Future.wait([
+  //         _receiptUseCase.getDetailsOrder(currentState.orderId),
+  //         _receiptUseCase.getEventLogsOrder(currentState.orderId)
+  //       ]);
+  //       final ReceiptEntity receipt = response[0] as ReceiptEntity;
+  //       final List<EventLogEntity> eventLogs = response[1] as List<EventLogEntity>;
+  //       final OrderStatus? cancelType =
+  //       _receiptUseCase.determineCancelType(eventLogs[0]);
+  //       emit(ReceiptLoadSuccess(
+  //           receipt: receipt,
+  //           eventLogs: eventLogs,
+  //           isCancelButtonClicked: event.haveChanged,
+  //           cancelType: cancelType));
+  //     }
+  //
+  //   } catch (e) {
+  //     emit(ReceiptLoadFailure());
+  //     ExceptionUtil.handle(e);
+  //   }
+  // }
 
   FutureOr<void> _onReceiptDoCancelOrder(
       ReceiptDoCancelOrder event, Emitter<ReceiptState> emit) async {
@@ -70,4 +95,6 @@ class ReceiptBloc extends Bloc<ReceiptEvent, ReceiptState> {
       emit(currentState.copyWith(reasonCancel: event.reasonCancel));
     }
   }
+
+
 }

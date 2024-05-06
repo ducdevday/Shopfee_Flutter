@@ -43,12 +43,11 @@ class _VnPayPageState extends State<VnPayPage> {
           create: (context) => _cubit,
           child: BlocConsumer<VnPayCubit, VnPayState>(
             listener: (context, state) {
-              if (state is VnPaySuccess) {
+              if (state is VnPayFinished) {
                 NavigationUtil.pushNamedAndRemoveUntil(ReceiptPage.route,
-                    arguments: widget.orderResult.orderId).then((value) => NavigationUtil.pushNamed(DefaultPage.route));
-              } else if (state is VnPayCanceled) {
-                NavigationUtil.pushNamedAndRemoveUntil(ReceiptPage.route,
-                    arguments: widget.orderResult.orderId).then((value) => NavigationUtil.pushNamed(DefaultPage.route));
+                        arguments: widget.orderResult.orderId)
+                    .then(
+                        (value) => NavigationUtil.pushNamed(DefaultPage.route));
               }
             },
             builder: (context, state) {

@@ -11,12 +11,14 @@ class EventLogModel {
   @JsonKey(name: "createdAt")
   final DateTime? time;
   final String? description;
+  final String? note;
   final ActorType? actor;
 
   const EventLogModel({
     this.orderStatus,
     this.time,
     this.description,
+    this.note,
     this.actor,
   });
 
@@ -33,6 +35,7 @@ class EventLogModel {
         orderStatus: entity.orderStatus,
         time: entity.time,
         description: entity.description,
+        note:entity.note,
         actor: entity.actor);
   }
 }

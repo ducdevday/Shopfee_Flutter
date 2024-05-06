@@ -8,12 +8,14 @@ class EventLogEntity extends Equatable {
   final OrderStatus? orderStatus;
   final DateTime? time;
   final String? description;
+  final String? note;
   final ActorType? actor;
 
   const EventLogEntity({
     this.orderStatus,
     this.time,
     this.description,
+    this.note,
     this.actor,
   });
 
@@ -47,6 +49,7 @@ class EventLogEntity extends Equatable {
         orderStatus: model.orderStatus,
         time: model.time,
         description: model.description,
+        note: model.note,
         actor: model.actor);
   }
 }

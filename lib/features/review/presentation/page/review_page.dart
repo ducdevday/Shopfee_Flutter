@@ -32,6 +32,7 @@ class _ReviewPageState extends State<ReviewPage> {
         listener: (context, state) {
           if (state is ReviewLoadSuccess) {
             haveChanged = state.haveChanged;
+            context.read<UserBloc>().add(UserLoadInformation());
           }
         },
         child: PopScope(

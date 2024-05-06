@@ -6,7 +6,7 @@ import 'package:shopfee/features/receipt/domain/repositories/receipt_repository.
 abstract class ReceiptUseCase {
   Future<ReceiptEntity> getDetailsOrder(String orderId);
 
-  Future<EventLogEntity> getLastStatusOrder(String orderId);
+  Future<List<EventLogEntity>> getEventLogsOrder(String orderId);
 
   Future<void> cancelOrder(String orderId, String reason);
 
@@ -26,10 +26,9 @@ class ReceiptUseCaseImpl extends ReceiptUseCase {
   }
 
   @override
-  Future<EventLogEntity> getLastStatusOrder(String orderId) async {
+  Future<List<EventLogEntity>> getEventLogsOrder(String orderId) async {
     final eventLogs = await _receiptRepository.getEventLogsOrder(orderId);
-    final lastEventLog = eventLogs[0];
-    return lastEventLog;
+    return eventLogs;
   }
 
   @override

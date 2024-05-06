@@ -1,3 +1,4 @@
+import 'package:shopfee/core/common/enum/payment_type.dart';
 import 'package:shopfee/core/common/enum/reward_unit.dart';
 import 'package:shopfee/core/common/models/order_type.dart';
 import 'package:shopfee/core/utils/format_util.dart';
@@ -171,8 +172,21 @@ extension CartExTension on CartEntity {
     return true;
   }
 
+  bool isVnPayOrZaloPayValid(){
+    if(paymentType == PaymentType.CASHING) {
+      return true;
+    }
+    else if(paymentType == PaymentType.VNPAY && getCartTotalPrice() > 10000){
+      return true;
+    }
+    else if(paymentType == PaymentType.ZALOPAY && getCartTotalPrice() > 10000){
+      return true;
+    }
+    return false;
+  }
+
   bool isOrderValid() {
-    if (isShippingTypeOrderValid() && isTakeAwayOrderValid()) {
+    if (isShippingTypeOrderValid() && isTakeAwayOrderValid() && isVnPayOrZaloPayValid()) {
       return true;
     }
     return false;

@@ -16,14 +16,14 @@ class ReceiptService {
   }
 
   Future<Response> cancelOrder(String orderId, String reason) async {
-    Map<String, dynamic> body = {"description": reason};
+    Map<String, dynamic> body = {"note": reason};
     final response = await DioService.instance
         .patch("${DioService.orderPath}/$orderId/user/cancel", data: body);
     return response;
   }
 
   Future<Response> requestCancelOrder(String orderId, String reason) async {
-    Map<String, dynamic> body = {"reason": reason};
+    Map<String, dynamic> body = {"note": reason};
     final response = await DioService.instance.post(
         "${DioService.orderPath}/$orderId/cancellation-request",
         data: body);

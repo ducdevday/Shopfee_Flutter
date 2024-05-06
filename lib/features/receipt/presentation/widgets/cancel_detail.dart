@@ -7,8 +7,8 @@ class CancelDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ReceiptBloc, ReceiptState>(
       builder: (context, state) {
-        if (state is ReceiptLoadSuccess &&
-            state.lastEventLog.orderStatus == OrderStatus.CANCELED) {
+        if (state is ReceiptLoadSuccess && state.getCancelDetail() != null) {
+          state.getCancelDetail();
           return Column(
             children: [
               Column(
@@ -34,7 +34,7 @@ class CancelDetail extends StatelessWidget {
                       ),
                       Expanded(
                         child: Text(
-                          "${state.lastEventLog.actor?.getFormattedName()}",
+                          "${state.getCancelDetail()?.actor?.getFormattedName()}",
                           style: AppStyle.normalTextStyleDark
                               .copyWith(fontWeight: FontWeight.w400),
                           textAlign: TextAlign.end,
@@ -57,7 +57,7 @@ class CancelDetail extends StatelessWidget {
                       ),
                       Expanded(
                         child: Text(
-                          "${FormatUtil.formatTime(state.lastEventLog.time)} - ${FormatUtil.formatDate2(state.lastEventLog.time)}",
+                          "${FormatUtil.formatTime(state.getCancelDetail()?.time)} - ${FormatUtil.formatDate2(state.getCancelDetail()?.time)}",
                           style: AppStyle.normalTextStyleDark
                               .copyWith(fontWeight: FontWeight.w400),
                           textAlign: TextAlign.end,
@@ -80,7 +80,7 @@ class CancelDetail extends StatelessWidget {
                       ),
                       Expanded(
                         child: Text(
-                          "${state.lastEventLog.description}",
+                          "${state.getCancelDetail()?.note ?? ""}",
                           style: AppStyle.normalTextStyleDark
                               .copyWith(fontWeight: FontWeight.w400),
                           textAlign: TextAlign.end,

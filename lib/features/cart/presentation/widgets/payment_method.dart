@@ -7,7 +7,7 @@ class PaymentMethod extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<CartBloc, CartState>(
       builder: (context, state) {
-        if(state is CartLoaded){
+        if (state is CartLoaded) {
           return GestureDetector(
             onTap: () {
               buildShowPaymentBottomSheet(context);
@@ -18,7 +18,8 @@ class PaymentMethod extends StatelessWidget {
                 Text(
                   "Payment Method",
                   style: AppStyle.mediumTitleStyleDark.copyWith(
-                      color: AppColor.headingColor, fontWeight: FontWeight.w500),
+                      color: AppColor.headingColor,
+                      fontWeight: FontWeight.w500),
                 ),
                 const SizedBox(
                   height: 4,
@@ -34,11 +35,20 @@ class PaymentMethod extends StatelessWidget {
                       width: 4,
                     ),
                     Expanded(
-                        child: Text(
-                            state.cart.paymentType!.getFormattedName(), style: AppStyle.normalTextStyleDark)),
+                        child: Text(state.cart.paymentType!.getFormattedName(),
+                            style: AppStyle.normalTextStyleDark)),
                     const Icon(Icons.keyboard_arrow_right_rounded)
                   ],
-                )
+                ),
+                if (!state.cart.isVnPayOrZaloPayValid())
+                  Padding(
+                    padding: const EdgeInsets.only(top: AppDimen.smallSpacing),
+                    child: Text(
+                      "Online payment is only applicable when orders are over 10,000đ",
+                      style: AppStyle.normalTextStyleDark
+                          .copyWith(color: AppColor.error),
+                    ),
+                  )
               ],
             ),
           );

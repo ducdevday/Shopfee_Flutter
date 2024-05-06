@@ -2,7 +2,8 @@ enum HistoryStatus {
   WAITING,
   IN_PROCESS,
   SUCCEED,
-  CANCELED;
+  CANCELED,
+  NOT_RECEIVED;
 
   String toJson() => name;
 

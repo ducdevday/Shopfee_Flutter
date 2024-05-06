@@ -57,19 +57,6 @@ class _HistoryListState extends State<HistoryList> {
     }
   }
 
-  String? getEmptyListString(HistoryStatus status) {
-    switch (status) {
-      case HistoryStatus.WAITING:
-        return "No Order In Waiting";
-      case HistoryStatus.IN_PROCESS:
-        return "No Order In Processing";
-      case HistoryStatus.SUCCEED:
-        return "No Order Has Done";
-      case HistoryStatus.CANCELED:
-        return "No Order Has Canceled";
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -141,7 +128,7 @@ class _HistoryListState extends State<HistoryList> {
                     width: double.infinity,
                     child: MyEmptyList(
                       imgPath: AppPath.icNoHistory,
-                      text: getEmptyListString(widget.historyStatus) ?? "",
+                      text: widget.historyStatus.getEmptyListString(),
                     ));
               }
             default:

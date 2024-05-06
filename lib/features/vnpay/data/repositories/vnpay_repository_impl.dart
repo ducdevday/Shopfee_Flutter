@@ -10,15 +10,14 @@ class VnPayRepositoryImpl implements VnPayRepository {
   VnPayRepositoryImpl(this._vnPayService);
 
   @override
-  Future<String> updateTransaction(String transactionId) async {
+  Future<void> updateTransaction(String transactionId) async {
     final response = await _vnPayService.updateTransaction(transactionId);
-    final result = Result(
+    final result =
+    Result(
       success: response.data["success"],
       message: response.data["message"],
       data: response.data["data"],
     );
-    // final String status = result.data!["status"];
-    return "status";
   }
 
   @override

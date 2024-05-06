@@ -43,7 +43,7 @@ class CancelButton extends StatelessWidget {
               ),
             ],
           );
-        } else if (isCancelRequest(state.lastEventLog.orderStatus!)) {
+        } else if (isCancelRequest(state. lastEventLog.orderStatus!)) {
           return Column(
             children: [
               SizedBox(
@@ -52,18 +52,18 @@ class CancelButton extends StatelessWidget {
                     onPressed: null,
                     style: OutlinedButton.styleFrom(
                         disabledForegroundColor: getCancelButtonColor(
-                            state.lastEventLog.orderStatus!),
+                            state. lastEventLog.orderStatus!),
                         shape: RoundedRectangleBorder(
                           borderRadius:
                               BorderRadius.circular(AppDimen.smallRadius),
                         ),
                         side: BorderSide(
                             color: getCancelButtonColor(
-                                state.lastEventLog.orderStatus!),
+                                state. lastEventLog.orderStatus!),
                             width: 1.5,
                             style: BorderStyle.solid)),
                     child: Text(
-                        getCancelButtonText(state.lastEventLog.orderStatus!))),
+                        getCancelButtonText(state. lastEventLog.orderStatus!))),
               ),
               const Divider(
                 height: 20,

@@ -29,6 +29,7 @@ import 'package:shopfee/core/utils/validate_field_util.dart';
 import 'package:shopfee/features/review/domain/entities/review_information_entity.dart';
 import 'package:shopfee/features/review/domain/entities/review_params.dart';
 import 'package:shopfee/features/review/domain/usecase/review_usecase.dart';
+import 'package:shopfee/features/user/presentation/user.dart';
 
 part 'bloc/review_bloc.dart';
 part 'bloc/review_event.dart';
