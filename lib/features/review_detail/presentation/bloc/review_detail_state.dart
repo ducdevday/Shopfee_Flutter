@@ -13,6 +13,7 @@ class ReviewDetailLoadInProcess extends ReviewDetailState {
 }
 
 class ReviewDetailLoadSuccess extends ReviewDetailState {
+  final List<ChartStackedBarData> reviewStatistic;
   final List<ReviewDetailEntity> reviewDetailList;
   final int page;
   final int size;
@@ -20,6 +21,7 @@ class ReviewDetailLoadSuccess extends ReviewDetailState {
   final bool cannotLoadMore;
 
   ReviewDetailLoadSuccess({
+    required this.reviewStatistic,
     required this.reviewDetailList,
     required this.page,
     required this.size,
@@ -27,13 +29,18 @@ class ReviewDetailLoadSuccess extends ReviewDetailState {
     this.cannotLoadMore = false,
   });
 
-
-
   @override
-  List<Object> get props =>
-      [reviewDetailList, page, size, isLoadMore, cannotLoadMore];
+  List<Object> get props => [
+        reviewStatistic,
+        reviewDetailList,
+        page,
+        size,
+        isLoadMore,
+        cannotLoadMore
+      ];
 
   ReviewDetailLoadSuccess copyWith({
+    List<ChartStackedBarData>? reviewStatistic,
     List<ReviewDetailEntity>? reviewDetailList,
     int? page,
     int? size,
@@ -41,6 +48,7 @@ class ReviewDetailLoadSuccess extends ReviewDetailState {
     bool? cannotLoadMore,
   }) {
     return ReviewDetailLoadSuccess(
+      reviewStatistic: reviewStatistic ?? this.reviewStatistic,
       reviewDetailList: reviewDetailList ?? this.reviewDetailList,
       page: page ?? this.page,
       size: size ?? this.size,

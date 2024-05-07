@@ -18,9 +18,14 @@ class ReviewDetailBloc extends Bloc<ReviewDetailEvent, ReviewDetailState> {
       emit(ReviewDetailLoadInProcess());
       final params =
           ReviewDetailParams(page: event.initPage, size: event.initSize);
-      final reviewDetailList = await _reviewDetailUseCase.getReviewDetailList(
-          event.productId, params);
+      final response = await Future.wait([
+        _reviewDetailUseCase.getReviewStatistic(event.productId),
+        _reviewDetailUseCase.getReviewDetailList(event.productId, params)
+      ]);
+      final reviewStatistic = response[0] as List<ChartStackedBarData>;
+      final reviewDetailList = response[1] as List<ReviewDetailEntity>;
       emit(ReviewDetailLoadSuccess(
+          reviewStatistic: reviewStatistic,
           reviewDetailList: reviewDetailList,
           page: event.initPage,
           size: event.initSize));
@@ -82,9 +87,14 @@ class ReviewDetailBloc extends Bloc<ReviewDetailEvent, ReviewDetailState> {
     try {
       final params =
           ReviewDetailParams(page: event.initPage, size: event.initSize);
-      final reviewDetailList = await _reviewDetailUseCase.getReviewDetailList(
-          event.productId, params);
+      final response = await Future.wait([
+        _reviewDetailUseCase.getReviewStatistic(event.productId),
+        _reviewDetailUseCase.getReviewDetailList(event.productId, params)
+      ]);
+      final reviewStatistic = response[0] as List<ChartStackedBarData>;
+      final reviewDetailList = response[1] as List<ReviewDetailEntity>;
       emit(ReviewDetailLoadSuccess(
+          reviewStatistic: reviewStatistic,
           reviewDetailList: reviewDetailList,
           page: event.initPage,
           size: event.initSize));

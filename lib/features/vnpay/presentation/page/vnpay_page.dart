@@ -32,8 +32,8 @@ class _VnPayPageState extends State<VnPayPage> {
         if (didPop) {
           return;
         }
-        //? Hủy thanh toán
-        _cubit.handlePayment(transactionId: widget.orderResult.transactionId!);
+        // //? Hủy thanh toán
+        // _cubit.handlePayment(transactionId: widget.orderResult.transactionId!);
         NavigationUtil.pushNamedAndRemoveUntil(ReceiptPage.route,
                 arguments: widget.orderResult.orderId)
             .then((value) => NavigationUtil.pushNamed(DefaultPage.route));

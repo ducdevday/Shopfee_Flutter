@@ -66,91 +66,7 @@ class _ReviewDetailPageState extends State<ReviewDetailPage> {
                   case ReviewDetailLoadSuccess():
                     return Column(
                       children: [
-                        MyContainer(
-                            child: Row(
-                          children: [
-                            Column(
-                              children: [
-                                Text(
-                                  "${ratingSummary.star ?? 0}",
-                                  style: AppStyle.largeRatingStyle,
-                                ),
-                                Text(
-                                  "of 5",
-                                  style: AppStyle.mediumTextStyleDark,
-                                ),
-                                Text(
-                                  "${ratingSummary.quantity ?? 0} Reviews",
-                                  style: AppStyle.mediumTextStyleDark,
-                                )
-                              ],
-                            ),
-                            SizedBox(
-                              width: AppDimen.smallPadding,
-                            ),
-                            const Expanded(
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      MyStartList(
-                                        star: 5,
-                                      ),
-                                      SizedBox(
-                                        width: AppDimen.smallSpacing,
-                                      ),
-                                      Expanded(child: Divider())
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      MyStartList(
-                                        star: 4,
-                                      ),
-                                      SizedBox(
-                                        width: AppDimen.smallSpacing,
-                                      ),
-                                      Expanded(child: Divider())
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      MyStartList(
-                                        star: 3,
-                                      ),
-                                      SizedBox(
-                                        width: AppDimen.smallSpacing,
-                                      ),
-                                      Expanded(child: Divider())
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      MyStartList(
-                                        star: 2,
-                                      ),
-                                      SizedBox(
-                                        width: AppDimen.smallSpacing,
-                                      ),
-                                      Expanded(child: Divider())
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      MyStartList(
-                                        star: 1,
-                                      ),
-                                      SizedBox(
-                                        width: AppDimen.smallSpacing,
-                                      ),
-                                      Expanded(child: Divider())
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        )),
+                        ReviewStatisticWidget(ratingSummary: ratingSummary),
                         SizedBox(
                           height: AppDimen.spacing,
                         ),
@@ -183,3 +99,4 @@ class _ReviewDetailPageState extends State<ReviewDetailPage> {
     );
   }
 }
+

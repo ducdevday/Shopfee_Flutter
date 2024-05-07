@@ -10,8 +10,8 @@ extension PaymentStatusExtension on PaymentStatus{
         return "Paid";
       case PaymentStatus.UNPAID:
         return "Unpaid";
-      case PaymentStatus.REFUNDED:
-        return "Refunded";
+      case PaymentStatus.FAILED:
+        return "Failed";
     }
   }
 
@@ -21,7 +21,7 @@ extension PaymentStatusExtension on PaymentStatus{
         return AppColor.success;
       case PaymentStatus.UNPAID:
         return AppColor.warning;
-      case PaymentStatus.REFUNDED:
+      case PaymentStatus.FAILED:
         return AppColor.info;
     }
   }

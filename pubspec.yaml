@@ -66,6 +66,7 @@ dependencies:
   video_player: ^2.8.5
   dialog_flowtter: ^0.3.3
   speech_to_text: ^6.6.0
+  percent_indicator: ^4.2.3
   #  Firebase
   firebase_core: ^2.19.0
   firebase_auth: ^4.11.1
