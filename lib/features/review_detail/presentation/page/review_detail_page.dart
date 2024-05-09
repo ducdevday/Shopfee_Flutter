@@ -55,6 +55,27 @@ class _ReviewDetailPageState extends State<ReviewDetailPage> {
               preferredSize: Size.fromHeight(1),
               child: Divider(height: 1),
             ),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.only(right: AppDimen.spacing),
+                child: BlocBuilder<ReviewDetailBloc, ReviewDetailState>(
+                  builder: (context, state) {
+                    if (state is ReviewDetailLoadSuccess) {
+                      return Badge(
+                          label: Text("${state.sortNumber}"),
+                          isLabelVisible: state.sortNumber != 0,
+                          child: GestureDetector(
+                              onTap: () {
+                                buildShowSortBottomSheet(context);
+                              },
+                              child: Icon(Icons.sort_rounded)));
+                    } else {
+                      return Icon(Icons.sort_rounded);
+                    }
+                  },
+                ),
+              )
+            ],
           ),
           body: Padding(
             padding: const EdgeInsets.all(AppDimen.spacing),
@@ -98,5 +119,28 @@ class _ReviewDetailPageState extends State<ReviewDetailPage> {
       ),
     );
   }
-}
 
+  Future<bool?> buildShowSortBottomSheet(BuildContext context) {
+    return showModalBottomSheet<bool?>(
+      backgroundColor: Colors.black.withOpacity(0.75),
+      isScrollControlled: true,
+      context: context,
+      builder: (_) {
+        return BlocProvider.value(
+          value: context.read<ReviewDetailBloc>(),
+          child: BlocBuilder<ReviewDetailBloc, ReviewDetailState>(
+            builder: (context, state) {
+              if (state is ReviewDetailLoadSuccess) {
+                return ReviewSortBottomSheet(
+                  sortType: state.sortType,
+                );
+              } else {
+                return SizedBox();
+              }
+            },
+          ),
+        );
+      },
+    );
+  }
+}

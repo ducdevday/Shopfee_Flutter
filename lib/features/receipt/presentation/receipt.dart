@@ -14,7 +14,7 @@ import 'package:shopfee/core/common/enum/refund_request_status.dart';
 import 'package:shopfee/core/common/extensions/actor_type_extension.dart';
 import 'package:shopfee/core/common/extensions/order_status_extension.dart';
 import 'package:shopfee/core/common/extensions/payment_status_extension.dart';
-import 'package:shopfee/core/common/extensions/payment_type.dart';
+import 'package:shopfee/core/common/extensions/payment_type_extension.dart';
 import 'package:shopfee/core/common/models/order_status.dart';
 import 'package:shopfee/core/common/models/order_type.dart';
 import 'package:shopfee/core/common/widgets/my_confirm_dialog.dart';

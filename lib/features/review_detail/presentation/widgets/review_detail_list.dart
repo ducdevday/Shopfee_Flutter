@@ -34,7 +34,7 @@ class _ReviewDetailListState extends State<ReviewDetailList> {
         scrollController.position.maxScrollExtent) {
       context
           .read<ReviewDetailBloc>()
-          .add(ReviewDetailLoadMoreInformation(productId: widget.productId));
+          .add(ReviewDetailLoadMoreInformation());
     }
   }
 

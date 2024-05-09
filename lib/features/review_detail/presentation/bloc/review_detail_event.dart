@@ -33,14 +33,9 @@ class ReviewDetailRefreshInformation extends ReviewDetailEvent {
 }
 
 class ReviewDetailLoadMoreInformation extends ReviewDetailEvent {
-  final String productId;
-
-  ReviewDetailLoadMoreInformation({
-    required this.productId,
-  });
 
   @override
-  List<Object> get props => [productId];
+  List<Object> get props => [];
 }
 
 class ReviewDetailLikeBtnPressed extends ReviewDetailEvent {
@@ -65,3 +60,17 @@ class ReviewDetailDislikeBtnPressed extends ReviewDetailEvent {
   List<Object> get props => [productReviewId];
 }
 
+class ReviewDetailApplySort extends ReviewDetailEvent {
+  final ReviewSortType? sortType;
+  final int initPage;
+  final int initSize;
+
+  ReviewDetailApplySort({
+    this.sortType,
+    required this.initPage,
+    required this.initSize,
+  });
+
+  @override
+  List<Object?> get props => [sortType, initPage, initSize];
+}

@@ -9,6 +9,7 @@ class ReviewDetailBloc extends Bloc<ReviewDetailEvent, ReviewDetailState> {
     on<ReviewDetailRefreshInformation>(_onReviewDetailRefreshInformation);
     on<ReviewDetailLikeBtnPressed>(_onReviewDetailLikeBtnPressed);
     on<ReviewDetailDislikeBtnPressed>(_onReviewDetailDislikeBtnPressed);
+    on<ReviewDetailApplySort>(_onReviewDetailApplySort);
   }
 
   FutureOr<void> _onReviewDetailLoadInformation(
@@ -25,6 +26,7 @@ class ReviewDetailBloc extends Bloc<ReviewDetailEvent, ReviewDetailState> {
       final reviewStatistic = response[0] as List<ChartStackedBarData>;
       final reviewDetailList = response[1] as List<ReviewDetailEntity>;
       emit(ReviewDetailLoadSuccess(
+          productId: event.productId,
           reviewStatistic: reviewStatistic,
           reviewDetailList: reviewDetailList,
           page: event.initPage,
@@ -44,7 +46,7 @@ class ReviewDetailBloc extends Bloc<ReviewDetailEvent, ReviewDetailState> {
         final params = ReviewDetailParams(
             page: currentState.page + 1, size: currentState.size);
         final reviewDetailList = await _reviewDetailUseCase.getReviewDetailList(
-            event.productId, params);
+            currentState.productId, params);
         if (reviewDetailList.isNotEmpty) {
           emit(currentState.copyWith(
               reviewDetailList: List.from(currentState.reviewDetailList)
@@ -94,10 +96,33 @@ class ReviewDetailBloc extends Bloc<ReviewDetailEvent, ReviewDetailState> {
       final reviewStatistic = response[0] as List<ChartStackedBarData>;
       final reviewDetailList = response[1] as List<ReviewDetailEntity>;
       emit(ReviewDetailLoadSuccess(
+          productId: event.productId,
           reviewStatistic: reviewStatistic,
           reviewDetailList: reviewDetailList,
           page: event.initPage,
           size: event.initSize));
+    } catch (e) {
+      emit(ReviewDetailLoadFailure());
+    }
+  }
+
+  FutureOr<void> _onReviewDetailApplySort(
+      ReviewDetailApplySort event, Emitter<ReviewDetailState> emit) async {
+    try {
+      if (state is ReviewDetailLoadSuccess) {
+        final currentState = state as ReviewDetailLoadSuccess;
+        final params = ReviewDetailParams(
+            page: event.initPage,
+            size: event.initSize,
+            sortType: event.sortType?.toJson());
+        final reviewDetailList = await _reviewDetailUseCase.getReviewDetailList(
+            currentState.productId, params);
+        emit(currentState.copyWith(
+            reviewDetailList: reviewDetailList,
+            page: event.initPage,
+            size: event.initSize,
+            sortType: event.sortType));
+      }
     } catch (e) {
       emit(ReviewDetailLoadFailure());
     }

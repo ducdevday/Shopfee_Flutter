@@ -6,10 +6,13 @@ part 'review_detail_params.g.dart';
 class ReviewDetailParams {
   final int page;
   final int size;
+  @JsonKey(name: "sort_type")
+  final String? sortType;
 
   const ReviewDetailParams({
     required this.page,
     required this.size,
+    this.sortType
   });
 
   factory ReviewDetailParams.fromJson(Map<String, dynamic> json) {

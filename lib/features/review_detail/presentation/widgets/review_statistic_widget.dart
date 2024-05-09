@@ -17,7 +17,7 @@ class _ReviewStatisticWidgetState extends State<ReviewStatisticWidget> {
   Widget build(BuildContext context) {
     return MyContainer(
         child: Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Column(
           children: [
@@ -44,24 +44,29 @@ class _ReviewStatisticWidgetState extends State<ReviewStatisticWidget> {
               if (state is ReviewDetailLoadSuccess) {
                 return Column(
                   children: [
-                    ...state.reviewStatistic.map((e) => Row(
-                          children: [
-                            MyStartList(
-                              star: e.star,
-                              showUnActive: false,
-                              size: 16,
-                            ),
-                            Expanded(
-                              child: LinearPercentIndicator(
-                                lineHeight: 12.0,
-                                percent: e.current/e.total,
-                                barRadius: Radius.circular(7),
-                                backgroundColor: Colors.grey,
-                                progressColor: AppColor.rating,
-                              ),
-                            ),
-                          ],
-                        )),
+                    SizedBox(height: AppDimen.spacing,),
+                    Column(
+                      children: [
+                        ...state.reviewStatistic.map((e) => Row(
+                              children: [
+                                MyStartList(
+                                  star: e.star,
+                                  showUnActive: false,
+                                  size: 12,
+                                ),
+                                Expanded(
+                                  child: LinearPercentIndicator(
+                                    lineHeight: 8.0,
+                                    percent: e.current/e.total,
+                                    barRadius: Radius.circular(7),
+                                    backgroundColor: Colors.grey,
+                                    progressColor: AppColor.rating,
+                                  ),
+                                ),
+                              ],
+                            )),
+                      ],
+                    ),
                   ],
                 );
               }

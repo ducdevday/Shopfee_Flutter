@@ -17,7 +17,7 @@ import 'package:shopfee/core/common/enum/coupon_type.dart';
 import 'package:shopfee/core/common/enum/field_type.dart';
 import 'package:shopfee/core/common/enum/payment_type.dart';
 import 'package:shopfee/core/common/extensions/coupon_type_extension.dart';
-import 'package:shopfee/core/common/extensions/payment_type.dart';
+import 'package:shopfee/core/common/extensions/payment_type_extension.dart';
 import 'package:shopfee/core/common/models/order_type.dart';
 import 'package:shopfee/core/common/widgets/my_confirm_dialog.dart';
 import 'package:shopfee/core/common/widgets/my_input_dialog.dart';
