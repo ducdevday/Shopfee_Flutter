@@ -29,10 +29,6 @@ class _ChartTrackingState extends State<ChartTracking> {
     if (result.length != 2) {
       return false;
     }
-    if (CalculateUtil.distanceBetween2Date(result[0]!, result[1]!) > 31) {
-      AlertUtil.showToast("Maxium 31 days");
-      return false;
-    }
     return true;
   }
 
@@ -44,7 +40,7 @@ class _ChartTrackingState extends State<ChartTracking> {
           children: [
             Expanded(
                 child: Text(
-              "Tracking Amount Paid",
+              "Tracking Payment",
               style: AppStyle.mediumTitleStyleDark,
             )),
             InkWell(
@@ -58,9 +54,11 @@ class _ChartTrackingState extends State<ChartTracking> {
                       selectedDayHighlightColor: AppColor.primaryColor,
                       dayBorderRadius: BorderRadius.all(
                           Radius.circular(AppDimen.smallRadius)),
+                      firstDate: CalculateUtil.getDateTime31DaysAgo(),
                       lastDate: DateTime.now(),
                       currentDate: DateTime.now()),
-                  dialogSize: const Size(325, 400),
+                  dialogSize:
+                      Size(MediaQuery.of(context).size.width * 0.8, 400),
                   value: dateTimes,
                   borderRadius: BorderRadius.circular(15),
                 );
@@ -71,10 +69,11 @@ class _ChartTrackingState extends State<ChartTracking> {
                       .add(StatisticsChooseTracking(dateTimes: results));
                 }
               },
-              child: const MyContainer(
+              child: MyContainer(
                 child: Row(
                   children: [
-                    Text("Time"),
+                    Text(
+                        "${FormatUtil.formatDate3(dateTimes.first)}-${FormatUtil.formatDate3(dateTimes.last)}"),
                     SizedBox(
                       width: AppDimen.smallSpacing,
                     ),
@@ -96,6 +95,20 @@ class _ChartTrackingState extends State<ChartTracking> {
             children: [
               SfCartesianChart(
                   primaryXAxis: DateTimeAxis(),
+                  primaryYAxis: NumericAxis(
+                    numberFormat:
+                        NumberFormat.currency(locale: 'vi_VN', symbol: '₫'),
+                  ),
+                  trackballBehavior: TrackballBehavior(
+                    activationMode: ActivationMode.singleTap,
+                    enable: true,
+                  ),
+                  zoomPanBehavior: ZoomPanBehavior(
+                    enablePinching: true,
+                    zoomMode: ZoomMode.x,
+                    enablePanning: true,
+                    enableDoubleTapZooming: true,
+                  ),
                   series: <CartesianSeries>[
                     // Renders line chart
                     LineSeries<ChartLineData, DateTime>(
@@ -104,29 +117,6 @@ class _ChartTrackingState extends State<ChartTracking> {
                       yValueMapper: (ChartLineData data, _) => data.value,
                     ),
                   ]),
-              Row(
-                children: [
-                  Expanded(child: Text("Chosen Start Date")),
-                  Expanded(
-                      child: Text(
-                    "${FormatUtil.formatDate2(dateTimes.first)}",
-                    textAlign: TextAlign.end,
-                  ))
-                ],
-              ),
-              SizedBox(
-                height: AppDimen.spacing,
-              ),
-              Row(
-                children: [
-                  Expanded(child: Text("Chosen End Date")),
-                  Expanded(
-                      child: Text(
-                    "${FormatUtil.formatDate2(dateTimes.last)}",
-                    textAlign: TextAlign.end,
-                  ))
-                ],
-              ),
               SizedBox(
                 height: AppDimen.spacing,
               ),

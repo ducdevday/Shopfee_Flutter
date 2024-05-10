@@ -27,13 +27,13 @@ class _StatisticsPageState extends State<StatisticsPage> {
 
   void handleMenuClick(String value) {
     switch (value) {
-      case 'Amount Paid':
+      case 'Amount Paid By':
         _bloc.add(StatisticsChooseAmountPaid());
         break;
       case 'Order':
         _bloc.add(StatisticsChooseTotalOrder());
         break;
-      case 'Tracking':
+      case 'Tracking Payment':
         _bloc.add(StatisticsChooseTracking(
             dateTimes: [CalculateUtil.getDateTime7DaysAgo(), DateTime.now()]));
         break;
@@ -58,7 +58,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
                 icon: SvgPicture.asset(AppPath.icStatistic),
                 onSelected: handleMenuClick,
                 itemBuilder: (BuildContext context) {
-                  return {'Amount Paid', 'Order', 'Tracking'}
+                  return {'Amount Paid By', 'Order', 'Tracking Payment'}
                       .map((String choice) {
                     return PopupMenuItem<String>(
                       value: choice,

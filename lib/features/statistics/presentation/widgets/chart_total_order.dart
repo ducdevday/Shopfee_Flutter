@@ -23,6 +23,7 @@ class ChartTotalOrder extends StatelessWidget {
           child: Column(
             children: [
               SfCircularChart(
+                  palette: <Color>[AppColor.circularChartColor2,AppColor.circularChartColor1,AppColor.circularChartColor3,AppColor.circularChartColor4],
                   legend:
                       Legend(isVisible: true, position: LegendPosition.bottom),
                   series: <CircularSeries<ChartCircularData, String>>[
@@ -34,7 +35,13 @@ class ChartTotalOrder extends StatelessWidget {
                         yValueMapper: (ChartCircularData data, _) => data.yData,
                         dataLabelMapper: (ChartCircularData data, _) =>
                             data.text,
-                        dataLabelSettings: DataLabelSettings(isVisible: true)),
+                        dataLabelSettings: DataLabelSettings(isVisible: true,
+                            textStyle: AppStyle.normalTextStyle.copyWith(
+                                shadows: [
+                                  Shadow(
+                                      color: Colors.black45,
+                                      offset: Offset(1, 1))
+                                ]))),
                   ]),
             ],
           ),
