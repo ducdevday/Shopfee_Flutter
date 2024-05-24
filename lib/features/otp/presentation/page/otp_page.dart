@@ -115,7 +115,7 @@ class _OtpPageState extends State<OtpPage> {
                       children: [
                         Text(
                           "Haven't got the confirmation code yet? ",
-                          style: AppStyle.normalTextStyleDark,
+                          style: AppStyle.smallTextStyleDark,
                         ),
                         CountdownText(
                           email: widget.email,
@@ -202,10 +202,10 @@ class _CountdownTextState extends State<CountdownText> {
     if (_secondsLeft != 0) {
       if (_secondsLeft >= 10) {
         return Text("00:${_secondsLeft.toString()}",
-            style: AppStyle.normalTextStylePrimary);
+            style: AppStyle.smallTextStylePrimary);
       } else {
         return Text("00:0${_secondsLeft.toString()}",
-            style: AppStyle.normalTextStylePrimary);
+            style: AppStyle.smallTextStylePrimary);
       }
     }
     return TextButton(
@@ -219,7 +219,7 @@ class _CountdownTextState extends State<CountdownText> {
         },
         child: Text(
           "Resend",
-          style: AppStyle.normalTextStylePrimary,
+          style: AppStyle.smallTextStylePrimary,
         ));
   }
 }

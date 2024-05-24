@@ -182,41 +182,49 @@ class _HomePageState extends State<HomePage> {
                             const SizedBox(
                               height: 16,
                             ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: AppDimen.screenPadding),
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  "Top Selling",
-                                  style: AppStyle.mediumTitleStyleDark,
-                                ),
+                            if (state.topSellingProducts.isNotEmpty)
+                              Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: AppDimen.screenPadding),
+                                    child: Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        "Top Selling",
+                                        style: AppStyle.mediumTitleStyleDark,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
+                                  SizedBox(
+                                    height: 180,
+                                    child: ListView.separated(
+                                      scrollDirection: Axis.horizontal,
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: AppDimen.screenPadding),
+                                      itemCount:
+                                          state.topSellingProducts.length,
+                                      itemBuilder: (context, index) =>
+                                          HomeProduct(
+                                        product:
+                                            state.topSellingProducts[index],
+                                        viewType: ProductViewType
+                                            .List_View_Horizontal,
+                                      ),
+                                      separatorBuilder: (context, int index) =>
+                                          const SizedBox(
+                                        width: AppDimen.spacing,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 16,
+                                  ),
+                                ],
                               ),
-                            ),
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            SizedBox(
-                              height: 180,
-                              child: ListView.separated(
-                                scrollDirection: Axis.horizontal,
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: AppDimen.screenPadding),
-                                itemCount: state.topSellingProducts.length,
-                                itemBuilder: (context, index) => HomeProduct(
-                                  product: state.topSellingProducts[index],
-                                  viewType:
-                                      ProductViewType.List_View_Horizontal,
-                                ),
-                                separatorBuilder: (context, int index) =>
-                                    const SizedBox(
-                                  width: AppDimen.spacing,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 16,
-                            ),
                             Padding(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: AppDimen.screenPadding),

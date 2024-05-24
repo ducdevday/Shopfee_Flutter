@@ -20,21 +20,18 @@ void main() async {
   await FlutterConfig.loadEnvVariables();
   await SharedService.init();
   await ServiceLocator().init();
+  await SharedService.initAppDocPath();
   HydratedBloc.storage = await HydratedStorage.build(
       storageDirectory: kIsWeb
           ? HydratedStorage.webStorageDirectory
           : await getTemporaryDirectory());
-  await initData();
+  await initGlobalData();
   await PushNotificationService.setUpPushNotification();
   Bloc.observer = SimpleBlocObserver();
   runApp(const MyApp());
 }
 
-Future<void> initData() async {
-  final Directory appDocDir = await getApplicationDocumentsDirectory();
-  final String appDocPath = appDocDir.path;
-  SharedService.setAppDocPath(appDocPath);
-
+Future<void> initGlobalData() async {
   await GlobalData.ins.createCustomIcon();
   if (GlobalData.ins.currentPosition != null) {
     await GlobalData.ins.getCurrentPosition();

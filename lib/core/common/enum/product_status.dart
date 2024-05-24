@@ -2,7 +2,7 @@
 enum ProductStatus {
   AVAILABLE,
   HIDDEN,
-  OUT_OF_STOCK;
+  TEMPORARY_SUSPENDED;
 
   String toJson() => name;
 
