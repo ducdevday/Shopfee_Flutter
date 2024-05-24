@@ -12,6 +12,7 @@ class OrderService {
       "max_price": query?.maxPrice?.toInt(),
       "min_star": query?.minStar?.toInt(),
       "sort_type": query?.sortType?.toJson(),
+      // "branch_id": query?.branchId
     };
     if (id != null) {
       var response = await DioService.instance.get(

@@ -14,7 +14,18 @@ class SearchLoadInProcess extends SearchState {
   List<Object> get props => [];
 }
 
-class SearchLoadSuccess extends SearchState {
+class SearchLoadAutoCompleteSuccess extends SearchState {
+  final AutocompleteProductEntity autocompleteProductEntity;
+
+  const SearchLoadAutoCompleteSuccess({
+    required this.autocompleteProductEntity,
+  });
+
+  @override
+  List<Object> get props => [autocompleteProductEntity];
+}
+
+class SearchLoadProductSuccess extends SearchState {
   final String query;
   final int page;
   final int size;
@@ -22,7 +33,7 @@ class SearchLoadSuccess extends SearchState {
   final bool isLoadMore;
   final bool cannotLoadMore;
 
-  const SearchLoadSuccess({
+  const SearchLoadProductSuccess({
     this.query = "",
     this.products = const [],
     required this.page,
@@ -35,7 +46,7 @@ class SearchLoadSuccess extends SearchState {
   List<Object> get props =>
       [query, page, size, products, isLoadMore, cannotLoadMore,];
 
-  SearchLoadSuccess copyWith({
+  SearchLoadProductSuccess copyWith({
     String? query,
     int? page,
     int? size,
@@ -43,7 +54,7 @@ class SearchLoadSuccess extends SearchState {
     bool? isLoadMore,
     bool? cannotLoadMore,
   }) {
-    return SearchLoadSuccess(
+    return SearchLoadProductSuccess(
       query: query ?? this.query,
       page: page ?? this.page,
       size: size ?? this.size,

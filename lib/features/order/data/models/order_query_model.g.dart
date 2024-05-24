@@ -8,6 +8,7 @@ part of 'order_query_model.dart';
 
 OrderQueryModel _$OrderQueryModelFromJson(Map<String, dynamic> json) =>
     OrderQueryModel(
+      json['branch_id'] as String?,
       json['min_price'] as num?,
       json['max_price'] as num?,
       json['min_star'] as num?,
@@ -16,6 +17,7 @@ OrderQueryModel _$OrderQueryModelFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$OrderQueryModelToJson(OrderQueryModel instance) =>
     <String, dynamic>{
+      'branch_id': instance.branchId,
       'min_price': instance.minPrice,
       'max_price': instance.maxPrice,
       'min_star': instance.minStar,

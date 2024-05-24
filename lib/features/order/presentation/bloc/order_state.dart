@@ -23,6 +23,7 @@ class OrderLoadSuccess extends OrderState {
   final int size;
   final bool isLoadMore;
   final bool cannotLoadMore;
+  final String? branchId;
   final num? minPrice;
   final num? maxPrice;
   final num? minStar;
@@ -39,7 +40,7 @@ class OrderLoadSuccess extends OrderState {
     return num;
   }
 
-  get sortNumber{
+  get sortNumber {
     int num = 0;
     if (sortType != null) {
       num++;
@@ -56,6 +57,7 @@ class OrderLoadSuccess extends OrderState {
       required this.size,
       this.isLoadMore = false,
       this.cannotLoadMore = false,
+      this.branchId,
       this.minPrice,
       this.maxPrice,
       this.minStar,
@@ -71,6 +73,7 @@ class OrderLoadSuccess extends OrderState {
         size,
         isLoadMore,
         cannotLoadMore,
+        branchId,
         minPrice,
         maxPrice,
         minStar,
@@ -86,6 +89,7 @@ class OrderLoadSuccess extends OrderState {
     int? size,
     bool? isLoadMore,
     bool? cannotLoadMore,
+    ValueGetter<String?>? branchId,
     ValueGetter<num?>? minPrice,
     ValueGetter<num?>? maxPrice,
     ValueGetter<num?>? minStar,

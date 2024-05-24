@@ -6,7 +6,7 @@ import 'package:shopfee/core/service/shared_service.dart';
 
 class DioService {
   // static const String BACKEND_PATH = "http://10.0.2.2:8080/api/";
-  static const String BACKEND_PATH = "http://192.168.137.1:8080/api/";
+  static const String BACKEND_PATH = "http://192.168.1.17:8080/api/";
 
   //api backend route
   static const String productPath = "product";

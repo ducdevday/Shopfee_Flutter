@@ -42,6 +42,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
         final currentState = state as OrderLoadSuccess;
         emit(currentState.copyWith(isLoadMore: true));
         final OrderQueryEntity orderQuery = OrderQueryEntity(
+            branchId: currentState.branchId,
             minPrice: currentState.minPrice,
             maxPrice: currentState.maxPrice,
             minStar: currentState.minStar,
@@ -75,6 +76,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
         OrderQueryEntity orderQuery;
 
         orderQuery = OrderQueryEntity(
+            branchId: currentState.branchId,
             minPrice: currentState.minPrice,
             maxPrice: currentState.maxPrice,
             minStar: currentState.minStar,
@@ -108,6 +110,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
         OrderQueryEntity orderQuery;
 
         orderQuery = OrderQueryEntity(
+            branchId: currentState.branchId,
             minPrice: currentState.minPrice,
             maxPrice: currentState.maxPrice,
             minStar: currentState.minStar,
@@ -141,6 +144,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
         EasyLoading.show();
         OrderQueryEntity orderQuery;
         orderQuery = OrderQueryEntity(
+            branchId: event.branchId,
             minPrice: event.minPrice,
             maxPrice: event.maxPrice,
             minStar: event.minStar,
@@ -157,6 +161,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
             size: event.initSize,
             isLoadMore: false,
             cannotLoadMore: false,
+            branchId: () => event.branchId,
             minPrice: () => event.minPrice,
             maxPrice: () => event.maxPrice,
             minStar: () => event.minStar));
@@ -175,6 +180,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
         EasyLoading.show();
         OrderQueryEntity orderQuery;
         orderQuery = OrderQueryEntity(
+            branchId: currentState.branchId,
             minPrice: currentState.minPrice,
             maxPrice: currentState.maxPrice,
             minStar: currentState.minStar,

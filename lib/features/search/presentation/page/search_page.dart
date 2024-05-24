@@ -18,10 +18,8 @@ class _SearchPageState extends State<SearchPage> {
   late bool isLoadingMore;
   late bool cannotLoadMore;
   late List<ProductInformationEntity> productList;
-
-  final SpeechToText _speechToText = SpeechToText();
-  ValueNotifier<bool> micNotifier = ValueNotifier(false);
-  bool enableMic = false;
+  late List<String> autoCompleteList;
+  late List<String> highLightList;
 
   @override
   void initState() {
@@ -39,12 +37,11 @@ class _SearchPageState extends State<SearchPage> {
     scrollController.dispose();
     textEditingController.dispose();
     debounceController.dispose();
-    micNotifier.dispose();
     super.dispose();
   }
 
   void handleSearchProduct(String value) {
-    debounceController.run(() => _cubit.searchProduct(value));
+    debounceController.run(() => _cubit.getAutoCompleteProductName(value));
   }
 
   void _scrollListener() {
@@ -55,32 +52,16 @@ class _SearchPageState extends State<SearchPage> {
     }
   }
 
-  Future<void> _initSpeech() async {
-    enableMic = await _speechToText.initialize();
-  }
-
-  Future<void> _startListening() async {
-    await _speechToText.listen(onResult: _onSpeechResult);
-  }
-
-  Future<void> _stopListening() async {
-    await _speechToText.stop();
-  }
-
-  void _onSpeechResult(SpeechRecognitionResult result) {
-    final _lastWords = result.recognizedWords;
-    textEditingController.text = _lastWords;
-    handleSearchProduct(textEditingController.text);
-    micNotifier.value = false;
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
         create: (context) => _cubit,
         child: BlocListener<SearchCubit, SearchState>(
           listener: (context, state) {
-            if (state is SearchLoadSuccess) {
+            if (state is SearchLoadAutoCompleteSuccess) {
+              highLightList = state.autocompleteProductEntity.highlightTextList;
+              autoCompleteList = state.autocompleteProductEntity.autocompleteTextList;
+            } else if (state is SearchLoadProductSuccess) {
               isLoadingMore = state.isLoadMore;
               cannotLoadMore = state.cannotLoadMore;
               productList = state.products;
@@ -143,109 +124,143 @@ class _SearchPageState extends State<SearchPage> {
                   ],
                 ),
               ),
-              bottom: const PreferredSize(
+              bottom: PreferredSize(
                 preferredSize: Size.fromHeight(1),
-                child: Divider(height: 1),
+                child: BlocBuilder<SearchCubit, SearchState>(
+                  builder: (context, state) {
+                    if (state is SearchLoadAutoCompleteSuccess)
+                      return SizedBox();
+                    return Divider(height: 1);
+                  },
+                ),
               ),
             ),
             body: BlocBuilder<SearchCubit, SearchState>(
               builder: (context, state) {
-                if (state is SearchLoadInProcess) {
-                  return Center(child: CupertinoActivityIndicator());
-                } else if (state is SearchLoadSuccess) {
-                  if (productList.isNotEmpty && query.isNotEmpty) {
-                    return ListView.separated(
-                      controller: scrollController,
-                      padding: EdgeInsets.only(top: AppDimen.screenPadding),
-                      itemCount: isLoadingMore
-                          ? productList.length + 1
-                          : productList.length,
-                      itemBuilder: (context, index) =>
-                          index < productList.length
-                              ? HomeProduct(
-                                  product: productList[index],
-                                  viewType: ProductViewType.List_View_Vertical,
-                                )
-                              : const Padding(
-                                  padding: EdgeInsets.all(AppDimen.spacing),
-                                  child: CupertinoActivityIndicator(),
-                                ),
-                      separatorBuilder: (context, int index) => const Divider(
-                        height: 8,
-                        thickness: 0.75,
-                      ),
-                    );
-                  } else if (query.isNotEmpty) {
-                    return Container(
-                      width: double.infinity,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            AppPath.icNoProduct,
-                            width: 60,
-                            height: 60,
+                switch (state) {
+                  case SearchLoadInProcess():
+                    return Center(child: CupertinoActivityIndicator());
+                  case SearchLoadAutoCompleteSuccess():
+                    if (highLightList.isNotEmpty && textEditingController.value.text.isNotEmpty) {
+                      return ListView.separated(
+                        itemCount: highLightList.length,
+                        itemBuilder: (context, index) => Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8.0,
+                              horizontal: AppDimen.screenPadding),
+                          child: GestureDetector(
+                            onTap: () {
+                              _cubit.chooseAutoCompleteProductName(autoCompleteList[index]);
+                              textEditingController.text = autoCompleteList[index];
+                            },
+                            child: HtmlWidget(
+                              '''${highLightList[index]}''',
+                              customStylesBuilder: (element) {
+                                if (element.localName == "em")
+                                  return {
+                                    'color': "#5D4037",
+                                    'font-style': 'normal',
+                                    'font-weight': 'bold'
+                                  };
+                                return null;
+                              },
+
+                              customWidgetBuilder: (element) {
+                                return null;
+                              },
+                              renderMode: RenderMode.column,
+
+                              // set the default styling for text
+                              textStyle: AppStyle.normalTextStyleDark,
+                            ),
                           ),
-                          SizedBox(
-                            height: 16,
-                          ),
-                          Text(
-                            "No Product Found",
-                            style: AppStyle.mediumTextStyleDark
-                                .copyWith(color: AppColor.nonactiveColor),
-                          )
-                        ],
-                      ),
-                    );
-                  } else {
+                        ),
+                        separatorBuilder: (context, int index) => const Divider(
+                          height: 8,
+                          thickness: 0.75,
+                        ),
+                      );
+                    } else if (textEditingController.value.text.isNotEmpty) {
+                      return Container(
+                        width: double.infinity,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              AppPath.icNoProduct,
+                              width: 60,
+                              height: 60,
+                            ),
+                            SizedBox(
+                              height: 16,
+                            ),
+                            Text(
+                              "No Product Found",
+                              style: AppStyle.mediumTextStyleDark
+                                  .copyWith(color: AppColor.nonactiveColor),
+                            )
+                          ],
+                        ),
+                      );
+                    } else {
+                      return SizedBox();
+                    }
+                  case SearchLoadProductSuccess():
+                    if (productList.isNotEmpty && query.isNotEmpty) {
+                      return ListView.separated(
+                        controller: scrollController,
+                        padding: EdgeInsets.only(top: AppDimen.screenPadding),
+                        itemCount: isLoadingMore
+                            ? productList.length + 1
+                            : productList.length,
+                        itemBuilder: (context, index) => index <
+                                productList.length
+                            ? HomeProduct(
+                                product: productList[index],
+                                viewType: ProductViewType.List_View_Vertical,
+                              )
+                            : const Padding(
+                                padding: EdgeInsets.all(AppDimen.spacing),
+                                child: CupertinoActivityIndicator(),
+                              ),
+                        separatorBuilder: (context, int index) => const Divider(
+                          height: 8,
+                          thickness: 0.75,
+                        ),
+                      );
+                    } else if (query.isNotEmpty) {
+                      return Container(
+                        width: double.infinity,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              AppPath.icNoProduct,
+                              width: 60,
+                              height: 60,
+                            ),
+                            SizedBox(
+                              height: 16,
+                            ),
+                            Text(
+                              "No Product Found",
+                              style: AppStyle.mediumTextStyleDark
+                                  .copyWith(color: AppColor.nonactiveColor),
+                            )
+                          ],
+                        ),
+                      );
+                    } else {
+                      return SizedBox();
+                    }
+                  case SearchLoadFailure():
+                    return MyErrorWidget();
+                  default:
                     return SizedBox();
-                  }
-                } else if (state is SearchLoadFailure) {
-                  return MyErrorWidget();
-                } else {
-                  return SizedBox();
                 }
               },
             ),
-            floatingActionButton: buildMicButton(),
           ),
         ));
-  }
-
-  ValueListenableBuilder<bool> buildMicButton() {
-    return ValueListenableBuilder(
-      valueListenable: micNotifier,
-      builder: (BuildContext context, bool micOn, Widget? child) {
-        if (micOn) {
-          return FloatingActionButton(
-            onPressed: () async {
-              micNotifier.value = false;
-              await _stopListening();
-            },
-            child: Image.asset(
-              AppPath.icMicOn,
-              width: AppDimen.mediumSize,
-              height: AppDimen.mediumSize,
-            ),
-          );
-        } else {
-          return FloatingActionButton(
-            onPressed: () async {
-              if (!enableMic) {
-                _initSpeech();
-              } else {
-                micNotifier.value = true;
-                await _startListening();
-              }
-            },
-            child: Image.asset(
-              AppPath.icMicOff,
-              width: AppDimen.mediumSize,
-              height: AppDimen.mediumSize,
-            ),
-          );
-        }
-      },
-    );
   }
 }

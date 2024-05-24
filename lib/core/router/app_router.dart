@@ -88,8 +88,7 @@ class AppRouter {
                 categoryId: args["categoryId"],
                 categoryName: args["categoryName"]));
       case SearchPage.route:
-        return PageTransition(
-            child: SearchPage(), type: PageTransitionType.topToBottom);
+        return UnanimatedPageRoute(builder: (context) => SearchPage());
       case ProductDetailPage.route:
         return PageTransition(
             child: ProductDetailPage(productId: settings.arguments as String),

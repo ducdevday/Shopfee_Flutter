@@ -282,7 +282,7 @@ class HomeProduct extends StatelessWidget {
             child: Stack(
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
