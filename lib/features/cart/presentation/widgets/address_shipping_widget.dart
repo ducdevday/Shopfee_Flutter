@@ -55,7 +55,7 @@ class AddressShippingWidget extends StatelessWidget {
                         const Icon(Icons.keyboard_arrow_right_rounded),
                       ],
                     ),
-                    if (state.cart.shippingFee == null)
+                    if (state.cart.shippingFee == null && state.cart.cartInvalidBranchList.isEmpty)
                       Text(
                         "This address can't serve your current location and time, please choose another",
                         style: AppStyle.normalTextStylePrimary.copyWith(color: AppColor.error),

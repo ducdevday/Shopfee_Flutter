@@ -1,3 +1,5 @@
+import 'package:shopfee/features/cart/data/models/check_shipping_result.dart';
+import 'package:shopfee/features/cart/data/models/check_take_away_result.dart';
 import 'package:shopfee/features/cart/data/models/order_result.dart';
 import 'package:shopfee/features/cart/domain/entities/cart_entity.dart';
 import 'package:shopfee/features/coupon_in_cart/domain/entities/coupon_check_result_entity.dart';
@@ -23,4 +25,8 @@ abstract class CartRepository {
   Future<double?> getShippingFee(double lat, double lng);
 
   Future<List<CouponCheckResultEntity>> checkCouponInCart(CartEntity cart,);
+
+  Future<CheckTakeAwayResult> checkTakeAwayOrder(CartEntity cart);
+
+  Future<CheckShippingResult> checkShippingOrder(CartEntity cart);
 }

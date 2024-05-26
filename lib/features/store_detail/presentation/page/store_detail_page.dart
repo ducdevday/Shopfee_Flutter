@@ -74,7 +74,8 @@ class _StoreDetailPageState extends State<StoreDetailPage> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            NavigationUtil.pushNamed(NetworkImageFullScreen.route,
+                            NavigationUtil.pushNamed(
+                                NetworkImageFullScreen.route,
                                 arguments: state.store.imageUrl!);
                           },
                           child: Hero(
@@ -90,7 +91,7 @@ class _StoreDetailPageState extends State<StoreDetailPage> {
                               ),
                               errorWidget: (_, __, ___) => Image.asset(
                                 AppPath.imgImageError,
-                                width: MediaQuery.of(context).size.width ,
+                                width: MediaQuery.of(context).size.width,
                                 height: 270,
                               ),
                             ),
@@ -266,6 +267,10 @@ class _StoreDetailPageState extends State<StoreDetailPage> {
                           context
                               .read<MyBottomNavBarCubit>()
                               .selectPage(OrderPage.indexPage);
+                          context.read<OrderBloc>().add(OrderApplyFilter(
+                              initPage: 1,
+                              initSize: 8,
+                              branchId: widget.branchId));
                         },
                         child: const Text("Order Product"),
                         style: AppStyle.elevatedButtonStylePrimary,

@@ -24,6 +24,9 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
     on<CartUpdateChosenCoupon>(_onCartUpdateChosenCoupon);
     on<CartCheckCoupon>(_onCartCheckCoupon);
     on<CartUpdateOrderInformation>(_onCartUpdateOrderInformation);
+    on<CartCheckShippingOrder>(_onCartCheckShippingOrder);
+    on<CartCheckTakeAwayOrder>(_onCartCartCheckTakeAwayOrder);
+    on<CartChooseBranchConflict>(_onCartChooseBranchConflict);
     on<CartCreateShippingOrder>(_onCartCreateShippingOrder);
     on<CartCreateTakeAwayOrder>(_onCartCreateTakeAwayOrder);
   }
@@ -78,6 +81,9 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
         ),
       ));
       add(CartCheckCoupon());
+      if (currentState.cart.cartInvalidBranchList.isNotEmpty) {
+        add(CartCheckShippingOrder());
+      }
     }
   }
 
@@ -126,8 +132,9 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
               receiverOnsite: event.receiverInformation),
         ));
         if (defaultAddress != null) {
-          add(CartSetShippingFee(
-              lat: defaultAddress.latitude!, lng: defaultAddress.longitude!));
+          // add(CartSetShippingFee(
+          //     lat: defaultAddress.latitude!, lng: defaultAddress.longitude!));
+          add(CartCheckShippingOrder());
         }
       }
     } catch (e) {
@@ -161,8 +168,9 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
         emit(CartLoaded(
             cart: currentState.cart.copyWith(address: chosenAddress)));
         if (chosenAddress != null) {
-          add(CartSetShippingFee(
-              lat: chosenAddress.latitude!, lng: chosenAddress.longitude!));
+          // add(CartSetShippingFee(
+          //     lat: chosenAddress.latitude!, lng: chosenAddress.longitude!));
+          add(CartCheckShippingOrder());
         }
       }
     } catch (e) {
@@ -207,6 +215,11 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
       if (currentState.cart.store == null) {
         add(CartInitStore());
       }
+      if (event.typeOrder == OrderType.ONSITE) {
+        add(CartCheckTakeAwayOrder());
+      } else if (event.typeOrder == OrderType.SHIPPING) {
+        add(CartCheckShippingOrder());
+      }
     }
   }
 
@@ -223,6 +236,7 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
         emit(CartLoaded(
           cart: currentState.cart.copyWith(store: nearestStore),
         ));
+        add(CartCheckTakeAwayOrder());
       }
     } catch (e) {
       ExceptionUtil.handle(e);
@@ -240,6 +254,7 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
         emit(CartLoaded(
           cart: currentState.cart.copyWith(store: chosenStore),
         ));
+        add(CartCheckTakeAwayOrder());
       }
     } catch (e) {
       ExceptionUtil.handle(e);
@@ -314,7 +329,8 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
     try {
       if (state is CartLoaded) {
         final currentState = state as CartLoaded;
-        if(currentState.cart.needToCheckCoupon(SharedService.getUserId()) == false){
+        if (currentState.cart.needToCheckCoupon(SharedService.getUserId()) ==
+            false) {
           return;
         }
         final couponResultList =
@@ -394,6 +410,129 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
             cart:
                 currentState.cart.copyWith(orders: updatedInformationOrders)));
         EasyLoading.dismiss();
+      }
+    } catch (e) {
+      ExceptionUtil.handle(e);
+    }
+  }
+
+  FutureOr<void> _onCartCheckShippingOrder(
+      CartCheckShippingOrder event, Emitter<CartState> emit) async {
+    try {
+      if (state is CartLoaded) {
+        final currentState = state as CartLoaded;
+        if (currentState.cart.address == null) return;
+        EasyLoading.show();
+        final checkResult =
+            await _cartUseCase.checkShippingOrder(currentState.cart);
+        if (checkResult.branchValid != null) {
+          emit(CartLoaded(
+              cart: currentState.cart.copyWith(
+                  shippingFee: () =>
+                      checkResult.branchValid!.shippingFee.toDouble(),
+                  cartInvalidBranchList: [])));
+        } else if (checkResult.branchInvalidList != null &&
+            checkResult.branchInvalidList!.isNotEmpty) {
+          List<CartInvalidBranch> cartInValidBranchList = [];
+          for (var invalidBranch in checkResult.branchInvalidList!) {
+            final branchEntity =
+                await _cartUseCase.getDetailStore(invalidBranch.branchId);
+            final invalidProductIdList = invalidBranch.orderItemInvalidList
+                .map((e) => e.productId)
+                .toList();
+            final Set<String> invalidProductNameSet = {};
+            final currentOrder =
+                List<OrderEntity>.from(currentState.cart.orders);
+            final invalidCurrentOrder = currentOrder
+                .where((element) =>
+                    invalidProductIdList.contains(element.product.id))
+                .toList();
+            invalidProductNameSet.addAll(
+                invalidCurrentOrder.map((e) => e.product.name!).toList());
+            final List<String> invalidProductNameList =
+                invalidProductNameSet.toList();
+            cartInValidBranchList.add(CartInvalidBranch(
+              branchId: branchEntity.id!,
+              branchName: branchEntity.name!,
+              invalidProductIdList: invalidProductIdList,
+              invalidProductNameList: invalidProductNameList,
+            ));
+          }
+          emit(CartLoaded(
+              cart: currentState.cart
+                  .copyWith(cartInvalidBranchList: cartInValidBranchList)));
+        }
+        EasyLoading.dismiss();
+      }
+    } catch (e) {
+      ExceptionUtil.handle(e);
+    }
+  }
+
+  FutureOr<void> _onCartCartCheckTakeAwayOrder(
+      CartCheckTakeAwayOrder event, Emitter<CartState> emit) async {
+    try {
+      if (state is CartLoaded) {
+        final currentState = state as CartLoaded;
+        if (currentState.cart.store == null) return;
+        EasyLoading.show();
+        final checkResult =
+            await _cartUseCase.checkTakeAwayOrder(currentState.cart);
+        if (checkResult.orderItemInvalidList.isNotEmpty) {
+          List<CartInvalidBranch> cartInValidBranchList = [];
+          final branchEntity =
+              await _cartUseCase.getDetailStore(currentState.cart.store!.id!);
+          final invalidProductIdList =
+              checkResult.orderItemInvalidList.map((e) => e.productId).toList();
+          final Set<String> invalidProductNameSet = {};
+          final currentOrder = List<OrderEntity>.from(currentState.cart.orders);
+          final invalidCurrentOrder = currentOrder
+              .where((element) =>
+                  invalidProductIdList.contains(element.product.id))
+              .toList();
+          invalidProductNameSet
+              .addAll(invalidCurrentOrder.map((e) => e.product.name!).toList());
+          final List<String> invalidProductNameList =
+              invalidProductNameSet.toList();
+          cartInValidBranchList.add(CartInvalidBranch(
+            branchId: branchEntity.id!,
+            branchName: branchEntity.name!,
+            invalidProductIdList: invalidProductIdList,
+            invalidProductNameList: invalidProductNameList,
+          ));
+          emit(CartLoaded(
+              cart: currentState.cart
+                  .copyWith(cartInvalidBranchList: cartInValidBranchList)));
+        }
+        EasyLoading.dismiss();
+      }
+    } catch (e) {
+      ExceptionUtil.handle(e);
+    }
+  }
+
+  FutureOr<void> _onCartChooseBranchConflict(
+      CartChooseBranchConflict event, Emitter<CartState> emit) async {
+    try {
+      if (state is CartLoaded) {
+        final currentState = state as CartLoaded;
+        final currentOrderItem =
+            List<OrderEntity>.from(currentState.cart.orders);
+        currentOrderItem.removeWhere((element) =>
+            event.branch.invalidProductIdList.contains(element.product.id));
+        emit(CartLoaded(
+            cart: currentState.cart.copyWith(
+                orders: currentOrderItem, cartInvalidBranchList: [])));
+        EasyLoading.showInfo("Some product has been remove from cart");
+        EasyLoading.dismiss();
+        if (currentState.cart.orderType != null &&
+            currentState.cart.orderType == OrderType.SHIPPING) {
+          add(CartCheckShippingOrder());
+        } else if (currentState.cart.orderType != null &&
+            currentState.cart.orderType == OrderType.ONSITE) {
+          add(CartCheckTakeAwayOrder());
+        }
+        add(CartCheckCoupon());
       }
     } catch (e) {
       ExceptionUtil.handle(e);

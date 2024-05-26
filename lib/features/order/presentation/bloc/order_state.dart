@@ -37,6 +37,9 @@ class OrderLoadSuccess extends OrderState {
     if (minStar != null && minStar! > 0) {
       num++;
     }
+    if(branchId != null){
+      num++;
+    }
     return num;
   }
 
@@ -104,6 +107,7 @@ class OrderLoadSuccess extends OrderState {
       size: size ?? this.size,
       isLoadMore: isLoadMore ?? this.isLoadMore,
       cannotLoadMore: cannotLoadMore ?? this.cannotLoadMore,
+      branchId: branchId != null ? branchId() : this.branchId,
       minPrice: minPrice != null ? minPrice() : this.minPrice,
       maxPrice: maxPrice != null ? maxPrice() : this.maxPrice,
       minStar: minStar != null ? minStar() : this.minStar,

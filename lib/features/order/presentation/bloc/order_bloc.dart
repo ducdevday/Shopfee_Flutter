@@ -167,6 +167,9 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
             minStar: () => event.minStar));
         EasyLoading.dismiss();
       }
+      else{
+        add(OrderLoadInformation(initPage: event.initPage, initSize: event.initSize));
+      }
     } catch (e) {
       ExceptionUtil.handle(e);
     }

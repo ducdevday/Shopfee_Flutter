@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shopfee/core/common/enum/payment_type.dart';
 import 'package:shopfee/core/common/models/order_type.dart';
+import 'package:shopfee/features/cart/data/models/cart_invalid_branch.dart';
 import 'package:shopfee/features/cart/data/models/cart_model.dart';
 import 'package:shopfee/features/cart/domain/entities/receiver_onsite_entity.dart';
 import 'package:shopfee/features/coupon_in_cart/domain/entities/coupon_check_result_entity.dart';
@@ -25,25 +26,26 @@ class CartEntity {
   final CouponCheckResultEntity? shippingCouponResult;
   final CouponCheckResultEntity? orderCouponResult;
   final CouponCheckResultEntity? productCouponResult;
+  final List<CartInvalidBranch> cartInvalidBranchList;
 
-  const CartEntity({
-    this.orders = const <OrderEntity>[],
-    this.orderType = OrderType.SHIPPING,
-    this.address,
-    this.note,
-    this.store,
-    this.receiveTime,
-    this.paymentType = PaymentType.CASHING,
-    this.shippingFee,
-    this.coin,
-    this.receiverOnsite,
-    this.shippingCouponCode,
-    this.orderCouponCode,
-    this.productCouponCode,
-    this.shippingCouponResult,
-    this.orderCouponResult,
-    this.productCouponResult,
-  });
+  const CartEntity(
+      {this.orders = const <OrderEntity>[],
+      this.orderType = OrderType.SHIPPING,
+      this.address,
+      this.note,
+      this.store,
+      this.receiveTime,
+      this.paymentType = PaymentType.CASHING,
+      this.shippingFee,
+      this.coin,
+      this.receiverOnsite,
+      this.shippingCouponCode,
+      this.orderCouponCode,
+      this.productCouponCode,
+      this.shippingCouponResult,
+      this.orderCouponResult,
+      this.productCouponResult,
+      this.cartInvalidBranchList = const <CartInvalidBranch>[]});
 
   int get totalQuantity =>
       orders.fold(0, (total, current) => total + current.quantity);
@@ -76,55 +78,58 @@ class CartEntity {
     ValueGetter<CouponCheckResultEntity?>? shippingCouponResult,
     ValueGetter<CouponCheckResultEntity?>? orderCouponResult,
     ValueGetter<CouponCheckResultEntity?>? productCouponResult,
+    List<CartInvalidBranch>? cartInvalidBranchList,
   }) {
     return CartEntity(
-      orders: orders ?? this.orders,
-      orderType: orderType ?? this.orderType,
-      address: address ?? this.address,
-      note: note ?? this.note,
-      store: store ?? this.store,
-      receiveTime: receiveTime ?? this.receiveTime,
-      paymentType: paymentType ?? this.paymentType,
-      shippingFee: shippingFee != null ? shippingFee() : this.shippingFee,
-      coin: coin != null ? coin() : this.coin,
-      receiverOnsite: receiverOnsite ?? this.receiverOnsite,
-      shippingCouponCode: shippingCouponCode != null
-          ? shippingCouponCode()
-          : this.shippingCouponCode,
-      orderCouponCode:
-          orderCouponCode != null ? orderCouponCode() : this.orderCouponCode,
-      productCouponCode: productCouponCode != null
-          ? productCouponCode()
-          : this.productCouponCode,
-      shippingCouponResult: shippingCouponResult != null
-          ? shippingCouponResult()
-          : this.shippingCouponResult,
-      orderCouponResult:
-      orderCouponResult != null ? orderCouponResult() : this.orderCouponResult,
-      productCouponResult: productCouponResult != null
-          ? productCouponResult()
-          : this.productCouponResult,
-    );
+        orders: orders ?? this.orders,
+        orderType: orderType ?? this.orderType,
+        address: address ?? this.address,
+        note: note ?? this.note,
+        store: store ?? this.store,
+        receiveTime: receiveTime ?? this.receiveTime,
+        paymentType: paymentType ?? this.paymentType,
+        shippingFee: shippingFee != null ? shippingFee() : this.shippingFee,
+        coin: coin != null ? coin() : this.coin,
+        receiverOnsite: receiverOnsite ?? this.receiverOnsite,
+        shippingCouponCode: shippingCouponCode != null
+            ? shippingCouponCode()
+            : this.shippingCouponCode,
+        orderCouponCode:
+            orderCouponCode != null ? orderCouponCode() : this.orderCouponCode,
+        productCouponCode: productCouponCode != null
+            ? productCouponCode()
+            : this.productCouponCode,
+        shippingCouponResult: shippingCouponResult != null
+            ? shippingCouponResult()
+            : this.shippingCouponResult,
+        orderCouponResult: orderCouponResult != null
+            ? orderCouponResult()
+            : this.orderCouponResult,
+        productCouponResult: productCouponResult != null
+            ? productCouponResult()
+            : this.productCouponResult,
+        cartInvalidBranchList:
+            cartInvalidBranchList ?? this.cartInvalidBranchList);
   }
 
   factory CartEntity.fromModel(CartModel model) {
     return CartEntity(
-        orders: model.orders.map((e) => OrderEntity.fromModel(e)).toList(),
-        orderType: model.orderType,
-        address: model.address == null
-            ? null
-            : AddressEntity.fromModel(model.address!),
-        note: model.note,
-        store: model.store == null
-            ? null
-            : StoreDetailEntity.fromModel(model.store!),
-        receiveTime: model.receiveTime,
-        paymentType: model.paymentType,
-        shippingFee: model.shippingFee,
-        coin: model.coin,
-        receiverOnsite: model.receiverOnsite == null
-            ? null
-            : ReceiverOnsiteEntity.fromModel(model.receiverOnsite!),
+      orders: model.orders.map((e) => OrderEntity.fromModel(e)).toList(),
+      orderType: model.orderType,
+      address: model.address == null
+          ? null
+          : AddressEntity.fromModel(model.address!),
+      note: model.note,
+      store: model.store == null
+          ? null
+          : StoreDetailEntity.fromModel(model.store!),
+      receiveTime: model.receiveTime,
+      paymentType: model.paymentType,
+      shippingFee: model.shippingFee,
+      coin: model.coin,
+      receiverOnsite: model.receiverOnsite == null
+          ? null
+          : ReceiverOnsiteEntity.fromModel(model.receiverOnsite!),
     );
   }
 }

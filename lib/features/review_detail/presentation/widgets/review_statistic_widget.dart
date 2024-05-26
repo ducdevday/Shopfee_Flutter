@@ -41,7 +41,7 @@ class _ReviewStatisticWidgetState extends State<ReviewStatisticWidget> {
         Expanded(
           child: BlocBuilder<ReviewDetailBloc, ReviewDetailState>(
             builder: (context, state) {
-              if (state is ReviewDetailLoadSuccess) {
+              if (state is ReviewDetailLoadSuccess && state.reviewStatistic.isNotEmpty) {
                 return Column(
                   children: [
                     SizedBox(height: AppDimen.spacing,),
@@ -57,7 +57,7 @@ class _ReviewStatisticWidgetState extends State<ReviewStatisticWidget> {
                                 Expanded(
                                   child: LinearPercentIndicator(
                                     lineHeight: 8.0,
-                                    percent: e.current/e.total,
+                                    percent: e.current/(e.total == 0 ? 1 : e.total),
                                     barRadius: Radius.circular(7),
                                     backgroundColor: Colors.grey,
                                     progressColor: AppColor.rating,

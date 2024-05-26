@@ -60,7 +60,7 @@ class ProductBottomBar extends StatelessWidget {
 
   Widget buildElevatedButton(
       BuildContext context, ProductDetailLoadSuccess state) {
-    if (state.order.product.status == ProductStatus.AVAILABLE) {
+    // if (state.order.product.status == ProductStatus.AVAILABLE) {
       return ElevatedButton(
           onPressed: () {
             context.read<CartBloc>().add(CartAddItem(order: state.order));
@@ -69,8 +69,8 @@ class ProductBottomBar extends StatelessWidget {
           },
           style: AppStyle.elevatedButtonStylePrimary,
           child: const Text("Add To Cart"));
-    } else {
-      return SizedBox();
-    }
+    // } else {
+    //   return SizedBox();
+    // }
   }
 }

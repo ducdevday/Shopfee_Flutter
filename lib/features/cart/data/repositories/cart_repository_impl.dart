@@ -5,6 +5,8 @@ import 'package:shopfee/core/errors/app_exception.dart';
 import 'package:shopfee/core/utils/format_util.dart';
 import 'package:shopfee/features/cart/data/datasources/cart_service.dart';
 import 'package:shopfee/features/cart/data/models/cart_model.dart';
+import 'package:shopfee/features/cart/data/models/check_shipping_result.dart';
+import 'package:shopfee/features/cart/data/models/check_take_away_result.dart';
 import 'package:shopfee/features/cart/data/models/order_result.dart';
 import 'package:shopfee/features/cart/domain/entities/cart_entity.dart';
 import 'package:shopfee/features/cart/domain/entities/cart_extension.dart';
@@ -33,7 +35,7 @@ class CartRepositoryImpl implements CartRepository {
     );
     final productDetailModel = ProductDetailModel.fromJson(result.data!);
     final productDetailEntity =
-    ProductDetailEntity.fromModel(productDetailModel);
+        ProductDetailEntity.fromModel(productDetailModel);
     return productDetailEntity;
   }
 
@@ -85,7 +87,12 @@ class CartRepositoryImpl implements CartRepository {
       CartEntity cart, String userId) async {
     try {
       final response = await _cartService.createShippingOrder(
-          CartModel.fromEntity(cart), userId, cart.getCartTotalPrice(),  cart.productCouponCode, cart.orderCouponCode, cart.shippingCouponCode);
+          CartModel.fromEntity(cart),
+          userId,
+          cart.getCartTotalPrice(),
+          cart.productCouponCode,
+          cart.orderCouponCode,
+          cart.shippingCouponCode);
       final result = Result(
         success: response.data["success"],
         message: response.data["message"],
@@ -105,7 +112,9 @@ class CartRepositoryImpl implements CartRepository {
     } catch (e) {
       if (e is DioException) {
         if (e.response?.statusCode == 500) {
-          throw ServerFailure(message: "VNPAY are only applicable for orders over ${FormatUtil.formatMoney(10000)}");
+          throw ServerFailure(
+              message:
+                  "VNPAY are only applicable for orders over ${FormatUtil.formatMoney(10000)}");
         }
       }
       rethrow;
@@ -117,7 +126,12 @@ class CartRepositoryImpl implements CartRepository {
       CartEntity cart, String userId) async {
     try {
       final response = await _cartService.createTakeAwayOrder(
-          CartModel.fromEntity(cart), userId, cart.getCartTotalPrice(), cart.productCouponCode, cart.orderCouponCode, cart.shippingCouponCode);
+          CartModel.fromEntity(cart),
+          userId,
+          cart.getCartTotalPrice(),
+          cart.productCouponCode,
+          cart.orderCouponCode,
+          cart.shippingCouponCode);
       final result = Result(
         success: response.data["success"],
         message: response.data["message"],
@@ -197,19 +211,52 @@ class CartRepositoryImpl implements CartRepository {
   }
 
   @override
-  Future<List<CouponCheckResultEntity>> checkCouponInCart(CartEntity cart) async{
-    final response =
-        await _cartService.checkCouponInCart(CartModel.fromEntity(cart),cart.totalItemPrice, cart.getCartTotalPrice(), cart.shippingCouponCode, cart.orderCouponCode, cart.productCouponCode);
+  Future<List<CouponCheckResultEntity>> checkCouponInCart(
+      CartEntity cart) async {
+    final response = await _cartService.checkCouponInCart(
+        CartModel.fromEntity(cart),
+        cart.totalItemPrice,
+        cart.getCartTotalPrice(),
+        cart.shippingCouponCode,
+        cart.orderCouponCode,
+        cart.productCouponCode);
     final resultList = ResultList(
       success: response.data["success"],
       message: response.data["message"],
       data: response.data["data"],
     );
-    List<CouponCheckResultModel> couponChecksModel =
-    resultList.data!.map((c) => CouponCheckResultModel.fromJson(c)).toList();
+    List<CouponCheckResultModel> couponChecksModel = resultList.data!
+        .map((c) => CouponCheckResultModel.fromJson(c))
+        .toList();
     List<CouponCheckResultEntity> couponChecksEntity = couponChecksModel
         .map((c) => CouponCheckResultEntity.fromModel(c))
         .toList();
     return couponChecksEntity;
+  }
+
+  @override
+  Future<CheckTakeAwayResult> checkTakeAwayOrder(CartEntity cart) async {
+    final response =
+        await _cartService.checkTakeAwayOrder(CartModel.fromEntity(cart));
+    final result = Result(
+      success: response.data["success"],
+      message: response.data["message"],
+      data: response.data["data"],
+    );
+    final resultCheck = CheckTakeAwayResult.fromJson(result.data!);
+    return resultCheck;
+  }
+
+  @override
+  Future<CheckShippingResult> checkShippingOrder(CartEntity cart) async {
+    final response =
+        await _cartService.checkShippingOrder(CartModel.fromEntity(cart));
+    final result = Result(
+      success: response.data["success"],
+      message: response.data["message"],
+      data: response.data["data"],
+    );
+    final resultCheck = CheckShippingResult.fromJson(result.data!);
+    return resultCheck;
   }
 }
