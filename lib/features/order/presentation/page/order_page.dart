@@ -327,6 +327,7 @@ Future<bool?> buildShowFilterBottomSheet(BuildContext context) {
           builder: (context, state) {
             if (state is OrderLoadSuccess) {
               return OrderFilterBottomSheet(
+                branchId: state.branchId,
                 minPrice: state.minPrice,
                 maxPrice: state.maxPrice,
                 minStar: state.minStar,

@@ -4,12 +4,14 @@ class OrderFilterBottomSheet extends StatefulWidget {
   final num? minPrice;
   final num? maxPrice;
   final num? minStar;
+  final String? branchId;
 
   const OrderFilterBottomSheet({
     super.key,
     required this.minPrice,
     required this.maxPrice,
     required this.minStar,
+    required this.branchId,
   });
 
   @override
@@ -19,9 +21,15 @@ class OrderFilterBottomSheet extends StatefulWidget {
 class _OrderFilterBottomSheetState extends State<OrderFilterBottomSheet> {
   late RangeValues _currentRangeValues;
   late num minStar;
+  late StoreUseCase storeUseCase;
+  late String storeId;
 
+  late TextEditingController storeTextController;
   late ValueNotifier<bool> useBudget;
   late ValueNotifier<bool> useMinStar;
+  late ValueNotifier<bool> useStore;
+
+  final ValueNotifier<List<StoreInformationEntity>> stores = ValueNotifier([]);
 
   int initPage = 1;
   int initSize = 8;
@@ -31,17 +39,54 @@ class _OrderFilterBottomSheetState extends State<OrderFilterBottomSheet> {
     super.initState();
     useBudget = ValueNotifier(widget.minPrice != null ? true : false);
     useMinStar = ValueNotifier(widget.minStar != null ? true : false);
+    useStore = ValueNotifier(widget.branchId != null ? true : false);
     _currentRangeValues = RangeValues(
         widget.minPrice != null ? widget.minPrice!.toDouble() : 10000,
         widget.maxPrice != null ? widget.maxPrice!.toDouble() : 30000);
     minStar = widget.minStar != null ? widget.minStar!.toDouble() : 0;
+    storeId = widget.branchId ?? "";
+    storeTextController = TextEditingController();
+    storeUseCase = ServiceLocator.sl<StoreUseCase>();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (useStore.value == true) {
+        getAllStore();
+      }
+    });
+  }
+
+  void getAllStore() async {
+    if (await PermissionUtil.requestLocationPermission() == false ||
+        stores.value.isNotEmpty) {
+      return;
+    }
+    Position currentPosition = await GlobalData.ins.getCurrentPosition();
+    stores.value = await storeUseCase.getAllStores(StoreAllParamsEntity(
+          key: "",
+          all: true,
+          lat: currentPosition.latitude,
+          lng: currentPosition.longitude,
+          page: 1,
+          size: 200,
+        )) ??
+        [];
+    storeTextController.text =
+        stores.value.firstWhereOrNull((element) => element.id == storeId)?.name ?? "";
   }
 
   @override
   void dispose() {
     useBudget.dispose();
     useMinStar.dispose();
+    useStore.dispose();
+    storeTextController.dispose();
     super.dispose();
+  }
+
+  String? getCheckedStore() {
+    if (useStore.value == true) {
+      return storeId;
+    }
+    return null;
   }
 
   num? getCheckedMinBudget() {
@@ -125,6 +170,10 @@ class _OrderFilterBottomSheetState extends State<OrderFilterBottomSheet> {
                                     height: AppDimen.smallPadding,
                                   ),
                                   buildFilterStar(),
+                                  const SizedBox(
+                                    height: AppDimen.smallPadding,
+                                  ),
+                                  buildFilterStore(),
                                 ],
                               ),
                             ),
@@ -142,6 +191,7 @@ class _OrderFilterBottomSheetState extends State<OrderFilterBottomSheet> {
                                           OrderApplyFilter(
                                               initPage: initPage,
                                               initSize: initSize,
+                                              branchId: getCheckedStore(),
                                               minPrice: getCheckedMinBudget(),
                                               maxPrice: getCheckedMaxBudget(),
                                               minStar: getCheckedMinStar()));
@@ -160,7 +210,8 @@ class _OrderFilterBottomSheetState extends State<OrderFilterBottomSheet> {
                                   child: ElevatedButton(
                                     onPressed: state.maxPrice != null ||
                                             state.minPrice != null ||
-                                            state.minStar != null
+                                            state.minStar != null ||
+                                            state.branchId != null
                                         ? () {
                                             showDialog(
                                                 context: context,
@@ -185,6 +236,7 @@ class _OrderFilterBottomSheetState extends State<OrderFilterBottomSheet> {
                                                     OrderApplyFilter(
                                                         initPage: initPage,
                                                         initSize: initSize,
+                                                        branchId: null,
                                                         minPrice: null,
                                                         maxPrice: null,
                                                         minStar: null));
@@ -341,6 +393,76 @@ class _OrderFilterBottomSheetState extends State<OrderFilterBottomSheet> {
     );
   }
 
+  ValueListenableBuilder<bool> buildFilterStore() {
+    return ValueListenableBuilder(
+      valueListenable: useStore,
+      builder: (BuildContext context, bool isUseStore, Widget? child) {
+        return Column(
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    "Store",
+                    style: AppStyle.mediumTitleStyleDark,
+                  ),
+                ),
+                MyCheckbox(
+                    value: useStore.value,
+                    onChanged: (isCheck) {
+                      if (isCheck != null) {
+                        useStore.value = isCheck;
+                        if (useStore.value == true) {
+                          getAllStore();
+                        }
+                      }
+                    })
+              ],
+            ),
+            if (isUseStore)
+              SizedBox(
+                height: AppDimen.spacing,
+              ),
+            if (isUseStore)
+              ValueListenableBuilder(
+                valueListenable: stores,
+                builder: (BuildContext context,
+                    List<StoreInformationEntity> storeValues, Widget? child) {
+                  return DropdownMenu<StoreInformationEntity>(
+                    menuHeight: 200,
+                    width: MediaQuery.of(context).size.width -
+                        AppDimen.screenPadding * 2,
+                    onSelected: (store) => {
+                      if (store != null)
+                        {
+                          storeId = store.id!,
+                          storeTextController.text = store.name ?? ""
+                        }
+                    },
+                    dropdownMenuEntries: [
+                      ...storeValues.mapIndexed((index, e) => DropdownMenuEntry(
+                          value: storeValues[index],
+                          label: storeValues[index].name ?? ""))
+                    ],
+                    controller: storeTextController,
+                    inputDecorationTheme: InputDecorationTheme(
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 8, horizontal: 12),
+                      focusedErrorBorder: AppStyle.outlineInputBorderDefault,
+                      errorBorder: AppStyle.outlineInputBorderDefault,
+                      enabledBorder: AppStyle.outlineInputBorderDefault,
+                      focusedBorder: AppStyle.outlineInputBorderPrimary,
+                      disabledBorder: AppStyle.outlineInputBorderDefault,
+                    ),
+                  );
+                },
+              ),
+          ],
+        );
+      },
+    );
+  }
+
   Widget buildCurrentFilter(OrderLoadSuccess state) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -409,6 +531,35 @@ class _OrderFilterBottomSheetState extends State<OrderFilterBottomSheet> {
                 )
               ],
             ),
+          ),
+        if (state.branchId != null)
+          ValueListenableBuilder(
+            valueListenable: stores,
+            builder: (BuildContext context,
+                List<StoreInformationEntity> storesValue, Widget? child) {
+              return Container(
+                margin: const EdgeInsets.only(bottom: AppDimen.spacing),
+                padding: EdgeInsets.symmetric(
+                    vertical: AppDimen.spacing,
+                    horizontal: AppDimen.smallPadding),
+                decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(16)),
+                    color: Colors.white),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      "Store: ",
+                      style: AppStyle.normalTextStyleDark,
+                    ),
+                    Text(
+                      "${storesValue.firstWhereOrNull((element) => element.id == storeId)?.name ?? ""}",
+                      style: AppStyle.normalTextStyleDark,
+                    )
+                  ],
+                ),
+              );
+            },
           ),
       ],
     );

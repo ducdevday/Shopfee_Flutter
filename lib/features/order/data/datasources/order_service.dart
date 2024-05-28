@@ -5,15 +5,28 @@ import 'package:shopfee/features/order/data/models/order_query_model.dart';
 class OrderService {
   Future<Response> getProductsByCategoryId(String? id,
       {required int page, required int size, OrderQueryModel? query}) async {
-    Map<String, dynamic> queryParameters = {
-      "page": page,
-      "size": size,
-      "min_price": query?.minPrice?.toInt(),
-      "max_price": query?.maxPrice?.toInt(),
-      "min_star": query?.minStar?.toInt(),
-      "sort_type": query?.sortType?.toJson(),
-      // "branch_id": query?.branchId
-    };
+    Map<String, dynamic>? queryParameters;
+    if (query?.branchId != null) {
+      queryParameters = {
+        "page": page,
+        "size": size,
+        "min_price": query?.minPrice?.toInt(),
+        "max_price": query?.maxPrice?.toInt(),
+        "min_star": query?.minStar?.toInt(),
+        "sort_type": query?.sortType?.toJson(),
+        "branch_id": query?.branchId
+      };
+    } else {
+      queryParameters = {
+        "page": page,
+        "size": size,
+        "min_price": query?.minPrice?.toInt(),
+        "max_price": query?.maxPrice?.toInt(),
+        "min_star": query?.minStar?.toInt(),
+        "sort_type": query?.sortType?.toJson(),
+      };
+    }
+
     if (id != null) {
       var response = await DioService.instance.get(
           "${DioService.productPath}/category/$id",

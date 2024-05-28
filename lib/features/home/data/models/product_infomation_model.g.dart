@@ -37,4 +37,5 @@ const _$ProductStatusEnumMap = {
   ProductStatus.AVAILABLE: 'AVAILABLE',
   ProductStatus.HIDDEN: 'HIDDEN',
   ProductStatus.TEMPORARY_SUSPENDED: 'TEMPORARY_SUSPENDED',
+  ProductStatus.UNAVAILABLE: 'UNAVAILABLE',
 };
