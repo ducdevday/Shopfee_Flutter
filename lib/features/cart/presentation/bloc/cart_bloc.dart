@@ -81,8 +81,12 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
         ),
       ));
       add(CartCheckCoupon());
-      if (currentState.cart.cartInvalidBranchList.isNotEmpty) {
+      if (currentState.cart.cartInvalidBranchList.isNotEmpty &&
+          currentState.cart.orderType == OrderType.SHIPPING) {
         add(CartCheckShippingOrder());
+      } else if (currentState.cart.cartInvalidBranchList.isNotEmpty &&
+          currentState.cart.orderType == OrderType.ONSITE) {
+        add(CartCheckTakeAwayOrder());
       }
     }
   }

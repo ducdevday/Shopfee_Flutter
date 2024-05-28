@@ -158,8 +158,11 @@ class AccountPage extends StatelessWidget {
                         ),
                         MenuItem(
                           iconData: Icons.info_outline_rounded,
-                          content: "App Version",
-                          callback: () {},
+                          content: "App Permission",
+                          callback: () {
+                            NavigationUtil.pushNamed(NotifyPermissionPage.route,
+                                arguments: true);
+                          },
                         ),
                         const Divider(
                           height: 1,

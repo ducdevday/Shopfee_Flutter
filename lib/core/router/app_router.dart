@@ -52,7 +52,10 @@ class AppRouter {
       case OnBoardingPage.route:
         return UnanimatedPageRoute(builder: (context) => OnBoardingPage());
       case NotifyPermissionPage.route:
-        return MaterialPageRoute(builder: (context) => NotifyPermissionPage());
+        return MaterialPageRoute(
+            builder: (context) => NotifyPermissionPage(
+                  fromAccount: settings.arguments as bool?,
+                ));
       case RegisterPage.route:
         return MaterialPageRoute(builder: (context) => RegisterPage());
       case LoginPage.route:
