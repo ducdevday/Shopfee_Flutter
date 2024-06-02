@@ -10,8 +10,8 @@ OrderHistoryParamsModel _$OrderHistoryParamsModelFromJson(
         Map<String, dynamic> json) =>
     OrderHistoryParamsModel(
       historyStatusName: json['order_phases_status'] as String,
-      page: json['page'] as int,
-      size: json['size'] as int,
+      page: (json['page'] as num).toInt(),
+      size: (json['size'] as num).toInt(),
     );
 
 Map<String, dynamic> _$OrderHistoryParamsModelToJson(

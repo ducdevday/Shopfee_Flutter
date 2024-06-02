@@ -34,7 +34,7 @@ ReceiptModel _$ReceiptModelFromJson(Map<String, dynamic> json) => ReceiptModel(
       branch: json['branch'] == null
           ? null
           : BranchModel.fromJson(json['branch'] as Map<String, dynamic>),
-      coin: json['coin'] as int?,
+      coin: (json['coin'] as num?)?.toInt(),
       needReview: json['needReview'] as bool?,
       refundRequestStatus: $enumDecodeNullable(
           _$RefundRequestStatusEnumMap, json['refundStatus']),

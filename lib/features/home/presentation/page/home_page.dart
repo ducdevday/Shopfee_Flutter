@@ -120,7 +120,8 @@ class _HomePageState extends State<HomePage> {
                                 thickness: 1,
                                 child: ListView.separated(
                                     scrollDirection: Axis.horizontal,
-                                    itemBuilder: (context, index) => InkWell(
+                                    itemBuilder: (context, index) =>
+                                        InkWell(
                                           onTap: () {
                                             NavigationUtil.pushNamed(
                                                 ProductByCategoryPage.route,
@@ -136,34 +137,28 @@ class _HomePageState extends State<HomePage> {
                                                 horizontal: AppDimen.spacing),
                                             child: Column(
                                               children: [
-                                                // Image(
-                                                //   image: NetworkImage(state
-                                                //       .categories[index].image!),
-                                                //   width: 60,
-                                                //   height: 60,
-                                                // ),
                                                 CachedNetworkImage(
                                                   imageUrl: state
                                                       .categories[index].image!,
                                                   width:
-                                                      AppDimen.smallImageSize,
+                                                  AppDimen.smallImageSize,
                                                   height:
-                                                      AppDimen.smallImageSize,
+                                                  AppDimen.smallImageSize,
                                                   placeholder: (context, url) =>
                                                       MyPlaceHolderRectangle(
-                                                    width:
+                                                        width:
                                                         AppDimen.smallImageSize,
-                                                    height:
+                                                        height:
                                                         AppDimen.smallImageSize,
-                                                  ),
+                                                      ),
                                                   errorWidget: (_, __, ___) =>
                                                       Image.asset(
-                                                    AppPath.imgImageError,
-                                                    width:
+                                                        AppPath.imgImageError,
+                                                        width:
                                                         AppDimen.smallImageSize,
-                                                    height:
+                                                        height:
                                                         AppDimen.smallImageSize,
-                                                  ),
+                                                      ),
                                                 ),
                                                 Text(
                                                   state.categories[index].name!,
@@ -175,10 +170,65 @@ class _HomePageState extends State<HomePage> {
                                           ),
                                         ),
                                     separatorBuilder: (context, index) =>
-                                        const SizedBox(),
+                                    const SizedBox(),
                                     itemCount: state.categories.length),
                               ),
                             ),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            if (state.newestBlogs.isNotEmpty)
+                              Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: AppDimen.screenPadding),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "New Blogs",
+                                          style: AppStyle.mediumTitleStyleDark,
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            NavigationUtil.pushNamed(
+                                                BlogPage.route);
+                                          },
+                                          child: Text(
+                                            "See More",
+                                            style: AppStyle
+                                                .normalTextStylePrimary,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
+                                  SizedBox(
+                                    height: 240,
+                                    child: ListView.separated(
+                                      scrollDirection: Axis.horizontal,
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: AppDimen.screenPadding),
+                                      itemCount: state.newestBlogs.length,
+                                      itemBuilder: (context, index) =>
+                                          HomeBlog(
+                                              blog: state.newestBlogs[index]),
+                                      separatorBuilder: (context, int index) =>
+                                      const SizedBox(
+                                        width: AppDimen.spacing,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 16,
+                                  ),
+                                ],
+                              ),
                             const SizedBox(
                               height: 16,
                             ),
@@ -206,16 +256,16 @@ class _HomePageState extends State<HomePage> {
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: AppDimen.screenPadding),
                                       itemCount:
-                                          state.topSellingProducts.length,
+                                      state.topSellingProducts.length,
                                       itemBuilder: (context, index) =>
                                           HomeProduct(
-                                        product:
+                                            product:
                                             state.topSellingProducts[index],
-                                        viewType: ProductViewType
-                                            .List_View_Horizontal,
-                                      ),
+                                            viewType: ProductViewType
+                                                .List_View_Horizontal,
+                                          ),
                                       separatorBuilder: (context, int index) =>
-                                          const SizedBox(
+                                      const SizedBox(
                                         width: AppDimen.spacing,
                                       ),
                                     ),
@@ -225,34 +275,41 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ],
                               ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: AppDimen.screenPadding),
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  "Outstanding Products",
-                                  style: AppStyle.mediumTitleStyleDark,
+                            Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: AppDimen.screenPadding),
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      "Outstanding Products",
+                                      style: AppStyle.mediumTitleStyleDark,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            ListView.separated(
-                              padding: EdgeInsets.zero,
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: state.outstandingProducts.length,
-                              itemBuilder: (context, index) => HomeProduct(
-                                product: state.outstandingProducts[index],
-                                viewType: ProductViewType.List_View_Vertical,
-                              ),
-                              separatorBuilder: (context, int index) =>
+                                const SizedBox(
+                                  height: 8,
+                                ),
+                                ListView.separated(
+                                  padding: EdgeInsets.zero,
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: state.outstandingProducts.length,
+                                  itemBuilder: (context, index) =>
+                                      HomeProduct(
+                                        product: state
+                                            .outstandingProducts[index],
+                                        viewType:
+                                        ProductViewType.List_View_Vertical,
+                                      ),
+                                  separatorBuilder: (context, int index) =>
                                   const Divider(
-                                height: 8,
-                                thickness: 0.75,
-                              ),
+                                    height: 8,
+                                    thickness: 0.75,
+                                  ),
+                                ),
+                              ],
                             ),
                             const SizedBox(
                               height: 68,
@@ -271,7 +328,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       floatingActionButtonLocation:
-          FloatingActionButtonLocation.miniCenterFloat,
+      FloatingActionButtonLocation.miniCenterFloat,
       floatingActionButton: const HomeFloatAction(),
     );
   }

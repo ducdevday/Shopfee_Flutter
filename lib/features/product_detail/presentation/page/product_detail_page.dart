@@ -245,7 +245,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                             ),
                           ),
                           if (state.order.product.status ==
-                              ProductStatus.TEMPORARY_SUSPENDED)
+                              ProductStatus.UNAVAILABLE)
                             Positioned.fill(
                               child: Container(
                                 decoration: BoxDecoration(
@@ -275,7 +275,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                     ),
                                   ))),
                           if (state.order.product.status ==
-                              ProductStatus.TEMPORARY_SUSPENDED)
+                              ProductStatus.UNAVAILABLE)
                             Positioned(
                                 top: 36,
                                 right: AppDimen.screenPadding,

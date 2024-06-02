@@ -9,7 +9,7 @@ part of 'check_valid_branch.dart';
 CheckValidBranch _$CheckValidBranchFromJson(Map<String, dynamic> json) =>
     CheckValidBranch(
       branchId: json['branchId'] as String,
-      shippingFee: json['shippingFee'] as int,
+      shippingFee: (json['shippingFee'] as num).toInt(),
     );
 
 Map<String, dynamic> _$CheckValidBranchToJson(CheckValidBranch instance) =>

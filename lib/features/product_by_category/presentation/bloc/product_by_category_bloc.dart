@@ -86,7 +86,7 @@ class ProductByCategoryBloc
             size: event.size);
         emit(ProductByCategoryLoadSuccess(
             products: products,
-            categoryId: event.categoryId,
+            categoryId: currentState.categoryId,
             page: event.page,
             size: event.size,
             viewType: currentState.viewType));

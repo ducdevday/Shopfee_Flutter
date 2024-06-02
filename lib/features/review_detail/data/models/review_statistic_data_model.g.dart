@@ -9,8 +9,8 @@ part of 'review_statistic_data_model.dart';
 ReviewStatisticDataModel _$ReviewStatisticDataModelFromJson(
         Map<String, dynamic> json) =>
     ReviewStatisticDataModel(
-      star: json['star'] as int,
-      count: json['count'] as int,
+      star: (json['star'] as num).toInt(),
+      count: (json['count'] as num).toInt(),
     );
 
 Map<String, dynamic> _$ReviewStatisticDataModelToJson(

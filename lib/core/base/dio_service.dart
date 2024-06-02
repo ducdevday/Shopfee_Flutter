@@ -22,6 +22,7 @@ class DioService {
   static const String notificationPath = "notification";
   static const String couponPath = "coupon";
   static const String refundPath = "order-refund";
+  static const String blogPath = "blog";
 
   late Dio _dio;
   static final DioService _instance = DioService._internal();

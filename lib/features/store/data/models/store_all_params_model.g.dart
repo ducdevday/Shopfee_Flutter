@@ -11,8 +11,8 @@ StoreAllParamsModel _$StoreAllParamsModelFromJson(Map<String, dynamic> json) =>
       all: json['all'] as bool,
       lat: (json['lat'] as num).toDouble(),
       lng: (json['lng'] as num).toDouble(),
-      page: json['page'] as int,
-      size: json['size'] as int,
+      page: (json['page'] as num).toInt(),
+      size: (json['size'] as num).toInt(),
       key: json['key'] as String?,
     );
 

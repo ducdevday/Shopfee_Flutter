@@ -7,6 +7,8 @@ import 'package:shopfee/core/common/widgets/local_video_full_screen.dart';
 import 'package:shopfee/core/common/widgets/network_img_full_screen.dart';
 import 'package:shopfee/core/common/widgets/my_page_route.dart';
 import 'package:shopfee/core/common/widgets/network_video_full_screen.dart';
+import 'package:shopfee/features/blog/presentation/blog.dart';
+import 'package:shopfee/features/blog_detail/presentation/blog_detail.dart';
 import 'package:shopfee/features/cart/data/models/order_result.dart';
 import 'package:shopfee/features/cart/presentation/cart.dart';
 import 'package:shopfee/features/change_password/presentation/change_password.dart';
@@ -202,6 +204,13 @@ class AppRouter {
         return MaterialPageRoute(
             builder: (context) =>
                 CoinPage(userId: settings.arguments as String));
+      case BlogPage.route:
+        return PageTransition(
+            child: BlogPage(), type: PageTransitionType.rightToLeft);
+      case BlogDetailPage.route:
+        return MaterialPageRoute(
+            builder: (context) =>
+                BlogDetailPage(blogId: settings.arguments as String));
       default:
         return _errorRoute();
     }

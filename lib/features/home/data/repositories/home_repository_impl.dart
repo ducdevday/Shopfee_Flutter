@@ -1,6 +1,8 @@
 import 'package:shopfee/core/common/models/result.dart';
 import 'package:shopfee/core/common/models/result_list.dart';
 import 'package:shopfee/core/config/app_path.dart';
+import 'package:shopfee/features/blog/data/models/blog_information_model.dart';
+import 'package:shopfee/features/blog/domain/entities/blog_information_entity.dart';
 import 'package:shopfee/features/home/data/datasource/home_service.dart';
 import 'package:shopfee/features/home/data/models/banner_model.dart';
 import 'package:shopfee/features/home/data/models/category_model.dart';
@@ -23,10 +25,9 @@ class HomeRepositoryImpl extends HomeRepository {
         message: response.data["message"],
         data: response.data["data"]);
     List<BannerModel> bannersModel =
-    result.data!.map((p) => BannerModel.fromJson(p)).toList();
-    List<BannerEntity> bannersEntity = bannersModel
-        .map((p) => BannerEntity.fromModel(p))
-        .toList();
+        result.data!.map((p) => BannerModel.fromJson(p)).toList();
+    List<BannerEntity> bannersEntity =
+        bannersModel.map((p) => BannerEntity.fromModel(p)).toList();
     return bannersEntity;
   }
 
@@ -69,8 +70,7 @@ class HomeRepositoryImpl extends HomeRepository {
   @override
   Future<List<ProductInformationEntity>> getTopSellingProduct(
       {required int quantity}) async {
-    final response =
-        await homeService.getTopSellingProduct(quantity: quantity);
+    final response = await homeService.getTopSellingProduct(quantity: quantity);
     final result = ResultList(
         success: response.data["success"],
         message: response.data["message"],
@@ -83,5 +83,19 @@ class HomeRepositoryImpl extends HomeRepository {
     return productsEntity;
   }
 
-
+  @override
+  Future<List<BlogInformationEntity>> getNewestBlog(
+      {required int quantity}) async {
+    final response = await homeService.getNewestBlog(quantity: quantity);
+    final result = Result(
+        success: response.data["success"],
+        message: response.data["message"],
+        data: response.data["data"]);
+    final List<dynamic> blogList = result.data!["blogList"] as List<dynamic>;
+    List<BlogInformationModel> blogsModel =
+        blogList.map((p) => BlogInformationModel.fromJson(p)).toList();
+    List<BlogInformationEntity> blogsEntity =
+        blogsModel.map((p) => BlogInformationEntity.fromModel(p)).toList();
+    return blogsEntity;
+  }
 }

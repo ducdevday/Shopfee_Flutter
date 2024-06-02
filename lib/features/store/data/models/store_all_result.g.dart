@@ -12,7 +12,7 @@ StoreAllResult _$StoreAllResultFromJson(Map<String, dynamic> json) =>
           ?.map(
               (e) => StoreInformationModel.fromJson(e as Map<String, dynamic>))
           .toList(),
-      totalPage: json['totalPage'] as int?,
+      totalPage: (json['totalPage'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$StoreAllResultToJson(StoreAllResult instance) =>

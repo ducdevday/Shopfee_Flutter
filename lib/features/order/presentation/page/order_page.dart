@@ -151,6 +151,7 @@ class _OrderPageState extends State<OrderPage> {
                             _refreshController.refreshCompleted();
                           },
                           child: ProductList(
+                              scrollController: scrollController,
                               viewType: viewType,
                               isLoadingMore: isLoadingMore,
                               cannotLoadMore: cannotLoadMore,

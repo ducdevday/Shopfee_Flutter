@@ -19,10 +19,8 @@ class TimeSetter extends StatelessWidget {
             return InkWell(
               onTap: () {
                 BottomPicker.dateTime(
-                  title: 'Choose Time To Take Away',
-                  titleStyle: AppStyle.mediumTextStyleDark,
                   titlePadding: EdgeInsets.only(top: AppDimen.spacing),
-                  titleAlignment: CrossAxisAlignment.center,
+                  titleAlignment: Alignment.center,
                   onSubmit: (date) {
                     context
                         .read<CartBloc>()
@@ -32,6 +30,8 @@ class TimeSetter extends StatelessWidget {
                   maxDateTime: closeTime,
                   initialDateTime: state.cart.receiveTime ?? DateTime.now(),
                   buttonSingleColor: AppColor.primaryColor,
+                  pickerTitle: Text('Choose Time To Take Away',
+                      style: AppStyle.mediumTextStyleDark),
                 ).show(context);
               },
               child: Column(

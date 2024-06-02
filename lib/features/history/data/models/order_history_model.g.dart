@@ -12,7 +12,7 @@ OrderHistoryModel _$OrderHistoryModelFromJson(Map<String, dynamic> json) =>
       total: (json['total'] as num?)?.toDouble(),
       orderType: $enumDecodeNullable(_$OrderTypeEnumMap, json['orderType']),
       productName: json['productName'] as String?,
-      productQuantity: json['productQuantity'] as int?,
+      productQuantity: (json['productQuantity'] as num?)?.toInt(),
       statusLastEvent:
           $enumDecodeNullable(_$OrderStatusEnumMap, json['statusLastEvent']),
       timeLastEvent: json['timeLastEvent'] == null

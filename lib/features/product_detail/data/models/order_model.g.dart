@@ -9,7 +9,7 @@ part of 'order_model.dart';
 OrderModel _$OrderModelFromJson(Map<String, dynamic> json) => OrderModel(
       product:
           ProductDetailModel.fromJson(json['product'] as Map<String, dynamic>),
-      quantity: json['quantity'] as int,
+      quantity: (json['quantity'] as num).toInt(),
       size: json['size'] == null
           ? null
           : SizeModel.fromJson(json['size'] as Map<String, dynamic>),

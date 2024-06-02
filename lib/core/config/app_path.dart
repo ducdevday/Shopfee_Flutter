@@ -101,4 +101,6 @@ class AppPath {
   static const String icMicOn = "assets/icons/ic_mic_on.png";
 
   static const String icNoCoin = "assets/icons/img_no_coin.png";
+
+  static const String icNoBlog = "assets/icons/ic_no_blogs.png";
 }

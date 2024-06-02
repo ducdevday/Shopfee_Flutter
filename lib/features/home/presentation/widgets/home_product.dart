@@ -121,7 +121,7 @@ class HomeProduct extends StatelessWidget {
                 ],
               ),
             ),
-            if (product.status == ProductStatus.TEMPORARY_SUSPENDED)
+            if (product.status == ProductStatus.UNAVAILABLE)
               Positioned.fill(
                 child: Container(
                   decoration: BoxDecoration(
@@ -130,7 +130,7 @@ class HomeProduct extends StatelessWidget {
                   ),
                 ),
               ),
-            if (product.status == ProductStatus.TEMPORARY_SUSPENDED)
+            if (product.status == ProductStatus.UNAVAILABLE)
               Positioned(
                 left: AppDimen.smallSpacing,
                 child: Image.asset(
@@ -242,7 +242,7 @@ class HomeProduct extends StatelessWidget {
                     ],
                   ),
                 ),
-                if (product.status == ProductStatus.TEMPORARY_SUSPENDED)
+                if (product.status == ProductStatus.UNAVAILABLE)
                   Positioned.fill(
                     child: Container(
                       decoration: BoxDecoration(
@@ -251,7 +251,7 @@ class HomeProduct extends StatelessWidget {
                       ),
                     ),
                   ),
-                if (product.status == ProductStatus.TEMPORARY_SUSPENDED)
+                if (product.status == ProductStatus.UNAVAILABLE)
                   Positioned(
                     left: AppDimen.smallSpacing,
                     child: Image.asset(
@@ -362,7 +362,7 @@ class HomeProduct extends StatelessWidget {
                     ],
                   ),
                 ),
-                if (product.status == ProductStatus.TEMPORARY_SUSPENDED)
+                if (product.status == ProductStatus.UNAVAILABLE)
                   Positioned.fill(
                     child: Container(
                       decoration: BoxDecoration(
@@ -371,7 +371,7 @@ class HomeProduct extends StatelessWidget {
                       ),
                     ),
                   ),
-                if (product.status == ProductStatus.TEMPORARY_SUSPENDED)
+                if (product.status == ProductStatus.UNAVAILABLE)
                   Positioned(
                     left: AppDimen.smallSpacing,
                     child: Image.asset(
