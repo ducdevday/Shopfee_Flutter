@@ -18,7 +18,6 @@ class MyBottomNavBar extends StatelessWidget {
         return Theme(
             data: AppTheme.lightTheme.copyWith(
               splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
             ),
             child: Container(
                 decoration: const BoxDecoration(
@@ -38,8 +37,10 @@ class MyBottomNavBar extends StatelessWidget {
                     topRight: Radius.circular(16.0),
                   ),
                   child: BottomNavigationBar(
+                    backgroundColor: Colors.white,
                     enableFeedback: true,
-                    landscapeLayout: BottomNavigationBarLandscapeLayout.centered,
+                    landscapeLayout:
+                        BottomNavigationBarLandscapeLayout.centered,
                     type: BottomNavigationBarType.fixed,
                     items: [
                       BottomNavigationBarItem(

@@ -17,7 +17,7 @@ class CoinBloc extends Bloc<CoinEvent, CoinState> {
           CoinHistoryParams(page: event.initPage, size: event.initSize);
       final coinHistoryList =
           await _coinUseCase.getCoinHistory(event.userId, params);
-      await Future.delayed(Duration(seconds: 2));
+      await Future.delayed(Duration(seconds: 1));
       emit(CoinLoadSuccess(
           coinHistoryList: coinHistoryList,
           page: event.initPage,
@@ -61,7 +61,7 @@ class CoinBloc extends Bloc<CoinEvent, CoinState> {
             CoinHistoryParams(page: event.initPage, size: event.initSize);
         final coinHistoryList =
             await _coinUseCase.getCoinHistory(event.userId, params);
-        await Future.delayed(Duration(seconds: 2));
+        await Future.delayed(Duration(seconds: 1));
         emit(CoinLoadSuccess(
             coinHistoryList: coinHistoryList,
             page: event.initPage,

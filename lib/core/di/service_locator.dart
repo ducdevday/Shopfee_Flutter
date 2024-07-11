@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:shopfee/core/socket/socket_method.dart';
 import 'package:shopfee/features/blog/data/datasources/blog_service.dart';
 import 'package:shopfee/features/blog/data/repositories/blog_repository_impl.dart';
 import 'package:shopfee/features/blog/domain/repositories/blog_repository.dart';
@@ -184,6 +185,7 @@ class ServiceLocator {
   static final sl = GetIt.instance;
 
   Future<void> init() async {
+    _socket();
     _notifyPermissionFeature();
     _loginFeature();
     _registerFeature();
@@ -301,7 +303,7 @@ class ServiceLocator {
   void _cartFeature() {
     sl.registerLazySingleton(() => CartService());
     sl.registerLazySingleton<CartRepository>(() => CartRepositoryImpl(sl()));
-    sl.registerLazySingleton<CartUseCase>(() => CartUseCaseImpl(sl()));
+    sl.registerLazySingleton<CartUseCase>(() => CartUseCaseImpl(sl(), sl()));
     sl.registerFactory(() => CartBloc(sl()));
   }
 
@@ -325,7 +327,7 @@ class ServiceLocator {
     sl.registerLazySingleton(() => ReceiptService());
     sl.registerLazySingleton<ReceiptRepository>(
         () => ReceiptRepositoryImpl(sl()));
-    sl.registerLazySingleton<ReceiptUseCase>(() => ReceiptUseCaseImpl(sl()));
+    sl.registerLazySingleton<ReceiptUseCase>(() => ReceiptUseCaseImpl(sl(),sl()));
     sl.registerFactory(() => ReceiptBloc(sl()));
   }
 
@@ -515,8 +517,14 @@ class ServiceLocator {
 
   void _blogDetailFeature() {
     sl.registerLazySingleton(() => BlogDetailService());
-    sl.registerLazySingleton<BlogDetailRepository>(() => BlogDetailRepositoryImpl(sl()));
-    sl.registerLazySingleton<BlogDetailUseCase>(() => BlogDetailUseCaseImpl(sl()));
+    sl.registerLazySingleton<BlogDetailRepository>(
+        () => BlogDetailRepositoryImpl(sl()));
+    sl.registerLazySingleton<BlogDetailUseCase>(
+        () => BlogDetailUseCaseImpl(sl()));
     sl.registerFactory(() => BlogDetailCubit(sl()));
+  }
+
+  void _socket() {
+    sl.registerLazySingleton(() => SocketMethod());
   }
 }

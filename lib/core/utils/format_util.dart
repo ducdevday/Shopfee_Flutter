@@ -55,6 +55,10 @@ class FormatUtil {
     return dateTime;
   }
 
+  static DateTime addTenMinutes(DateTime dateTime){
+    return dateTime.add(Duration(minutes: 10));
+  }
+
   static String formatSQLTime(DateTime time) {
     DateFormat formatter = DateFormat('HH:mm:ss');
     return formatter.format(time);
@@ -138,6 +142,12 @@ class FormatUtil {
     String secondsStr = remainingSeconds.toString().padLeft(2, '0');
 
     return '$minutesStr:$secondsStr';
+  }
+
+  static String formatAutoCompleteTextToKey(String input){
+    RegExp emTagExp = RegExp(r'</?em>');
+    String result = input.replaceAll(emTagExp, '');
+    return result;
   }
 
   static String formatSize(String size) {

@@ -22,9 +22,11 @@ class SortItem<T> extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          title,
-          style: AppStyle.normalTextStyleDark,
+        Expanded(
+          child: Text(
+            title,
+            style: AppStyle.normalTextStyleDark,
+          ),
         ),
         MyRadio(
           value: value,

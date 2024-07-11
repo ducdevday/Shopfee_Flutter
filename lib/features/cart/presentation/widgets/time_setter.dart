@@ -28,7 +28,7 @@ class TimeSetter extends StatelessWidget {
                   },
                   minDateTime: openTime,
                   maxDateTime: closeTime,
-                  initialDateTime: state.cart.receiveTime ?? DateTime.now(),
+                  initialDateTime: state.cart.receiveTime ?? FormatUtil.addTenMinutes(DateTime.now()),
                   buttonSingleColor: AppColor.primaryColor,
                   pickerTitle: Text('Choose Time To Take Away',
                       style: AppStyle.mediumTextStyleDark),

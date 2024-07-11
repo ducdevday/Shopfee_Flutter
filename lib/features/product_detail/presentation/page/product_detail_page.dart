@@ -285,7 +285,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                 )),
                         ],
                       ),
-                      ViewedProductList()
+                      RecommendProductList()
                     ],
                   ),
                 ),

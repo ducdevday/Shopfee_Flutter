@@ -59,7 +59,7 @@ class _HistoryPageState extends State<HistoryPage> {
                 valueListenable: historyStatusNotifier,
                 builder: (BuildContext context, historyStatus, Widget? child) {
                   return Expanded(
-                    child: HistoryList(historyStatus: historyStatus),
+                    child: HistoryList(key: ValueKey(DateTime.now().millisecondsSinceEpoch.toString()),historyStatus: historyStatus),
                   );
                 },
               )

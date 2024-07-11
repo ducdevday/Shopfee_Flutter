@@ -1,3 +1,4 @@
+import 'package:shopfee/core/socket/socket_method.dart';
 import 'package:shopfee/features/cart/data/models/check_shipping_result.dart';
 import 'package:shopfee/features/cart/data/models/check_take_away_result.dart';
 import 'package:shopfee/features/cart/data/models/order_result.dart';
@@ -29,9 +30,7 @@ abstract class CartUseCase {
 
   Future<double?> getShippingFee(double lat, double lng);
 
-  Future<List<CouponCheckResultEntity>> checkCouponInCart(
-    CartEntity cart,
-  );
+  Future<List<CouponCheckResultEntity>> checkCouponInCart(CartEntity cart,);
 
   Future<CheckTakeAwayResult> checkTakeAwayOrder(CartEntity cart);
 
@@ -40,8 +39,9 @@ abstract class CartUseCase {
 
 class CartUseCaseImpl extends CartUseCase {
   final CartRepository _cartRepository;
+  final SocketMethod _socketMethod;
 
-  CartUseCaseImpl(this._cartRepository);
+  CartUseCaseImpl(this._cartRepository, this._socketMethod);
 
   @override
   Future<AddressEntity?> getDefaultAddress(String userId) async {
@@ -54,20 +54,26 @@ class CartUseCaseImpl extends CartUseCase {
   }
 
   @override
-  Future<OrderResult> createShippingOrder(
-      CartEntity cart, String userId) async {
-    return await _cartRepository.createShippingOrder(cart, userId);
+  Future<OrderResult> createShippingOrder(CartEntity cart,
+      String userId) async {
+    final orderResult = await _cartRepository.createShippingOrder(cart, userId);
+    _socketMethod.createOrder(
+        branchId: orderResult.branchId!, orderId: orderResult.orderId!);
+    return orderResult;
   }
 
   @override
-  Future<OrderResult> createTakeAwayOrder(
-      CartEntity cart, String userId) async {
+  Future<OrderResult> createTakeAwayOrder(CartEntity cart,
+      String userId) async {
+    final orderResult = await _cartRepository.createTakeAwayOrder(cart, userId);
+    _socketMethod.createOrder(
+        branchId: cart.store!.id!, orderId: orderResult.orderId!);
     return await _cartRepository.createTakeAwayOrder(cart, userId);
   }
 
   @override
-  Future<StoreDetailEntity?> getNearestStore(
-      double latitude, double longitude) async {
+  Future<StoreDetailEntity?> getNearestStore(double latitude,
+      double longitude) async {
     return await _cartRepository.getNearestStore(latitude, longitude);
   }
 
@@ -104,7 +110,7 @@ class CartUseCaseImpl extends CartUseCase {
 
       if (chosenSize != null && product.sizeList != null) {
         newSize = product.sizeList!.firstWhere(
-            (size) => size.size == chosenSize.size,
+                (size) => size.size == chosenSize.size,
             orElse: () => chosenSize);
       }
 
@@ -112,7 +118,8 @@ class CartUseCaseImpl extends CartUseCase {
           product.toppingList != null &&
           product.toppingList!.isNotEmpty) {
         newToppingList = product.toppingList!
-            .where((topping) => chosenToppingList
+            .where((topping) =>
+            chosenToppingList
                 .any((chosenTopping) => chosenTopping.name == topping.name))
             .toList();
       }

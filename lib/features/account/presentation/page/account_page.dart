@@ -102,10 +102,22 @@ class AccountPage extends StatelessWidget {
                                 children: [
                                   MenuItem(
                                     iconData: Icons.history,
-                                    content: "History",
+                                    content: "Order History",
                                     callback: () {
                                       NavigationUtil.pushNamed(
                                           HistoryPage.route);
+                                    },
+                                  ),
+                                  const Divider(
+                                    height: 1,
+                                    indent: 8,
+                                  ),
+                                  MenuItem(
+                                    iconData: Icons.monetization_on_outlined,
+                                    content: "Coin History",
+                                    callback: () {
+                                      NavigationUtil.pushNamed(CoinPage.route,
+                                          arguments: SharedService.getUserId()!);
                                     },
                                   ),
                                   const Divider(
@@ -147,15 +159,15 @@ class AccountPage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(16)),
                     child: Column(
                       children: [
-                        MenuItem(
-                          iconData: Icons.local_police_outlined,
-                          content: "Policies",
-                          callback: () {},
-                        ),
-                        const Divider(
-                          height: 1,
-                          indent: 8,
-                        ),
+                        // MenuItem(
+                        //   iconData: Icons.local_police_outlined,
+                        //   content: "Policies",
+                        //   callback: () {},
+                        // ),
+                        // const Divider(
+                        //   height: 1,
+                        //   indent: 8,
+                        // ),
                         MenuItem(
                           iconData: Icons.info_outline_rounded,
                           content: "App Permission",
@@ -175,15 +187,15 @@ class AccountPage extends StatelessWidget {
                             NavigationUtil.pushNamed(ChatBotPage.route);
                           },
                         ),
-                        const Divider(
-                          height: 1,
-                          indent: 8,
-                        ),
-                        MenuItem(
-                          iconData: Icons.email_outlined,
-                          content: "Report & Support",
-                          callback: () {},
-                        ),
+                        // const Divider(
+                        //   height: 1,
+                        //   indent: 8,
+                        // ),
+                        // MenuItem(
+                        //   iconData: Icons.email_outlined,
+                        //   content: "Report & Support",
+                        //   callback: () {},
+                        // ),
                       ],
                     ),
                   ),

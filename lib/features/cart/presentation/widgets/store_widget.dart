@@ -31,9 +31,11 @@ class StoreWidget extends StatelessWidget {
                             children: [
                               Image.asset(AppPath.icStoreMark,width: AppDimen.smallSize,height: AppDimen.smallSize),
                               SizedBox(width: AppDimen.smallSpacing,),
-                              Text(
-                                "${state.cart.store?.name}",
-                                style: AppStyle.mediumTextStyleDark,
+                              Expanded(
+                                child: Text(
+                                  "${state.cart.store?.name}",
+                                  style: AppStyle.mediumTextStyleDark,
+                                ),
                               ),
                             ],
                           ),

@@ -45,54 +45,6 @@ class GoogleMapBloc extends Bloc<GoogleMapEvent, GoogleMapState> {
       emit(GoogleMapLoadFailure());
     }
   }
-
-// FutureOr<void> _onGoogleMapLoadInitPosition(
-//     GoogleMapLoadInitPosition event, Emitter<GoogleMapState> emit) async {
-//   try {
-//     EasyLoading.show(maskType: EasyLoadingMaskType.black);
-//     Position currentPosition = await _googleMapUseCase.getCurrentPosition();
-//     EasyLoading.dismiss();
-//     if (event.addressString != null) {
-//       EasyLoading.show(maskType: EasyLoadingMaskType.black);
-//       GeoResultEntity? geoResultEntity =
-//           await _googleMapUseCase.getAddressFromName(event.addressString!);
-//       EasyLoading.dismiss();
-//       if (geoResultEntity != null) {
-//         emit(GoogleMapLoadSuccess(
-//             currentLatPosition: geoResultEntity.lat,
-//             currentLngPosition: geoResultEntity.lng));
-//       } else {
-//         EasyLoading.showInfo(
-//             "Cannot find chosen address. So get current address instead!");
-//         EasyLoading.show(maskType: EasyLoadingMaskType.black);
-//         GeoResultEntity? geoResultEntity =
-//             await _googleMapUseCase.getAddressFromPosition(
-//                 currentPosition.latitude, currentPosition.longitude);
-//         EasyLoading.dismiss();
-//         emit(GoogleMapLoadSuccess(
-//             formattedString: geoResultEntity?.formattedAddress,
-//             currentLatPosition: currentPosition.latitude,
-//             currentLngPosition: currentPosition.longitude));
-//       }
-//     } else {
-//       EasyLoading.showInfo(
-//           "Cannot find chosen address. So get current address instead!");
-//       EasyLoading.show(maskType: EasyLoadingMaskType.black);
-//       GeoResultEntity? geoResultEntity =
-//           await _googleMapUseCase.getAddressFromPosition(
-//               currentPosition.latitude, currentPosition.longitude);
-//       EasyLoading.dismiss();
-//       emit(GoogleMapLoadSuccess(
-//           formattedString: geoResultEntity?.formattedAddress,
-//           currentLatPosition: currentPosition.latitude,
-//           currentLngPosition: currentPosition.longitude));
-//     }
-//   } catch (e) {
-//     EasyLoading.dismiss();
-//     emit(GoogleMapLoadFailure());
-//   }
-// }
-//
   FutureOr<void> _onGoogleMapMarkPosition(GoogleMapMarkPosition event,
       Emitter<GoogleMapState> emit) async {
     try {

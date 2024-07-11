@@ -27,6 +27,17 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
+  void handleMenuClick(String value) {
+    switch (value) {
+      case 'Amount Paid By':
+        break;
+      case 'Order':
+        break;
+      case 'Tracking Payment':
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,8 +78,11 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                       ),
-                      const SizedBox(width: 10),
-                      const Icon(Icons.notifications_none_outlined)
+                      //TODO: Notify Icon
+                      // const SizedBox(width: 10),
+                      // Hero(
+                      //     tag: "Home_Action",
+                      //     child: const Icon(Icons.notifications_none_outlined))
                     ],
                   ),
                 ),
@@ -120,8 +134,7 @@ class _HomePageState extends State<HomePage> {
                                 thickness: 1,
                                 child: ListView.separated(
                                     scrollDirection: Axis.horizontal,
-                                    itemBuilder: (context, index) =>
-                                        InkWell(
+                                    itemBuilder: (context, index) => InkWell(
                                           onTap: () {
                                             NavigationUtil.pushNamed(
                                                 ProductByCategoryPage.route,
@@ -141,24 +154,24 @@ class _HomePageState extends State<HomePage> {
                                                   imageUrl: state
                                                       .categories[index].image!,
                                                   width:
-                                                  AppDimen.smallImageSize,
+                                                      AppDimen.smallImageSize,
                                                   height:
-                                                  AppDimen.smallImageSize,
+                                                      AppDimen.smallImageSize,
                                                   placeholder: (context, url) =>
                                                       MyPlaceHolderRectangle(
-                                                        width:
+                                                    width:
                                                         AppDimen.smallImageSize,
-                                                        height:
+                                                    height:
                                                         AppDimen.smallImageSize,
-                                                      ),
+                                                  ),
                                                   errorWidget: (_, __, ___) =>
                                                       Image.asset(
-                                                        AppPath.imgImageError,
-                                                        width:
+                                                    AppPath.imgImageError,
+                                                    width:
                                                         AppDimen.smallImageSize,
-                                                        height:
+                                                    height:
                                                         AppDimen.smallImageSize,
-                                                      ),
+                                                  ),
                                                 ),
                                                 Text(
                                                   state.categories[index].name!,
@@ -170,7 +183,7 @@ class _HomePageState extends State<HomePage> {
                                           ),
                                         ),
                                     separatorBuilder: (context, index) =>
-                                    const SizedBox(),
+                                        const SizedBox(),
                                     itemCount: state.categories.length),
                               ),
                             ),
@@ -185,10 +198,10 @@ class _HomePageState extends State<HomePage> {
                                         horizontal: AppDimen.screenPadding),
                                     child: Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          "New Blogs",
+                                          "Blogs Post",
                                           style: AppStyle.mediumTitleStyleDark,
                                         ),
                                         GestureDetector(
@@ -198,8 +211,8 @@ class _HomePageState extends State<HomePage> {
                                           },
                                           child: Text(
                                             "See More",
-                                            style: AppStyle
-                                                .normalTextStylePrimary,
+                                            style:
+                                                AppStyle.normalTextStylePrimary,
                                           ),
                                         )
                                       ],
@@ -215,11 +228,10 @@ class _HomePageState extends State<HomePage> {
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: AppDimen.screenPadding),
                                       itemCount: state.newestBlogs.length,
-                                      itemBuilder: (context, index) =>
-                                          HomeBlog(
-                                              blog: state.newestBlogs[index]),
+                                      itemBuilder: (context, index) => HomeBlog(
+                                          blog: state.newestBlogs[index]),
                                       separatorBuilder: (context, int index) =>
-                                      const SizedBox(
+                                          const SizedBox(
                                         width: AppDimen.spacing,
                                       ),
                                     ),
@@ -229,52 +241,49 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ],
                               ),
-                            const SizedBox(
-                              height: 16,
-                            ),
-                            if (state.topSellingProducts.isNotEmpty)
-                              Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: AppDimen.screenPadding),
-                                    child: Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        "Top Selling",
-                                        style: AppStyle.mediumTitleStyleDark,
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 8,
-                                  ),
-                                  SizedBox(
-                                    height: 180,
-                                    child: ListView.separated(
-                                      scrollDirection: Axis.horizontal,
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: AppDimen.screenPadding),
-                                      itemCount:
-                                      state.topSellingProducts.length,
-                                      itemBuilder: (context, index) =>
-                                          HomeProduct(
-                                            product:
-                                            state.topSellingProducts[index],
-                                            viewType: ProductViewType
-                                                .List_View_Horizontal,
-                                          ),
-                                      separatorBuilder: (context, int index) =>
-                                      const SizedBox(
-                                        width: AppDimen.spacing,
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 16,
-                                  ),
-                                ],
-                              ),
+                            // if (state.topSellingProducts.isNotEmpty)
+                            //   Column(
+                            //     children: [
+                            //       Padding(
+                            //         padding: const EdgeInsets.symmetric(
+                            //             horizontal: AppDimen.screenPadding),
+                            //         child: Align(
+                            //           alignment: Alignment.centerLeft,
+                            //           child: Text(
+                            //             "Top Selling",
+                            //             style: AppStyle.mediumTitleStyleDark,
+                            //           ),
+                            //         ),
+                            //       ),
+                            //       const SizedBox(
+                            //         height: 8,
+                            //       ),
+                            //       SizedBox(
+                            //         height: 180,
+                            //         child: ListView.separated(
+                            //           scrollDirection: Axis.horizontal,
+                            //           padding: const EdgeInsets.symmetric(
+                            //               horizontal: AppDimen.screenPadding),
+                            //           itemCount:
+                            //               state.topSellingProducts.length,
+                            //           itemBuilder: (context, index) =>
+                            //               HomeProduct(
+                            //             product:
+                            //                 state.topSellingProducts[index],
+                            //             viewType: ProductViewType
+                            //                 .List_View_Horizontal,
+                            //           ),
+                            //           separatorBuilder: (context, int index) =>
+                            //               const SizedBox(
+                            //             width: AppDimen.spacing,
+                            //           ),
+                            //         ),
+                            //       ),
+                            //       const SizedBox(
+                            //         height: 16,
+                            //       ),
+                            //     ],
+                            //   ),
                             Column(
                               children: [
                                 Padding(
@@ -282,29 +291,45 @@ class _HomePageState extends State<HomePage> {
                                       horizontal: AppDimen.screenPadding),
                                   child: Align(
                                     alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      "Outstanding Products",
-                                      style: AppStyle.mediumTitleStyleDark,
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          "Top Rated",
+                                          style: AppStyle.mediumTitleStyleDark,
+                                        ),
+                                        PopupMenuButton<String>(
+                                          icon: Icon(Icons.menu_open_rounded),
+                                          onSelected: handleMenuClick,
+                                          itemBuilder: (BuildContext context) {
+                                            return {
+                                              'Top Rated',
+                                              'Best Selling',
+                                              'Viewed Product'
+                                            }.map((String choice) {
+                                              return PopupMenuItem<String>(
+                                                value: choice,
+                                                child: Text(choice),
+                                              );
+                                            }).toList();
+                                          },
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                ),
-                                const SizedBox(
-                                  height: 8,
                                 ),
                                 ListView.separated(
                                   padding: EdgeInsets.zero,
                                   shrinkWrap: true,
                                   physics: const NeverScrollableScrollPhysics(),
                                   itemCount: state.outstandingProducts.length,
-                                  itemBuilder: (context, index) =>
-                                      HomeProduct(
-                                        product: state
-                                            .outstandingProducts[index],
-                                        viewType:
+                                  itemBuilder: (context, index) => HomeProduct(
+                                    product: state.outstandingProducts[index],
+                                    viewType:
                                         ProductViewType.List_View_Vertical,
-                                      ),
+                                  ),
                                   separatorBuilder: (context, int index) =>
-                                  const Divider(
+                                      const Divider(
                                     height: 8,
                                     thickness: 0.75,
                                   ),
@@ -328,7 +353,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       floatingActionButtonLocation:
-      FloatingActionButtonLocation.miniCenterFloat,
+          FloatingActionButtonLocation.miniCenterFloat,
       floatingActionButton: const HomeFloatAction(),
     );
   }

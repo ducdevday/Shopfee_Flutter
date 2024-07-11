@@ -572,7 +572,7 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
               currentState.cart, SharedService.getUserId()!);
         } else {
           orderResult = await _cartUseCase.createTakeAwayOrder(
-              currentState.cart.copyWith(receiveTime: DateTime.now()),
+              currentState.cart.copyWith(receiveTime: FormatUtil.addTenMinutes(DateTime.now())),
               SharedService.getUserId()!);
         }
         EasyLoading.dismiss();

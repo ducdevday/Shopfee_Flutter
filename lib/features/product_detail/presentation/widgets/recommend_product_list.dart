@@ -1,7 +1,7 @@
 part of product_detail;
 
-class ViewedProductList extends StatelessWidget {
-  const ViewedProductList({super.key});
+class RecommendProductList extends StatelessWidget {
+  const RecommendProductList({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class ViewedProductList extends StatelessWidget {
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          "Recently View Products",
+                          "Recommend Products",
                           style: AppStyle.mediumTitleStyleDark,
                         ),
                       ),

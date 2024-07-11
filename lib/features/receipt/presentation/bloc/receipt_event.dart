@@ -16,8 +16,11 @@ class ReceiptLoadInformation extends ReceiptEvent {
 }
 
 class ReceiptRefreshInformation extends ReceiptEvent {
+  final String orderId;
+
+  ReceiptRefreshInformation({required this.orderId});
   @override
-  List<Object> get props => [];
+  List<Object> get props => [orderId];
 }
 
 class ReceiptDoCancelOrder extends ReceiptEvent {

@@ -60,6 +60,7 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
         if (stores!.isNotEmpty) {
           emit(currentState.copyWith(
               stores: List.from(currentState.stores)..addAll(stores),
+              page: currentState.page + 1,
               isLoadMore: false));
         } else {
           emit(currentState.copyWith(cannotLoadMore: true));

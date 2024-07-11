@@ -15,6 +15,7 @@ import 'package:shopfee/core/config/app_style.dart';
 import 'package:shopfee/core/controller/debounce_controller.dart';
 import 'package:shopfee/core/di/service_locator.dart';
 import 'package:shopfee/core/utils/exception_util.dart';
+import 'package:shopfee/core/utils/format_util.dart';
 import 'package:shopfee/features/home/domain/entities/product_infomation_entity.dart';
 import 'package:shopfee/features/home/presentation/home.dart';
 import 'package:shopfee/features/search/domain/entities/autocomplete_product_entity.dart';

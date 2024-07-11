@@ -93,7 +93,7 @@ class CartService {
           .toList(),
       "note": cart.note,
       "paymentType": cart.paymentType!.name,
-      "receiveTime": cart.receiveTime?.toIso8601String(),
+      "receiveTime": cart.receiveTime?.toUtc().toIso8601String(),
       "branchId": cart.store?.id,
       "total": totalCartPrice,
       "coin": cart.coin ?? 0,
@@ -101,7 +101,6 @@ class CartService {
       "phoneNumber": cart.receiverOnsite?.phoneNumber,
       "productCouponCode": productCouponCode,
       "orderCouponCode": orderCouponCode,
-      "shippingCouponCode": shippingCouponCode,
     };
     final response = await DioService.instance
         .post("${DioService.orderPath}/onsite", data: body);

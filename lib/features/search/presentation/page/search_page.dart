@@ -40,8 +40,12 @@ class _SearchPageState extends State<SearchPage> {
     super.dispose();
   }
 
-  void handleSearchProduct(String value) {
+  void handleGetAutoComplete(String value) {
     debounceController.run(() => _cubit.getAutoCompleteProductName(value));
+  }
+
+  void handleSearchProduct(String value) {
+    _cubit.searchProduct(value);
   }
 
   void _scrollListener() {
@@ -60,7 +64,8 @@ class _SearchPageState extends State<SearchPage> {
           listener: (context, state) {
             if (state is SearchLoadAutoCompleteSuccess) {
               highLightList = state.autocompleteProductEntity.highlightTextList;
-              autoCompleteList = state.autocompleteProductEntity.autocompleteTextList;
+              autoCompleteList =
+                  state.autocompleteProductEntity.autocompleteTextList;
             } else if (state is SearchLoadProductSuccess) {
               isLoadingMore = state.isLoadMore;
               cannotLoadMore = state.cannotLoadMore;
@@ -83,7 +88,8 @@ class _SearchPageState extends State<SearchPage> {
                           autofocus: true,
                           style: AppStyle.smallTextStyleDark,
                           controller: textEditingController,
-                          onChanged: (value) => handleSearchProduct(value),
+                          onChanged: (value) => handleGetAutoComplete(value),
+                          onSubmitted: (value) => {handleSearchProduct(value)},
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.all(8),
                             suffixIcon: Icon(Icons.search),
@@ -141,7 +147,8 @@ class _SearchPageState extends State<SearchPage> {
                   case SearchLoadInProcess():
                     return Center(child: CupertinoActivityIndicator());
                   case SearchLoadAutoCompleteSuccess():
-                    if (highLightList.isNotEmpty && textEditingController.value.text.isNotEmpty) {
+                    if (highLightList.isNotEmpty &&
+                        textEditingController.value.text.isNotEmpty) {
                       return ListView.separated(
                         itemCount: highLightList.length,
                         itemBuilder: (context, index) => Padding(
@@ -150,8 +157,12 @@ class _SearchPageState extends State<SearchPage> {
                               horizontal: AppDimen.screenPadding),
                           child: GestureDetector(
                             onTap: () {
-                              _cubit.chooseAutoCompleteProductName(autoCompleteList[index]);
-                              textEditingController.text = autoCompleteList[index];
+                              _cubit.chooseAutoCompleteProductName(
+                                  FormatUtil.formatAutoCompleteTextToKey(
+                                      highLightList[index]));
+                              textEditingController.text =
+                                  FormatUtil.formatAutoCompleteTextToKey(
+                                      highLightList[index]);
                             },
                             child: HtmlWidget(
                               '''${highLightList[index]}''',

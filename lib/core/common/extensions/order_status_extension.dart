@@ -13,9 +13,9 @@ extension OrderStatusExtension on OrderStatus{
         return "REQUEST CANCEL REFUSED";
       case OrderStatus.CANCELLATION_REQUEST_ACCEPTED:
         return "REQUEST CANCEL ACCEPTED";
-      case OrderStatus.PREPARED:
+      case OrderStatus.PENDING_PICK_UP:
         return "PREPARED";
-      case OrderStatus.DELIVERING:
+      case OrderStatus.IN_DELIVERY:
         return "DELIVERING";
       case OrderStatus.NOT_RECEIVED:
         return "NOT RECEIVED";

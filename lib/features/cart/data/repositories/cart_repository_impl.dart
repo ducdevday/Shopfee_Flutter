@@ -85,40 +85,24 @@ class CartRepositoryImpl implements CartRepository {
   @override
   Future<OrderResult> createShippingOrder(
       CartEntity cart, String userId) async {
-    try {
-      final response = await _cartService.createShippingOrder(
-          CartModel.fromEntity(cart),
-          userId,
-          cart.getCartTotalPrice(),
-          cart.productCouponCode,
-          cart.orderCouponCode,
-          cart.shippingCouponCode);
-      final result = Result(
-        success: response.data["success"],
-        message: response.data["message"],
-        data: response.data["data"],
-      );
-      final orderResult = OrderResult(
-          orderId: result.data!["orderId"],
-          transactionId: result.data!["transactionId"],
-          paymentUrl: result.data!["paymentUrl"]);
-
-      //TODO Send Notify
-      // await _cartService.sendOrderMessage(
-      //     "Shopfee For Employee Announce",
-      //     "The order ${orderResult.orderId} was created. Please tap to see details",
-      //     orderResult.orderId!);
-      return orderResult;
-    } catch (e) {
-      if (e is DioException) {
-        if (e.response?.statusCode == 500) {
-          throw ServerFailure(
-              message:
-                  "VNPAY are only applicable for orders over ${FormatUtil.formatMoney(10000)}");
-        }
-      }
-      rethrow;
-    }
+    final response = await _cartService.createShippingOrder(
+        CartModel.fromEntity(cart),
+        userId,
+        cart.getCartTotalPrice(),
+        cart.productCouponCode,
+        cart.orderCouponCode,
+        cart.shippingCouponCode);
+    final result = Result(
+      success: response.data["success"],
+      message: response.data["message"],
+      data: response.data["data"],
+    );
+    final orderResult = OrderResult(
+        orderId: result.data!["orderId"],
+        transactionId: result.data!["transactionId"],
+        paymentUrl: result.data!["paymentUrl"],
+        branchId: result.data!["branchId"]);
+    return orderResult;
   }
 
   @override
@@ -140,7 +124,8 @@ class CartRepositoryImpl implements CartRepository {
       final orderResult = OrderResult(
           orderId: result.data!["orderId"],
           transactionId: result.data!["transactionId"],
-          paymentUrl: result.data!["paymentUrl"]);
+          paymentUrl: result.data!["paymentUrl"],
+          branchId: result.data!["branchId"]);
 
       //TODO Send Notify
       // await _cartService.sendOrderMessage(

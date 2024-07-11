@@ -49,4 +49,4 @@ part 'widgets/product_bottom_bar.dart';
 part 'widgets/product_quantity.dart';
 part 'widgets/size_filter.dart';
 part 'widgets/topping_filter.dart';
-part 'widgets/viewed_product_list.dart';
+part 'widgets/recommend_product_list.dart';
