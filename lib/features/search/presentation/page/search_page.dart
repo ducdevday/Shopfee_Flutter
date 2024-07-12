@@ -91,15 +91,15 @@ class _SearchPageState extends State<SearchPage> {
                           onChanged: (value) => handleGetAutoComplete(value),
                           onSubmitted: (value) => {handleSearchProduct(value)},
                           decoration: InputDecoration(
-                            contentPadding: EdgeInsets.all(8),
-                            suffixIcon: Icon(Icons.search),
+                            contentPadding: const EdgeInsets.all(8),
+                            suffixIcon: const Icon(Icons.search),
                             errorBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(16),
-                              borderSide: BorderSide(color: Color(0xffCCCCCC)),
+                              borderSide: const BorderSide(color: Color(0xffCCCCCC)),
                             ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(16),
-                              borderSide: BorderSide(color: Color(0xffCCCCCC)),
+                              borderSide: const BorderSide(color: Color(0xffCCCCCC)),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(16),
@@ -108,14 +108,14 @@ class _SearchPageState extends State<SearchPage> {
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(16),
-                              borderSide: BorderSide(color: Color(0xffCCCCCC)),
+                              borderSide: const BorderSide(color: Color(0xffCCCCCC)),
                             ),
                             hintText: "What would you like to drink today?",
                           ),
                         ),
                       ),
                     ),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     InkWell(
                       onTap: () {
                         Navigator.pop(context);
@@ -131,12 +131,12 @@ class _SearchPageState extends State<SearchPage> {
                 ),
               ),
               bottom: PreferredSize(
-                preferredSize: Size.fromHeight(1),
+                preferredSize: const Size.fromHeight(1),
                 child: BlocBuilder<SearchCubit, SearchState>(
                   builder: (context, state) {
                     if (state is SearchLoadAutoCompleteSuccess)
-                      return SizedBox();
-                    return Divider(height: 1);
+                      return const SizedBox();
+                    return const Divider(height: 1);
                   },
                 ),
               ),
@@ -145,7 +145,7 @@ class _SearchPageState extends State<SearchPage> {
               builder: (context, state) {
                 switch (state) {
                   case SearchLoadInProcess():
-                    return Center(child: CupertinoActivityIndicator());
+                    return const Center(child: CupertinoActivityIndicator());
                   case SearchLoadAutoCompleteSuccess():
                     if (highLightList.isNotEmpty &&
                         textEditingController.value.text.isNotEmpty) {
@@ -192,7 +192,7 @@ class _SearchPageState extends State<SearchPage> {
                         ),
                       );
                     } else if (textEditingController.value.text.isNotEmpty) {
-                      return Container(
+                      return SizedBox(
                         width: double.infinity,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -202,7 +202,7 @@ class _SearchPageState extends State<SearchPage> {
                               width: 60,
                               height: 60,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 16,
                             ),
                             Text(
@@ -214,13 +214,13 @@ class _SearchPageState extends State<SearchPage> {
                         ),
                       );
                     } else {
-                      return SizedBox();
+                      return const SizedBox();
                     }
                   case SearchLoadProductSuccess():
                     if (productList.isNotEmpty && query.isNotEmpty) {
                       return ListView.separated(
                         controller: scrollController,
-                        padding: EdgeInsets.only(top: AppDimen.screenPadding),
+                        padding: const EdgeInsets.only(top: AppDimen.screenPadding),
                         itemCount: isLoadingMore
                             ? productList.length + 1
                             : productList.length,
@@ -250,7 +250,7 @@ class _SearchPageState extends State<SearchPage> {
                               width: 60,
                               height: 60,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 16,
                             ),
                             Text(
@@ -262,12 +262,12 @@ class _SearchPageState extends State<SearchPage> {
                         ),
                       );
                     } else {
-                      return SizedBox();
+                      return const SizedBox();
                     }
                   case SearchLoadFailure():
-                    return MyErrorWidget();
+                    return const MyErrorWidget();
                   default:
-                    return SizedBox();
+                    return const SizedBox();
                 }
               },
             ),

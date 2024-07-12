@@ -14,6 +14,9 @@ abstract class HomeRepository {
   Future<List<ProductInformationEntity>> getTopSellingProduct(
       {required int quantity});
 
+  Future<List<ProductInformationEntity>> getViewedProduct({required int quantity});
+
+
   Future<List<BlogInformationEntity>> getNewestBlog(
       {required int quantity});
 

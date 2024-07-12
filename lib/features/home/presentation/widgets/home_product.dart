@@ -98,7 +98,7 @@ class HomeProduct extends StatelessWidget {
                           const SizedBox(
                             height: 4,
                           ),
-                          Text(product.description!,
+                          Text(product.description ?? "",
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style: AppStyle.normalTextStyleDark

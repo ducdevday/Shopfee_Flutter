@@ -21,6 +21,15 @@ class HomeService {
     return response;
   }
 
+  Future<Response> getViewedProduct({required int quantity}) async {
+    Map<String, dynamic> params = {"size": quantity};
+
+    final response = await DioService.instance.get(
+        "${DioService.productPath}/user-tracking",
+        queryParameters: params);
+    return response;
+  }
+
   Future<Response> getNewestBlog({required int quantity}) async {
     Map<String, dynamic> params = {"page": 1, "size": quantity};
 

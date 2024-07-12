@@ -64,11 +64,11 @@ dependencies:
   syncfusion_flutter_charts: ^25.1.39+1
   calendar_date_picker2: ^0.5.3
   video_player: ^2.8.5
-  dialog_flowtter: ^0.3.3
   speech_to_text: ^6.6.0
   percent_indicator: ^4.2.3
   flutter_widget_from_html: ^0.15.0
   socket_io_client: ^2.0.3+1
+  dialog_flowtter: ^0.3.3
   #  Firebase
   firebase_core: ^2.19.0
   firebase_auth: ^4.11.1

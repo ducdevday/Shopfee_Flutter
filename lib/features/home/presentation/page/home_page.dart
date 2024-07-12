@@ -13,6 +13,8 @@ class _HomePageState extends State<HomePage> {
   late final ScrollController _scrollController;
   late final RefreshController _refreshController;
 
+  final homeItemType = ValueNotifier("Top Rated");
+
   @override
   void initState() {
     super.initState();
@@ -29,12 +31,29 @@ class _HomePageState extends State<HomePage> {
 
   void handleMenuClick(String value) {
     switch (value) {
-      case 'Amount Paid By':
+      case 'Top Rated':
+        homeItemType.value = "Top Rated";
         break;
-      case 'Order':
+      case 'Best Selling':
+        homeItemType.value = "Best Selling";
         break;
-      case 'Tracking Payment':
+      case 'Viewed Product':
+        homeItemType.value = "Viewed Product";
         break;
+    }
+  }
+
+  List<ProductInformationEntity> listHomeItem(
+      String value, HomeLoadSuccess state) {
+    switch (value) {
+      case 'Top Rated':
+        return state.outstandingProducts;
+      case 'Best Selling':
+        return state.topSellingProducts;
+      case 'Viewed Product':
+        return state.viewedProducts;
+      default:
+        return [];
     }
   }
 
@@ -284,57 +303,104 @@ class _HomePageState extends State<HomePage> {
                             //       ),
                             //     ],
                             //   ),
-                            Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: AppDimen.screenPadding),
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Text(
-                                          "Top Rated",
-                                          style: AppStyle.mediumTitleStyleDark,
+                            ValueListenableBuilder(
+                              valueListenable: homeItemType,
+                              builder: (BuildContext context,
+                                  String homeItemTypeValue, Widget? child) {
+                                return Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: AppDimen.screenPadding),
+                                      child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Text(
+                                              homeItemTypeValue,
+                                              style:
+                                                  AppStyle.mediumTitleStyleDark,
+                                            ),
+                                            PopupMenuButton<String>(
+                                              icon:
+                                                  Icon(Icons.menu_open_rounded),
+                                              onSelected: handleMenuClick,
+                                              itemBuilder:
+                                                  (BuildContext context) {
+                                                return {
+                                                  'Top Rated',
+                                                  'Best Selling',
+                                                  'Viewed Product'
+                                                }.map((String choice) {
+                                                  return PopupMenuItem<String>(
+                                                    value: choice,
+                                                    child: Text(choice),
+                                                  );
+                                                }).toList();
+                                              },
+                                            ),
+                                          ],
                                         ),
-                                        PopupMenuButton<String>(
-                                          icon: Icon(Icons.menu_open_rounded),
-                                          onSelected: handleMenuClick,
-                                          itemBuilder: (BuildContext context) {
-                                            return {
-                                              'Top Rated',
-                                              'Best Selling',
-                                              'Viewed Product'
-                                            }.map((String choice) {
-                                              return PopupMenuItem<String>(
-                                                value: choice,
-                                                child: Text(choice),
-                                              );
-                                            }).toList();
-                                          },
-                                        ),
-                                      ],
+                                      ),
                                     ),
-                                  ),
-                                ),
-                                ListView.separated(
-                                  padding: EdgeInsets.zero,
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: state.outstandingProducts.length,
-                                  itemBuilder: (context, index) => HomeProduct(
-                                    product: state.outstandingProducts[index],
-                                    viewType:
-                                        ProductViewType.List_View_Vertical,
-                                  ),
-                                  separatorBuilder: (context, int index) =>
-                                      const Divider(
-                                    height: 8,
-                                    thickness: 0.75,
-                                  ),
-                                ),
-                              ],
+                                    if (listHomeItem(homeItemTypeValue, state)
+                                        .isNotEmpty)
+                                      ListView.separated(
+                                        padding: EdgeInsets.zero,
+                                        shrinkWrap: true,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        itemCount: listHomeItem(
+                                                homeItemTypeValue, state)
+                                            .length,
+                                        itemBuilder: (context, index) =>
+                                            HomeProduct(
+                                          product: listHomeItem(
+                                              homeItemTypeValue, state)[index],
+                                          viewType: ProductViewType
+                                              .List_View_Vertical,
+                                        ),
+                                        separatorBuilder:
+                                            (context, int index) =>
+                                                const Divider(
+                                          height: 8,
+                                          thickness: 0.75,
+                                        ),
+                                      ),
+                                    if (listHomeItem(homeItemTypeValue, state)
+                                        .isEmpty)
+                                      SizedBox(
+                                        width: double.infinity,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            const SizedBox(
+                                              height: 16,
+                                            ),
+                                            Image.asset(
+                                              AppPath.icNoProduct,
+                                              width: 60,
+                                              height: 60,
+                                            ),
+                                            const SizedBox(
+                                              height: 16,
+                                            ),
+                                            Text(
+                                              "No Product Found",
+                                              style: AppStyle
+                                                  .mediumTextStyleDark
+                                                  .copyWith(
+                                                      color: AppColor
+                                                          .nonactiveColor),
+                                            )
+                                          ],
+                                        ),
+                                      )
+                                  ],
+                                );
+                              },
                             ),
                             const SizedBox(
                               height: 68,

@@ -84,6 +84,22 @@ class HomeRepositoryImpl extends HomeRepository {
   }
 
   @override
+  Future<List<ProductInformationEntity>> getViewedProduct({required int quantity}) async{
+    final response = await homeService.getViewedProduct(quantity: quantity);
+    final result = ResultList(
+      success: response.data["success"],
+      message: response.data["message"],
+      data: response.data["data"],
+    );
+    List<ProductInformationModel> productsModel =
+    result.data!.map((p) => ProductInformationModel.fromJson(p)).toList();
+    List<ProductInformationEntity> productsEntity = productsModel
+        .map((p) => ProductInformationEntity.fromModel(p))
+        .toList();
+    return productsEntity;
+  }
+
+  @override
   Future<List<BlogInformationEntity>> getNewestBlog(
       {required int quantity}) async {
     final response = await homeService.getNewestBlog(quantity: quantity);
@@ -98,4 +114,6 @@ class HomeRepositoryImpl extends HomeRepository {
         blogsModel.map((p) => BlogInformationEntity.fromModel(p)).toList();
     return blogsEntity;
   }
+
+
 }
