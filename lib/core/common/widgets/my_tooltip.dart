@@ -40,7 +40,7 @@ class MyTooltip extends StatelessWidget {
               Text.rich(TextSpan(children: [
                 TextSpan(
                   text: title,
-                  style: AppStyle.mediumTitleStyleDark
+                  style: AppStyle.mediumTextStyleDark
                 ),
                 WidgetSpan(
                   child: Opacity(

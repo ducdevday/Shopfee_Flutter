@@ -16,4 +16,8 @@ class CalculateUtil {
   static DateTime getDateTime7DaysAgo(){
     return DateTime.now().subtract(Duration(days: 7));
   }
+
+  static DateTime getDateTime31DaysAgo(){
+    return DateTime.now().subtract(Duration(days: 31));
+  }
 }

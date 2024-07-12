@@ -1,4 +1,15 @@
 import 'package:get_it/get_it.dart';
+import 'package:shopfee/core/socket/socket_method.dart';
+import 'package:shopfee/features/blog/data/datasources/blog_service.dart';
+import 'package:shopfee/features/blog/data/repositories/blog_repository_impl.dart';
+import 'package:shopfee/features/blog/domain/repositories/blog_repository.dart';
+import 'package:shopfee/features/blog/domain/usecase/blog_usecase.dart';
+import 'package:shopfee/features/blog/presentation/blog.dart';
+import 'package:shopfee/features/blog_detail/data/datasources/blog_detail_service.dart';
+import 'package:shopfee/features/blog_detail/data/repositories/blog_detail_repository_impl.dart';
+import 'package:shopfee/features/blog_detail/domain/repositories/blog_detail_repository.dart';
+import 'package:shopfee/features/blog_detail/domain/usecase/blog_detail_usecase.dart';
+import 'package:shopfee/features/blog_detail/presentation/cubit/blog_detail_cubit.dart';
 import 'package:shopfee/features/cart/data/datasources/cart_service.dart';
 import 'package:shopfee/features/cart/data/repositories/cart_repository_impl.dart';
 import 'package:shopfee/features/cart/domain/repositories/cart_repository.dart';
@@ -174,6 +185,7 @@ class ServiceLocator {
   static final sl = GetIt.instance;
 
   Future<void> init() async {
+    _socket();
     _notifyPermissionFeature();
     _loginFeature();
     _registerFeature();
@@ -208,6 +220,8 @@ class ServiceLocator {
     _statisticsFeature();
     _refundFeature();
     _coinFeature();
+    _blogFeature();
+    _blogDetailFeature();
   }
 
   void _notifyPermissionFeature() {
@@ -289,7 +303,7 @@ class ServiceLocator {
   void _cartFeature() {
     sl.registerLazySingleton(() => CartService());
     sl.registerLazySingleton<CartRepository>(() => CartRepositoryImpl(sl()));
-    sl.registerLazySingleton<CartUseCase>(() => CartUseCaseImpl(sl()));
+    sl.registerLazySingleton<CartUseCase>(() => CartUseCaseImpl(sl(), sl()));
     sl.registerFactory(() => CartBloc(sl()));
   }
 
@@ -313,7 +327,7 @@ class ServiceLocator {
     sl.registerLazySingleton(() => ReceiptService());
     sl.registerLazySingleton<ReceiptRepository>(
         () => ReceiptRepositoryImpl(sl()));
-    sl.registerLazySingleton<ReceiptUseCase>(() => ReceiptUseCaseImpl(sl()));
+    sl.registerLazySingleton<ReceiptUseCase>(() => ReceiptUseCaseImpl(sl(),sl()));
     sl.registerFactory(() => ReceiptBloc(sl()));
   }
 
@@ -473,27 +487,44 @@ class ServiceLocator {
   void _statisticsFeature() {
     sl.registerLazySingleton(() => StatisticsService());
     sl.registerLazySingleton<StatisticsRepository>(
-            () => StatisticsRepositoryImpl(sl()));
+        () => StatisticsRepositoryImpl(sl()));
     sl.registerLazySingleton<StatisticsUseCase>(
-            () => StatisticsUseCaseImpl(sl()));
+        () => StatisticsUseCaseImpl(sl()));
     sl.registerFactory(() => StatisticsBloc(sl()));
   }
 
   void _refundFeature() {
     sl.registerLazySingleton(() => RefundService());
     sl.registerLazySingleton<RefundRepository>(
-            () => RefundRepositoryImpl(sl()));
-    sl.registerLazySingleton<RefundUseCase>(
-            () => RefundUseCaseImpl(sl()));
+        () => RefundRepositoryImpl(sl()));
+    sl.registerLazySingleton<RefundUseCase>(() => RefundUseCaseImpl(sl()));
     sl.registerFactory(() => RefundBloc(sl()));
   }
 
   void _coinFeature() {
     sl.registerLazySingleton(() => CoinService());
-    sl.registerLazySingleton<CoinRepository>(
-            () => CoinRepositoryImpl(sl()));
-    sl.registerLazySingleton<CoinUseCase>(
-            () => CoinUseCaseImpl(sl()));
+    sl.registerLazySingleton<CoinRepository>(() => CoinRepositoryImpl(sl()));
+    sl.registerLazySingleton<CoinUseCase>(() => CoinUseCaseImpl(sl()));
     sl.registerFactory(() => CoinBloc(sl()));
+  }
+
+  void _blogFeature() {
+    sl.registerLazySingleton(() => BlogService());
+    sl.registerLazySingleton<BlogRepository>(() => BlogRepositoryImpl(sl()));
+    sl.registerLazySingleton<BlogUseCase>(() => BlogUseCaseImpl(sl()));
+    sl.registerFactory(() => BlogBloc(sl()));
+  }
+
+  void _blogDetailFeature() {
+    sl.registerLazySingleton(() => BlogDetailService());
+    sl.registerLazySingleton<BlogDetailRepository>(
+        () => BlogDetailRepositoryImpl(sl()));
+    sl.registerLazySingleton<BlogDetailUseCase>(
+        () => BlogDetailUseCaseImpl(sl()));
+    sl.registerFactory(() => BlogDetailCubit(sl()));
+  }
+
+  void _socket() {
+    sl.registerLazySingleton(() => SocketMethod());
   }
 }

@@ -1,4 +1,7 @@
-part of order;
+
+import 'package:flutter/material.dart';
+import 'package:shopfee/core/common/widgets/my_radio.dart';
+import 'package:shopfee/core/config/app_style.dart';
 
 class SortItem<T> extends StatelessWidget {
   final String title;
@@ -19,9 +22,11 @@ class SortItem<T> extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          title,
-          style: AppStyle.normalTextStyleDark,
+        Expanded(
+          child: Text(
+            title,
+            style: AppStyle.normalTextStyleDark,
+          ),
         ),
         MyRadio(
           value: value,

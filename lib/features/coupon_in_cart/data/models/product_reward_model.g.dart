@@ -11,7 +11,7 @@ ProductRewardModel _$ProductRewardModelFromJson(Map<String, dynamic> json) =>
       id: json['productId'] as String?,
       name: json['productName'] as String?,
       size: json['productSize'] as String?,
-      quantity: json['quantity'] as int?,
+      quantity: (json['quantity'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$ProductRewardModelToJson(ProductRewardModel instance) =>

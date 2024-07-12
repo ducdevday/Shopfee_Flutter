@@ -8,7 +8,7 @@ part of 'review_params.dart';
 
 ReviewParams _$ReviewParamsFromJson(Map<String, dynamic> json) => ReviewParams(
       orderItemId: json['orderItemId'] as String,
-      star: json['star'] as int,
+      star: (json['star'] as num).toInt(),
       content: json['content'] as String,
     );
 

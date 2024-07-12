@@ -36,5 +36,5 @@ Map<String, dynamic> _$ProductInformationModelToJson(
 const _$ProductStatusEnumMap = {
   ProductStatus.AVAILABLE: 'AVAILABLE',
   ProductStatus.HIDDEN: 'HIDDEN',
-  ProductStatus.OUT_OF_STOCK: 'OUT_OF_STOCK',
+  ProductStatus.UNAVAILABLE: 'UNAVAILABLE',
 };

@@ -92,6 +92,7 @@ class PushNotificationService {
   // on tap local notification in foreground
   static void _onForegroundNotificationTap(
       NotificationResponse notificationResponse) {
+    notificationResponse;
     NavigationUtil.pushNamed("/message", arguments: notificationResponse);
   }
 
@@ -99,6 +100,7 @@ class PushNotificationService {
   @pragma('vm:entry-point')
   static void _onBackgroundNotificationTap(
       NotificationResponse notificationResponse) {
+    notificationResponse;
     NavigationUtil.pushNamed("/message", arguments: notificationResponse);
   }
 

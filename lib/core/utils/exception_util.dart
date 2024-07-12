@@ -12,6 +12,12 @@ class ExceptionUtil {
       if (e.type == DioExceptionType.connectionError) {
         NavigationUtil.push(const NoNetWorkPage());
       }
+      else if(e.response?.data?["error"]?["subErrorCode"] != null){
+        EasyLoading.showError(e.response?.data?["error"]?["subErrorMessage"]);
+      }
+      else if(e.response?.data?["error"]?["errorCode"] != null){
+        EasyLoading.showError(e.response?.data?["error"]?["errorMessage"]);
+      }
       else{
         EasyLoading.showError("Something went wrong. Please try again!");
       }

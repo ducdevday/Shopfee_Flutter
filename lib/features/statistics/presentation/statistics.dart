@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:shopfee/core/common/enum/chart_type.dart';
 import 'package:shopfee/core/common/enum/statistic_type.dart';
 import 'package:shopfee/core/common/widgets/my_container.dart';

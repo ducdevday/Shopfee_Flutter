@@ -29,4 +29,10 @@ class AppColor {
 
   static Color likeColor = const Color(0xff82ADD5);
   static Color disLikeColor = const Color(0xffF08181);
+
+  static Color circularChartColor1 = const Color(0xffFFA84A);
+  static Color circularChartColor2 = const Color(0xffFB67CA);
+  static Color circularChartColor3 = const Color(0xff9B88ED);
+  static Color circularChartColor4 = const Color(0xff04BFDA);
+
 }

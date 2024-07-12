@@ -10,6 +10,7 @@ OrderResult _$OrderResultFromJson(Map<String, dynamic> json) => OrderResult(
       orderId: json['orderId'] as String?,
       paymentUrl: json['paymentUrl'] as String?,
       transactionId: json['transactionId'] as String?,
+      branchId: json['branchId'] as String?,
     );
 
 Map<String, dynamic> _$OrderResultToJson(OrderResult instance) =>
@@ -17,4 +18,5 @@ Map<String, dynamic> _$OrderResultToJson(OrderResult instance) =>
       'orderId': instance.orderId,
       'paymentUrl': instance.paymentUrl,
       'transactionId': instance.transactionId,
+      'branchId': instance.branchId,
     };

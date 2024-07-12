@@ -35,37 +35,6 @@ class OrderLoadMoreInformation extends OrderEvent {
   List<Object> get props => [];
 }
 
-// class OrderChooseCategory extends OrderEvent {
-//   final CategoryEntity category;
-//   final int page;
-//   final int size;
-//   final num? minPrice;
-//   final num? maxPrice;
-//   final num? minStar;
-//   final ProductSortType? sortType;
-//
-//   const OrderChooseCategory({
-//     required this.category,
-//     required this.page,
-//     required this.size,
-//     this.minPrice,
-//     this.maxPrice,
-//     this.minStar,
-//     this.sortType,
-//   });
-//
-//   @override
-//   List<Object?> get props => [
-//         category,
-//         page,
-//         size,
-//         minPrice,
-//         maxPrice,
-//         minStar,
-//         sortType,
-//       ];
-// }
-
 class OrderSelectCategory extends OrderEvent {
   final CategoryEntity category;
   final int initPage;
@@ -79,6 +48,7 @@ class OrderSelectCategory extends OrderEvent {
 }
 
 class OrderApplyFilter extends OrderEvent {
+  final String? branchId;
   final num? minPrice;
   final num? maxPrice;
   final num? minStar;
@@ -86,6 +56,7 @@ class OrderApplyFilter extends OrderEvent {
   final int initSize;
 
   const OrderApplyFilter({
+    this.branchId,
     this.minPrice,
     this.maxPrice,
     this.minStar,
@@ -95,6 +66,7 @@ class OrderApplyFilter extends OrderEvent {
 
   @override
   List<Object?> get props => [
+        branchId,
         minPrice,
         maxPrice,
         minStar,

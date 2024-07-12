@@ -3,7 +3,10 @@ import 'package:shopfee/features/review_detail/data/datasources/review_detail_se
 import 'package:shopfee/features/review_detail/data/models/review_detail_model.dart';
 import 'package:shopfee/features/review_detail/data/models/review_detail_params.dart';
 import 'package:shopfee/features/review_detail/data/models/review_interact_body.dart';
+import 'package:shopfee/features/review_detail/data/models/review_statistic_model.dart';
+import 'package:shopfee/features/review_detail/domain/entities/chart_stacked_bar_data.dart';
 import 'package:shopfee/features/review_detail/domain/entities/review_detail_entity.dart';
+import 'package:shopfee/features/review_detail/domain/entities/review_statistic_entity.dart';
 import 'package:shopfee/features/review_detail/domain/repositories/review_detail_repository.dart';
 
 class ReviewDetailRepositoryImpl implements ReviewDetailRepository {
@@ -36,5 +39,22 @@ class ReviewDetailRepositoryImpl implements ReviewDetailRepository {
       String productReviewId, ReviewInteractBody body) async {
     final response =
         await _reviewDetailService.interactReview(productReviewId, body);
+  }
+
+  @override
+  Future<List<ChartStackedBarData>> getReviewStatistic(String productId) async {
+    final response = await _reviewDetailService.getReviewStatistic(productId);
+    final result = Result(
+      success: response.data["success"],
+      message: response.data["message"],
+      data: response.data["data"],
+    );
+    final reviewStatisticModel = ReviewStatisticModel.fromJson(result.data!);
+    final List<ChartStackedBarData> reviewStatistic = reviewStatisticModel
+        .statistics
+        .map((e) => ChartStackedBarData.fromModel(
+            reviewStatisticModel.reviewCountTotal, e))
+        .toList();
+    return reviewStatistic;
   }
 }

@@ -28,7 +28,7 @@ Map<String, dynamic> _$TransactionModelToJson(TransactionModel instance) =>
 const _$PaymentStatusEnumMap = {
   PaymentStatus.PAID: 'PAID',
   PaymentStatus.UNPAID: 'UNPAID',
-  PaymentStatus.REFUNDED: 'REFUNDED',
+  PaymentStatus.FAILED: 'FAILED',
 };
 
 const _$PaymentTypeEnumMap = {

@@ -2,6 +2,7 @@ part of history;
 
 class HistoryList extends StatefulWidget {
   final HistoryStatus historyStatus;
+
   const HistoryList({Key? key, required this.historyStatus}) : super(key: key);
 
   @override
@@ -10,6 +11,7 @@ class HistoryList extends StatefulWidget {
 
 class _HistoryListState extends State<HistoryList> {
   late final HistoryBloc _bloc;
+  final SocketMethod socketMethod = ServiceLocator.sl<SocketMethod>();
   final scrollController = ScrollController();
   late RefreshController _refreshController;
   int initPage = 1;
@@ -24,17 +26,29 @@ class _HistoryListState extends State<HistoryList> {
     super.initState();
     _bloc = ServiceLocator.sl<HistoryBloc>();
     _bloc.add(HistoryLoadInformation(
-        historyStatus: widget.historyStatus, initPage: initPage, initSize: initSize));
+        historyStatus: widget.historyStatus,
+        initPage: initPage,
+        initSize: initSize));
     _refreshController = RefreshController(initialRefresh: false);
     scrollController.addListener(_scrollListener);
+    socketMethod.joinUser(userId: SharedService.getUserId()!);
+    socketMethod.employeeUpdateOrderListener((data) => {
+          if (!_bloc.isClosed)
+            _bloc.add(HistoryRefreshInformation(
+                initPage: initPage, initSize: initSize))
+        });
   }
 
   @override
   void didUpdateWidget(HistoryList oldWidget) {
     if (oldWidget.historyStatus != widget.historyStatus) {
       // History status has changed, trigger necessary actions here
-      _bloc.add(HistoryLoadInformation(
-          historyStatus: widget.historyStatus, initPage: initPage, initSize: initSize));
+      if (!_bloc.isClosed) {
+        _bloc.add(HistoryLoadInformation(
+            historyStatus: widget.historyStatus,
+            initPage: initPage,
+            initSize: initSize));
+      }
     }
     super.didUpdateWidget(oldWidget);
   }
@@ -53,7 +67,7 @@ class _HistoryListState extends State<HistoryList> {
     }
     if (scrollController.position.pixels ==
         scrollController.position.maxScrollExtent) {
-      _bloc.add(const HistoryLoadMoreInformation());
+      if (!_bloc.isClosed) _bloc.add(const HistoryLoadMoreInformation());
     }
   }
 
@@ -82,9 +96,11 @@ class _HistoryListState extends State<HistoryList> {
                   enablePullUp: false,
                   physics: BouncingScrollPhysics(),
                   onRefresh: () async {
-                    _bloc.add(HistoryRefreshInformation(
-                        initPage: initPage, initSize: initSize));
-                    _refreshController.refreshCompleted();
+                    if (!_bloc.isClosed) {
+                      _bloc.add(HistoryRefreshInformation(
+                          initPage: initPage, initSize: initSize));
+                      _refreshController.refreshCompleted();
+                    }
                   },
                   child: ListView.separated(
                     padding: EdgeInsets.only(top: AppDimen.spacing),
@@ -101,10 +117,12 @@ class _HistoryListState extends State<HistoryList> {
                                   .then((refresh) {
                                 if (refresh != null &&
                                     refresh as bool == true) {
-                                  _bloc.add(HistoryLoadInformation(
-                                      historyStatus: widget.historyStatus,
-                                      initPage: initPage,
-                                      initSize: initSize));
+                                  if (!_bloc.isClosed) {
+                                    _bloc.add(HistoryLoadInformation(
+                                        historyStatus: widget.historyStatus,
+                                        initPage: initPage,
+                                        initSize: initSize));
+                                  }
                                 }
                               });
                             },

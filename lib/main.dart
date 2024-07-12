@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
@@ -15,28 +16,46 @@ import 'package:shopfee/features/app/my_app.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  /// Init system
+  await initSystem();
   await Firebase.initializeApp();
-  // await FirebaseMessaging.instance.getInitialMessage();
   await FlutterConfig.loadEnvVariables();
   await SharedService.init();
   await ServiceLocator().init();
+  await SharedService.initAppDocPath();
   HydratedBloc.storage = await HydratedStorage.build(
       storageDirectory: kIsWeb
           ? HydratedStorage.webStorageDirectory
           : await getTemporaryDirectory());
-  await initData();
+  await initGlobalData();
   await PushNotificationService.setUpPushNotification();
   Bloc.observer = SimpleBlocObserver();
   runApp(const MyApp());
 }
 
-Future<void> initData() async {
-  final Directory appDocDir = await getApplicationDocumentsDirectory();
-  final String appDocPath = appDocDir.path;
-  SharedService.setAppDocPath(appDocPath);
-
+Future<void> initGlobalData() async {
   await GlobalData.ins.createCustomIcon();
   if (GlobalData.ins.currentPosition != null) {
     await GlobalData.ins.getCurrentPosition();
   }
+}
+
+Future<void> initSystem() async {
+  /// Set Device orientation to portrait up
+  await SystemChrome.setPreferredOrientations(<DeviceOrientation>[
+    DeviceOrientation.portraitUp,
+  ]);
+
+  // /// Hide Status bar + Navigation bar
+  // await SystemChrome.setEnabledSystemUIMode(
+  //   SystemUiMode.immersive,
+  // );
+  //
+  // /// Set callback to restore System UI when Status bar or Navigation bar showing
+  // await SystemChrome.setSystemUIChangeCallback((systemOverlaysAreVisible) async {
+  //   if (systemOverlaysAreVisible) {
+  //     await Future.delayed(const Duration(seconds: 3));
+  //     SystemChrome.restoreSystemUIOverlays();
+  //   }
+  // });
 }

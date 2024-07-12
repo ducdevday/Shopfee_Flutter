@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedService {
@@ -80,5 +83,11 @@ class SharedService {
     removeUserId();
     removeAccessToken();
     // removeFCMTokenId();
+  }
+
+  static Future<void> initAppDocPath() async {
+    final Directory appDocDir = await getApplicationDocumentsDirectory();
+    final String appDocPath = appDocDir.path;
+    SharedService.setAppDocPath(appDocPath);
   }
 }

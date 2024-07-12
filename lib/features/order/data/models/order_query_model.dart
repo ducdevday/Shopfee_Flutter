@@ -6,6 +6,8 @@ part 'order_query_model.g.dart';
 
 @JsonSerializable()
 class OrderQueryModel {
+  @JsonKey(name: "branch_id")
+  final String? branchId;
   @JsonKey(name: "min_price")
   final num? minPrice;
   @JsonKey(name: "max_price")
@@ -15,7 +17,8 @@ class OrderQueryModel {
   @JsonKey(name: "sort_type")
   final ProductSortType? sortType;
 
-  OrderQueryModel(this.minPrice, this.maxPrice, this.minStar, this.sortType);
+  OrderQueryModel(
+      this.branchId, this.minPrice, this.maxPrice, this.minStar, this.sortType);
 
   factory OrderQueryModel.fromJson(Map<String, dynamic> json) {
     return _$OrderQueryModelFromJson(json);
@@ -26,7 +29,7 @@ class OrderQueryModel {
   }
 
   factory OrderQueryModel.fromEntity(OrderQueryEntity entity) {
-    return OrderQueryModel(
-        entity.minPrice, entity.maxPrice, entity.minStar, entity.sortType);
+    return OrderQueryModel(entity.branchId, entity.minPrice, entity.maxPrice,
+        entity.minStar, entity.sortType);
   }
 }

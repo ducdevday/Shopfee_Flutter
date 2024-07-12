@@ -1,11 +1,9 @@
-
 enum ProductStatus {
   AVAILABLE,
   HIDDEN,
-  OUT_OF_STOCK;
+  UNAVAILABLE;
 
   String toJson() => name;
 
   static ProductStatus fromJson(String json) => values.byName(json);
-
 }

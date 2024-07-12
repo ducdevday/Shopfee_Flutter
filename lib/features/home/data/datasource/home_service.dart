@@ -21,9 +21,26 @@ class HomeService {
     return response;
   }
 
-  Future<Response> getAllBanner() async {
+  Future<Response> getViewedProduct({required int quantity}) async {
+    Map<String, dynamic> params = {"size": quantity};
+
+    final response = await DioService.instance.get(
+        "${DioService.productPath}/user-tracking",
+        queryParameters: params);
+    return response;
+  }
+
+  Future<Response> getNewestBlog({required int quantity}) async {
+    Map<String, dynamic> params = {"page": 1, "size": quantity};
+
     var response = await DioService.instance
-        .get("${DioService.bannerPath}/visible");
+        .get("${DioService.blogPath}/view-list", queryParameters: params);
+    return response;
+  }
+
+  Future<Response> getAllBanner() async {
+    var response =
+        await DioService.instance.get("${DioService.bannerPath}/visible");
     return response;
   }
 }

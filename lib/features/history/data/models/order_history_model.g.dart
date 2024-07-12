@@ -12,7 +12,7 @@ OrderHistoryModel _$OrderHistoryModelFromJson(Map<String, dynamic> json) =>
       total: (json['total'] as num?)?.toDouble(),
       orderType: $enumDecodeNullable(_$OrderTypeEnumMap, json['orderType']),
       productName: json['productName'] as String?,
-      productQuantity: json['productQuantity'] as int?,
+      productQuantity: (json['productQuantity'] as num?)?.toInt(),
       statusLastEvent:
           $enumDecodeNullable(_$OrderStatusEnumMap, json['statusLastEvent']),
       timeLastEvent: json['timeLastEvent'] == null
@@ -42,8 +42,8 @@ const _$OrderStatusEnumMap = {
   OrderStatus.CANCELLATION_REQUEST: 'CANCELLATION_REQUEST',
   OrderStatus.CANCELLATION_REQUEST_REFUSED: 'CANCELLATION_REQUEST_REFUSED',
   OrderStatus.CANCELLATION_REQUEST_ACCEPTED: 'CANCELLATION_REQUEST_ACCEPTED',
-  OrderStatus.PREPARED: 'PREPARED',
-  OrderStatus.DELIVERING: 'DELIVERING',
+  OrderStatus.PENDING_PICK_UP: 'PENDING_PICK_UP',
+  OrderStatus.IN_DELIVERY: 'IN_DELIVERY',
   OrderStatus.NOT_RECEIVED: 'NOT_RECEIVED',
   OrderStatus.CANCELED: 'CANCELED',
   OrderStatus.SUCCEED: 'SUCCEED',

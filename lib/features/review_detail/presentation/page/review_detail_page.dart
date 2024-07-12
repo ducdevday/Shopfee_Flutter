@@ -55,6 +55,27 @@ class _ReviewDetailPageState extends State<ReviewDetailPage> {
               preferredSize: Size.fromHeight(1),
               child: Divider(height: 1),
             ),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.only(right: AppDimen.spacing),
+                child: BlocBuilder<ReviewDetailBloc, ReviewDetailState>(
+                  builder: (context, state) {
+                    if (state is ReviewDetailLoadSuccess) {
+                      return Badge(
+                          label: Text("${state.sortNumber}"),
+                          isLabelVisible: state.sortNumber != 0,
+                          child: GestureDetector(
+                              onTap: () {
+                                buildShowSortBottomSheet(context);
+                              },
+                              child: Icon(Icons.sort_rounded)));
+                    } else {
+                      return Icon(Icons.sort_rounded);
+                    }
+                  },
+                ),
+              )
+            ],
           ),
           body: Padding(
             padding: const EdgeInsets.all(AppDimen.spacing),
@@ -66,91 +87,7 @@ class _ReviewDetailPageState extends State<ReviewDetailPage> {
                   case ReviewDetailLoadSuccess():
                     return Column(
                       children: [
-                        MyContainer(
-                            child: Row(
-                          children: [
-                            Column(
-                              children: [
-                                Text(
-                                  "${ratingSummary.star ?? 0}",
-                                  style: AppStyle.largeRatingStyle,
-                                ),
-                                Text(
-                                  "of 5",
-                                  style: AppStyle.mediumTextStyleDark,
-                                ),
-                                Text(
-                                  "${ratingSummary.quantity ?? 0} Reviews",
-                                  style: AppStyle.mediumTextStyleDark,
-                                )
-                              ],
-                            ),
-                            SizedBox(
-                              width: AppDimen.smallPadding,
-                            ),
-                            const Expanded(
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      MyStartList(
-                                        star: 5,
-                                      ),
-                                      SizedBox(
-                                        width: AppDimen.smallSpacing,
-                                      ),
-                                      Expanded(child: Divider())
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      MyStartList(
-                                        star: 4,
-                                      ),
-                                      SizedBox(
-                                        width: AppDimen.smallSpacing,
-                                      ),
-                                      Expanded(child: Divider())
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      MyStartList(
-                                        star: 3,
-                                      ),
-                                      SizedBox(
-                                        width: AppDimen.smallSpacing,
-                                      ),
-                                      Expanded(child: Divider())
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      MyStartList(
-                                        star: 2,
-                                      ),
-                                      SizedBox(
-                                        width: AppDimen.smallSpacing,
-                                      ),
-                                      Expanded(child: Divider())
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      MyStartList(
-                                        star: 1,
-                                      ),
-                                      SizedBox(
-                                        width: AppDimen.smallSpacing,
-                                      ),
-                                      Expanded(child: Divider())
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        )),
+                        ReviewStatisticWidget(ratingSummary: ratingSummary),
                         SizedBox(
                           height: AppDimen.spacing,
                         ),
@@ -180,6 +117,30 @@ class _ReviewDetailPageState extends State<ReviewDetailPage> {
           ),
         ),
       ),
+    );
+  }
+
+  Future<bool?> buildShowSortBottomSheet(BuildContext context) {
+    return showModalBottomSheet<bool?>(
+      backgroundColor: Colors.black.withOpacity(0.75),
+      isScrollControlled: true,
+      context: context,
+      builder: (_) {
+        return BlocProvider.value(
+          value: context.read<ReviewDetailBloc>(),
+          child: BlocBuilder<ReviewDetailBloc, ReviewDetailState>(
+            builder: (context, state) {
+              if (state is ReviewDetailLoadSuccess) {
+                return ReviewSortBottomSheet(
+                  sortType: state.sortType,
+                );
+              } else {
+                return SizedBox();
+              }
+            },
+          ),
+        );
+      },
     );
   }
 }

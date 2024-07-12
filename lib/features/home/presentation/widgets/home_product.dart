@@ -98,7 +98,7 @@ class HomeProduct extends StatelessWidget {
                           const SizedBox(
                             height: 4,
                           ),
-                          Text(product.description!,
+                          Text(product.description ?? "",
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style: AppStyle.normalTextStyleDark
@@ -121,7 +121,7 @@ class HomeProduct extends StatelessWidget {
                 ],
               ),
             ),
-            if (product.status == ProductStatus.OUT_OF_STOCK)
+            if (product.status == ProductStatus.UNAVAILABLE)
               Positioned.fill(
                 child: Container(
                   decoration: BoxDecoration(
@@ -130,7 +130,7 @@ class HomeProduct extends StatelessWidget {
                   ),
                 ),
               ),
-            if (product.status == ProductStatus.OUT_OF_STOCK)
+            if (product.status == ProductStatus.UNAVAILABLE)
               Positioned(
                 left: AppDimen.smallSpacing,
                 child: Image.asset(
@@ -242,7 +242,7 @@ class HomeProduct extends StatelessWidget {
                     ],
                   ),
                 ),
-                if (product.status == ProductStatus.OUT_OF_STOCK)
+                if (product.status == ProductStatus.UNAVAILABLE)
                   Positioned.fill(
                     child: Container(
                       decoration: BoxDecoration(
@@ -251,7 +251,7 @@ class HomeProduct extends StatelessWidget {
                       ),
                     ),
                   ),
-                if (product.status == ProductStatus.OUT_OF_STOCK)
+                if (product.status == ProductStatus.UNAVAILABLE)
                   Positioned(
                     left: AppDimen.smallSpacing,
                     child: Image.asset(
@@ -282,7 +282,7 @@ class HomeProduct extends StatelessWidget {
             child: Stack(
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -362,7 +362,7 @@ class HomeProduct extends StatelessWidget {
                     ],
                   ),
                 ),
-                if (product.status == ProductStatus.OUT_OF_STOCK)
+                if (product.status == ProductStatus.UNAVAILABLE)
                   Positioned.fill(
                     child: Container(
                       decoration: BoxDecoration(
@@ -371,7 +371,7 @@ class HomeProduct extends StatelessWidget {
                       ),
                     ),
                   ),
-                if (product.status == ProductStatus.OUT_OF_STOCK)
+                if (product.status == ProductStatus.UNAVAILABLE)
                   Positioned(
                     left: AppDimen.smallSpacing,
                     child: Image.asset(

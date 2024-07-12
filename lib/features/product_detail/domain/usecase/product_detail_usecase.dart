@@ -1,12 +1,12 @@
-import 'package:shopfee/core/errors/app_exception.dart';
+import 'package:shopfee/features/home/domain/entities/product_infomation_entity.dart';
 import 'package:shopfee/features/product_detail/domain/entities/product_detail_entity.dart';
 import 'package:shopfee/features/product_detail/domain/entities/size_entity.dart';
 import 'package:shopfee/features/product_detail/domain/repositories/product_detail_repository.dart';
 
-import 'package:shopfee/features/template/domain/repositories/template_repository.dart';
-
 abstract class ProductDetailUseCase {
   Future<ProductDetailEntity> getProductById(String productId);
+
+  Future<List<ProductInformationEntity>> getViewedProduct(int size);
 }
 
 class ProductDetailUseCaseImpl extends ProductDetailUseCase {
@@ -24,5 +24,10 @@ class ProductDetailUseCaseImpl extends ProductDetailUseCase {
       product.copyWith(sizeList: sizeList);
     }
     return product;
+  }
+
+  @override
+  Future<List<ProductInformationEntity>> getViewedProduct(int size) async {
+    return await _productDetailRepository.getViewedProduct(size);
   }
 }

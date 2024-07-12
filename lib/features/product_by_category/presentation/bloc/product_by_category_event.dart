@@ -25,18 +25,16 @@ class ProductByCategoryLoadMoreInformation extends ProductByCategoryEvent {
 }
 
 class ProductByCategoryRefreshInformation extends ProductByCategoryEvent {
-  final String? categoryId;
   final int page;
   final int size;
 
   const ProductByCategoryRefreshInformation({
-    this.categoryId,
     required this.page,
     required this.size,
   });
 
   @override
-  List<Object?> get props => [categoryId, page, size];
+  List<Object?> get props => [page, size];
 }
 
 class ProductByCategoryChangeViewType extends ProductByCategoryEvent {

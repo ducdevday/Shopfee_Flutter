@@ -202,6 +202,17 @@ class CartCheckCoupon extends CartEvent {
   List<Object> get props => [];
 }
 
+class CartCheckShippingOrder extends CartEvent {
+  @override
+  List<Object> get props => [];
+}
+
+class CartCheckTakeAwayOrder extends CartEvent {
+  @override
+  List<Object> get props => [];
+}
+
+
 class CartCreateShippingOrder extends CartEvent {
   @override
   List<Object> get props => [];
@@ -210,4 +221,15 @@ class CartCreateShippingOrder extends CartEvent {
 class CartCreateTakeAwayOrder extends CartEvent {
   @override
   List<Object> get props => [];
+}
+
+class CartChooseBranchConflict extends CartEvent {
+  final CartInvalidBranch branch;
+
+  const CartChooseBranchConflict({
+    required this.branch,
+  });
+
+  @override
+  List<Object> get props => [branch];
 }

@@ -21,16 +21,37 @@ class ProductDetailBloc extends Bloc<ProductDetailEvent, ProductDetailState> {
       Emitter<ProductDetailState> emit) async {
     try {
       emit(ProductDetailLoadInProcess());
-      final product =
-          await _productDetailUseCase.getProductById(event.productId);
-      await Future.delayed(Duration(seconds: 1));
-      emit(ProductDetailLoadSuccess(
-          order: OrderEntity(
-        product: product,
-        size: (product.sizeList != null && product.sizeList!.isNotEmpty)
-            ? product.sizeList![0]
-            : SizeEntity(size: "", price: product.price!),
-      )));
+
+      if (SharedService.getUserId() == null) {
+        final product =
+            await _productDetailUseCase.getProductById(event.productId);
+        await Future.delayed(Duration(seconds: 1));
+        emit(ProductDetailLoadSuccess(
+            order: OrderEntity(
+          product: product,
+          size: (product.sizeList != null && product.sizeList!.isNotEmpty)
+              ? product.sizeList![0]
+              : SizeEntity(size: "", price: product.price!),
+        )));
+      } else {
+        final response = await Future.wait([
+          _productDetailUseCase.getProductById(event.productId),
+          _productDetailUseCase.getViewedProduct(event.sizeViewedProduct)
+        ]);
+        await Future.delayed(Duration(seconds: 1));
+        final product = response[0] as ProductDetailEntity;
+        final viewedProducts = response[1] as List<ProductInformationEntity>;
+        emit(
+          ProductDetailLoadSuccess(
+              order: OrderEntity(
+                product: product,
+                size: (product.sizeList != null && product.sizeList!.isNotEmpty)
+                    ? product.sizeList![0]
+                    : SizeEntity(size: "", price: product.price!),
+              ),
+              viewedProducts: viewedProducts),
+        );
+      }
     } catch (e) {
       emit(ProductDetailLoadFailure());
       ExceptionUtil.handle(e);

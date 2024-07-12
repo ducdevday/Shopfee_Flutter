@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shopfee/core/common/models/my_token.dart';
 import 'package:shopfee/core/common/models/result.dart';
 import 'package:shopfee/core/errors/app_exception.dart';
+import 'package:shopfee/core/utils/exception_util.dart';
 import 'package:shopfee/features/login/data/datasources/login_service.dart';
 import 'package:shopfee/features/login/data/models/login_model.dart';
 import 'package:shopfee/features/login/data/models/user_google_model.dart';
@@ -29,15 +30,7 @@ class LoginRepositoryImpl implements LoginRepository {
       await _loginService.saveFCMTokenToFirestore(token.userId);
       return token;
     } catch (e) {
-      if (e is DioException) {
-        if (e.response?.statusCode == 400) {
-          throw ServerFailure(message: "Account has been locked");
-        } else if (e.response?.statusCode == 401) {
-          throw ServerFailure(message: "Password is incorrect");
-        } else if (e.response?.statusCode == 404) {
-          throw ServerFailure(message: "Account doesn't exist");
-        }
-      }
+      ExceptionUtil.handle(e);
       rethrow;
     }
   }

@@ -6,11 +6,12 @@ abstract class ProductDetailEvent extends Equatable {
 
 class ProductDetailLoadInformation extends ProductDetailEvent {
   final String productId;
+  final int sizeViewedProduct;
 
-  const ProductDetailLoadInformation(this.productId);
+  const ProductDetailLoadInformation(this.productId, this.sizeViewedProduct);
 
   @override
-  List<Object?> get props => [productId];
+  List<Object?> get props => [productId, sizeViewedProduct];
 }
 
 class ProductDetailLoadUpdating extends ProductDetailEvent {

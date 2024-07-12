@@ -9,12 +9,12 @@ part of 'review_detail_model.dart';
 ReviewDetailModel _$ReviewDetailModelFromJson(Map<String, dynamic> json) =>
     ReviewDetailModel(
       id: json['id'] as String,
-      star: json['star'] as int,
+      star: (json['star'] as num).toInt(),
       content: json['content'] as String?,
       avatarUrl: json['avatarUrl'] as String?,
       reviewerName: json['reviewerName'] as String,
-      likeQuantity: json['likeQuantity'] as int,
-      dislikeQuantity: json['dislikeQuantity'] as int,
+      likeQuantity: (json['likeQuantity'] as num).toInt(),
+      dislikeQuantity: (json['dislikeQuantity'] as num).toInt(),
       createdAt: json['createdAt'] == null
           ? null
           : DateTime.parse(json['createdAt'] as String),

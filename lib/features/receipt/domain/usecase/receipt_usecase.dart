@@ -1,4 +1,5 @@
 import 'package:shopfee/core/common/models/order_status.dart';
+import 'package:shopfee/core/socket/socket_method.dart';
 import 'package:shopfee/features/receipt/domain/entities/event_log_entity.dart';
 import 'package:shopfee/features/receipt/domain/entities/receipt_entity.dart';
 import 'package:shopfee/features/receipt/domain/repositories/receipt_repository.dart';
@@ -8,17 +9,18 @@ abstract class ReceiptUseCase {
 
   Future<List<EventLogEntity>> getEventLogsOrder(String orderId);
 
-  Future<void> cancelOrder(String orderId, String reason);
+  Future<void> cancelOrder(String branchId, String orderId, String reason);
 
-  Future<void> requestCancelOrder(String orderId, String reason);
+  Future<void> requestCancelOrder(String branchId, String orderId, String reason);
 
   OrderStatus? determineCancelType(EventLogEntity lastEventLog);
 }
 
 class ReceiptUseCaseImpl extends ReceiptUseCase {
   final ReceiptRepository _receiptRepository;
+  final SocketMethod _socketMethod;
 
-  ReceiptUseCaseImpl(this._receiptRepository);
+  ReceiptUseCaseImpl(this._receiptRepository, this._socketMethod);
 
   @override
   Future<ReceiptEntity> getDetailsOrder(String orderId) async {
@@ -32,13 +34,17 @@ class ReceiptUseCaseImpl extends ReceiptUseCase {
   }
 
   @override
-  Future<void> cancelOrder(String orderId, String reason) async {
-    return await _receiptRepository.cancelOrder(orderId, reason);
+  Future<void> cancelOrder(String branchId, String orderId, String reason) async {
+    final result = await _receiptRepository.cancelOrder(orderId, reason);
+    _socketMethod.updateOrder(branchId: branchId, orderId: orderId);
+    return result;
   }
 
   @override
-  Future<void> requestCancelOrder(String orderId, String reason) async {
-    return await _receiptRepository.requestCancelOrder(orderId, reason);
+  Future<void> requestCancelOrder(String branchId, String orderId, String reason) async {
+    final result = await _receiptRepository.requestCancelOrder(orderId, reason);
+    _socketMethod.updateOrder(branchId: branchId, orderId: orderId);
+    return result;
   }
 
   @override

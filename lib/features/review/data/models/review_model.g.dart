@@ -7,7 +7,7 @@ part of 'review_model.dart';
 // **************************************************************************
 
 ReviewModel _$ReviewModelFromJson(Map<String, dynamic> json) => ReviewModel(
-      star: json['star'] as int,
+      star: (json['star'] as num).toInt(),
       content: json['content'] as String?,
       createdAt: json['createdAt'] == null
           ? null

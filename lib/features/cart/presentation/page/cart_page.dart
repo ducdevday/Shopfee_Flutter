@@ -305,3 +305,16 @@ Future<void> buildShowDeliveryBottomSheet(BuildContext context) {
     },
   );
 }
+
+Future<void> buildShowBranchShippingBottomSheet(BuildContext context) {
+  return showModalBottomSheet<void>(
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+    ),
+    context: context,
+    builder: (BuildContext context) {
+      return const BranchConflictBottomSheet();
+    },
+  );
+}

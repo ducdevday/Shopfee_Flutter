@@ -13,6 +13,8 @@ class _HomePageState extends State<HomePage> {
   late final ScrollController _scrollController;
   late final RefreshController _refreshController;
 
+  final homeItemType = ValueNotifier("Top Rated");
+
   @override
   void initState() {
     super.initState();
@@ -25,6 +27,34 @@ class _HomePageState extends State<HomePage> {
     _scrollController.dispose();
     _refreshController.dispose();
     super.dispose();
+  }
+
+  void handleMenuClick(String value) {
+    switch (value) {
+      case 'Top Rated':
+        homeItemType.value = "Top Rated";
+        break;
+      case 'Best Selling':
+        homeItemType.value = "Best Selling";
+        break;
+      case 'Viewed Product':
+        homeItemType.value = "Viewed Product";
+        break;
+    }
+  }
+
+  List<ProductInformationEntity> listHomeItem(
+      String value, HomeLoadSuccess state) {
+    switch (value) {
+      case 'Top Rated':
+        return state.outstandingProducts;
+      case 'Best Selling':
+        return state.topSellingProducts;
+      case 'Viewed Product':
+        return state.viewedProducts;
+      default:
+        return [];
+    }
   }
 
   @override
@@ -67,8 +97,11 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                       ),
-                      const SizedBox(width: 10),
-                      const Icon(Icons.notifications_none_outlined)
+                      //TODO: Notify Icon
+                      // const SizedBox(width: 10),
+                      // Hero(
+                      //     tag: "Home_Action",
+                      //     child: const Icon(Icons.notifications_none_outlined))
                     ],
                   ),
                 ),
@@ -136,12 +169,6 @@ class _HomePageState extends State<HomePage> {
                                                 horizontal: AppDimen.spacing),
                                             child: Column(
                                               children: [
-                                                // Image(
-                                                //   image: NetworkImage(state
-                                                //       .categories[index].image!),
-                                                //   width: 60,
-                                                //   height: 60,
-                                                // ),
                                                 CachedNetworkImage(
                                                   imageUrl: state
                                                       .categories[index].image!,
@@ -182,69 +209,198 @@ class _HomePageState extends State<HomePage> {
                             const SizedBox(
                               height: 16,
                             ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: AppDimen.screenPadding),
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  "Top Selling",
-                                  style: AppStyle.mediumTitleStyleDark,
-                                ),
+                            if (state.newestBlogs.isNotEmpty)
+                              Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: AppDimen.screenPadding),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "Blogs Post",
+                                          style: AppStyle.mediumTitleStyleDark,
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            NavigationUtil.pushNamed(
+                                                BlogPage.route);
+                                          },
+                                          child: Text(
+                                            "See More",
+                                            style:
+                                                AppStyle.normalTextStylePrimary,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
+                                  SizedBox(
+                                    height: 240,
+                                    child: ListView.separated(
+                                      scrollDirection: Axis.horizontal,
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: AppDimen.screenPadding),
+                                      itemCount: state.newestBlogs.length,
+                                      itemBuilder: (context, index) => HomeBlog(
+                                          blog: state.newestBlogs[index]),
+                                      separatorBuilder: (context, int index) =>
+                                          const SizedBox(
+                                        width: AppDimen.spacing,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 16,
+                                  ),
+                                ],
                               ),
-                            ),
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            SizedBox(
-                              height: 180,
-                              child: ListView.separated(
-                                scrollDirection: Axis.horizontal,
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: AppDimen.screenPadding),
-                                itemCount: state.topSellingProducts.length,
-                                itemBuilder: (context, index) => HomeProduct(
-                                  product: state.topSellingProducts[index],
-                                  viewType:
-                                      ProductViewType.List_View_Horizontal,
-                                ),
-                                separatorBuilder: (context, int index) =>
-                                    const SizedBox(
-                                  width: AppDimen.spacing,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 16,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: AppDimen.screenPadding),
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  "Outstanding Products",
-                                  style: AppStyle.mediumTitleStyleDark,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            ListView.separated(
-                              padding: EdgeInsets.zero,
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: state.outstandingProducts.length,
-                              itemBuilder: (context, index) => HomeProduct(
-                                product: state.outstandingProducts[index],
-                                viewType: ProductViewType.List_View_Vertical,
-                              ),
-                              separatorBuilder: (context, int index) =>
-                                  const Divider(
-                                height: 8,
-                                thickness: 0.75,
-                              ),
+                            // if (state.topSellingProducts.isNotEmpty)
+                            //   Column(
+                            //     children: [
+                            //       Padding(
+                            //         padding: const EdgeInsets.symmetric(
+                            //             horizontal: AppDimen.screenPadding),
+                            //         child: Align(
+                            //           alignment: Alignment.centerLeft,
+                            //           child: Text(
+                            //             "Top Selling",
+                            //             style: AppStyle.mediumTitleStyleDark,
+                            //           ),
+                            //         ),
+                            //       ),
+                            //       const SizedBox(
+                            //         height: 8,
+                            //       ),
+                            //       SizedBox(
+                            //         height: 180,
+                            //         child: ListView.separated(
+                            //           scrollDirection: Axis.horizontal,
+                            //           padding: const EdgeInsets.symmetric(
+                            //               horizontal: AppDimen.screenPadding),
+                            //           itemCount:
+                            //               state.topSellingProducts.length,
+                            //           itemBuilder: (context, index) =>
+                            //               HomeProduct(
+                            //             product:
+                            //                 state.topSellingProducts[index],
+                            //             viewType: ProductViewType
+                            //                 .List_View_Horizontal,
+                            //           ),
+                            //           separatorBuilder: (context, int index) =>
+                            //               const SizedBox(
+                            //             width: AppDimen.spacing,
+                            //           ),
+                            //         ),
+                            //       ),
+                            //       const SizedBox(
+                            //         height: 16,
+                            //       ),
+                            //     ],
+                            //   ),
+                            ValueListenableBuilder(
+                              valueListenable: homeItemType,
+                              builder: (BuildContext context,
+                                  String homeItemTypeValue, Widget? child) {
+                                return Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: AppDimen.screenPadding),
+                                      child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Text(
+                                              homeItemTypeValue,
+                                              style:
+                                                  AppStyle.mediumTitleStyleDark,
+                                            ),
+                                            PopupMenuButton<String>(
+                                              icon:
+                                                  Icon(Icons.menu_open_rounded),
+                                              onSelected: handleMenuClick,
+                                              itemBuilder:
+                                                  (BuildContext context) {
+                                                return {
+                                                  'Top Rated',
+                                                  'Best Selling',
+                                                  'Viewed Product'
+                                                }.map((String choice) {
+                                                  return PopupMenuItem<String>(
+                                                    value: choice,
+                                                    child: Text(choice),
+                                                  );
+                                                }).toList();
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    if (listHomeItem(homeItemTypeValue, state)
+                                        .isNotEmpty)
+                                      ListView.separated(
+                                        padding: EdgeInsets.zero,
+                                        shrinkWrap: true,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        itemCount: listHomeItem(
+                                                homeItemTypeValue, state)
+                                            .length,
+                                        itemBuilder: (context, index) =>
+                                            HomeProduct(
+                                          product: listHomeItem(
+                                              homeItemTypeValue, state)[index],
+                                          viewType: ProductViewType
+                                              .List_View_Vertical,
+                                        ),
+                                        separatorBuilder:
+                                            (context, int index) =>
+                                                const Divider(
+                                          height: 8,
+                                          thickness: 0.75,
+                                        ),
+                                      ),
+                                    if (listHomeItem(homeItemTypeValue, state)
+                                        .isEmpty)
+                                      SizedBox(
+                                        width: double.infinity,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            const SizedBox(
+                                              height: 16,
+                                            ),
+                                            Image.asset(
+                                              AppPath.icNoProduct,
+                                              width: 60,
+                                              height: 60,
+                                            ),
+                                            const SizedBox(
+                                              height: 16,
+                                            ),
+                                            Text(
+                                              "No Product Found",
+                                              style: AppStyle
+                                                  .mediumTextStyleDark
+                                                  .copyWith(
+                                                      color: AppColor
+                                                          .nonactiveColor),
+                                            )
+                                          ],
+                                        ),
+                                      )
+                                  ],
+                                );
+                              },
                             ),
                             const SizedBox(
                               height: 68,

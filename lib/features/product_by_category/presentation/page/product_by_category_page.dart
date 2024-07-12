@@ -115,10 +115,10 @@ class _ProductByCategoryPageState extends State<ProductByCategoryPage> {
                               },
                               icon: Icon(
                                 Icons.menu,
-                                color:
-                                    viewType == ProductViewType.List_View_Vertical
-                                        ? AppColor.primaryColor
-                                        : AppColor.disableColor,
+                                color: viewType ==
+                                        ProductViewType.List_View_Vertical
+                                    ? AppColor.primaryColor
+                                    : AppColor.disableColor,
                               )),
                           IconButton(
                               splashColor: Colors.transparent,
@@ -147,14 +147,18 @@ class _ProductByCategoryPageState extends State<ProductByCategoryPage> {
                               enablePullUp: false,
                               physics: BouncingScrollPhysics(),
                               onRefresh: () async {
-                                context.read<ProductByCategoryBloc>().add(ProductByCategoryRefreshInformation(page: page, size: size));
+                                context.read<ProductByCategoryBloc>().add(
+                                    ProductByCategoryRefreshInformation(
+                                        page: page, size: size));
                                 _refreshController.refreshCompleted();
                               },
                               child: ProductList(
-                                  viewType: viewType,
-                                  isLoadingMore: isLoadingMore,
-                                  cannotLoadMore: cannotLoadMore,
-                                  productList: productList),
+                                viewType: viewType,
+                                isLoadingMore: isLoadingMore,
+                                cannotLoadMore: cannotLoadMore,
+                                productList: productList,
+                                scrollController: scrollController,
+                              ),
                             ),
                           );
                         } else {
@@ -197,13 +201,16 @@ class _ProductByCategoryPageState extends State<ProductByCategoryPage> {
 }
 
 Widget ProductList(
-    {required ProductViewType viewType,
+    {required ScrollController scrollController,
+    required ProductViewType viewType,
     required bool isLoadingMore,
     required bool cannotLoadMore,
     required List<ProductInformationEntity> productList}) {
   if (viewType == ProductViewType.List_View_Vertical) {
     return ListView.separated(
-      padding: const EdgeInsets.only(bottom: 68),
+      controller: scrollController,
+      padding: const EdgeInsets.only(
+          bottom: 68),
       itemCount: isLoadingMore ? productList.length + 1 : productList.length,
       itemBuilder: (context, index) => index < productList.length
           ? HomeProduct(
@@ -220,30 +227,16 @@ Widget ProductList(
       ),
     );
   } else {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppDimen.screenPadding),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Expanded(
-            child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 4.0,
-                    mainAxisSpacing: 4.0),
-                padding: const EdgeInsets.only(bottom: 68),
-                itemCount: productList.length,
-                itemBuilder: (context, index) => HomeProduct(
-                    product: productList[index],
-                    viewType: ProductViewType.Grid_View)),
-          ),
-          if (isLoadingMore)
-            const Padding(
-              padding: EdgeInsets.all(AppDimen.spacing),
-              child: CupertinoActivityIndicator(),
-            ),
-        ],
-      ),
-    );
+    return GridView.builder(
+        controller: scrollController,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2, crossAxisSpacing: 4.0, mainAxisSpacing: 4.0),
+        padding: const EdgeInsets.only(
+            left: AppDimen.screenPadding,
+            right: AppDimen.screenPadding,
+            bottom: 68),
+        itemCount: productList.length,
+        itemBuilder: (context, index) => HomeProduct(
+            product: productList[index], viewType: ProductViewType.Grid_View));
   }
 }

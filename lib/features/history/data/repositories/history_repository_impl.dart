@@ -1,3 +1,4 @@
+import 'package:shopfee/core/common/models/result.dart';
 import 'package:shopfee/core/common/models/result_list.dart';
 import 'package:shopfee/features/history/data/datasources/history_service.dart';
 import 'package:shopfee/features/history/data/models/order_history_model.dart';
@@ -16,12 +17,13 @@ class HistoryRepositoryImpl implements HistoryRepository {
       String userId, OrderHistoryParamsEntity params) async {
     final response = await _historyService.getHistoryOrder(
         userId, OrderHistoryParamsModel.fromEntity(params));
-    final resultList = ResultList(
+    final result = Result(
         success: response.data["success"],
         message: response.data["message"],
         data: response.data["data"]);
+    final List<dynamic> orderList = result.data!["orderList"] as List<dynamic>;
     List<OrderHistoryModel> orderHistoriesModel =
-        resultList.data!.map((c) => OrderHistoryModel.fromJson(c)).toList();
+        orderList.map((c) => OrderHistoryModel.fromJson(c)).toList();
     List<OrderHistoryEntity> orderHistoriesEntity = orderHistoriesModel
         .map((c) => OrderHistoryEntity.fromModel(c))
         .toList();

@@ -151,6 +151,7 @@ class _OrderPageState extends State<OrderPage> {
                             _refreshController.refreshCompleted();
                           },
                           child: ProductList(
+                              scrollController: scrollController,
                               viewType: viewType,
                               isLoadingMore: isLoadingMore,
                               cannotLoadMore: cannotLoadMore,
@@ -327,6 +328,7 @@ Future<bool?> buildShowFilterBottomSheet(BuildContext context) {
           builder: (context, state) {
             if (state is OrderLoadSuccess) {
               return OrderFilterBottomSheet(
+                branchId: state.branchId,
                 minPrice: state.minPrice,
                 maxPrice: state.maxPrice,
                 minStar: state.minStar,

@@ -17,7 +17,7 @@ import 'package:shopfee/core/common/enum/coupon_type.dart';
 import 'package:shopfee/core/common/enum/field_type.dart';
 import 'package:shopfee/core/common/enum/payment_type.dart';
 import 'package:shopfee/core/common/extensions/coupon_type_extension.dart';
-import 'package:shopfee/core/common/extensions/payment_type.dart';
+import 'package:shopfee/core/common/extensions/payment_type_extension.dart';
 import 'package:shopfee/core/common/models/order_type.dart';
 import 'package:shopfee/core/common/widgets/my_confirm_dialog.dart';
 import 'package:shopfee/core/common/widgets/my_input_dialog.dart';
@@ -37,6 +37,7 @@ import 'package:shopfee/core/utils/format_util.dart';
 import 'package:shopfee/core/utils/navigation_util.dart';
 import 'package:shopfee/core/utils/permission_util.dart';
 import 'package:shopfee/core/utils/validate_field_util.dart';
+import 'package:shopfee/features/cart/data/models/cart_invalid_branch.dart';
 import 'package:shopfee/features/cart/data/models/cart_model.dart';
 import 'package:shopfee/features/cart/data/models/order_result.dart';
 import 'package:shopfee/features/cart/domain/entities/cart_entity.dart';
@@ -106,3 +107,5 @@ part 'widgets/product_gift_list.dart';
 part 'widgets/product_gift_item.dart';
 
 part 'widgets/cart_item_container_widget.dart';
+
+part 'widgets/branch_conflict_bottom_sheet.dart';

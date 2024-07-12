@@ -7,4 +7,13 @@ class ProductDetailService {
         .get("${DioService.productPath}/$productId/view");
     return response;
   }
+
+  Future<Response> getViewedProduct(int size) async {
+    Map<String, dynamic> params = {"size": size};
+
+    final response = await DioService.instance.get(
+        "${DioService.productPath}/user-tracking",
+        queryParameters: params);
+    return response;
+  }
 }

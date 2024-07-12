@@ -1,3 +1,4 @@
+import 'package:shopfee/features/blog/domain/entities/blog_information_entity.dart';
 import 'package:shopfee/features/home/domain/entities/banner_entity.dart';
 import 'package:shopfee/features/home/domain/entities/category_entity.dart';
 import 'package:shopfee/features/home/domain/entities/product_infomation_entity.dart';
@@ -13,6 +14,11 @@ abstract class HomeUseCase {
 
   Future<List<ProductInformationEntity>> getTopSellingProduct(
       {required int quantity});
+
+  Future<List<ProductInformationEntity>> getViewedProduct(
+      {required int quantity});
+
+  Future<List<BlogInformationEntity>> getNewestBlog({required int quantity});
 }
 
 class HomeUseCaseImpl extends HomeUseCase {
@@ -21,7 +27,7 @@ class HomeUseCaseImpl extends HomeUseCase {
   HomeUseCaseImpl(this._homeRepository);
 
   @override
-  Future<List<BannerEntity>> getAllBanner() async{
+  Future<List<BannerEntity>> getAllBanner() async {
     return await _homeRepository.getAllBanner();
   }
 
@@ -42,5 +48,15 @@ class HomeUseCaseImpl extends HomeUseCase {
     return await _homeRepository.getTopSellingProduct(quantity: quantity);
   }
 
+  @override
+  Future<List<ProductInformationEntity>> getViewedProduct(
+      {required int quantity}) async {
+    return await _homeRepository.getViewedProduct(quantity: quantity);
+  }
 
+  @override
+  Future<List<BlogInformationEntity>> getNewestBlog(
+      {required int quantity}) async {
+    return await _homeRepository.getNewestBlog(quantity: quantity);
+  }
 }

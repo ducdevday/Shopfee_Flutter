@@ -33,9 +33,11 @@ class ReceiverInformationWidget extends StatelessWidget {
                                   "  |  ",
                                   style: AppStyle.normalTextStyleDark,
                                 ),
-                                Text(
-                                  "${state.cart.receiverOnsite?.phoneNumber ?? ""}",
-                                  style: AppStyle.normalTextStyleDark,
+                                Expanded(
+                                  child: Text(
+                                    "${state.cart.receiverOnsite?.phoneNumber ?? ""}",
+                                    style: AppStyle.normalTextStyleDark,
+                                  ),
                                 ),
                               ],
                             ),
