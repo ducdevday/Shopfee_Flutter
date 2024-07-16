@@ -1,3 +1,4 @@
+import 'package:shopfee/core/common/models/order_type.dart';
 import 'package:shopfee/features/cart/domain/entities/cart_entity.dart';
 import 'package:shopfee/features/coupon_in_cart/domain/entities/coupon_in_cart_entity.dart';
 import 'package:shopfee/features/coupon_in_cart/domain/entities/reward_information_entity.dart';
@@ -22,6 +23,11 @@ class CouponInCartUseCaseImpl extends CouponInCartUseCase {
       String? shippingCouponCode,
       String? orderCouponCode,
       String? productCouponCode) async {
-    return await _couponInCartRepository.getCouponListInCart(cart, shippingCouponCode, orderCouponCode, productCouponCode);
+    var couponInCart = await _couponInCartRepository.getCouponListInCart(
+        cart, shippingCouponCode, orderCouponCode, productCouponCode);
+    if (cart.orderType == OrderType.ONSITE) {
+      couponInCart = couponInCart.copyWith(shippingCouponList: []);
+    }
+    return couponInCart;
   }
 }

@@ -36,11 +36,28 @@ class OrderEntity extends Equatable {
   bool isEqualExceptQuantity(OrderEntity order) {
     if (product.id == order.product.id &&
         size == order.size &&
-        toppings == order.toppings &&
+        areListsEqualUnordered(toppings.map((e)=>e.name).toList() ,order.toppings.map((e)=>e.name).toList()) &&
         note == order.note) {
       return true;
     }
     return false;
+  }
+
+  bool areListsEqualUnordered(List<String> list1, List<String> list2) {
+    if (list1.length != list2.length) {
+      return false;
+    }
+
+    List<String> sortedList1 = List.from(list1)..sort();
+    List<String> sortedList2 = List.from(list2)..sort();
+
+    for (int i = 0; i < sortedList1.length; i++) {
+      if (sortedList1[i] != sortedList2[i]) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
   @override

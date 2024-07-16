@@ -41,4 +41,22 @@ class ProductDetailRepositoryImpl implements ProductDetailRepository {
         .toList();
     return productsEntity;
   }
+
+  @override
+  Future<List<ProductInformationEntity>> getRecommendProduct(
+      String userId, int quantity) async {
+    final response =
+        await _productDetailService.getRecommendProduct(userId, quantity);
+    final result = ResultList(
+      success: response.data["success"],
+      message: response.data["message"],
+      data: response.data["data"],
+    );
+    List<ProductInformationModel> productsModel =
+        result.data!.map((p) => ProductInformationModel.fromJson(p)).toList();
+    List<ProductInformationEntity> productsEntity = productsModel
+        .map((p) => ProductInformationEntity.fromModel(p))
+        .toList();
+    return productsEntity;
+  }
 }

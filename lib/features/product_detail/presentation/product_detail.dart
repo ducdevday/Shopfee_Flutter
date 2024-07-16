@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:overlay_tooltip/overlay_tooltip.dart';
 import 'package:readmore/readmore.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:shopfee/core/common/enum/product_status.dart';
 import 'package:shopfee/core/common/enum/product_view_type.dart';
 import 'package:shopfee/core/common/widgets/my_container.dart';

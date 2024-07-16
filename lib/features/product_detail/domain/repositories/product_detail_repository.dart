@@ -4,4 +4,5 @@ import 'package:shopfee/features/product_detail/domain/entities/product_detail_e
 abstract class ProductDetailRepository {
   Future<ProductDetailEntity> getProductById(String productId);
   Future<List<ProductInformationEntity>> getViewedProduct(int size);
+  Future<List<ProductInformationEntity>> getRecommendProduct(String userId, int quantity);
 }

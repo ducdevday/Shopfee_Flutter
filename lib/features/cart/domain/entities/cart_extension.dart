@@ -47,14 +47,22 @@ extension CartExTension on CartEntity {
     if (productCouponCode != null &&
         productCouponResult?.reward?.productRewardList == null) {
       if (productCouponResult?.reward?.moneyReward?.unit == RewardUnit.MONEY) {
-        result += getTotalProductById(
-                productCouponResult!.reward!.subjectInformation!.id!) *
-            (productCouponResult!.reward!.moneyReward?.value ?? 0);
+        // result += getTotalProductById(
+        //         productCouponResult!.reward!.subjectInformationList!.id!) *
+        //     (productCouponResult!.reward!.moneyReward?.value ?? 0);
+        productCouponResult!.reward!.subjectInformationList?.forEach((e) {
+          result += getTotalProductById(e.id!) *
+              (productCouponResult!.reward!.moneyReward?.value ?? 0);
+        });
       } else if (productCouponResult?.reward?.moneyReward?.unit ==
           RewardUnit.PERCENTAGE) {
-        result += getTotalProductPriceById(
-                productCouponResult!.reward!.subjectInformation!.id!) *
-            ((productCouponResult!.reward!.moneyReward?.value ?? 0) / 100);
+        // result += getTotalProductPriceById(
+        //         productCouponResult!.reward!.subjectInformationList!.id!) *
+        //     ((productCouponResult!.reward!.moneyReward?.value ?? 0) / 100);
+        productCouponResult!.reward!.subjectInformationList?.forEach((e) {
+          result += getTotalProductPriceById(e.id!) *
+              ((productCouponResult!.reward!.moneyReward?.value ?? 0) / 100);
+        });
       }
     }
     return result;
@@ -104,9 +112,13 @@ extension CartExTension on CartEntity {
 
   double? calculateProductPriceAppliedCoupon(OrderEntity orderEntity) {
     if (productCouponCode == null ||
-        productCouponResult?.reward?.productRewardList != null ||
-        orderEntity.product.id !=
-            productCouponResult?.reward?.subjectInformation?.id) {
+        productCouponResult == null ||
+        productCouponResult!.reward == null ||
+        productCouponResult!.reward!.productRewardList != null ||
+        productCouponResult!.reward!.subjectInformationList == null ||
+        !productCouponResult!.reward!.subjectInformationList!
+            .map((e) => e.id)
+            .contains(orderEntity.product.id)) {
       return null;
     }
     double discount = 0;
@@ -172,21 +184,23 @@ extension CartExTension on CartEntity {
     return true;
   }
 
-  bool isVnPayOrZaloPayValid(){
-    if(paymentType == PaymentType.CASHING) {
+  bool isVnPayOrZaloPayValid() {
+    if (paymentType == PaymentType.CASHING) {
       return true;
-    }
-    else if(paymentType == PaymentType.VNPAY && getCartTotalPrice() > 10000){
+    } else if (paymentType == PaymentType.VNPAY &&
+        getCartTotalPrice() > 10000) {
       return true;
-    }
-    else if(paymentType == PaymentType.ZALOPAY && getCartTotalPrice() > 10000){
+    } else if (paymentType == PaymentType.ZALOPAY &&
+        getCartTotalPrice() > 10000) {
       return true;
     }
     return false;
   }
 
   bool isOrderValid() {
-    if (isShippingTypeOrderValid() && isTakeAwayOrderValid() && isVnPayOrZaloPayValid()) {
+    if (isShippingTypeOrderValid() &&
+        isTakeAwayOrderValid() &&
+        isVnPayOrZaloPayValid()) {
       return true;
     }
     return false;
@@ -215,11 +229,13 @@ extension CartExTension on CartEntity {
     return getCartTotalPriceWithoutCoin();
   }
 
-  bool needToCheckCoupon(String? userId){
-    if(userId == null) {
+  bool needToCheckCoupon(String? userId) {
+    if (userId == null) {
       return false;
     }
-    if(shippingCouponCode == null && orderCouponCode == null && productCouponCode == null){
+    if (shippingCouponCode == null &&
+        orderCouponCode == null &&
+        productCouponCode == null) {
       return false;
     }
     return true;

@@ -88,7 +88,7 @@ class _VnPayPageState extends State<VnPayPage> {
                             }
                           }
                           //? ZaloPAY
-                          else if (request.url.contains("status")) {
+                          else if (request.url.contains("localhost")) {
                             _cubit.handlePayment(
                                 transactionId:
                                     widget.orderResult.transactionId!);

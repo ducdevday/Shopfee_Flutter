@@ -25,78 +25,81 @@ class _ProductGiftListState extends State<ProductGiftList> {
             productListLength = state.cart.productCouponResult!.reward!.productRewardList!.length;
             return Column(
               children: [
-                Padding(
-                  padding: EdgeInsets.all(AppDimen.screenPadding),
+                CartItemContainerWidget(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        "Gift-Giving Product List",
-                        style: AppStyle.mediumTitleStyleDark.copyWith(
-                            color: AppColor.headingColor,
-                            fontWeight: FontWeight.w500),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Gift-Giving Product List",
+                            style: AppStyle.mediumTitleStyleDark.copyWith(
+                                color: AppColor.headingColor,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          SizedBox(
+                            height: 12,
+                          ),
+                          ListView.separated(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: productListLength < defaultLength
+                                ? productListLength
+                                : maxLength,
+                            itemBuilder: (context, index) {
+                              return ProductGiftItem(index: index);
+                            },
+                            separatorBuilder: (BuildContext context, int index) {
+                              return Divider(
+                                height: 1,
+                              );
+                            },
+                          ),
+                        ],
                       ),
-                      SizedBox(
-                        height: 12,
-                      ),
-                      ListView.separated(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: productListLength < defaultLength
-                            ? productListLength
-                            : maxLength,
-                        itemBuilder: (context, index) {
-                          return ProductGiftItem(index: index);
-                        },
-                        separatorBuilder: (BuildContext context, int index) {
-                          return Divider(
-                            height: 1,
+                      Builder(builder: (context) {
+                        if (defaultLength < productListLength) {
+                          return Column(
+                            children: [
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Divider(
+                                height: 1,
+                              ),
+                              Directionality(
+                                textDirection: TextDirection.rtl,
+                                child: TextButton.icon(
+                                  onPressed: () {
+                                    if (maxLength == 3) {
+                                      setState(() {
+                                        maxLength = productListLength;
+                                        defaultText = "Show less";
+                                        defaultIcon =
+                                            Icon(Icons.keyboard_arrow_up_rounded);
+                                      });
+                                    } else {
+                                      setState(() {
+                                        maxLength = 3;
+                                        defaultText = "Show more";
+                                        defaultIcon =
+                                            Icon(Icons.keyboard_arrow_down_rounded);
+                                      });
+                                    }
+                                  },
+                                  label: Text(defaultText),
+                                  icon: defaultIcon,
+                                ),
+                              ),
+                            ],
                           );
-                        },
-                      ),
+                        } else {
+                          return SizedBox();
+                        }
+                      }),
                     ],
                   ),
                 ),
-                Builder(builder: (context) {
-                  if (defaultLength < productListLength) {
-                    return Column(
-                      children: [
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Divider(
-                          height: 1,
-                        ),
-                        Directionality(
-                          textDirection: TextDirection.rtl,
-                          child: TextButton.icon(
-                            onPressed: () {
-                              if (maxLength == 3) {
-                                setState(() {
-                                  maxLength = productListLength;
-                                  defaultText = "Show less";
-                                  defaultIcon =
-                                      Icon(Icons.keyboard_arrow_up_rounded);
-                                });
-                              } else {
-                                setState(() {
-                                  maxLength = 3;
-                                  defaultText = "Show more";
-                                  defaultIcon =
-                                      Icon(Icons.keyboard_arrow_down_rounded);
-                                });
-                              }
-                            },
-                            label: Text(defaultText),
-                            icon: defaultIcon,
-                          ),
-                        ),
-                      ],
-                    );
-                  } else {
-                    return SizedBox();
-                  }
-                }),
                 Container(
                   height: 4,
                   color: AppColor.scaffoldColorBackground,

@@ -1,12 +1,12 @@
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
+import 'package:flutter_config/flutter_config.dart';
 import 'package:shopfee/core/common/models/result.dart';
 import 'package:shopfee/core/service/shared_service.dart';
 
 class DioService {
-  static const String BACKEND_PATH = "http://10.0.2.2:8080/api/";
-  // static const String BACKEND_PATH = "http://192.168.1.7:8080/api/";
+  // static const String BACKEND_PATH = "http://10.0.2.2:8080/api/";
 
   //api backend route
   static const String productPath = "product";
@@ -46,7 +46,7 @@ class DioService {
   Future<void> initializeDio() async {
     _dio = Dio(
       BaseOptions(
-        baseUrl: BACKEND_PATH,
+        baseUrl: FlutterConfig.get("BACKEND_PATH"),
         connectTimeout: const Duration(milliseconds: 90000),
         receiveTimeout: const Duration(milliseconds: 90000),
         responseType: ResponseType.json,

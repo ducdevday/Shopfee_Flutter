@@ -36,7 +36,8 @@ class ProductDetailBloc extends Bloc<ProductDetailEvent, ProductDetailState> {
       } else {
         final response = await Future.wait([
           _productDetailUseCase.getProductById(event.productId),
-          _productDetailUseCase.getViewedProduct(event.sizeViewedProduct)
+          _productDetailUseCase.getRecommendProduct(
+              SharedService.getUserId()!, event.sizeViewedProduct)
         ]);
         await Future.delayed(Duration(seconds: 1));
         final product = response[0] as ProductDetailEntity;
@@ -49,7 +50,7 @@ class ProductDetailBloc extends Bloc<ProductDetailEvent, ProductDetailState> {
                     ? product.sizeList![0]
                     : SizeEntity(size: "", price: product.price!),
               ),
-              viewedProducts: viewedProducts),
+              recommendProducts: viewedProducts),
         );
       }
     } catch (e) {
@@ -84,7 +85,8 @@ class ProductDetailBloc extends Bloc<ProductDetailEvent, ProductDetailState> {
           order: successState.order.copyWith(
               quantity: successState.order.quantity == 0
                   ? successState.order.quantity
-                  : successState.order.quantity - 1)));
+                  : successState.order.quantity - 1),
+          recommendProducts: successState.recommendProducts));
     }
   }
 
@@ -94,7 +96,8 @@ class ProductDetailBloc extends Bloc<ProductDetailEvent, ProductDetailState> {
       final successState = state as ProductDetailLoadSuccess;
       emit(ProductDetailLoadSuccess(
           order: successState.order
-              .copyWith(quantity: successState.order.quantity + 1)));
+              .copyWith(quantity: successState.order.quantity + 1),
+          recommendProducts: successState.recommendProducts));
     }
   }
 
@@ -106,7 +109,8 @@ class ProductDetailBloc extends Bloc<ProductDetailEvent, ProductDetailState> {
           order: successState.order.copyWith(
               quantity: successState.order.quantity == 1
                   ? successState.order.quantity
-                  : successState.order.quantity - 1)));
+                  : successState.order.quantity - 1),
+          recommendProducts: successState.recommendProducts));
     }
   }
 
@@ -115,7 +119,8 @@ class ProductDetailBloc extends Bloc<ProductDetailEvent, ProductDetailState> {
     if (state is ProductDetailLoadSuccess) {
       final successState = state as ProductDetailLoadSuccess;
       emit(ProductDetailLoadSuccess(
-          order: successState.order.copyWith(size: event.size)));
+          order: successState.order.copyWith(size: event.size),
+          recommendProducts: successState.recommendProducts));
     }
   }
 
@@ -127,12 +132,14 @@ class ProductDetailBloc extends Bloc<ProductDetailEvent, ProductDetailState> {
         emit(ProductDetailLoadSuccess(
             order: successState.order.copyWith(
                 toppings: List.from(successState.order.toppings)
-                  ..remove(event.topping))));
+                  ..remove(event.topping)),
+            recommendProducts: successState.recommendProducts));
       } else {
         emit(ProductDetailLoadSuccess(
             order: successState.order.copyWith(
                 toppings: List.from(successState.order.toppings)
-                  ..add(event.topping))));
+                  ..add(event.topping)),
+            recommendProducts: successState.recommendProducts));
       }
     }
   }
@@ -142,7 +149,8 @@ class ProductDetailBloc extends Bloc<ProductDetailEvent, ProductDetailState> {
     if (state is ProductDetailLoadSuccess) {
       final successState = state as ProductDetailLoadSuccess;
       emit(ProductDetailLoadSuccess(
-          order: successState.order.copyWith(note: event.note)));
+          order: successState.order.copyWith(note: event.note),
+          recommendProducts: successState.recommendProducts));
     }
   }
 }

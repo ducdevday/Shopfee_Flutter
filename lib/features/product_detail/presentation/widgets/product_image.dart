@@ -17,64 +17,64 @@ class _ProductImageState extends State<ProductImage> {
     return BlocBuilder<ProductDetailBloc, ProductDetailState>(
       builder: (context, state) {
         if (state is ProductDetailLoadSuccess) {
-          if (seenToolTip == false) {
-            return OverlayTooltipItem(
-              displayIndex: 0,
-              tooltipHorizontalPosition: TooltipHorizontalPosition.CENTER,
-              tooltip: (controller) {
-                return Padding(
-                  padding: const EdgeInsets.only(top: AppDimen.spacing),
-                  child: MyTooltip(
-                    title: 'Tap image to see in full screen',
-                    controller: controller,
-                    okCallBack: () {
-                      SharedService.setSeenTooltip(true);
-                    },
-                  ),
-                );
-              },
-              child: GestureDetector(
-                onTap: () {
-                  NavigationUtil.pushNamed(NetworkImageFullScreen.route,
-                      arguments: state.order.product.imageUrl!);
-                },
-                child: Hero(
-                  tag: "IMG",
-                  child: CachedNetworkImage(
-                    imageUrl: state.order.product.imageUrl!,
-                    width: 165,
-                    height: 270,
-                    errorWidget: (_, __, ___) => Image.asset(
-                      AppPath.imgImageError,
-                      width: AppDimen.largeSize,
-                      height: AppDimen.largeSize,
-                    ),
-                  ),
-                ),
-              ),
-            );
-          } else {
-            return GestureDetector(
-              onTap: () {
-                NavigationUtil.pushNamed(NetworkImageFullScreen.route,
-                    arguments: state.order.product.imageUrl!);
-              },
-              child: CachedNetworkImage(
-                imageUrl: state.order.product.imageUrl!,
+          // if (seenToolTip == false) {
+          //   return OverlayTooltipItem(
+          //     displayIndex: 0,
+          //     tooltipHorizontalPosition: TooltipHorizontalPosition.CENTER,
+          //     tooltip: (controller) {
+          //       return Padding(
+          //         padding: const EdgeInsets.only(top: AppDimen.spacing),
+          //         child: MyTooltip(
+          //           title: 'Tap image to see in full screen',
+          //           controller: controller,
+          //           okCallBack: () {
+          //             SharedService.setSeenTooltip(true);
+          //           },
+          //         ),
+          //       );
+          //     },
+          //     child: GestureDetector(
+          //       onTap: () {
+          //         NavigationUtil.pushNamed(NetworkImageFullScreen.route,
+          //             arguments: state.order.product.imageUrl!);
+          //       },
+          //       child: Hero(
+          //         tag: "IMG",
+          //         child: CachedNetworkImage(
+          //           imageUrl: state.order.product.imageUrl!,
+          //           width: 165,
+          //           height: 270,
+          //           errorWidget: (_, __, ___) => Image.asset(
+          //             AppPath.imgImageError,
+          //             width: AppDimen.largeSize,
+          //             height: AppDimen.largeSize,
+          //           ),
+          //         ),
+          //       ),
+          //     ),
+          //   );
+          // } else {
+          return GestureDetector(
+            onTap: () {
+              NavigationUtil.pushNamed(NetworkImageFullScreen.route,
+                  arguments: state.order.product.imageUrl!);
+            },
+            child: CachedNetworkImage(
+              imageUrl: state.order.product.imageUrl!,
+              width: 165,
+              height: 270,
+              placeholder: (context, url) => MyPlaceHolderRectangle(
                 width: 165,
                 height: 270,
-                placeholder: (context, url) => MyPlaceHolderRectangle(
-                  width: 165,
-                  height: 270,
-                ),
-                errorWidget: (_, __, ___) => Image.asset(
-                  AppPath.imgImageError,
-                  width: AppDimen.largeSize,
-                  height: AppDimen.largeSize,
-                ),
               ),
-            );
-          }
+              errorWidget: (_, __, ___) => Image.asset(
+                AppPath.imgImageError,
+                width: AppDimen.largeSize,
+                height: AppDimen.largeSize,
+              ),
+            ),
+          );
+          // }
         } else {
           return SizedBox();
         }

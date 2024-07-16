@@ -47,6 +47,8 @@ class AppPath {
 
   static const String icCancel = "assets/icons/ic_cancel.svg";
 
+  static const String icNotReceive = "assets/icons/ic_not_receive.svg";
+
   static const String icDelivery = "assets/icons/ic_delivery.svg";
 
   static const String icTakeAway = "assets/icons/ic_take_away.svg";

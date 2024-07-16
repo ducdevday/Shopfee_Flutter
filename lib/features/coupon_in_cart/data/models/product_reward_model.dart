@@ -6,9 +6,9 @@ part 'product_reward_model.g.dart';
 class ProductRewardModel{
   @JsonKey(name: "productId")
   final String? id;
-  @JsonKey(name: "productName")
+  @JsonKey(name: "name")
   final String? name;
-  @JsonKey(name: "productSize")
+  @JsonKey(name: "size")
   final String? size;
   final int? quantity;
 

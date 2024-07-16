@@ -16,10 +16,9 @@ RewardInformationModel _$RewardInformationModelFromJson(
           ? null
           : MoneyRewardModel.fromJson(
               json['moneyReward'] as Map<String, dynamic>),
-      subjectInformation: json['subjectInformation'] == null
-          ? null
-          : SubjectRewardModel.fromJson(
-              json['subjectInformation'] as Map<String, dynamic>),
+      subjectInformationList: (json['subjectInformationList'] as List<dynamic>?)
+          ?.map((e) => SubjectRewardModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$RewardInformationModelToJson(
@@ -27,5 +26,5 @@ Map<String, dynamic> _$RewardInformationModelToJson(
     <String, dynamic>{
       'productRewardList': instance.productRewardList,
       'moneyReward': instance.moneyReward,
-      'subjectInformation': instance.subjectInformation,
+      'subjectInformationList': instance.subjectInformationList,
     };

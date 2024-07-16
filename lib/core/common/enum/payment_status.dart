@@ -4,7 +4,9 @@ import 'package:shopfee/core/config/app_color.dart';
 enum PaymentStatus {
   PAID,
   UNPAID,
-  FAILED;
+  FAILED,
+  REFUNDED
+  ;
 
   String toJson() => name;
 

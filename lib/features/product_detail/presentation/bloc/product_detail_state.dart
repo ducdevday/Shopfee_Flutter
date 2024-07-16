@@ -16,15 +16,15 @@ class ProductDetailLoadInProcess extends ProductDetailState {
 
 class ProductDetailLoadSuccess extends ProductDetailState {
   final OrderEntity order;
-  final List<ProductInformationEntity> viewedProducts;
+  final List<ProductInformationEntity> recommendProducts;
 
   const ProductDetailLoadSuccess({
     required this.order,
-    this.viewedProducts = const<ProductInformationEntity>[]
+    this.recommendProducts = const<ProductInformationEntity>[]
   });
 
   @override
-  List<Object> get props => [order, viewedProducts];
+  List<Object> get props => [order, recommendProducts];
 }
 
 class ProductDetailLoadFailure extends ProductDetailState{

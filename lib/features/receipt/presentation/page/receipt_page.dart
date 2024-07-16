@@ -109,13 +109,18 @@ class _ReceiptPageState extends State<ReceiptPage> {
                               ),
                             ),
                             Builder(builder: (context) {
-                              if (state.lastEventLog.orderStatus !=
+                              if (state.lastEventLog.orderStatus ==
+                                  OrderStatus.NOT_RECEIVED) {
+                                return Center(
+                                    child:
+                                        SvgPicture.asset(AppPath.icNotReceive));
+                              } else if (state.lastEventLog.orderStatus ==
                                   OrderStatus.CANCELED) {
                                 return Center(
-                                    child: SvgPicture.asset(AppPath.icSuccess));
+                                    child: SvgPicture.asset(AppPath.icCancel));
                               } else {
                                 return Center(
-                                    child: SvgPicture.asset(AppPath.icCancel));
+                                    child: SvgPicture.asset(AppPath.icSuccess));
                               }
                             }),
                           ],

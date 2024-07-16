@@ -40,7 +40,7 @@ class ProductBottomBar extends StatelessWidget {
                   ),
                 ),
               ),
-              if (state.order.product.status == ProductStatus.UNAVAILABLE)
+              if (state.order.product.status == ProductStatus.INACTIVE)
                 Positioned.fill(
                   child: Container(
                     decoration: BoxDecoration(

@@ -3,8 +3,8 @@ import 'dart:ui';
 import 'package:shopfee/core/common/enum/payment_status.dart';
 import 'package:shopfee/core/config/app_color.dart';
 
-extension PaymentStatusExtension on PaymentStatus{
-   String getFormattedName() {
+extension PaymentStatusExtension on PaymentStatus {
+  String getFormattedName() {
     switch (this) {
       case PaymentStatus.PAID:
         return "Paid";
@@ -12,10 +12,12 @@ extension PaymentStatusExtension on PaymentStatus{
         return "Unpaid";
       case PaymentStatus.FAILED:
         return "Failed";
+      case PaymentStatus.REFUNDED:
+        return "Refunded";
     }
   }
 
-   Color getColor() {
+  Color getColor() {
     switch (this) {
       case PaymentStatus.PAID:
         return AppColor.success;
@@ -23,6 +25,8 @@ extension PaymentStatusExtension on PaymentStatus{
         return AppColor.warning;
       case PaymentStatus.FAILED:
         return AppColor.info;
+      case PaymentStatus.REFUNDED:
+        return AppColor.likeColor;
     }
   }
 }
