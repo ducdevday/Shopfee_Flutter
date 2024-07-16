@@ -170,7 +170,7 @@ class PaymentSummary extends StatelessWidget {
   }
 
   Widget buildAppliedOrderCouponWidget(ReceiptLoadSuccess state) {
-    if (state.receipt.discountInformation?.shippingDiscount != null) {
+    if (state.receipt.discountInformation?.orderDiscount != null) {
       return Column(
         children: [
           const SizedBox(

@@ -4,7 +4,7 @@ import 'package:shopfee/features/coupon_in_cart/domain/entities/reward_informati
 
 extension RewardInformationExtension on RewardInformationEntity {
   String getFormattedReward() {
-    if (moneyReward != null && subjectInformation == null) {
+    if (moneyReward != null && subjectInformationList == null) {
       switch (moneyReward?.unit) {
         case RewardUnit.PERCENTAGE:
           return "- ${FormatUtil.formatPercent(moneyReward?.value)}";
@@ -14,12 +14,12 @@ extension RewardInformationExtension on RewardInformationEntity {
           return "";
       }
     }
-    if (moneyReward != null && subjectInformation != null) {
+    if (moneyReward != null && subjectInformationList != null) {
       switch (moneyReward?.unit) {
         case RewardUnit.PERCENTAGE:
-          return "${subjectInformation?.name} - ${FormatUtil.formatPercent(moneyReward?.value)}";
+          return "${subjectInformationList?.map((e) => e.name).join("\n")} - ${FormatUtil.formatPercent(moneyReward?.value)}";
         case RewardUnit.MONEY:
-          return "${subjectInformation?.name} - ${FormatUtil.formatMoney(moneyReward?.value)}";
+          return "${subjectInformationList?.map((e) => e.name).join("\n")} - ${FormatUtil.formatMoney(moneyReward?.value)}";
         default:
           return "";
       }

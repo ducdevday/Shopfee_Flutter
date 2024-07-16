@@ -109,6 +109,7 @@ class _ChartTrackingState extends State<ChartTracking> {
                     enablePanning: true,
                     enableDoubleTapZooming: true,
                   ),
+                  enableAxisAnimation: true,
                   series: <CartesianSeries>[
                     // Renders line chart
                     LineSeries<ChartLineData, DateTime>(

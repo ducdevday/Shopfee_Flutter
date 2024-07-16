@@ -2,6 +2,7 @@ import 'package:shopfee/core/common/enum/refund_request_status.dart';
 import 'package:shopfee/core/common/models/order_type.dart';
 import 'package:shopfee/features/receipt/data/models/receipt_model.dart';
 import 'package:shopfee/features/receipt/domain/entities/branch_entity.dart';
+import 'package:shopfee/features/receipt/domain/entities/cashier_entity.dart';
 import 'package:shopfee/features/receipt/domain/entities/discount_information_entity.dart';
 import 'package:shopfee/features/receipt/domain/entities/receipt_product_entity.dart';
 import 'package:shopfee/features/receipt/domain/entities/receiver_information_entity.dart';

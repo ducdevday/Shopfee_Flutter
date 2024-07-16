@@ -28,9 +28,12 @@ class CouponInCartEntity {
         .toList();
     if (shippingNoCombineBy != null && shippingNoCombineBy.isNotEmpty) {
       final List<CombinationConditionEntity>? combinationConditionList;
-      combinationConditionList = shippingNoCombineBy.map((e) => CombinationConditionEntity(type: e)).toList();
+      combinationConditionList = shippingNoCombineBy
+          .map((e) => CombinationConditionEntity(type: e))
+          .toList();
       shippingCouponListModel = shippingCouponListModel!
-          .map((e) => e.copyWith(valid: false, combinationConditionList: combinationConditionList))
+          .map((e) => e.copyWith(
+              valid: false, combinationConditionList: combinationConditionList))
           .toList();
     }
     final orderNoCombineBy = model.orderNoCombineBy;
@@ -39,9 +42,13 @@ class CouponInCartEntity {
         .toList();
     if (orderNoCombineBy != null && orderNoCombineBy.isNotEmpty) {
       final List<CombinationConditionEntity>? combinationConditionList;
-      combinationConditionList = orderNoCombineBy.map((e) => CombinationConditionEntity(type: e)).toList();
-      orderCouponListModel =
-          orderCouponListModel!.map((e) => e.copyWith(valid: false, combinationConditionList: combinationConditionList)).toList();
+      combinationConditionList = orderNoCombineBy
+          .map((e) => CombinationConditionEntity(type: e))
+          .toList();
+      orderCouponListModel = orderCouponListModel!
+          .map((e) => e.copyWith(
+              valid: false, combinationConditionList: combinationConditionList))
+          .toList();
     }
     final productNoCombineBy = model.productNoCombineBy;
     var productCouponListModel = model.productCouponList
@@ -49,9 +56,16 @@ class CouponInCartEntity {
         .toList();
     if (productNoCombineBy != null && productNoCombineBy.isNotEmpty) {
       final List<CombinationConditionEntity>? combinationConditionList;
-      combinationConditionList = productNoCombineBy.map((e) => CombinationConditionEntity(type: e)).toList();
-      productCouponListModel =
-          productCouponListModel!.map((e) => e.copyWith(valid: false)).toList();
+      combinationConditionList = productNoCombineBy
+          .map((e) => CombinationConditionEntity(type: e))
+          .toList();
+      productCouponListModel = productCouponListModel!
+          .map(
+            (e) => e.copyWith(
+                valid: false,
+                combinationConditionList: combinationConditionList),
+          )
+          .toList();
     }
 
     return CouponInCartEntity(
@@ -61,6 +75,24 @@ class CouponInCartEntity {
       orderCouponList: orderCouponListModel,
       productNoCombineBy: productNoCombineBy,
       productCouponList: productCouponListModel,
+    );
+  }
+
+  CouponInCartEntity copyWith({
+    List<CouponType>? shippingNoCombineBy,
+    List<CouponInformationEntity>? shippingCouponList,
+    List<CouponType>? orderNoCombineBy,
+    List<CouponInformationEntity>? orderCouponList,
+    List<CouponType>? productNoCombineBy,
+    List<CouponInformationEntity>? productCouponList,
+  }) {
+    return CouponInCartEntity(
+      shippingNoCombineBy: shippingNoCombineBy ?? this.shippingNoCombineBy,
+      shippingCouponList: shippingCouponList ?? this.shippingCouponList,
+      orderNoCombineBy: orderNoCombineBy ?? this.orderNoCombineBy,
+      orderCouponList: orderCouponList ?? this.orderCouponList,
+      productNoCombineBy: productNoCombineBy ?? this.productNoCombineBy,
+      productCouponList: productCouponList ?? this.productCouponList,
     );
   }
 }

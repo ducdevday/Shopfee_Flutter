@@ -68,7 +68,7 @@ class CartUseCaseImpl extends CartUseCase {
     final orderResult = await _cartRepository.createTakeAwayOrder(cart, userId);
     _socketMethod.createOrder(
         branchId: cart.store!.id!, orderId: orderResult.orderId!);
-    return await _cartRepository.createTakeAwayOrder(cart, userId);
+    return orderResult;
   }
 
   @override

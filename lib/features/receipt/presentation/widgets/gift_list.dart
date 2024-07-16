@@ -12,7 +12,7 @@ class GiftList extends StatefulWidget {
 class _GiftListState extends State<GiftList> {
   late int defaultLength = 3;
   late int maxLength = 3;
-  int giftListLength = 0;
+  late int giftListLength;
   late String defaultText = "Show more";
   late Icon defaultIcon = const Icon(Icons.keyboard_arrow_down_rounded);
 
@@ -20,7 +20,10 @@ class _GiftListState extends State<GiftList> {
   Widget build(BuildContext context) {
     return BlocBuilder<ReceiptBloc, ReceiptState>(
       builder: (context, state) {
-        if(state is ReceiptLoadSuccess && state.receipt.discountInformation?.productGiftList != null){
+        if (state is ReceiptLoadSuccess &&
+            state.receipt.discountInformation?.productGiftList != null) {
+          giftListLength =
+              state.receipt.discountInformation?.productGiftList!.length ?? 0;
           return Column(
             children: [
               Padding(
@@ -28,46 +31,78 @@ class _GiftListState extends State<GiftList> {
                 child: Column(
                   children: [
                     Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            "Gift List",
-                            style: AppStyle.mediumTitleStyleDark.copyWith(
-                                color: AppColor.headingColor,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 8,
+                        Text(
+                          "Gift List",
+                          style: AppStyle.mediumTitleStyleDark.copyWith(
+                              color: AppColor.headingColor,
+                              fontWeight: FontWeight.w500),
                         ),
                         ListView.separated(
                           padding: EdgeInsets.zero,
                           shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
+                          physics: NeverScrollableScrollPhysics(),
                           itemCount: giftListLength < defaultLength
                               ? giftListLength
                               : maxLength,
                           itemBuilder: (context, index) {
-                            return buildProductItem(state.receipt
-                                .discountInformation!.productGiftList![index]);
-                          },
-                          separatorBuilder: (BuildContext context, int index) {
-                            return const Divider(
-                              height: 10,
+                            return Padding(
+                              padding:
+                                  EdgeInsets.only(top: 4, bottom: 4, right: 8),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                            "${state.receipt.discountInformation?.productGiftList![index].name!}",
+                                            style: AppStyle.mediumTitleStyleDark
+                                                .copyWith(
+                                                    color:
+                                                        AppColor.headingColor)
+                                                .copyWith(
+                                                    fontWeight:
+                                                        FontWeight.w500)),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            SizedBox(
+                                              height: 6,
+                                            ),
+                                            Text(
+                                              "${state.receipt.discountInformation?.productGiftList![index].quantity}x ${FormatUtil.formatSize(state.receipt.discountInformation?.productGiftList![index].size ?? "")}",
+                                              style:
+                                                  AppStyle.normalTextStyleDark,
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
                             );
                           },
-                        )
+                          separatorBuilder: (BuildContext context, int index) {
+                            return Divider(
+                              height: 1,
+                            );
+                          },
+                        ),
                       ],
                     ),
                     Builder(builder: (context) {
                       if (defaultLength < giftListLength) {
                         return Column(
                           children: [
-                            const SizedBox(
+                            SizedBox(
                               height: 10,
                             ),
-                            const Divider(
+                            Divider(
                               height: 1,
                             ),
                             Directionality(
@@ -79,14 +114,13 @@ class _GiftListState extends State<GiftList> {
                                       maxLength = giftListLength;
                                       defaultText = "Show less";
                                       defaultIcon =
-                                      const Icon(Icons.keyboard_arrow_up_rounded);
+                                          Icon(Icons.keyboard_arrow_up_rounded);
                                     });
                                   } else {
                                     setState(() {
                                       maxLength = 3;
                                       defaultText = "Show more";
-                                      defaultIcon =
-                                      const Icon(
+                                      defaultIcon = Icon(
                                           Icons.keyboard_arrow_down_rounded);
                                     });
                                   }
@@ -98,9 +132,9 @@ class _GiftListState extends State<GiftList> {
                           ],
                         );
                       } else {
-                        return const Padding(padding: EdgeInsets.only(bottom: 8));
+                        return SizedBox();
                       }
-                    })
+                    }),
                   ],
                 ),
               ),
@@ -110,7 +144,6 @@ class _GiftListState extends State<GiftList> {
               ),
             ],
           );
-
         }
         return SizedBox();
       },

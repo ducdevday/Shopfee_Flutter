@@ -7,6 +7,8 @@ abstract class ProductDetailUseCase {
   Future<ProductDetailEntity> getProductById(String productId);
 
   Future<List<ProductInformationEntity>> getViewedProduct(int size);
+
+  Future<List<ProductInformationEntity>> getRecommendProduct(String userId, int quantity);
 }
 
 class ProductDetailUseCaseImpl extends ProductDetailUseCase {
@@ -29,5 +31,10 @@ class ProductDetailUseCaseImpl extends ProductDetailUseCase {
   @override
   Future<List<ProductInformationEntity>> getViewedProduct(int size) async {
     return await _productDetailRepository.getViewedProduct(size);
+  }
+
+  @override
+  Future<List<ProductInformationEntity>> getRecommendProduct(String userId, int quantity) async{
+    return await _productDetailRepository.getRecommendProduct(userId, quantity);
   }
 }

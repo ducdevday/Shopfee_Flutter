@@ -29,6 +29,7 @@ const _$PaymentStatusEnumMap = {
   PaymentStatus.PAID: 'PAID',
   PaymentStatus.UNPAID: 'UNPAID',
   PaymentStatus.FAILED: 'FAILED',
+  PaymentStatus.REFUNDED: 'REFUNDED',
 };
 
 const _$PaymentTypeEnumMap = {

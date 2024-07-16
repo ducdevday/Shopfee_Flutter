@@ -8,7 +8,7 @@ class RecommendProductList extends StatelessWidget {
     return BlocBuilder<ProductDetailBloc, ProductDetailState>(
       builder: (context, state) {
         if (state is ProductDetailLoadSuccess &&
-            state.viewedProducts.isNotEmpty) {
+            state.recommendProducts.isNotEmpty) {
           return Column(
             children: [
               Container(
@@ -37,9 +37,9 @@ class RecommendProductList extends StatelessWidget {
                         scrollDirection: Axis.horizontal,
                         padding: const EdgeInsets.symmetric(
                             horizontal: AppDimen.screenPadding),
-                        itemCount: state.viewedProducts.length,
+                        itemCount: state.recommendProducts.length,
                         itemBuilder: (context, index) => HomeProduct(
-                          product: state.viewedProducts[index],
+                          product: state.recommendProducts[index],
                           viewType: ProductViewType.List_View_Horizontal,
                         ),
                         separatorBuilder: (context, int index) => const SizedBox(

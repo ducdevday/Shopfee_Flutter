@@ -59,6 +59,10 @@ class FormatUtil {
     return dateTime.add(Duration(minutes: 10));
   }
 
+  static DateTime addOneDay(DateTime dateTime){
+    return dateTime.add(Duration(days: 1));
+  }
+
   static String formatSQLTime(DateTime time) {
     DateFormat formatter = DateFormat('HH:mm:ss');
     return formatter.format(time);

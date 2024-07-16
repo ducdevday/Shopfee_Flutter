@@ -16,6 +16,7 @@ import 'package:shopfee/features/app/my_app.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   /// Init system
   await initSystem();
   await Firebase.initializeApp();

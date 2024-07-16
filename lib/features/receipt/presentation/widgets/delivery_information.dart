@@ -29,6 +29,13 @@ class DeliveryInformation extends StatelessWidget {
                 children: [
                   Row(
                     children: [
+                      const Icon(
+                        Icons.account_circle_outlined,
+                        size: 20,
+                      ),
+                      const SizedBox(
+                        width: 4,
+                      ),
                       Text(
                         "${state.receipt.receiverInformation?.recipientName}",
                         style: AppStyle.mediumTextStyleDark
@@ -50,6 +57,54 @@ class DeliveryInformation extends StatelessWidget {
                   ),
                 ],
               ),
+              const SizedBox(
+                height: 8,
+              ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Store Information",
+                  style: AppStyle.mediumTitleStyleDark.copyWith(
+                      color: AppColor.headingColor,
+                      fontWeight: FontWeight.w500),
+                ),
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Image.asset(
+                        AppPath.icStoreMark,
+                        width: AppDimen.xSmallSize,
+                        height: AppDimen.xSmallSize,
+                      ),
+                      SizedBox(
+                        width: AppDimen.smallSpacing,
+                      ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Shopfee ${state.receipt.branch?.address}",
+                              style: AppStyle.normalTextStyleDark,
+                            ),
+                            Text(
+                              "ID: ${state.receipt.branch?.id}",
+                              style: AppStyle.normalTextStyleDark,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              )
             ],
           );
         }

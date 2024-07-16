@@ -15,11 +15,11 @@ class ExceptionUtil {
       else if(e.response?.data?["error"]?["subErrorCode"] != null){
         EasyLoading.showError(e.response?.data?["error"]?["subErrorMessage"]);
       }
-      else if(e.response?.data?["error"]?["errorCode"] != null){
-        EasyLoading.showError(e.response?.data?["error"]?["errorMessage"]);
-      }
+      // else if(e.response?.data?["error"]?["errorCode"] != null){
+      //   EasyLoading.showError(e.response?.data?["error"]?["errorMessage"]);
+      // }
       else{
-        EasyLoading.showError("Something went wrong. Please try again!");
+        EasyLoading.showError("Server Error. Please try again!");
       }
     }
     else if(e is AppException){

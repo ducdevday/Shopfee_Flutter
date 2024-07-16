@@ -45,7 +45,7 @@ class _ReviewDetailItemState extends State<ReviewDetailItem> {
               borderRadius:
                   const BorderRadius.all(Radius.circular(AppDimen.smallRadius)),
               child: CachedNetworkImage(
-                imageUrl: AppPath.imgDefaultAvatar,
+                imageUrl: widget.reviewDetail.avatarUrl ?? AppPath.imgDefaultAvatar,
                 width: 50,
                 height: 50,
                 fit: BoxFit.cover,
@@ -166,17 +166,17 @@ class _ReviewDetailItemState extends State<ReviewDetailItem> {
                                     ReviewDetailLikeBtnPressed(
                                         productReviewId:
                                             widget.reviewDetail.id));
-                                if(currentInteractionNotifier.value ==
-                                    ReviewInteractionType.DISLIKE){
+                                if (currentInteractionNotifier.value ==
+                                    ReviewInteractionType.DISLIKE) {
                                   currentDislike = currentDislike - 1;
                                 }
-                                if(currentInteractionNotifier.value ==
-                                    ReviewInteractionType.LIKE){
+                                if (currentInteractionNotifier.value ==
+                                    ReviewInteractionType.LIKE) {
                                   currentInteractionNotifier.value = null;
                                   currentLike = currentLike - 1;
-                                }
-                                else{
-                                  currentInteractionNotifier.value = ReviewInteractionType.LIKE;
+                                } else {
+                                  currentInteractionNotifier.value =
+                                      ReviewInteractionType.LIKE;
                                   currentLike = currentLike + 1;
                                 }
                                 return !isLiked;
@@ -238,17 +238,17 @@ class _ReviewDetailItemState extends State<ReviewDetailItem> {
                                     ReviewDetailDislikeBtnPressed(
                                         productReviewId:
                                             widget.reviewDetail.id));
-                                if(currentInteractionNotifier.value ==
-                                    ReviewInteractionType.LIKE){
+                                if (currentInteractionNotifier.value ==
+                                    ReviewInteractionType.LIKE) {
                                   currentLike = currentLike - 1;
                                 }
-                                if(currentInteractionNotifier.value ==
-                                    ReviewInteractionType.DISLIKE){
+                                if (currentInteractionNotifier.value ==
+                                    ReviewInteractionType.DISLIKE) {
                                   currentInteractionNotifier.value = null;
                                   currentDislike = currentDislike - 1;
-                                }
-                                else{
-                                  currentInteractionNotifier.value = ReviewInteractionType.DISLIKE;
+                                } else {
+                                  currentInteractionNotifier.value =
+                                      ReviewInteractionType.DISLIKE;
                                   currentDislike = currentDislike + 1;
                                 }
                                 return !isLiked;

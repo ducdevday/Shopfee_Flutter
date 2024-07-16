@@ -10,11 +10,11 @@ class ProductByCategoryBottom extends StatelessWidget {
     return BlocBuilder<CartBloc, CartState>(
       builder: (context, state) {
         if (state is CartLoaded) {
-          // if (state.cart.orders.isEmpty) {
-          //   return SizedBox();
-          // }
           return InkWell(
-            onTap: () {},
+            onTap: () {
+              NavigationUtil.pushNamed(CartPage.route);
+
+            },
             child: Container(
               width: double.infinity,
               height: 56,

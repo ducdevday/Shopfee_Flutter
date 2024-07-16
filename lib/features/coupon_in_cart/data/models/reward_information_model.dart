@@ -9,12 +9,12 @@ part "reward_information_model.g.dart";
 class RewardInformationModel {
   final List<ProductRewardModel>? productRewardList;
   final MoneyRewardModel? moneyReward;
-  final SubjectRewardModel? subjectInformation;
+  final List<SubjectRewardModel>? subjectInformationList;
 
   const RewardInformationModel({
     this.productRewardList,
     this.moneyReward,
-    this.subjectInformation,
+    this.subjectInformationList,
   });
 
   factory RewardInformationModel.fromJson(Map<String, dynamic> json) {

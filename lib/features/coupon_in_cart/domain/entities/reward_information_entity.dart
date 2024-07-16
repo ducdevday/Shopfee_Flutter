@@ -6,12 +6,12 @@ import 'package:shopfee/features/coupon_in_cart/domain/entities/subject_reward_e
 class RewardInformationEntity {
   final List<ProductRewardEntity>? productRewardList;
   final MoneyRewardEntity? moneyReward;
-  final SubjectRewardEntity? subjectInformation;
+  final List<SubjectRewardEntity>? subjectInformationList;
 
   const RewardInformationEntity({
     this.productRewardList,
     this.moneyReward,
-    this.subjectInformation,
+    this.subjectInformationList,
   });
 
   factory RewardInformationEntity.fromModel(RewardInformationModel model) {
@@ -22,10 +22,9 @@ class RewardInformationEntity {
       moneyReward: model.moneyReward == null
           ? null
           : MoneyRewardEntity.fromModel(model.moneyReward!),
-        subjectInformation: model.subjectInformation == null
-            ? null
-            : SubjectRewardEntity.fromModel(model.subjectInformation!),
-
+      subjectInformationList: model.subjectInformationList
+          ?.map((e) => SubjectRewardEntity.fromModel(e))
+          .toList(),
     );
   }
 }

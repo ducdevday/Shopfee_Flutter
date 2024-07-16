@@ -16,4 +16,12 @@ class ProductDetailService {
         queryParameters: params);
     return response;
   }
+
+  Future<Response> getRecommendProduct(String userId, int quantity) async {
+    Map<String, dynamic> params = {"user_id": userId, "quantity": quantity};
+
+    final response = await DioService.instance
+        .get("${DioService.productPath}/recommend", queryParameters: params);
+    return response;
+  }
 }

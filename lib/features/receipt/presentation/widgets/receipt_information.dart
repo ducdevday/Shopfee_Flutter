@@ -18,46 +18,74 @@ class ReceiptInformation extends StatelessWidget {
                   height: 40,
                 ),
                 Builder(builder: (context) {
-                  if (state. lastEventLog.orderStatus != OrderStatus.CANCELED) {
+                  if (state.lastEventLog.orderStatus ==
+                      OrderStatus.NOT_RECEIVED) {
                     return Column(
                       children: [
                         Text(
-                          "Thank you!",
+                          "See you again!",
                           style: AppStyle.largeTitleStylePrimary,
                         ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Builder(builder: (context) {
-                          if (state. lastEventLog.orderStatus !=
-                              OrderStatus.SUCCEED) {
-                            return Text(
-                              "Your order in processing",
-                              style: AppStyle.mediumTextStyleDark,
-                            );
-                          } else {
-                            return Text(
-                              "Your order was succeed",
-                              style: AppStyle.mediumTextStyleDark,
-                            );
-                          }
-                        }),
+                        // const SizedBox(
+                        //   height: 8,
+                        // ),
+                        // Builder(builder: (context) {
+                        //   if (state.lastEventLog.orderStatus !=
+                        //       OrderStatus.SUCCEED) {
+                        //     return Text(
+                        //       "Your order in processing",
+                        //       style: AppStyle.mediumTextStyleDark,
+                        //     );
+                        //   } else {
+                        //     return Text(
+                        //       "Your order was succeed",
+                        //       style: AppStyle.mediumTextStyleDark,
+                        //     );
+                        //   }
+                        // }),
                       ],
                     );
-                  } else {
+                  } else if (state.lastEventLog.orderStatus ==
+                      OrderStatus.CANCELED) {
                     return Column(
                       children: [
                         Text(
                           "Oops!",
                           style: AppStyle.largeTitleStylePrimary,
                         ),
-                        const SizedBox(
-                          height: 8,
-                        ),
+                        // const SizedBox(
+                        //   height: 8,
+                        // ),
+                        // Text(
+                        //   "Your order was canceled",
+                        //   style: AppStyle.mediumTextStyleDark,
+                        // ),
+                      ],
+                    );
+                  } else {
+                    return Column(
+                      children: [
                         Text(
-                          "Your order was canceled",
-                          style: AppStyle.mediumTextStyleDark,
+                          "Thank you!",
+                          style: AppStyle.largeTitleStylePrimary,
                         ),
+                        // const SizedBox(
+                        //   height: 8,
+                        // ),
+                        // Builder(builder: (context) {
+                        //   if (state.lastEventLog.orderStatus !=
+                        //       OrderStatus.SUCCEED) {
+                        //     return Text(
+                        //       "Your order in processing",
+                        //       style: AppStyle.mediumTextStyleDark,
+                        //     );
+                        //   } else {
+                        //     return Text(
+                        //       "Your order was succeed",
+                        //       style: AppStyle.mediumTextStyleDark,
+                        //     );
+                        //   }
+                        // }),
                       ],
                     );
                   }

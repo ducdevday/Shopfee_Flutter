@@ -27,7 +27,7 @@ class SocketMethod {
 
   void updateOrder({required String branchId,required String orderId}){
     _socketClient.emit(
-        'user_create_order',
+        'user_update_order',
         {
           "branchId": branchId,
           "orderId": orderId

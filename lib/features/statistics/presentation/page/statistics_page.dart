@@ -35,7 +35,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
         break;
       case 'Tracking Payment':
         _bloc.add(StatisticsChooseTracking(
-            dateTimes: [CalculateUtil.getDateTime7DaysAgo(), DateTime.now()]));
+            dateTimes: [CalculateUtil.getDateTime7DaysAgo(),FormatUtil.addOneDay(DateTime.now())]));
         break;
     }
   }

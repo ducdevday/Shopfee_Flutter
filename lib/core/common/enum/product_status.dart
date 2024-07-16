@@ -1,7 +1,6 @@
 enum ProductStatus {
-  AVAILABLE,
-  HIDDEN,
-  UNAVAILABLE;
+  ACTIVE,
+  INACTIVE;
 
   String toJson() => name;
 

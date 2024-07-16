@@ -245,7 +245,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                             ),
                           ),
                           if (state.order.product.status ==
-                              ProductStatus.UNAVAILABLE)
+                              ProductStatus.INACTIVE)
                             Positioned.fill(
                               child: Container(
                                 decoration: BoxDecoration(
@@ -275,7 +275,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                     ),
                                   ))),
                           if (state.order.product.status ==
-                              ProductStatus.UNAVAILABLE)
+                              ProductStatus.INACTIVE)
                             Positioned(
                                 top: 36,
                                 right: AppDimen.screenPadding,
