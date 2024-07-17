@@ -39,12 +39,12 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
   ) {
     if (type == FieldType.password &&
         !ValidateFieldUtil.validatePassword(text)) {
-      return "Password must have greater or equal 6 digits";
+      return R.passwordCheck.tr();
     }
     if (type == FieldType.password &&
         newPasswordTextController.text.trim() !=
             confirmPasswordTextController.text.trim()) {
-      return "New password and confirm password is not match";
+      return R.confirmPasswordCheck.tr();
     }
     return null;
   }
@@ -85,7 +85,7 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                     Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          "Change Password",
+                          R.changePassword.tr(),
                           style: AppStyle.largeTitleStyleDark,
                         )),
                     const SizedBox(
@@ -94,15 +94,15 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                     Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          "*Password must have greater or equal 6 characters",
+                          "*${R.passwordCheck.tr()}",
                           style: AppStyle.smallTextStyleDark,
                         )),
                     const SizedBox(
                       height: 8,
                     ),
                     PasswordInputField(
-                      title: "Current Password",
-                      hint: "Input Current Password",
+                      title: R.currentPassword.tr(),
+                      hint: R.inputCurrentPassword.tr(),
                       validateField: (String value) =>
                           getErrorText(value, FieldType.password),
                       controller: currentPasswordTextController,
@@ -112,8 +112,8 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                       height: 8,
                     ),
                     PasswordInputField(
-                      title: "New Password",
-                      hint: "Input New Password",
+                      title: R.newPassword.tr(),
+                      hint: R.inputNewPassword.tr(),
                       validateField: (String value) =>
                           getErrorText(value, FieldType.password),
                       controller: newPasswordTextController,
@@ -123,8 +123,8 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                       height: 8,
                     ),
                     PasswordInputField(
-                      title: "Confirm Password",
-                      hint: "Input Confirm Password",
+                      title: R.confirmPassword.tr(),
+                      hint: R.inputConfirmPassword.tr(),
                       validateField: (String value) =>
                           getErrorText(value, FieldType.password),
                       controller: confirmPasswordTextController,
@@ -146,7 +146,7 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                               confirmPasswordTextController.text.trim());
                         },
                         style: AppStyle.elevatedButtonStylePrimary,
-                        child: const Text("Change Password"),
+                        child: Text(R.changePassword.tr()),
                       ),
                     )
                   ],

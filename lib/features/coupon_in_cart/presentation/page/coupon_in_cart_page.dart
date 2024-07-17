@@ -66,7 +66,7 @@ class _CouponInCartPageState extends State<CouponInCartPage> {
             child: Scaffold(
               appBar: AppBar(
                 backgroundColor: Colors.white,
-                title: Text("Choose Coupon"),
+                title: Text(R.chooseCoupon.tr()),
                 bottom: const PreferredSize(
                   preferredSize: Size.fromHeight(1),
                   child: Divider(height: 1),
@@ -146,13 +146,13 @@ class _CouponInCartPageState extends State<CouponInCartPage> {
                             NavigationUtil.pop();
                           },
                           style: AppStyle.elevatedButtonStylePrimary,
-                          child: Text("Confirm"),
+                          child: Text(R.confirm.tr()),
                         );
                       }
                       return ElevatedButton(
                         onPressed: null,
                         style: AppStyle.elevatedButtonStylePrimary,
-                        child: Text("Confirm"),
+                        child: Text(R.confirm.tr()),
                       );
                     },
                   ),

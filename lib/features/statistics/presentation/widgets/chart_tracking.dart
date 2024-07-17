@@ -40,7 +40,7 @@ class _ChartTrackingState extends State<ChartTracking> {
           children: [
             Expanded(
                 child: Text(
-              "Tracking Payment",
+              R.trackingPayment.tr(),
               style: AppStyle.mediumTitleStyleDark,
             )),
             InkWell(
@@ -123,7 +123,7 @@ class _ChartTrackingState extends State<ChartTracking> {
               ),
               Row(
                 children: [
-                  Expanded(child: Text("Total Payment")),
+                  Expanded(child: Text(R.totalPayment.tr())),
                   Expanded(
                       child: Text(
                     "${FormatUtil.formatMoney(widget.total)}",

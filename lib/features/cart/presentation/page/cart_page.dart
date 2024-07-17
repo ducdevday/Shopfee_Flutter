@@ -48,7 +48,7 @@ class _CartPageState extends State<CartPage> {
             return Scaffold(
               backgroundColor: AppColor.scaffoldColorBackground,
               appBar: AppBar(
-                title: const Text("Cart"),
+                title: Text(R.cart.tr()),
                 centerTitle: true,
                 bottom: const PreferredSize(
                   preferredSize: Size.fromHeight(1),
@@ -64,9 +64,9 @@ class _CartPageState extends State<CartPage> {
                             context: context,
                             builder: (BuildContext dialogContext) =>
                                 MyConfirmDialog(
-                                  title: "Confirm",
+                                  title: R.confirm.tr(),
                                   content:
-                                      "Do you want to delete all products from your cart",
+                                      R.deleteAll.tr(),
                                   callbackOK: () {
                                     context
                                         .read<CartBloc>()
@@ -76,7 +76,7 @@ class _CartPageState extends State<CartPage> {
                                   callbackCancel: () {
                                     Navigator.pop(dialogContext);
                                   },
-                                  confirmText: "Delete",
+                                  confirmText: R.delete.tr(),
                                 ));
                       },
                       icon: Icon(
@@ -113,7 +113,7 @@ class _CartPageState extends State<CartPage> {
                                             child: buildOrderTypeText(state)),
                                         TextButton(
                                           child: Text(
-                                            "Change",
+                                            R.change.tr(),
                                             style:
                                                 AppStyle.normalTextStylePrimary,
                                           ),
@@ -155,7 +155,7 @@ class _CartPageState extends State<CartPage> {
                                                 color: Color(0xffCCCCCC)),
                                             borderRadius:
                                                 BorderRadius.circular(8)),
-                                        hintText: "Additional note for shop...",
+                                        hintText: R.addNoteForShop.tr(),
                                       ),
                                     ),
                                   ],
@@ -210,11 +210,11 @@ class _CartPageState extends State<CartPage> {
 
   Text buildOrderTypeText(CartLoaded state) {
     if (state.cart.orderType == OrderType.SHIPPING) {
-      return Text("Home Delivery",
+      return Text(R.homeDelivery.tr(),
           style: AppStyle.mediumTitleStyleDark
               .copyWith(color: AppColor.headingColor));
     } else {
-      return Text("Take Away",
+      return Text(R.takeAway.tr(),
           style: AppStyle.mediumTitleStyleDark
               .copyWith(color: AppColor.headingColor));
     }
@@ -252,14 +252,14 @@ class _CartPageState extends State<CartPage> {
                   height: 10,
                 ),
                 Text(
-                  "Your cart is empty",
+                  R.cartEmpty.tr(),
                   style: AppStyle.largeTitleStyleDark,
                 ),
                 const SizedBox(
                   height: 10,
                 ),
                 Text(
-                  "You didn't add any product into your cart",
+                  R.noProductAdded.tr(),
                   style: AppStyle.mediumTextStyleDark,
                 ),
               ],
@@ -274,7 +274,7 @@ class _CartPageState extends State<CartPage> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: const Text("Order now"),
+                child:  Text(R.orderNow.tr()),
                 style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(
                         vertical: 12, horizontal: 24),

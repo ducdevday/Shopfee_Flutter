@@ -27,7 +27,7 @@ class SizeFilter extends StatelessWidget {
                   children: [
                     Align(
                       alignment: Alignment.topLeft,
-                      child: Text("Customize",
+                      child: Text(R.customize.tr(),
                           style: AppStyle.mediumTextStyleDark.copyWith(
                               color: AppColor.headingColor,
                               fontWeight: FontWeight.w600)),
@@ -37,7 +37,7 @@ class SizeFilter extends StatelessWidget {
                     ),
                     Row(
                       children: [
-                        Text("Size",
+                        Text(R.size.tr(),
                             style: AppStyle.normalTextStyleDark
                                 .copyWith(color: AppColor.headingColor)),
                         SizedBox(

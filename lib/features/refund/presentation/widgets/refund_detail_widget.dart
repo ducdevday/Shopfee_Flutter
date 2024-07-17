@@ -29,7 +29,7 @@ class RefundDetailWidget extends StatelessWidget {
                         height: AppDimen.smallPadding,
                       ),
                       Text(
-                        "Problem with order",
+                        R.problemWithOrder.tr(),
                         style: AppStyle.mediumTextStyleDark,
                       ),
                       SizedBox(
@@ -49,7 +49,7 @@ class RefundDetailWidget extends StatelessWidget {
                         height: AppDimen.smallPadding,
                       ),
                       Text(
-                        "Uploaded Image or video",
+                        R.updloadImageOrVideo.tr(),
                         style: AppStyle.mediumTextStyleDark,
                       ),
                       SizedBox(
@@ -67,7 +67,7 @@ class RefundDetailWidget extends StatelessWidget {
                         height: AppDimen.smallPadding,
                       ),
                       Text(
-                        "Note",
+                        R.note.tr(),
                         style: AppStyle.mediumTextStyleDark,
                       ),
                       SizedBox(
@@ -86,7 +86,7 @@ class RefundDetailWidget extends StatelessWidget {
                             enabledBorder: AppStyle.outlineInputBorderDefault,
                             focusedBorder: AppStyle.outlineInputBorderPrimary,
                             disabledBorder: AppStyle.outlineInputBorderDefault,
-                            hintText: "Type some text",
+                            hintText: R.typeSomeText.tr(),
                             hintStyle: TextStyle(color: Colors.grey)),
                       ),
                     ],
@@ -99,7 +99,7 @@ class RefundDetailWidget extends StatelessWidget {
                   onPressed: () {
                     NavigationUtil.pop();
                   },
-                  child: Text("Go Back"),
+                  child: Text(R.goBack.tr()),
                   style: AppStyle.elevatedButtonStylePrimary,
                 ),
               )

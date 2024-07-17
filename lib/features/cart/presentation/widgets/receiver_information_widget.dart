@@ -48,7 +48,7 @@ class ReceiverInformationWidget extends StatelessWidget {
                   ),
                   if (state.cart.receiverOnsite?.phoneNumber == null)
                     Text(
-                      "You need to update phone number",
+                      R.needUpdatePhoneNumber.tr(),
                       style: AppStyle.normalTextStylePrimary
                           .copyWith(color: AppColor.error),
                     ),
@@ -60,7 +60,7 @@ class ReceiverInformationWidget extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Text(
-                            "Update Receiver Information",
+                            R.updateReceiver.tr(),
                             style: AppStyle.normalTextStylePrimary,
                           ),
                         ),

@@ -130,7 +130,7 @@ class _CouponDetailPageState extends State<CouponDetailPage> {
                                                 height: 150,
                                               ),
                                               Text(
-                                                "Code: ${state.coupon.code}",
+                                                "${R.code.tr()}: ${state.coupon.code}",
                                                 style: AppStyle
                                                     .mediumTextStyleDark,
                                               )
@@ -159,7 +159,7 @@ class _CouponDetailPageState extends State<CouponDetailPage> {
                                                       CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
-                                                      "Expire",
+                                                      R.expire.tr(),
                                                       style: AppStyle
                                                           .normalTextStyleDark
                                                           .copyWith(
@@ -177,7 +177,7 @@ class _CouponDetailPageState extends State<CouponDetailPage> {
                                                           AppDimen.smallSpacing,
                                                     ),
                                                     Text(
-                                                      "Condition",
+                                                      R.condition.tr(),
                                                       style: AppStyle
                                                           .normalTextStyleDark
                                                           .copyWith(

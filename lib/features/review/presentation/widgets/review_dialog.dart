@@ -35,7 +35,7 @@ class _ReviewDialogState extends State<ReviewDialog> {
       ) {
     checkValidField();
     if (type == FieldType.note && !ValidateFieldUtil.validateContent(text)) {
-      return "Content can't be empty";
+      return R.contentCannotEmpty.tr();
     }
     return null;
   }
@@ -77,7 +77,7 @@ class _ReviewDialogState extends State<ReviewDialog> {
             Align(
               alignment: Alignment.center,
               child: Text(
-                "Leave a review",
+                R.leaveAReview.tr(),
                 style: AppStyle.mediumTitleStyleDark,
               ),
             ),
@@ -85,7 +85,7 @@ class _ReviewDialogState extends State<ReviewDialog> {
               height: 8,
             ),
             Text(
-              "Rating",
+              R.rating.tr(),
               style: AppStyle.normalTextStyle
                   .copyWith(color: const Color(0xff3C3C3C)),
             ),
@@ -118,8 +118,8 @@ class _ReviewDialogState extends State<ReviewDialog> {
               height: AppDimen.spacing,
             ),
             TextInputField(
-                title: "Content",
-                hint: "Type some text",
+                title: R.content.tr(),
+                hint: R.typeSomeText.tr(),
                 validateField: (String value) =>
                     getErrorText(value, FieldType.note),
                 controller: contentTextController),
@@ -128,7 +128,7 @@ class _ReviewDialogState extends State<ReviewDialog> {
             ),
             Align(
               child: Text(
-                "*Reviews will be visible to the public.",
+                "*${R.reviewVisible.tr()}",
                 style: AppStyle.normalTextStyleDark,
               ),
             ),

@@ -21,7 +21,7 @@ class _ChartAmountPaidState extends State<ChartAmountPaid> {
         Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              'Amount Paid',
+              R.amountPaidBy.tr(),
               style: AppStyle.mediumTitleStyleDark,
             )),
         SizedBox(
@@ -42,7 +42,7 @@ class _ChartAmountPaidState extends State<ChartAmountPaid> {
                   annotations: <CircularChartAnnotation>[
                     CircularChartAnnotation(
                         widget: Text(
-                          'Total\n${FormatUtil.formatMoney(widget.total)}',
+                          '${R.total.tr()}\n${FormatUtil.formatMoney(widget.total)}',
                           style: AppStyle.largeTitleStyleDark,
                           textAlign: TextAlign.center,))
                   ],

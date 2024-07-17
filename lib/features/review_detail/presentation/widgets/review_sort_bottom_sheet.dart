@@ -69,14 +69,14 @@ class _ReviewSortBottomSheetState extends State<ReviewSortBottomSheet> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "Choose Sort Type",
+                                    R.chooseSortType.tr(),
                                     style: AppStyle.largeTitleStyleDark,
                                   ),
                                   const SizedBox(
                                     height: AppDimen.smallPadding,
                                   ),
                                   Text(
-                                    "Sort By",
+                                    R.sortBy.tr(),
                                     style: AppStyle.mediumTitleStyleDark,
                                   ),
                                   const SizedBox(
@@ -118,11 +118,11 @@ class _ReviewSortBottomSheetState extends State<ReviewSortBottomSheet> {
                                               initPage: initPage,
                                               initSize: initSize,
                                               sortType: sortType));
-                                      AlertUtil.showToast("Applied Sort Type");
+                                      AlertUtil.showToast(R.appliedSortType.tr());
                                       NavigationUtil.pop(result: true);
                                     }: null,
-                                    child: Text("Apply"),
                                     style: AppStyle.elevatedButtonStylePrimary,
+                                    child: Text(R.apply.tr()),
                                   ),
                                 ),
                               ],

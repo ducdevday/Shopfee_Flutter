@@ -25,18 +25,31 @@ class _StatisticsPageState extends State<StatisticsPage> {
     super.dispose();
   }
 
-  void handleMenuClick(String value) {
+  void handleMenuClick(StatisticsView value) {
     switch (value) {
-      case 'Amount Paid By':
+      case StatisticsView.AMOUNT:
         _bloc.add(StatisticsChooseAmountPaid());
         break;
-      case 'Order':
+      case StatisticsView.ORDER:
         _bloc.add(StatisticsChooseTotalOrder());
         break;
-      case 'Tracking Payment':
-        _bloc.add(StatisticsChooseTracking(
-            dateTimes: [CalculateUtil.getDateTime7DaysAgo(),FormatUtil.addOneDay(DateTime.now())]));
+      case StatisticsView.TRACKING:
+        _bloc.add(StatisticsChooseTracking(dateTimes: [
+          CalculateUtil.getDateTime7DaysAgo(),
+          FormatUtil.addOneDay(DateTime.now())
+        ]));
         break;
+    }
+  }
+
+  String getStatisticViewName(StatisticsView value) {
+    switch (value) {
+      case StatisticsView.AMOUNT:
+        return R.amountPaidBy.tr();
+      case StatisticsView.ORDER:
+        return R.order.tr();
+      case StatisticsView.TRACKING:
+        return R.trackingPayment.tr();
     }
   }
 
@@ -48,21 +61,20 @@ class _StatisticsPageState extends State<StatisticsPage> {
           backgroundColor: AppColor.scaffoldColorBackground,
           appBar: AppBar(
             backgroundColor: Colors.white,
-            title: Text("Statistics"),
+            title: Text(R.statistics.tr()),
             bottom: const PreferredSize(
               preferredSize: Size.fromHeight(1),
               child: Divider(height: 1),
             ),
             actions: <Widget>[
-              PopupMenuButton<String>(
+              PopupMenuButton<StatisticsView>(
                 icon: SvgPicture.asset(AppPath.icStatistic),
                 onSelected: handleMenuClick,
                 itemBuilder: (BuildContext context) {
-                  return {'Amount Paid By', 'Order', 'Tracking Payment'}
-                      .map((String choice) {
-                    return PopupMenuItem<String>(
-                      value: choice,
-                      child: Text(choice),
+                  return StatisticsView.values.map((e) {
+                    return PopupMenuItem<StatisticsView>(
+                      value: e,
+                      child: Text(getStatisticViewName(e)),
                     );
                   }).toList();
                 },
@@ -97,3 +109,5 @@ class _StatisticsPageState extends State<StatisticsPage> {
     );
   }
 }
+
+enum StatisticsView { AMOUNT, ORDER, TRACKING }

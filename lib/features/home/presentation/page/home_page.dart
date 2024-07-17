@@ -13,7 +13,7 @@ class _HomePageState extends State<HomePage> {
   late final ScrollController _scrollController;
   late final RefreshController _refreshController;
 
-  final homeItemType = ValueNotifier("Top Rated");
+  final homeItemType = ValueNotifier<HomeItemView>(HomeItemView.TOP_RATED);
 
   @override
   void initState() {
@@ -29,31 +29,34 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
-  void handleMenuClick(String value) {
-    switch (value) {
-      case 'Top Rated':
-        homeItemType.value = "Top Rated";
-        break;
-      case 'Best Selling':
-        homeItemType.value = "Best Selling";
-        break;
-      case 'Viewed Product':
-        homeItemType.value = "Viewed Product";
-        break;
-    }
+  void handleMenuClick(HomeItemView type) {
+    homeItemType.value = type;
   }
 
   List<ProductInformationEntity> listHomeItem(
-      String value, HomeLoadSuccess state) {
+      HomeItemView value, HomeLoadSuccess state) {
     switch (value) {
-      case 'Top Rated':
+      case HomeItemView.TOP_RATED:
         return state.outstandingProducts;
-      case 'Best Selling':
+      case HomeItemView.BEST_SELLING:
         return state.topSellingProducts;
-      case 'Viewed Product':
+      case HomeItemView.VIEWED:
         return state.viewedProducts;
       default:
         return [];
+    }
+  }
+
+  String getHomeItemName(HomeItemView value) {
+    switch (value) {
+      case HomeItemView.TOP_RATED:
+        return R.topRated.tr();
+      case HomeItemView.BEST_SELLING:
+        return R.bestSelling.tr();
+      case HomeItemView.VIEWED:
+        return R.viewed.tr();
+      default:
+        return "";
     }
   }
 
@@ -91,7 +94,7 @@ class _HomePageState extends State<HomePage> {
                                 suffixIcon: const Icon(Icons.search),
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(16)),
-                                hintText: "What would you like to drink today?",
+                                hintText: R.homeSearchBar.tr(),
                               ),
                             ),
                           ),
@@ -123,14 +126,12 @@ class _HomePageState extends State<HomePage> {
                   physics: BouncingScrollPhysics(),
                   onRefresh: () async {
                     //monitor fetch data from network
-                    print("onRefresh");
                     context.read<HomeBloc>().add(HomeRefreshInformation());
                     // if (mounted) setState(() {});
                     _refreshController.refreshCompleted();
                   },
                   onLoading: () async {
                     //monitor fetch data from network
-                    print("onLoading");
                     await Future.delayed(Duration(milliseconds: 180));
                     // if (mounted) setState(() {});
                     _refreshController.loadFailed();
@@ -220,7 +221,7 @@ class _HomePageState extends State<HomePage> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          "Blogs Post",
+                                          R.blogPost.tr(),
                                           style: AppStyle.mediumTitleStyleDark,
                                         ),
                                         GestureDetector(
@@ -229,7 +230,7 @@ class _HomePageState extends State<HomePage> {
                                                 BlogPage.route);
                                           },
                                           child: Text(
-                                            "See More",
+                                            R.seeMore.tr(),
                                             style:
                                                 AppStyle.normalTextStylePrimary,
                                           ),
@@ -306,7 +307,8 @@ class _HomePageState extends State<HomePage> {
                             ValueListenableBuilder(
                               valueListenable: homeItemType,
                               builder: (BuildContext context,
-                                  String homeItemTypeValue, Widget? child) {
+                                  HomeItemView homeItemTypeValue,
+                                  Widget? child) {
                                 return Column(
                                   children: [
                                     Padding(
@@ -318,24 +320,24 @@ class _HomePageState extends State<HomePage> {
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             Text(
-                                              homeItemTypeValue,
+                                              getHomeItemName(
+                                                  homeItemTypeValue),
                                               style:
                                                   AppStyle.mediumTitleStyleDark,
                                             ),
-                                            PopupMenuButton<String>(
+                                            PopupMenuButton<HomeItemView>(
                                               icon:
                                                   Icon(Icons.menu_open_rounded),
                                               onSelected: handleMenuClick,
                                               itemBuilder:
                                                   (BuildContext context) {
-                                                return {
-                                                  'Top Rated',
-                                                  'Best Selling',
-                                                  'Viewed Product'
-                                                }.map((String choice) {
-                                                  return PopupMenuItem<String>(
-                                                    value: choice,
-                                                    child: Text(choice),
+                                                return HomeItemView.values
+                                                    .map((e) {
+                                                  return PopupMenuItem<
+                                                      HomeItemView>(
+                                                    value: e,
+                                                    child: Text(
+                                                        getHomeItemName(e)),
                                                   );
                                                 }).toList();
                                               },
@@ -388,7 +390,7 @@ class _HomePageState extends State<HomePage> {
                                               height: 16,
                                             ),
                                             Text(
-                                              "No Product Found",
+                                              R.noProductFound.tr(),
                                               style: AppStyle
                                                   .mediumTextStyleDark
                                                   .copyWith(
@@ -424,3 +426,5 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
+enum HomeItemView { TOP_RATED, BEST_SELLING, VIEWED }

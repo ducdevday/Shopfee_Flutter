@@ -53,7 +53,7 @@ class _StoreDetailPageState extends State<StoreDetailPage> {
     final result = await Share.shareWithResult(
         "$address https://www.google.com/maps/dir/Current+Location/$latitude,$longitude");
     if (result.status == ShareResultStatus.success) {
-      AlertUtil.showToast("Share to your friend successfully");
+      AlertUtil.showToast(R.shareSuccess.tr());
     }
   }
 
@@ -146,7 +146,7 @@ class _StoreDetailPageState extends State<StoreDetailPage> {
                               height: 4,
                             ),
                             Text(
-                              "Open: ${state.store.openTime}AM - ${state.store.closeTime}PM",
+                              "${R.open.tr()}: ${state.store.openTime}AM - ${state.store.closeTime}PM",
                               style: AppStyle.normalTextStyleDark,
                             )
                           ],
@@ -198,7 +198,7 @@ class _StoreDetailPageState extends State<StoreDetailPage> {
                                         context: context,
                                         builder: (BuildContext contextDialog) =>
                                             MyConfirmDialog(
-                                                title: "Call to",
+                                                title: R.callTo.tr(),
                                                 content:
                                                     "${state.store.phoneNumber}",
                                                 callbackOK: () async {
@@ -242,7 +242,7 @@ class _StoreDetailPageState extends State<StoreDetailPage> {
                                         longitude: state.store.longitude!);
                                   },
                                   child: Text(
-                                    "Share to your friend",
+                                    R.shareToYourFriend.tr(),
                                     style: AppStyle.normalTextStyleDark,
                                     overflow: TextOverflow.clip,
                                   ),
@@ -272,8 +272,8 @@ class _StoreDetailPageState extends State<StoreDetailPage> {
                               initSize: 8,
                               branchId: widget.branchId));
                         },
-                        child: const Text("Order Product"),
                         style: AppStyle.elevatedButtonStylePrimary,
+                        child: Text(R.orderProduct.tr()),
                       ),
                     )
                   ],

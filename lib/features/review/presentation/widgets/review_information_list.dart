@@ -141,19 +141,15 @@ class _ReviewInformationListState extends State<ReviewInformationList> {
               ],
             ),
           if (reviewInformation.review == null)
-            Directionality(
-              textDirection: TextDirection.rtl,
-              child: TextButton.icon(
-                  onPressed: () {
-                    handleCreateReview(reviewInformation.id!);
-                  },
-                  icon: Icon(Icons.keyboard_arrow_right_rounded),
-                  label: Text(
-                    "Leave a review",
-                    style: AppStyle.normalTextStylePrimary
-                        .copyWith(fontWeight: FontWeight.w500),
-                  )),
-            )
+            TextButton(
+                onPressed: () {
+                  handleCreateReview(reviewInformation.id!);
+                },
+                child: Text(
+                  R.leaveAReview.tr(),
+                  style: AppStyle.normalTextStylePrimary
+                      .copyWith(fontWeight: FontWeight.w500),
+                ))
         ],
       ),
     );

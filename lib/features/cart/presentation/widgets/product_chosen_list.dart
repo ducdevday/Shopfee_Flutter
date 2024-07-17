@@ -51,7 +51,8 @@ class _ProductChosenListState extends State<ProductChosenList> {
                                   context, state.cart.orders[index], index);
                             },
                             onDelete: () {
-                                context.read<CartBloc>().add(CartDeleteItem(index: index));
+                              context.read<CartBloc>().add(
+                                  CartDeleteItem(index: index));
                             });
                       },
                       separatorBuilder: (BuildContext context, int index) {
@@ -83,29 +84,26 @@ class _ProductChosenListState extends State<ProductChosenList> {
                       Divider(
                         height: 1,
                       ),
-                      Directionality(
-                        textDirection: TextDirection.rtl,
-                        child: TextButton.icon(
-                          onPressed: () {
-                            if (maxLength == 3) {
-                              setState(() {
-                                maxLength = productListLength;
-                                defaultText = "Show less";
-                                defaultIcon =
-                                    Icon(Icons.keyboard_arrow_up_rounded);
-                              });
-                            } else {
-                              setState(() {
-                                maxLength = 3;
-                                defaultText = "Show more";
-                                defaultIcon =
-                                    Icon(Icons.keyboard_arrow_down_rounded);
-                              });
-                            }
-                          },
-                          label: Text(defaultText),
-                          icon: defaultIcon,
-                        ),
+                      TextButton.icon(
+                        onPressed: () {
+                          if (maxLength == 3) {
+                            setState(() {
+                              maxLength = productListLength;
+                              defaultText = "Show less";
+                              defaultIcon =
+                                  Icon(Icons.keyboard_arrow_up_rounded);
+                            });
+                          } else {
+                            setState(() {
+                              maxLength = 3;
+                              defaultText = "Show more";
+                              defaultIcon =
+                                  Icon(Icons.keyboard_arrow_down_rounded);
+                            });
+                          }
+                        },
+                        label: Text(defaultText),
+                        icon: defaultIcon,
                       ),
                     ],
                   );
@@ -122,8 +120,8 @@ class _ProductChosenListState extends State<ProductChosenList> {
     );
   }
 
-  Future<void> buildShowEditOrderBottomSheet(
-      BuildContext context, OrderEntity order, int index) {
+  Future<void> buildShowEditOrderBottomSheet(BuildContext context,
+      OrderEntity order, int index) {
     return showModalBottomSheet<void>(
         isScrollControlled: true,
         shape: RoundedRectangleBorder(

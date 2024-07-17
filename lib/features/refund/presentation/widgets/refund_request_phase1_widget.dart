@@ -16,7 +16,7 @@ class RefundRequestPhase1Widget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "What problem do you have with your order?",
+                R.whatProblem.tr(),
                 style: AppStyle.mediumTextStyleDark,
               ),
               ListView.builder(
@@ -46,8 +46,8 @@ class RefundRequestPhase1Widget extends StatelessWidget {
                               mediaList: mediaList,
                               note: note));
                         },
-                  child: Text("Continue"),
                   style: AppStyle.elevatedButtonStyleRed,
+                  child: Text(R.continuee.tr()),
                 ),
               )
             ],

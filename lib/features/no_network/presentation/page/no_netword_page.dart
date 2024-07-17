@@ -9,7 +9,7 @@ class NoNetWorkPage extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          Container(
+          SizedBox(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             child: Column(
@@ -21,18 +21,18 @@ class NoNetWorkPage extends StatelessWidget {
                   width: 250,
                   height: 250,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Text(
-                  "Lost internet connection",
+                  R.lostInternet.tr(),
                   style: AppStyle.largeTitleStyleDark,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Text(
-                  "Please check your internet connection and try again",
+                  R.checkInternet.tr(),
                   style: AppStyle.mediumTextStyleDark,
                 ),
               ],
@@ -42,20 +42,20 @@ class NoNetWorkPage extends StatelessWidget {
             bottom: 0,
             child: Container(
               width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.all(AppDimen.screenPadding),
+              padding: const EdgeInsets.all(AppDimen.screenPadding),
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: const Text("OK"),
                 style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+                    padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
                     disabledBackgroundColor: const Color(0xffCACACA),
                     disabledForegroundColor: AppColor.lightColor,
                     textStyle: AppStyle.mediumTextStyleDark,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
                     )),
+                child: Text(R.ok.tr()),
               ),
             ),
           )

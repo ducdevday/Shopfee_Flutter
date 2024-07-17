@@ -49,13 +49,13 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
         lastName: lastNameTextController.text,
         phoneNumber: phoneTextController.text);
     if (type == FieldType.firstName && !ValidateFieldUtil.validateName(text)) {
-      return "First name is not valid";
+      return R.firstNameCheck.tr();
     } else if (type == FieldType.lastName &&
         !ValidateFieldUtil.validateName(text)) {
-      return "Last name is not valid";
+      return R.lastNameCheck.tr();
     } else if (type == FieldType.phone &&
         (text.isNotEmpty && !ValidateFieldUtil.validatePhone(text))) {
-      return "Phone number is not valid";
+      return R.phoneCheck.tr();
     }
     return null;
   }
@@ -88,10 +88,10 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
     showDialog(
         context: context,
         builder: (BuildContext dialogContext) => MyConfirmDialog(
-              title: "Upload Your Avatar",
-              content: "Choose From",
-              cancelText: "Gallery",
-              confirmText: "Camera",
+              title: R.uploadAvatar.tr(),
+              content: R.chooseFrom.tr(),
+              cancelText: R.gallery.tr(),
+              confirmText: R.camera.tr(),
               callbackOK: () async {
                 Navigator.of(dialogContext).pop();
                 uploadAvatarUserFromCamera();
@@ -118,7 +118,7 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
           return Scaffold(
             resizeToAvoidBottomInset: false,
             appBar: AppBar(
-              title: const Text("Update Information"),
+              title: Text(R.updateInformation.tr()),
               centerTitle: true,
               bottom: const PreferredSize(
                 preferredSize: Size.fromHeight(1),
@@ -205,8 +205,8 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                       Expanded(
                         flex: 1,
                         child: NameInputField(
-                          title: "First Name",
-                          hint: "Input Your First Name",
+                          title: R.firstName.tr(),
+                          hint: R.inputFistName.tr(),
                           validateField: (String value) =>
                               getErrorText(value, FieldType.firstName),
                           controller: firstNameTextController,
@@ -218,8 +218,8 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                       Expanded(
                         flex: 1,
                         child: NameInputField(
-                          title: "Last Name",
-                          hint: "Input Your Last Name",
+                          title: R.lastName.tr(),
+                          hint: R.inputLastName.tr(),
                           validateField: (String value) =>
                               getErrorText(value, FieldType.lastName),
                           controller: lastNameTextController,
@@ -232,7 +232,7 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                   ),
                   EmailInputField(
                     title: "Email",
-                    hint: "Input Your Email",
+                    hint: R.inputEmail.tr(),
                     validateField: (String value) =>
                         getErrorText(value, FieldType.email),
                     controller: emailTextController,
@@ -242,8 +242,8 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                     height: AppDimen.spacing,
                   ),
                   PhoneInputField(
-                    title: "Phone Number",
-                    hint: "Input Your Phone Number",
+                    title: R.phoneNumber.tr(),
+                    hint: R.inputPhoneNumber.tr(),
                     validateField: (String value) =>
                         getErrorText(value, FieldType.phone),
                     controller: phoneTextController,
@@ -260,7 +260,7 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                           Align(
                             alignment: Alignment.topLeft,
                             child: Text(
-                              "Birthday",
+                              R.birthday.tr(),
                               style: AppStyle.normalTextStyle
                                   .copyWith(color: const Color(0xff3C3C3C)),
                             ),
@@ -312,7 +312,7 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                                       AppStyle.outlineInputBorderPrimary,
                                   disabledBorder:
                                       AppStyle.outlineInputBorderDefault,
-                                  hintText: "Choose your birthday",
+                                  hintText: R.chooseBirthday.tr(),
                                   hintStyle: TextStyle(color: Colors.grey)),
                             ),
                           ),
@@ -332,7 +332,7 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                           Align(
                             alignment: Alignment.topLeft,
                             child: Text(
-                              "Gender",
+                              R.gender.tr(),
                               style: AppStyle.normalTextStyle
                                   .copyWith(color: const Color(0xff3C3C3C)),
                             ),
@@ -348,7 +348,7 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                                   context: context,
                                   builder: (BuildContext contextPopup) =>
                                       CupertinoActionSheet(
-                                        title: const Text("Choose your gender"),
+                                        title: Text(R.chooseGender.tr()),
                                         actions: [
                                           CupertinoActionSheetAction(
                                             onPressed: () {
@@ -357,7 +357,7 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                                               Navigator.pop(contextPopup);
                                             },
                                             child: Text(
-                                              'Male',
+                                              R.male.tr(),
                                               style: TextStyle(
                                                   color: AppColor.info),
                                             ),
@@ -370,7 +370,7 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                                             },
                                             isDestructiveAction: true,
                                             child: Text(
-                                              'Female',
+                                              R.female.tr(),
                                               style: TextStyle(
                                                   color: AppColor.info),
                                             ),
@@ -383,7 +383,7 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                                             },
                                             isDestructiveAction: true,
                                             child: Text(
-                                              'Other',
+                                              R.other.tr(),
                                               style: TextStyle(
                                                   color: AppColor.info),
                                             ),
@@ -394,7 +394,7 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                                           onPressed: () {
                                             Navigator.pop(contextPopup);
                                           },
-                                          child: const Text('Cancel'),
+                                          child: Text(R.cancel.tr()),
                                         ),
                                       ));
                             },
@@ -412,7 +412,7 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                                   suffixIcon: const Icon(Icons.arrow_drop_down),
                                   disabledBorder:
                                       AppStyle.outlineInputBorderDefault,
-                                  hintText: "Choose your gender",
+                                  hintText: R.chooseGender.tr(),
                                   hintStyle: TextStyle(color: Colors.grey)),
                             ),
                           ),
@@ -464,7 +464,7 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(20),
                                     )),
-                                child: const Text("Update"),
+                                child: Text(R.update.tr()),
                               );
                             },
                           )))

@@ -1,5 +1,6 @@
 library notify_permission;
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -13,6 +14,7 @@ import 'package:shopfee/core/config/app_path.dart';
 import 'package:shopfee/core/config/app_style.dart';
 import 'package:shopfee/core/di/service_locator.dart';
 import 'package:shopfee/core/global/global_data.dart';
+import 'package:shopfee/core/global/r.dart';
 import 'package:shopfee/core/service/push_noticication_service.dart';
 import 'package:shopfee/core/service/shared_service.dart';
 import 'package:shopfee/core/utils/alert_util.dart';

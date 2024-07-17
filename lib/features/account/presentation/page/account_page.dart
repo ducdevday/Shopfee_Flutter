@@ -34,7 +34,7 @@ class AccountPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Account",
+                              R.account.tr(),
                               style: AppStyle.mediumTitleStyleDark,
                             ),
                             const SizedBox(
@@ -49,7 +49,7 @@ class AccountPage extends StatelessWidget {
                                 children: [
                                   MenuItem(
                                     iconData: Icons.account_circle_outlined,
-                                    content: "Personal Information",
+                                    content: R.personalInformation.tr(),
                                     callback: () {
                                       NavigationUtil.pushNamed(
                                           PersonalInformationPage.route);
@@ -61,7 +61,7 @@ class AccountPage extends StatelessWidget {
                                   ),
                                   MenuItem(
                                     iconData: Icons.vpn_key_outlined,
-                                    content: "Change Password",
+                                    content: R.changePassword.tr(),
                                     callback: () {
                                       NavigationUtil.pushNamed(
                                           NewPasswordPage.route);
@@ -73,7 +73,7 @@ class AccountPage extends StatelessWidget {
                                   ),
                                   MenuItem(
                                     iconData: Icons.bookmark_border_rounded,
-                                    content: "Saved Address",
+                                    content: R.savedAddress.tr(),
                                     callback: () {
                                       NavigationUtil.pushNamed(
                                           SavedAddressPage.route,
@@ -87,7 +87,7 @@ class AccountPage extends StatelessWidget {
                               height: 12,
                             ),
                             Text(
-                              "Activity",
+                              R.activity.tr(),
                               style: AppStyle.mediumTitleStyleDark,
                             ),
                             const SizedBox(
@@ -102,7 +102,7 @@ class AccountPage extends StatelessWidget {
                                 children: [
                                   MenuItem(
                                     iconData: Icons.history,
-                                    content: "Order History",
+                                    content: R.orderHistory.tr(),
                                     callback: () {
                                       NavigationUtil.pushNamed(
                                           HistoryPage.route);
@@ -114,10 +114,11 @@ class AccountPage extends StatelessWidget {
                                   ),
                                   MenuItem(
                                     iconData: Icons.monetization_on_outlined,
-                                    content: "Coin History",
+                                    content: R.coinHistory.tr(),
                                     callback: () {
                                       NavigationUtil.pushNamed(CoinPage.route,
-                                          arguments: SharedService.getUserId()!);
+                                          arguments:
+                                              SharedService.getUserId()!);
                                     },
                                   ),
                                   const Divider(
@@ -126,7 +127,7 @@ class AccountPage extends StatelessWidget {
                                   ),
                                   MenuItem(
                                     iconData: Icons.show_chart,
-                                    content: "Statistics",
+                                    content: R.statistics.tr(),
                                     callback: () {
                                       NavigationUtil.pushNamed(
                                           StatisticsPage.route);
@@ -146,7 +147,7 @@ class AccountPage extends StatelessWidget {
                     },
                   ),
                   Text(
-                    "General Information",
+                    R.generalInformation.tr(),
                     style: AppStyle.mediumTitleStyleDark,
                   ),
                   const SizedBox(
@@ -159,18 +160,20 @@ class AccountPage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(16)),
                     child: Column(
                       children: [
-                        // MenuItem(
-                        //   iconData: Icons.local_police_outlined,
-                        //   content: "Policies",
-                        //   callback: () {},
-                        // ),
-                        // const Divider(
-                        //   height: 1,
-                        //   indent: 8,
-                        // ),
+                        MenuItem(
+                          iconData: Icons.language,
+                          content: R.language.tr(),
+                          callback: () {
+                            NavigationUtil.pushNamed(LanguagePage.route);
+                          },
+                        ),
+                        const Divider(
+                          height: 1,
+                          indent: 8,
+                        ),
                         MenuItem(
                           iconData: Icons.info_outline_rounded,
-                          content: "App Permission",
+                          content: R.appPermission.tr(),
                           callback: () {
                             NavigationUtil.pushNamed(NotifyPermissionPage.route,
                                 arguments: true);
@@ -182,7 +185,7 @@ class AccountPage extends StatelessWidget {
                         ),
                         MenuItem(
                           iconData: Icons.chat_outlined,
-                          content: "Help",
+                          content: R.help.tr(),
                           callback: () {
                             NavigationUtil.pushNamed(ChatBotPage.route);
                           },
@@ -215,9 +218,8 @@ class AccountPage extends StatelessWidget {
                                         context: context,
                                         builder: (BuildContext dialogContext) =>
                                             MyConfirmDialog(
-                                              title: "Confirm",
-                                              content:
-                                                  "Are you sure to Log out",
+                                              title: R.confirm.tr(),
+                                              content: R.sureLogout.tr(),
                                               callbackOK: () {
                                                 // context
                                                 //     .read<AccountBloc>()
@@ -236,11 +238,11 @@ class AccountPage extends StatelessWidget {
                                               callbackCancel: () {
                                                 Navigator.pop(dialogContext);
                                               },
-                                              confirmText: "Log out",
+                                              confirmText: R.logout.tr(),
                                             ));
                                   },
                                   icon: const Icon(Icons.logout_rounded),
-                                  label: const Text("Log out"),
+                                  label: Text(R.logout.tr()),
                                   style: ElevatedButton.styleFrom(
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 12, horizontal: 24),
@@ -264,7 +266,7 @@ class AccountPage extends StatelessWidget {
                                         arguments: DefaultPage.route);
                                   },
                                   icon: const Icon(Icons.login_rounded),
-                                  label: const Text("Register / Log in"),
+                                  label: Text(R.registerOrLogin.tr()),
                                   style: ElevatedButton.styleFrom(
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 12, horizontal: 24),

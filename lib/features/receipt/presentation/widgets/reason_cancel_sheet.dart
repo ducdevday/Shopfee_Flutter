@@ -24,7 +24,7 @@ class ReasonCancelSheet extends StatelessWidget {
                         icon: const Icon(Icons.close_rounded)),
                   ),
                   Text(
-                    "Choose Reason For Cancel",
+                    R.chooseReasonForCancel.tr(),
                     style: AppStyle.mediumTitleStyleDark,
                   ),
                   IconButton(
@@ -91,9 +91,9 @@ class ReasonCancelSheet extends StatelessWidget {
                                 context: context,
                                 builder: (BuildContext dialogContext) =>
                                     MyConfirmDialog(
-                                      title: "Confirm",
+                                      title: R.confirm.tr(),
                                       content:
-                                          "Are you sure to cancel this order",
+                                          R.sureToCancelOrder.tr(),
                                       callbackOK: () {
                                         context
                                             .read<ReceiptBloc>()
@@ -105,10 +105,10 @@ class ReasonCancelSheet extends StatelessWidget {
                                       callbackCancel: () {
                                         Navigator.pop(dialogContext);
                                       },
-                                      confirmText: "Yes",
+                                      confirmText: R.yes.tr(),
                                     )).then((value) => Navigator.pop(context));
                           },
-                    child: const Text("Confirm Cancel"),
+                    child: Text(R.confirmCancel.tr()),
                     style: ElevatedButton.styleFrom(
                         backgroundColor: AppColor.error,
                         disabledBackgroundColor: const Color(0xffCACACA),

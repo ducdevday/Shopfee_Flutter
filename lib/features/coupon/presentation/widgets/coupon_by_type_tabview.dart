@@ -25,8 +25,8 @@ class _CouponByTypeTabviewState extends State<CouponByTypeTabview>
             if (couponList.isNotEmpty) {
               return CouponByTypeList(coupons: couponList);
             } else {
-              return const MyEmptyList(
-                  imgPath: AppPath.icNoCoupon, text: "No Coupon Found");
+              return  MyEmptyList(
+                  imgPath: AppPath.icNoCoupon, text: R.noCouponFound.tr());
             }
           case CouponLoadFailure():
             return const MyErrorWidget();

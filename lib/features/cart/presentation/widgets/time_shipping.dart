@@ -18,7 +18,7 @@ class TimeShipping extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "As soon as posible",
+                      R.assoon.tr(),
                       style: AppStyle.mediumTextStyleDark.copyWith(
                           color: AppColor.headingColor,
                           fontWeight: FontWeight.w500),
@@ -35,7 +35,7 @@ class TimeShipping extends StatelessWidget {
                         const SizedBox(
                           width: 4,
                         ),
-                        Text("Now - 10 Minute",
+                        Text(R.tenMinute.tr(),
                             style: AppStyle.normalTextStyleDark),
                       ],
                     ),

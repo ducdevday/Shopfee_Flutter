@@ -63,7 +63,7 @@ class _GoogleMapWidgetState extends State<GoogleMapWidget> {
                               .read<GoogleMapBloc>()
                               .add(GoogleMapConfirmDone());
                         },
-                        child: const Text("Confirm Address"),
+                        child: Text(R.confirmAddress.tr()),
                       ),
                     ))
               ],

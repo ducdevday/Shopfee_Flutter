@@ -36,7 +36,7 @@ class ReceiptBottomAction extends StatelessWidget {
                             arguments: orderResult);
                       },
                       style: AppStyle.elevatedButtonStylePrimary,
-                      child: Text("Pay now"),
+                      child: Text(R.payNow.tr()),
                     ),
                   ))
               ],
@@ -66,7 +66,7 @@ class ReceiptBottomAction extends StatelessWidget {
         },
         style: AppStyle.outlineButtonStylePrimary,
         child: Text(
-          "Create Request Refund",
+          R.createRequestRefund.tr(),
           textAlign: TextAlign.center,
         ),
       );
@@ -80,7 +80,7 @@ class ReceiptBottomAction extends StatelessWidget {
         },
         style: AppStyle.outlineButtonStylePrimary,
         child: Text(
-          "Show Request Refund",
+          R.showRequestRefund.tr(),
           textAlign: TextAlign.center,
         ),
       );

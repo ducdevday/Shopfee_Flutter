@@ -34,14 +34,14 @@ class _NotifyPermissionPageState extends State<NotifyPermissionPage> {
     isGrantedNotification.value =
         await PushNotificationService.requestPermission();
     if (!isGrantedNotification.value) {
-      AlertUtil.showToast("You denied notification");
+      AlertUtil.showToast(R.denyNotify.tr());
     }
   }
 
   void handleRequestLocation() async {
     isGrantedLocation.value = await PermissionUtil.requestLocationPermission();
     if (!isGrantedLocation.value) {
-      AlertUtil.showToast("You denied location");
+      AlertUtil.showToast(R.denyLocation.tr());
     }
   }
 
@@ -68,7 +68,7 @@ class _NotifyPermissionPageState extends State<NotifyPermissionPage> {
                     height: AppDimen.spacing,
                   ),
                   Text(
-                    "Permission",
+                    R.permission.tr(),
                     style: AppStyle.largeTitleStyleDark,
                   ),
                   const SizedBox(
@@ -92,7 +92,7 @@ class _NotifyPermissionPageState extends State<NotifyPermissionPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "Turn On Notification",
+                              R.turnOnNotification.tr(),
                               style: AppStyle.normalTextStyleDark,
                             ),
                             SizedBox(
@@ -136,7 +136,7 @@ class _NotifyPermissionPageState extends State<NotifyPermissionPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "Turn On Location",
+                              R.turnOnLocation.tr(),
                               style: AppStyle.normalTextStyleDark,
                             ),
                             SizedBox(

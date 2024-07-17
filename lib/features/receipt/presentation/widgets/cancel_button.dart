@@ -35,8 +35,8 @@ class CancelButton extends StatelessWidget {
                       buildShowReasonCancelSheet(context);
                     },
                     child: Text(state.cancelType == OrderStatus.CANCELED
-                        ? "Cancel Order"
-                        : "Request Cancel Order"),
+                        ? R.cancelOrder.tr()
+                        : R.requestCancelOrder.tr()),
                   )),
               const Divider(
                 height: 20,
@@ -98,11 +98,11 @@ class CancelButton extends StatelessWidget {
 
   String getCancelButtonText(OrderStatus orderStatus) {
     if (orderStatus == OrderStatus.CANCELLATION_REQUEST) {
-      return "Request Cancel Send";
+      return R.requestCancelSend.tr();
     } else if (orderStatus == OrderStatus.CANCELLATION_REQUEST_ACCEPTED) {
-      return "Request Cancel Accepted";
+      return R.requestCancelAccept.tr();
     } else if (orderStatus == OrderStatus.CANCELLATION_REQUEST_REFUSED) {
-      return "Request Cancel Refused";
+      return R.requestCancelRefuse.tr();
     }
     return "";
   }

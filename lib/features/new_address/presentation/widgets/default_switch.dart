@@ -10,7 +10,7 @@ Widget buildDefaultSwitch(
         color: Colors.white,
         child: Row(
           children: [
-            Text("Set is default", style: AppStyle.mediumTextStyleDark),
+            Text(R.setIsDefault.tr(), style: AppStyle.mediumTextStyleDark),
             Spacer(
               flex: 1,
             ),

@@ -1,5 +1,5 @@
-import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +16,7 @@ import 'package:shopfee/features/app/my_app.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
 
   /// Init system
   await initSystem();
@@ -31,7 +32,11 @@ void main() async {
   await initGlobalData();
   await PushNotificationService.setUpPushNotification();
   Bloc.observer = SimpleBlocObserver();
-  runApp(const MyApp());
+  runApp(EasyLocalization(
+      supportedLocales: [Locale('en'), Locale('vi')],
+      path: 'assets/translations',
+      fallbackLocale: Locale('en'),
+      child: const MyApp()));
 }
 
 Future<void> initGlobalData() async {

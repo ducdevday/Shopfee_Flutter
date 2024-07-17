@@ -15,7 +15,7 @@ class DeliveryInformation extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "Delivery To",
+                  R.deliveryTo.tr(),
                   style: AppStyle.mediumTitleStyleDark.copyWith(
                       color: AppColor.headingColor,
                       fontWeight: FontWeight.w500),
@@ -63,7 +63,7 @@ class DeliveryInformation extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "Store Information",
+                  R.storeInformation.tr(),
                   style: AppStyle.mediumTitleStyleDark.copyWith(
                       color: AppColor.headingColor,
                       fontWeight: FontWeight.w500),

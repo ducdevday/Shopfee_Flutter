@@ -26,7 +26,7 @@ class ProductBottomBar extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Total",
+                            R.total.tr(),
                             style: AppStyle.normalTextStyleDark,
                           ),
                           Text(
@@ -64,11 +64,11 @@ class ProductBottomBar extends StatelessWidget {
       return ElevatedButton(
           onPressed: () {
             context.read<CartBloc>().add(CartAddItem(order: state.order));
-            EasyLoading.showSuccess("Item has been add into cart");
+            EasyLoading.showSuccess(R.itemaddedToCart.tr());
             Navigator.pop(context);
           },
           style: AppStyle.elevatedButtonStylePrimary,
-          child: const Text("Add To Cart"));
+          child:  Text(R.addToCart.tr()));
     // } else {
     //   return SizedBox();
     // }

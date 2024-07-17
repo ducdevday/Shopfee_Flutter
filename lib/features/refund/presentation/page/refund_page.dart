@@ -44,7 +44,7 @@ class _RefundPageState extends State<RefundPage> {
         child: Scaffold(
             appBar: AppBar(
               backgroundColor: Colors.white,
-              title: Text("Refund Request"),
+              title: Text(R.refundRequest.tr()),
               centerTitle: true,
               bottom: const PreferredSize(
                 preferredSize: Size.fromHeight(1),

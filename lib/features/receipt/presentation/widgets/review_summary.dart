@@ -44,8 +44,8 @@ class ReviewSummary extends StatelessWidget {
                           children: [
                             Text(
                               state.receipt.needReview ?? false
-                                  ? "You haven't leave a review yet"
-                                  : "Thank you for your review",
+                                  ? R.youNotReview.tr()
+                                  : R.thankYouForReview.tr(),
                               style: AppStyle.mediumTextStyleDark,
                             ),
                             const SizedBox(
@@ -56,7 +56,6 @@ class ReviewSummary extends StatelessWidget {
                                 NavigationUtil.pushNamed(ReviewPage.route,
                                         arguments: orderId)
                                     .then((isRefresh) {
-                                  print("isRefresh: $isRefresh");
                                   // if (isRefresh != null && isRefresh == true) {
                                     context.read<ReceiptBloc>().add(
                                         ReceiptLoadInformation(
@@ -66,8 +65,8 @@ class ReviewSummary extends StatelessWidget {
                               },
                               child: Text(
                                 state.receipt.needReview ?? false
-                                    ? "Review now"
-                                    : "See history review",
+                                    ? R.reviewNow.tr()
+                                    : R.seeReview.tr(),
                                 style: AppStyle.normalTextStylePrimary,
                               ),
                             )

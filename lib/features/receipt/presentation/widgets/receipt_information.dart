@@ -23,7 +23,7 @@ class ReceiptInformation extends StatelessWidget {
                     return Column(
                       children: [
                         Text(
-                          "See you again!",
+                          R.seeYouAgain.tr(),
                           style: AppStyle.largeTitleStylePrimary,
                         ),
                         // const SizedBox(

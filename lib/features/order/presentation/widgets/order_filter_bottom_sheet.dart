@@ -158,7 +158,7 @@ class _OrderFilterBottomSheetState extends State<OrderFilterBottomSheet> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "Choose Filter",
+                                    R.chooseFilter.tr(),
                                     style: AppStyle.largeTitleStyleDark,
                                   ),
                                   const SizedBox(
@@ -195,10 +195,10 @@ class _OrderFilterBottomSheetState extends State<OrderFilterBottomSheet> {
                                               minPrice: getCheckedMinBudget(),
                                               maxPrice: getCheckedMaxBudget(),
                                               minStar: getCheckedMinStar()));
-                                      AlertUtil.showToast("Applied Filter");
+                                      AlertUtil.showToast(R.appliedFilter.tr());
                                       NavigationUtil.pop(result: true);
                                     },
-                                    child: Text("Apply"),
+                                    child: Text(R.apply.tr()),
                                     style: AppStyle.elevatedButtonStylePrimary,
                                   ),
                                 ),
@@ -218,9 +218,9 @@ class _OrderFilterBottomSheetState extends State<OrderFilterBottomSheet> {
                                                 builder: (BuildContext
                                                         dialogContext) =>
                                                     MyConfirmDialog(
-                                                      title: "Clear Filter",
+                                                      title: R.clearFilter.tr(),
                                                       content:
-                                                          "Are you sure to clear filter",
+                                                          R.sureToClearFilter.tr(),
                                                       callbackOK: () {
                                                         Navigator.of(context)
                                                             .pop(true);
@@ -241,14 +241,14 @@ class _OrderFilterBottomSheetState extends State<OrderFilterBottomSheet> {
                                                         maxPrice: null,
                                                         minStar: null));
                                                 AlertUtil.showToast(
-                                                    "Cleared Filter");
+                                                    R.clearedFilter.tr());
                                                 NavigationUtil.pop(
                                                     result: true);
                                               }
                                             });
                                           }
                                         : null,
-                                    child: Text("Reset"),
+                                    child: Text(R.reset.tr()),
                                     style:
                                         AppStyle.elevatedButtonStyleSecondary,
                                   ),
@@ -281,7 +281,7 @@ class _OrderFilterBottomSheetState extends State<OrderFilterBottomSheet> {
               children: [
                 Expanded(
                   child: Text(
-                    "Min Rating",
+                    R.minRating.tr(),
                     style: AppStyle.mediumTitleStyleDark,
                   ),
                 ),
@@ -339,7 +339,7 @@ class _OrderFilterBottomSheetState extends State<OrderFilterBottomSheet> {
               children: [
                 Expanded(
                   child: Text(
-                    "Budget",
+                    R.budget.tr(),
                     style: AppStyle.mediumTitleStyleDark,
                   ),
                 ),
@@ -403,7 +403,7 @@ class _OrderFilterBottomSheetState extends State<OrderFilterBottomSheet> {
               children: [
                 Expanded(
                   child: Text(
-                    "Store",
+                    R.store.tr(),
                     style: AppStyle.mediumTitleStyleDark,
                   ),
                 ),
@@ -474,7 +474,7 @@ class _OrderFilterBottomSheetState extends State<OrderFilterBottomSheet> {
           children: [
             Expanded(
               child: Text(
-                "Current Filter: ",
+                "${R.currentFilter.tr()}: ",
                 style: AppStyle.mediumTitleStyleDark,
               ),
             ),
@@ -482,7 +482,7 @@ class _OrderFilterBottomSheetState extends State<OrderFilterBottomSheet> {
                 state.minPrice == null &&
                 state.minStar == null)
               Text(
-                "No Options",
+                R.noOption.tr(),
                 style: AppStyle.mediumTitleStyleDark,
               ),
           ],
@@ -499,7 +499,7 @@ class _OrderFilterBottomSheetState extends State<OrderFilterBottomSheet> {
                 borderRadius: BorderRadius.all(Radius.circular(16)),
                 color: Colors.white),
             child: Text(
-              "Budget: ${FormatUtil.formatMoney(state.minPrice)} - ${FormatUtil.formatMoney(state.maxPrice)}",
+              "${R.budget.tr()}: ${FormatUtil.formatMoney(state.minPrice)} - ${FormatUtil.formatMoney(state.maxPrice)}",
               style: AppStyle.normalTextStyleDark,
             ),
           ),
@@ -515,7 +515,7 @@ class _OrderFilterBottomSheetState extends State<OrderFilterBottomSheet> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  "Min Rating: ",
+                  "${R.minRating.tr()}: ",
                   style: AppStyle.normalTextStyleDark,
                 ),
                 Icon(
@@ -549,7 +549,7 @@ class _OrderFilterBottomSheetState extends State<OrderFilterBottomSheet> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      "Store: ",
+                      "${R.store.tr()}: ",
                       style: AppStyle.normalTextStyleDark,
                     ),
                     Text(

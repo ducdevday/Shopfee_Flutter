@@ -16,7 +16,7 @@ class PaymentMethod extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Payment Method",
+                  R.paymentMethod.tr(),
                   style: AppStyle.mediumTitleStyleDark.copyWith(
                       color: AppColor.headingColor,
                       fontWeight: FontWeight.w500),
@@ -44,7 +44,7 @@ class PaymentMethod extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: AppDimen.smallSpacing),
                     child: Text(
-                      "Online payment is only applicable when orders are over 10,000đ",
+                      R.onlinePayment.tr(),
                       style: AppStyle.normalTextStyleDark
                           .copyWith(color: AppColor.error),
                     ),

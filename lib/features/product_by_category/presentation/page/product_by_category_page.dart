@@ -175,7 +175,7 @@ class _ProductByCategoryPageState extends State<ProductByCategoryPage> {
                                   height: 16,
                                 ),
                                 Text(
-                                  "No Product Found",
+                                  R.noProductFound.tr(),
                                   style: AppStyle.mediumTextStyleDark
                                       .copyWith(color: AppColor.nonactiveColor),
                                 )

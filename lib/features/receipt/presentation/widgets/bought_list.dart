@@ -13,7 +13,7 @@ class _BoughtListState extends State<BoughtList> {
   late int defaultLength = 3;
   late int maxLength = 3;
   late int boughtListLength;
-  late String defaultText = "Show more";
+  late String defaultText = R.showMore.tr();
   late Icon defaultIcon = const Icon(Icons.keyboard_arrow_down_rounded);
 
   @override
@@ -27,7 +27,7 @@ class _BoughtListState extends State<BoughtList> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "Bought List",
+                  R.boughtList.tr(),
                   style: AppStyle.mediumTitleStyleDark.copyWith(
                       color: AppColor.headingColor,
                       fontWeight: FontWeight.w500),
@@ -73,29 +73,26 @@ class _BoughtListState extends State<BoughtList> {
                   const Divider(
                     height: 1,
                   ),
-                  Directionality(
-                    textDirection: TextDirection.rtl,
-                    child: TextButton.icon(
-                      onPressed: () {
-                        if (maxLength == 3) {
-                          setState(() {
-                            maxLength = boughtListLength;
-                            defaultText = "Show less";
-                            defaultIcon =
-                                const Icon(Icons.keyboard_arrow_up_rounded);
-                          });
-                        } else {
-                          setState(() {
-                            maxLength = 3;
-                            defaultText = "Show more";
-                            defaultIcon =
-                                const Icon(Icons.keyboard_arrow_down_rounded);
-                          });
-                        }
-                      },
-                      label: Text(defaultText),
-                      icon: defaultIcon,
-                    ),
+                  TextButton.icon(
+                    onPressed: () {
+                      if (maxLength == 3) {
+                        setState(() {
+                          maxLength = boughtListLength;
+                          defaultText = R.showLess.tr();
+                          defaultIcon =
+                              const Icon(Icons.keyboard_arrow_up_rounded);
+                        });
+                      } else {
+                        setState(() {
+                          maxLength = 3;
+                          defaultText = R.showMore.tr();
+                          defaultIcon =
+                              const Icon(Icons.keyboard_arrow_down_rounded);
+                        });
+                      }
+                    },
+                    label: Text(defaultText),
+                    icon: defaultIcon,
                   ),
                 ],
               );

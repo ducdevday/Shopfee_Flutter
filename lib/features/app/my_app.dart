@@ -1,9 +1,8 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shopfee/core/config/app_dimen.dart';
 import 'package:shopfee/core/config/app_theme.dart';
@@ -72,8 +71,10 @@ class MyApp extends StatelessWidget {
           onGenerateRoute: (settings) {
             return AppRouter.onGenerateRoute(settings);
           },
+          localizationsDelegates: context.localizationDelegates,
+          supportedLocales: context.supportedLocales,
+          locale: context.locale,
           initialRoute: SplashPage.route,
-          // home: ReceiptPage(orderId: "OB000000001"),
           builder: EasyLoading.init(),
         ),
       ),

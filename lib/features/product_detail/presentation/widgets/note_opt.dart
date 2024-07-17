@@ -26,7 +26,7 @@ class NoteOpt extends StatelessWidget {
               focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Color(0xffCCCCCC)),
                   borderRadius: BorderRadius.circular(8)),
-              hintText: "Optional",
+              hintText: R.optional.tr(),
             ),
           );
         } else {

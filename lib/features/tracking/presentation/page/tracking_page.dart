@@ -25,7 +25,7 @@ class _TrackingPageState extends State<TrackingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text("Tracking"),
+          title: Text(R.tracking.tr()),
           centerTitle: true,
           bottom: const PreferredSize(
             preferredSize: Size.fromHeight(1),
@@ -55,7 +55,7 @@ class _TrackingPageState extends State<TrackingPage> {
                       children: [
                         Expanded(
                           child: Text(
-                            "ID Transaction",
+                            "ID",
                             style: AppStyle.mediumTitleStyleDark,
                           ),
                         ),
@@ -157,7 +157,7 @@ class _TrackingPageState extends State<TrackingPage> {
                               onPressed: () {
                                 Navigator.pop(context);
                               },
-                              child: Text("See Order Detail"),
+                              child: Text(R.seeOrderDetail.tr()),
                               style: AppStyle.elevatedButtonStylePrimary),
                         ))
                   ],

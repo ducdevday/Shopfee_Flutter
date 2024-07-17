@@ -67,29 +67,26 @@ class _ProductGiftListState extends State<ProductGiftList> {
                               Divider(
                                 height: 1,
                               ),
-                              Directionality(
-                                textDirection: TextDirection.rtl,
-                                child: TextButton.icon(
-                                  onPressed: () {
-                                    if (maxLength == 3) {
-                                      setState(() {
-                                        maxLength = productListLength;
-                                        defaultText = "Show less";
-                                        defaultIcon =
-                                            Icon(Icons.keyboard_arrow_up_rounded);
-                                      });
-                                    } else {
-                                      setState(() {
-                                        maxLength = 3;
-                                        defaultText = "Show more";
-                                        defaultIcon =
-                                            Icon(Icons.keyboard_arrow_down_rounded);
-                                      });
-                                    }
-                                  },
-                                  label: Text(defaultText),
-                                  icon: defaultIcon,
-                                ),
+                              TextButton.icon(
+                                onPressed: () {
+                                  if (maxLength == 3) {
+                                    setState(() {
+                                      maxLength = productListLength;
+                                      defaultText = "Show less";
+                                      defaultIcon =
+                                          Icon(Icons.keyboard_arrow_up_rounded);
+                                    });
+                                  } else {
+                                    setState(() {
+                                      maxLength = 3;
+                                      defaultText = "Show more";
+                                      defaultIcon =
+                                          Icon(Icons.keyboard_arrow_down_rounded);
+                                    });
+                                  }
+                                },
+                                label: Text(defaultText),
+                                icon: defaultIcon,
                               ),
                             ],
                           );

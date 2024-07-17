@@ -22,6 +22,7 @@ import 'package:shopfee/features/default/presentation/page/default_page.dart';
 import 'package:shopfee/features/forgot_password/presentation/forgot_password.dart';
 import 'package:shopfee/features/google_map/presentation/google_map.dart';
 import 'package:shopfee/features/history/presentation/history.dart';
+import 'package:shopfee/features/language/presentation/language.dart';
 import 'package:shopfee/features/login/presentation/login.dart';
 import 'package:shopfee/features/new_address/presentation/new_address.dart';
 import 'package:shopfee/features/new_password/presentation/new_password.dart';
@@ -200,6 +201,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (context) => const StatisticsPage());
       case ChatBotPage.route:
         return MaterialPageRoute(builder: (context) => const ChatBotPage());
+      case LanguagePage.route:
+        return MaterialPageRoute(builder: (context) => const LanguagePage());
       case CoinPage.route:
         return MaterialPageRoute(
             builder: (context) =>

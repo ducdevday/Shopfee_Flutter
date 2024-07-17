@@ -22,7 +22,7 @@ class NoteReceipt extends StatelessWidget {
                   children: [
                     Align(
                       alignment: Alignment.centerLeft,
-                      child: Text("Note",
+                      child: Text(R.note.tr(),
                           style: AppStyle.mediumTitleStyleDark
                               .copyWith(color: AppColor.headingColor)),
                     ),

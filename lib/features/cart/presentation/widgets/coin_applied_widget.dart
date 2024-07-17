@@ -9,7 +9,7 @@ class CoinAppliedWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Coin",
+          R.coin.tr(),
           style: AppStyle.mediumTitleStyleDark.copyWith(
               color: AppColor.headingColor, fontWeight: FontWeight.w500),
         ),
@@ -33,7 +33,7 @@ class CoinAppliedWidget extends StatelessWidget {
                       width: 4,
                     ),
                     Expanded(
-                      child: Text("Can't use coins",
+                      child: Text(R.cannotUseCoin.tr(),
                           style: AppStyle.normalTextStylePrimary),
                     ),
                     SizedBox(
@@ -78,10 +78,10 @@ class CoinAppliedWidget extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Use ${FormatUtil.formatCoin(validCoin)}",
+                              Text("${R.use.tr()} ${FormatUtil.formatCoin(validCoin)}",
                                   style: AppStyle.normalTextStylePrimary),
                               Text(
-                                  "(Current coins: ${FormatUtil.formatCoin(user.coin)})",
+                                  "(${R.useCoin.tr()}: ${FormatUtil.formatCoin(user.coin)})",
                                   style: AppStyle.normalTextStylePrimary),
                             ],
                           ),

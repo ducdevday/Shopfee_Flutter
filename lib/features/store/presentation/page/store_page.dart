@@ -71,8 +71,8 @@ class _StorePageState extends State<StorePage> {
             appBar: AppBar(
               backgroundColor: Colors.white,
               title: Text(widget.fromRoute == DefaultPage.route
-                  ? "All Store"
-                  : "Choose Store"),
+                  ? R.allStore.tr()
+                  : R.chooseStore.tr()),
               bottom: const PreferredSize(
                 preferredSize: Size.fromHeight(1),
                 child: Divider(height: 1),
@@ -124,7 +124,7 @@ class _StorePageState extends State<StorePage> {
                                   borderSide: const BorderSide(
                                       color: Color(0xffCCCCCC)),
                                 ),
-                                hintText: "Find Any Store",
+                                hintText: R.findStore.tr(),
                               ),
                             ),
                           ),
@@ -205,7 +205,7 @@ class _StorePageState extends State<StorePage> {
                             return Expanded(
                               child: MyEmptyList(
                                   imgPath: AppPath.icNoStore,
-                                  text: "No Store Found"),
+                                  text: R.noStoreFound.tr()),
                             );
                           }
                         case StoreLoadFailure():
