@@ -102,7 +102,7 @@ class _StoreSearchPageState extends State<StoreSearchPage> {
                               borderRadius: BorderRadius.circular(16),
                               borderSide: BorderSide(color: Color(0xffCCCCCC)),
                             ),
-                            hintText: "Find store by name or address",
+                            hintText: R.findStoreBy.tr(),
                           ),
                         ),
                       ),
@@ -115,7 +115,7 @@ class _StoreSearchPageState extends State<StoreSearchPage> {
                       splashColor: Colors.transparent,
                       highlightColor: Colors.transparent,
                       child: Text(
-                        "Cancel",
+                        R.cancel.tr(),
                         style: AppStyle.normalTextStylePrimary,
                       ),
                     )
@@ -171,7 +171,7 @@ class _StoreSearchPageState extends State<StoreSearchPage> {
                             height: 16,
                           ),
                           Text(
-                            "No Store Found",
+                            R.noStoreFound.tr(),
                             style: AppStyle.mediumTextStyleDark
                                 .copyWith(color: AppColor.nonactiveColor),
                           )

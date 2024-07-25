@@ -37,7 +37,7 @@ class CartBottomBar extends StatelessWidget {
                                 : null,
                             style: AppStyle.elevatedButtonStylePrimary,
                             child: Text(
-                                "Order (${FormatUtil.formatMoney(totalPrice)})", textAlign: TextAlign.center),
+                                "${R.order.tr()} (${FormatUtil.formatMoney(totalPrice)})", textAlign: TextAlign.center),
                           ),
                         ),
                         if (isConflictBranchShipping)
@@ -49,7 +49,7 @@ class CartBottomBar extends StatelessWidget {
                                 buildShowBranchShippingBottomSheet(context);
                               },
                               style: AppStyle.elevatedButtonStyleSecondary,
-                              child: Text("Re-Check Store",textAlign: TextAlign.center,),
+                              child: Text(R.recheck.tr(),textAlign: TextAlign.center,),
                             ),
                           )
                       ],
@@ -60,7 +60,7 @@ class CartBottomBar extends StatelessWidget {
                         NavigationUtil.pushNamed(LoginPage.route,
                             arguments: DefaultPage.route);
                       },
-                      child: const Text("Register / Log In To Order"),
+                      child: Text(R.registerOrLoginToOrder.tr()),
                       style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(
                               vertical: 12, horizontal: 24),

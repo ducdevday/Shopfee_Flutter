@@ -30,7 +30,7 @@ class _ReviewStatisticWidgetState extends State<ReviewStatisticWidget> {
               style: AppStyle.mediumTextStyleDark,
             ),
             Text(
-              "${widget.ratingSummary.quantity ?? 0} Reviews",
+              "${widget.ratingSummary.quantity ?? 0} ${R.reviews.tr()}",
               style: AppStyle.mediumTextStyleDark,
             )
           ],

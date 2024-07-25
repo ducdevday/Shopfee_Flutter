@@ -59,13 +59,13 @@ class _NewAddressPageState extends State<NewAddressPage> {
   ) {
     checkValidField();
     if (type == FieldType.firstName && !ValidateFieldUtil.validateName(text)) {
-      return "Name is not valid";
+      return R.nameCheck.tr();
     } else if (type == FieldType.phone &&
         !ValidateFieldUtil.validatePhone(text)) {
-      return "Phone number is not valid";
+      return R.phoneCheck.tr();
     } else if (type == FieldType.address &&
         !ValidateFieldUtil.validateAddress(text)) {
-      return "Address is not valid";
+      return R.addressCheck.tr();
     }
     return null;
   }
@@ -111,8 +111,8 @@ class _NewAddressPageState extends State<NewAddressPage> {
             resizeToAvoidBottomInset: false,
             appBar: AppBar(
               title: Text(widget.addressId == null
-                  ? "Add New Address"
-                  : "Update Address"),
+                  ? R.addNewAddress.tr()
+                  : R.updateAddress.tr()),
               centerTitle: true,
               bottom: const PreferredSize(
                 preferredSize: Size.fromHeight(1),
@@ -130,7 +130,7 @@ class _NewAddressPageState extends State<NewAddressPage> {
                                     builder: (BuildContext contextDialog) =>
                                         MyConfirmDialog(
                                             title: "",
-                                            content: "Delete this address",
+                                            content: R.deleteAddress.tr(),
                                             callbackOK: () {
                                               //Để trong này vẫn xóa được phần tử nhưng pop ra màn hình trắng
                                               context
@@ -151,7 +151,7 @@ class _NewAddressPageState extends State<NewAddressPage> {
                                         MyAlertDialog(
                                             title: "",
                                             content:
-                                                "To delete this default address, please create another address and set it default",
+                                                R.deleteDefault.tr(),
                                             callback: () {
                                               Navigator.pop(dialogContext);
                                             }));
@@ -211,8 +211,8 @@ class _NewAddressPageState extends State<NewAddressPage> {
                                     }
                                   },
                                   child: TextInputField(
-                                    title: "Address Name",
-                                    hint: "Choose address",
+                                    title: R.addressName.tr(),
+                                    hint: R.chooseAddress.tr(),
                                     validateField: (String value) =>
                                         getErrorText(value, FieldType.address),
                                     controller: addressNameTextController,
@@ -222,8 +222,8 @@ class _NewAddressPageState extends State<NewAddressPage> {
                                 height: 12,
                               ),
                               TextInputField(
-                                  title: "Address Note (Optional)",
-                                  hint: "Enter address note",
+                                  title: R.addressNote.tr(),
+                                  hint: R.inputAddressNote.tr(),
                                   validateField: (String value) =>
                                       getErrorText(value, FieldType.note),
                                   controller: addressNoteTextController)
@@ -246,8 +246,8 @@ class _NewAddressPageState extends State<NewAddressPage> {
                           child: Column(
                             children: [
                               NameInputField(
-                                title: "Consignee Name",
-                                hint: "Enter Consignee Name",
+                                title: R.consigneeName.tr(),
+                                hint: R.inputConsigneeName.tr(),
                                 validateField: (String value) =>
                                     getErrorText(value, FieldType.address),
                                 controller: consigneeNameTextController,
@@ -256,8 +256,8 @@ class _NewAddressPageState extends State<NewAddressPage> {
                                 height: 12,
                               ),
                               PhoneInputField(
-                                title: "Phone Number",
-                                hint: "Enter Phone Number",
+                                title: R.phoneNumber.tr(),
+                                hint: R.inputPhoneNumber.tr(),
                                 validateField: (String value) =>
                                     getErrorText(value, FieldType.phone),
                                 controller: phoneNumberTextController,
@@ -285,7 +285,7 @@ class _NewAddressPageState extends State<NewAddressPage> {
                                 MyAlertDialog(
                                     title: "",
                                     content:
-                                        "To cancel this default address, please choose another address to set it default",
+                                        R.cancelDefault.tr(),
                                     callback: () {
                                       Navigator.pop(dialogContext);
                                     }));
@@ -354,8 +354,8 @@ class _NewAddressPageState extends State<NewAddressPage> {
                                   }
                                 }
                               : null,
-                          child: const Text("Finish"),
                           style: AppStyle.elevatedButtonStylePrimary,
+                          child: Text(R.finish.tr()),
                         ),
                       );
                     },

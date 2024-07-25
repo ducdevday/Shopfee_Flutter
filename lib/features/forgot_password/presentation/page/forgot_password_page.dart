@@ -34,7 +34,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       email: emailTextController.text,
     );
     if (type == FieldType.email && !ValidateFieldUtil.validateEmail(text)) {
-      return "Email is not valid";
+      return R.emailCheck.tr();
     }
     return null;
   }
@@ -83,7 +83,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         height: 32,
                       ),
                       Text(
-                        "You forgot password?",
+                        R.youForgotPassword.tr(),
                         style: AppStyle.mediumTitleStyleDark,
                       ),
                       const SizedBox(

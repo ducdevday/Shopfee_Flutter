@@ -12,7 +12,7 @@ class PreferentialPage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
-          title: const Text("Preferential"),
+          title: Text(R.preferential.tr()),
           bottom: const PreferredSize(
             preferredSize: Size.fromHeight(1),
             child: Divider(height: 1),
@@ -41,7 +41,7 @@ class PreferentialPage extends StatelessWidget {
                                         arguments: DefaultPage.route);
                                   },
                                   child: Text(
-                                    "Login/Register\nTo Get Preferential",
+                                    R.loginOrRegister.tr(),
                                     style: AppStyle.mediumTitleStylePrimary
                                         .copyWith(
                                             color: AppColor.secondaryColor),
@@ -62,7 +62,7 @@ class PreferentialPage extends StatelessWidget {
                                   Row(
                                     children: [
                                       Text(
-                                        "Your coin: ${state.user.coin}",
+                                        "${R.yourCoin.tr()}: ${state.user.coin}",
                                         style: AppStyle.mediumTitleStylePrimary
                                             .copyWith(
                                                 color: AppColor.secondaryColor),
@@ -80,7 +80,7 @@ class PreferentialPage extends StatelessWidget {
                                   Row(
                                     children: [
                                       Text(
-                                        "Tap to see history",
+                                        R.tapToSeeHistory.tr(),
                                         style: AppStyle.mediumTitleStylePrimary
                                             .copyWith(
                                                 color: AppColor.secondaryColor),
@@ -112,11 +112,11 @@ class PreferentialPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "New Coupon",
+                        R.newCoupon.tr(),
                         style: AppStyle.mediumTextStyleDark,
                       ),
                       Text(
-                        "Tap to see detail",
+                        R.tapToSeeDetail.tr(),
                         style: AppStyle.smallTextStyleDark,
                       )
                     ],
@@ -125,7 +125,7 @@ class PreferentialPage extends StatelessWidget {
                     onPressed: () {
                       NavigationUtil.pushNamed(CouponPage.route);
                     },
-                    child: const Text("All Coupon"),
+                    child: Text(R.allCoupon.tr()),
                     style: AppStyle.outlineSmallButtonStylePrimary,
                   )
                 ],
@@ -141,9 +141,9 @@ class PreferentialPage extends StatelessWidget {
                             child: CouponByTypeList(coupons: state.coupons));
                       } else {
                         return Expanded(
-                          child: const MyEmptyList(
+                          child: MyEmptyList(
                               imgPath: AppPath.icNoCoupon,
-                              text: "No Coupon Found"),
+                              text: R.noCouponFound.tr()),
                         );
                       }
                     case PreferentialLoadFailure():

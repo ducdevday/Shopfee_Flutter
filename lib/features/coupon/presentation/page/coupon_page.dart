@@ -33,7 +33,7 @@ class _CouponPageState extends State<CouponPage> {
         child: Scaffold(
           backgroundColor: const Color(0xffEFEBE9),
           appBar: AppBar(
-            title: const Text("All Coupon"),
+            title: Text(R.allCoupon.tr()),
             backgroundColor: Colors.white,
             centerTitle: true,
             bottom: TabBar(

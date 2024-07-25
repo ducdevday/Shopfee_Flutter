@@ -30,7 +30,7 @@ class TimeSetter extends StatelessWidget {
                   maxDateTime: closeTime,
                   initialDateTime: state.cart.receiveTime ?? FormatUtil.addTenMinutes(DateTime.now()),
                   buttonSingleColor: AppColor.primaryColor,
-                  pickerTitle: Text('Choose Time To Take Away',
+                  pickerTitle: Text(R.chooseTime.tr(),
                       style: AppStyle.mediumTextStyleDark),
                 ).show(context);
               },
@@ -39,8 +39,8 @@ class TimeSetter extends StatelessWidget {
                 children: [
                   Text(
                     state.cart.receiveTime == null
-                        ? "As soon as posible"
-                        : "Today",
+                        ? R.assoon.tr()
+                        : R.today.tr(),
                     style: AppStyle.mediumTextStyleDark.copyWith(
                         color: AppColor.headingColor,
                         fontWeight: FontWeight.w500),
@@ -60,7 +60,7 @@ class TimeSetter extends StatelessWidget {
                       Expanded(
                         child: Text(
                             state.cart.receiveTime == null
-                                ? "Now - 10 Minute"
+                                ? R.tenMinute.tr()
                                 : FormatUtil.formatTime(state.cart.receiveTime),
                             style: AppStyle.normalTextStyleDark),
                       ),

@@ -85,6 +85,14 @@ class SharedService {
     // removeFCMTokenId();
   }
 
+  static String? getLanguage() {
+    return _pref.getString("lang");
+  }
+
+  static Future<void> setLanguage(String lang) async{
+    await _pref.setString("lang", lang);
+  }
+
   static Future<void> initAppDocPath() async {
     final Directory appDocDir = await getApplicationDocumentsDirectory();
     final String appDocPath = appDocDir.path;

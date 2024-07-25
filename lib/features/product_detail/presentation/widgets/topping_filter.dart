@@ -34,7 +34,7 @@ class _ToppingFilterState extends State<ToppingFilter> {
                   children: [
                     Align(
                       alignment: Alignment.topLeft,
-                      child: Text("Topping",
+                      child: Text(R.topping.tr(),
                           style: AppStyle.mediumTextStyleDark.copyWith(
                               color: AppColor.headingColor,
                               fontWeight: FontWeight.w600)),

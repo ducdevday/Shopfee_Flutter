@@ -19,7 +19,7 @@ class ReceiptStatusInformation extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Status Information",
+                      R.statusInformatinon.tr(),
                       style: AppStyle.mediumTitleStyleDark.copyWith(
                           color: AppColor.headingColor,
                           fontWeight: FontWeight.w500),
@@ -29,7 +29,7 @@ class ReceiptStatusInformation extends StatelessWidget {
                           NavigationUtil.pushNamed(TrackingPage.route,
                               arguments: state.receipt.id);
                         },
-                        child: Text("More",
+                        child: Text(R.more.tr(),
                             style: AppStyle.mediumTextStyleDark
                                 .copyWith(color: AppColor.primaryColor)))
                   ],

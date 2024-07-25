@@ -70,7 +70,7 @@ class _OrderPageState extends State<OrderPage> {
                           suffixIcon: const Icon(Icons.search),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(16)),
-                          hintText: "What would you like to drink today?",
+                          hintText: R.homeSearchBar.tr(),
                         ),
                       ),
                     ),
@@ -162,7 +162,7 @@ class _OrderPageState extends State<OrderPage> {
                       return Expanded(
                         child: MyEmptyList(
                           imgPath: AppPath.icNoProduct,
-                          text: "No Result Found",
+                          text: R.noResultFound.tr(),
                         ),
                       );
                     }

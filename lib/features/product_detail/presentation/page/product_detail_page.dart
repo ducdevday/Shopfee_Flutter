@@ -228,7 +228,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                     children: [
                                       Align(
                                         alignment: Alignment.topLeft,
-                                        child: Text("Note",
+                                        child: Text(R.note.tr(),
                                             style: AppStyle.mediumTextStyleDark
                                                 .copyWith(
                                                     color: AppColor.headingColor,

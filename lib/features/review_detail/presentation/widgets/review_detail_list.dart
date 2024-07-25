@@ -63,7 +63,7 @@ class _ReviewDetailListState extends State<ReviewDetailList> {
                   : reviewDetailList.length);
           }
           else{
-            return MyEmptyList(imgPath: AppPath.icNoReview, text: "No Reviews Found");
+            return MyEmptyList(imgPath: AppPath.icNoReview, text: R.noReviewFound.tr());
           }
         }
         return SizedBox();

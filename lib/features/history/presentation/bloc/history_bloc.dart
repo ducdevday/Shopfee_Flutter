@@ -42,7 +42,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
                 historyStatus: currentState.historyStatus,
                 page: event.initPage,
                 size: event.initSize));
-        await Future.delayed(Duration(seconds: 2));
+        await Future.delayed(Duration(seconds: 1));
         emit(HistoryLoadSuccess(
             historyStatus: currentState.historyStatus,
             orderHistoryList: orderHistoryList,

@@ -1,5 +1,6 @@
 library coupon;
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopfee/core/common/widgets/my_empty_list.dart';
@@ -14,6 +15,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:shopfee/core/common/enum/coupon_type.dart';
 import 'package:shopfee/core/di/service_locator.dart';
+import 'package:shopfee/core/global/r.dart';
 import 'package:shopfee/features/coupon/domain/usecase/coupon_usecase.dart';
 import 'package:shopfee/features/preferential/domain/entities/coupon_by_type_entity.dart';
 import 'package:shopfee/features/preferential/presentation/preferential.dart';

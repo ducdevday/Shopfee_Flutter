@@ -15,7 +15,7 @@ class CancelDetail extends StatelessWidget {
                 children: [
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: Text("Canceled Detail",
+                    child: Text(R.canceledDetail.tr(),
                         style: AppStyle.mediumTitleStyleDark
                             .copyWith(color: AppColor.headingColor)),
                   ),
@@ -27,7 +27,7 @@ class CancelDetail extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          "Request by",
+                          R.requestBy.tr(),
                           style: AppStyle.normalTextStyleDark
                               .copyWith(fontWeight: FontWeight.w400),
                         ),
@@ -50,7 +50,7 @@ class CancelDetail extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          "Request at",
+                          R.requestAt.tr(),
                           style: AppStyle.normalTextStyleDark
                               .copyWith(fontWeight: FontWeight.w400),
                         ),
@@ -73,7 +73,7 @@ class CancelDetail extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          "Reason",
+                          R.reason.tr(),
                           style: AppStyle.normalTextStyleDark
                               .copyWith(fontWeight: FontWeight.w400),
                         ),

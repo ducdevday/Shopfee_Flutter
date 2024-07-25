@@ -46,22 +46,22 @@ class _RegisterScreenState extends State<RegisterPage> {
         password: passwordTextController.text,
         confirmPassword: confirmPasswordTextController.text);
     if (type == FieldType.firstName && !ValidateFieldUtil.validateName(text)) {
-      return "First name is not valid";
+      return R.firstNameCheck.tr();
     } else if (type == FieldType.lastName &&
         !ValidateFieldUtil.validateName(text)) {
-      return "Last name is not valid";
+      return R.lastNameCheck.tr();
     } else if (type == FieldType.email &&
         !ValidateFieldUtil.validateEmail(text)) {
-      return "Email is not valid";
+      return R.emailCheck.tr();
     } else if (type == FieldType.password &&
         !ValidateFieldUtil.validatePassword(text)) {
-      return "Password must have greater or equal 6 digits";
+      return R.passwordCheck.tr();
     } else if (type == FieldType.confirmPassword &&
         !ValidateFieldUtil.validatePassword(text)) {
-      return "Password must have greater or equal 6 digits";
+      return R.passwordCheck.tr();
     } else if (type == FieldType.confirmPassword &&
         passwordTextController.text != confirmPasswordTextController.text) {
-      return "Password and confirm password not match";
+      return R.passwordConfirm.tr();
     }
     return null;
   }
@@ -106,8 +106,8 @@ class _RegisterScreenState extends State<RegisterPage> {
                           Expanded(
                             flex: 1,
                             child: NameInputField(
-                              title: "First Name",
-                              hint: "Input Your First Name",
+                              title: R.firstName.tr(),
+                              hint: R.inputFistName.tr(),
                               validateField: (String value) =>
                                   getErrorText(value, FieldType.firstName),
                               controller: firstNameTextController,
@@ -119,8 +119,8 @@ class _RegisterScreenState extends State<RegisterPage> {
                           Expanded(
                             flex: 1,
                             child: NameInputField(
-                              title: "Last Name",
-                              hint: "Input Your Last Name",
+                              title: R.lastName.tr(),
+                              hint: R.inputLastName.tr(),
                               validateField: (String value) =>
                                   getErrorText(value, FieldType.lastName),
                               controller: lastNameTextController,
@@ -133,7 +133,7 @@ class _RegisterScreenState extends State<RegisterPage> {
                       ),
                       EmailInputField(
                         title: "Email",
-                        hint: "Input Your Email",
+                        hint: R.inputEmail.tr(),
                         validateField: (String value) =>
                             getErrorText(value, FieldType.email),
                         controller: emailTextController,
@@ -142,8 +142,8 @@ class _RegisterScreenState extends State<RegisterPage> {
                         height: AppDimen.spacing,
                       ),
                       PasswordInputField(
-                        title: "Password",
-                        hint: "Input Your Password",
+                        title: R.password.tr(),
+                        hint: R.inputPassword.tr(),
                         validateField: (String value) =>
                             getErrorText(value, FieldType.password),
                         controller: passwordTextController,
@@ -152,8 +152,8 @@ class _RegisterScreenState extends State<RegisterPage> {
                         height: AppDimen.spacing,
                       ),
                       PasswordInputField(
-                        title: "Confirm Password",
-                        hint: "Input Your Confirm Password",
+                        title: R.confirmPassword.tr(),
+                        hint: R.inputConfirmPassword.tr(),
                         validateField: (String value) =>
                             getErrorText(value, FieldType.confirmPassword),
                         controller: confirmPasswordTextController,
@@ -229,7 +229,6 @@ class _RegisterScreenState extends State<RegisterPage> {
                                               passwordTextController.text.trim());
                                     }
                                   : null,
-                              child: const Text("Register"),
                               style: ElevatedButton.styleFrom(
                                   disabledBackgroundColor:
                                       const Color(0xffCACACA),
@@ -238,6 +237,7 @@ class _RegisterScreenState extends State<RegisterPage> {
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(16),
                                   )),
+                              child: Text(R.register.tr()),
                             );
                           },
                         ),
@@ -256,7 +256,7 @@ class _RegisterScreenState extends State<RegisterPage> {
                               ),
                               onPressed: () {},
                               child: Text(
-                                "Have an account? ",
+                                R.haveAnAccount.tr(),
                                 style: AppStyle.normalTextStyleDark,
                               )),
                           TextButton(
@@ -269,13 +269,13 @@ class _RegisterScreenState extends State<RegisterPage> {
                                 NavigationUtil.pop();
                               },
                               child: Text(
-                                "Login",
+                                R.login.tr(),
                                 style: AppStyle.normalTextStylePrimary,
                               ))
                         ],
                       ),
                       Text(
-                        "or ",
+                        "${R.or.tr()} ",
                         style: AppStyle.normalTextStyleDark,
                       ),
                       TextButton(
@@ -288,7 +288,7 @@ class _RegisterScreenState extends State<RegisterPage> {
                             NavigationUtil.pushNamed(DefaultPage.route);
                           },
                           child: Text(
-                            "Continue as guess",
+                            R.continueAsGuest.tr(),
                             style: AppStyle.normalTextStylePrimary,
                           )),
                     ],

@@ -51,7 +51,7 @@ class _OtpPageState extends State<OtpPage> {
               resizeToAvoidBottomInset: true,
               appBar: AppBar(
                 centerTitle: true,
-                title: const Text('Confirm OTP code'),
+                title: Text(R.confirmOTP.tr()),
               ),
               body: Padding(
                 padding: const EdgeInsets.all(AppDimen.screenPadding),
@@ -69,7 +69,7 @@ class _OtpPageState extends State<OtpPage> {
                       height: 10,
                     ),
                     Text(
-                      "Enter the 6-digit OTP code that has been sent from SMS to complete your account registration",
+                      R.enterDigit.tr(),
                       style: AppStyle.normalTextStyleDark,
                     ),
                     const SizedBox(
@@ -114,7 +114,7 @@ class _OtpPageState extends State<OtpPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "Haven't got the confirmation code yet? ",
+                          R.noCodeOTP.tr(),
                           style: AppStyle.smallTextStyleDark,
                         ),
                         CountdownText(
@@ -137,7 +137,7 @@ class _OtpPageState extends State<OtpPage> {
                                       registerEntity: widget.registerEntity);
                                 }
                               : null,
-                          child: const Text("Confirm"),
+                          child: Text(R.confirm.tr()),
                           style: ElevatedButton.styleFrom(
                               disabledBackgroundColor: const Color(0xffCACACA),
                               disabledForegroundColor: AppColor.lightColor,
@@ -218,7 +218,7 @@ class _CountdownTextState extends State<CountdownText> {
           context.read<OtpCubit>().resendOTP(widget.email, widget.fromRoute);
         },
         child: Text(
-          "Resend",
+          R.resend.tr(),
           style: AppStyle.smallTextStylePrimary,
         ));
   }

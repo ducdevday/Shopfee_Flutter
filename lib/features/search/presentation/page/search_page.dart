@@ -110,7 +110,7 @@ class _SearchPageState extends State<SearchPage> {
                               borderRadius: BorderRadius.circular(16),
                               borderSide: const BorderSide(color: Color(0xffCCCCCC)),
                             ),
-                            hintText: "What would you like to drink today?",
+                            hintText: R.homeSearchBar.tr(),
                           ),
                         ),
                       ),
@@ -123,7 +123,7 @@ class _SearchPageState extends State<SearchPage> {
                       splashColor: Colors.transparent,
                       highlightColor: Colors.transparent,
                       child: Text(
-                        "Cancel",
+                        R.cancel.tr(),
                         style: AppStyle.normalTextStylePrimary,
                       ),
                     )
@@ -206,7 +206,7 @@ class _SearchPageState extends State<SearchPage> {
                               height: 16,
                             ),
                             Text(
-                              "No Product Found",
+                              R.noProductFound.tr(),
                               style: AppStyle.mediumTextStyleDark
                                   .copyWith(color: AppColor.nonactiveColor),
                             )
@@ -254,7 +254,7 @@ class _SearchPageState extends State<SearchPage> {
                               height: 16,
                             ),
                             Text(
-                              "No Product Found",
+                              R.noProductFound.tr(),
                               style: AppStyle.mediumTextStyleDark
                                   .copyWith(color: AppColor.nonactiveColor),
                             )

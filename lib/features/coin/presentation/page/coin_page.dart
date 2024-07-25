@@ -55,7 +55,7 @@ class _CoinPageState extends State<CoinPage> {
         context: context,
         child: Scaffold(
           appBar: AppBar(
-            title: Text("Coin History"),
+            title: Text(R.coinHistory.tr()),
             centerTitle: true,
             backgroundColor: Colors.white,
             bottom: const PreferredSize(
@@ -106,21 +106,22 @@ class _CoinPageState extends State<CoinPage> {
 
   Widget buildCoinHistoryList() {
     if (coinHistoryList.isNotEmpty) {
+      final reverseList = coinHistoryList.reversed.toList();
       return ListView.separated(
           controller: _scrollController,
-          itemBuilder: (context, index) => index < coinHistoryList.length
-              ? CoinHistoryItem(coinHistory: coinHistoryList[index])
+          itemBuilder: (context, index) => index < reverseList.length
+              ? CoinHistoryItem(coinHistory: reverseList[index])
               : const Padding(
                   padding: EdgeInsets.all(AppDimen.spacing),
                   child: CupertinoActivityIndicator(),
                 ),
           separatorBuilder: (context, index) => Divider(),
           itemCount: isLoadingMore
-              ? coinHistoryList.length + 1
-              : coinHistoryList.length);
+              ? reverseList.length + 1
+              : reverseList.length);
     } else {
       return MyEmptyList(
-          imgPath: AppPath.icNoCoin, text: "No Coins Fluctuations");
+          imgPath: AppPath.icNoCoin, text: R.nocoin.tr());
     }
   }
 }

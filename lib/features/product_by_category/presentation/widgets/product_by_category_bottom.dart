@@ -31,7 +31,7 @@ class ProductByCategoryBottom extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "${state.cart.totalQuantity} item",
+                          "${state.cart.totalQuantity} ${R.item.tr()}",
                           style: AppStyle.mediumTitleStyle
                               .copyWith(fontWeight: FontWeight.w500),
                         ),

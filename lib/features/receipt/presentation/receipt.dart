@@ -2,6 +2,7 @@ library receipt;
 
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,6 +27,7 @@ import 'package:shopfee/core/config/app_dimen.dart';
 import 'package:shopfee/core/config/app_path.dart';
 import 'package:shopfee/core/config/app_style.dart';
 import 'package:shopfee/core/di/service_locator.dart';
+import 'package:shopfee/core/global/r.dart';
 import 'package:shopfee/core/service/shared_service.dart';
 import 'package:shopfee/core/socket/socket_method.dart';
 import 'package:shopfee/core/utils/exception_util.dart';

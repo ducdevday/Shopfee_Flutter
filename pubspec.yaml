@@ -103,6 +103,7 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
+    - assets/translations/
     - assets/dialog_flow_auth.json
   fonts:
     - family: Poppins

@@ -2,6 +2,7 @@ library coupon_detail;
 
 
 import 'package:dotted_line/dotted_line.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:readmore/readmore.dart';
@@ -15,6 +16,7 @@ import 'package:lottie/lottie.dart';
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:shopfee/core/global/r.dart';
 import 'package:shopfee/core/utils/format_util.dart';
 import 'package:shopfee/core/utils/navigation_util.dart';
 import 'package:shopfee/features/coupon_detail/domain/entities/coupon_detail_entity.dart';

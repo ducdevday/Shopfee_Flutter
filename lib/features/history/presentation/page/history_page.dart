@@ -30,7 +30,7 @@ class _HistoryPageState extends State<HistoryPage> {
       context: context,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("History"),
+          title: Text(R.history.tr()),
           centerTitle: true,
           bottom: const PreferredSize(
             preferredSize: Size.fromHeight(1),

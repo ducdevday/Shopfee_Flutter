@@ -57,7 +57,7 @@ class AddressShippingWidget extends StatelessWidget {
                     ),
                     if (state.cart.shippingFee == null && state.cart.cartInvalidBranchList.isEmpty)
                       Text(
-                        "This address can't serve your current location and time, please choose another",
+                        R.addressCannotServe.tr(),
                         style: AppStyle.normalTextStylePrimary.copyWith(color: AppColor.error),
                       )
                   ],
@@ -77,7 +77,7 @@ class AddressShippingWidget extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        "Please create an address",
+                        R.pleaseCreateAddress.tr(),
                         style: AppStyle.normalTextStylePrimary,
                       ),
                     ),

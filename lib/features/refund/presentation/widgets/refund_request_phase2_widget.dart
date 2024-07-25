@@ -66,7 +66,7 @@ class _RefundRequestPhase2WidgetState extends State<RefundRequestPhase2Widget> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "What problem do you have with your order?",
+                        R.whatProblem.tr(),
                         style: AppStyle.mediumTextStyleDark,
                       ),
                       SizedBox(
@@ -101,7 +101,7 @@ class _RefundRequestPhase2WidgetState extends State<RefundRequestPhase2Widget> {
                         height: AppDimen.smallPadding,
                       ),
                       Text(
-                        "Upload Image or video (required)",
+                        "${R.updloadImageOrVideo.tr()} (required)",
                         style: AppStyle.mediumTextStyleDark,
                       ),
                       SizedBox(
@@ -138,7 +138,7 @@ class _RefundRequestPhase2WidgetState extends State<RefundRequestPhase2Widget> {
                         height: AppDimen.smallPadding,
                       ),
                       Text(
-                        "Add opinion note (optional)",
+                        R.addOpinionNote.tr(),
                         style: AppStyle.mediumTextStyleDark,
                       ),
                       SizedBox(
@@ -156,7 +156,7 @@ class _RefundRequestPhase2WidgetState extends State<RefundRequestPhase2Widget> {
                             enabledBorder: AppStyle.outlineInputBorderDefault,
                             focusedBorder: AppStyle.outlineInputBorderPrimary,
                             disabledBorder: AppStyle.outlineInputBorderDefault,
-                            hintText: "Type some text",
+                            hintText: R.typeSomeText.tr(),
                             hintStyle: TextStyle(color: Colors.grey)),
                       ),
                     ],
@@ -164,7 +164,7 @@ class _RefundRequestPhase2WidgetState extends State<RefundRequestPhase2Widget> {
                 ),
               ),
               Text(
-                "* After consider, Shopfee will refund for you(2-3 days)",
+                "* ${R.condiderRefund.tr()}",
                 style: AppStyle.smallTextStyleDark,
               ),
               SizedBox(
@@ -176,7 +176,7 @@ class _RefundRequestPhase2WidgetState extends State<RefundRequestPhase2Widget> {
                   onPressed: state.mediaList.isEmpty ? null : () {
                     context.read<RefundBloc>().add(RefundCreateRequestPressed(orderId: widget.orderId, note: textEditingController.text.trim()));
                   },
-                  child: Text("Create Request"),
+                  child: Text(R.createRequest.tr()),
                   style: AppStyle.elevatedButtonStyleRed,
                 ),
               )

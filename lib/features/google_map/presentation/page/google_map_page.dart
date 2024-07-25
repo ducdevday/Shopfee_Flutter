@@ -46,7 +46,7 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
     return Scaffold(
       backgroundColor: AppColor.scaffoldColorBackground,
       appBar: AppBar(
-        title: Text("Mark your address"),
+        title: Text(R.markAddress.tr()),
         centerTitle: true,
         backgroundColor: Colors.white,
         bottom: const PreferredSize(
@@ -93,14 +93,14 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
                                 AutovalidateMode.onUserInteraction,
                             validator: (value) {
                               if (value!.isEmpty) {
-                                return 'Please fill this section';
+                                return R.pleaseFillThisSection.tr();
                               }
                               return null;
                             },
                             onChanged: (value) => handleSearchPlace(value),
                             controller: addressNoController,
                             decoration: InputDecoration(
-                              labelText: "Address No",
+                              labelText: R.addressNo.tr(),
                               labelStyle: TextStyle(color: Colors.black),
                               contentPadding: const EdgeInsets.symmetric(
                                   vertical: 15, horizontal: 12),

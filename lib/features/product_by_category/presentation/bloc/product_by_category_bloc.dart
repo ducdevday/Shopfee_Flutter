@@ -23,7 +23,7 @@ class ProductByCategoryBloc
           event.categoryId,
           page: event.page,
           size: event.size);
-      await Future.delayed(Duration(seconds: 3));
+      await Future.delayed(Duration(seconds: 1));
       emit(ProductByCategoryLoadSuccess(
           products: products,
           categoryId: event.categoryId,

@@ -61,8 +61,8 @@ class _SavedAddressPageState extends State<SavedAddressPage> {
             appBar: AppBar(
               backgroundColor: Colors.white,
               title: Text(widget.fromRoute == CartPage.route
-                  ? "Choose Address"
-                  : "Saved Address"),
+                  ? R.chooseAddress.tr()
+                  : R.savedAddress.tr()),
               centerTitle: true,
               bottom: const PreferredSize(
                 preferredSize: Size.fromHeight(1),
@@ -122,7 +122,7 @@ class _SavedAddressPageState extends State<SavedAddressPage> {
                                     },
                                     icon: Icon(Icons.add_circle_outline),
                                     label: Text(
-                                      "Add New Address",
+                                      R.addNewAddress.tr(),
                                       style: AppStyle.normalTextStylePrimary,
                                     )),
                               ],
@@ -207,7 +207,7 @@ class _SavedAddressPageState extends State<SavedAddressPage> {
     if (isDefault) {
       return OutlinedButton(
           onPressed: null,
-          child: Text("Default"),
+          child: Text(R.defaultt.tr()),
           style: OutlinedButton.styleFrom(
               minimumSize: const Size(84, 26),
               disabledForegroundColor: AppColor.primaryColor,

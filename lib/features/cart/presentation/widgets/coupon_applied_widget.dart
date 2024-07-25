@@ -11,7 +11,7 @@ class CouponAppliedWidget extends StatelessWidget {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Coupon", style: AppStyle.mediumTitleStyleDark),
+              Text(R.coupon.tr(), style: AppStyle.mediumTitleStyleDark),
               SizedBox(
                 height: 4,
               ),
@@ -28,7 +28,7 @@ class CouponAppliedWidget extends StatelessWidget {
                   icon: Icon(
                     Icons.discount_outlined,
                   ),
-                  label: Text("Add Coupon"))
+                  label: Text(R.addCoupon.tr()))
             ],
           );
         }
@@ -46,7 +46,7 @@ class CouponAppliedWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Shipping Coupon",
+          R.shippingCoupon.tr(),
           style: AppStyle.mediumTextStyleDark,
         ),
         Row(
@@ -85,7 +85,7 @@ class CouponAppliedWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Order Coupon",
+          R.orderCoupon.tr(),
           style: AppStyle.mediumTextStyleDark,
         ),
         Row(
@@ -124,7 +124,7 @@ class CouponAppliedWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Product Coupon",
+          R.productCoupon.tr(),
           style: AppStyle.mediumTextStyleDark,
         ),
         Row(

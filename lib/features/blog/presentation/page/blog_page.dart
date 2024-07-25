@@ -71,7 +71,7 @@ class _BlogPageState extends State<BlogPage> {
                 },
               ),
               title: Text(
-                "All Blogs",
+                R.allBlogs.tr(),
                 style: AppStyle.largeTitleStyleDark,
               ),
               centerTitle: true,
@@ -131,7 +131,7 @@ class _BlogPageState extends State<BlogPage> {
                                 height: 16,
                               ),
                               Text(
-                                "No Blog Found",
+                                R.noBlogFound.tr(),
                                 style: AppStyle.mediumTextStyleDark
                                     .copyWith(color: AppColor.nonactiveColor),
                               )

@@ -58,7 +58,7 @@ class _ChooseAddressPageState extends State<ChooseAddressPage> {
         backgroundColor: AppColor.scaffoldColorBackground,
         appBar: AppBar(
           backgroundColor: Colors.white,
-          title: Text("Choose Address"),
+          title: Text(R.chooseAddress.tr()),
           centerTitle: true,
           bottom: const PreferredSize(
             preferredSize: Size.fromHeight(1),
@@ -97,7 +97,7 @@ class _ChooseAddressPageState extends State<ChooseAddressPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             DropdownMenu(
-                              label: Text("Province"),
+                              label: Text(R.province.tr()),
                               menuHeight: 200,
                               width: MediaQuery.of(context).size.width -
                                   AppDimen.screenPadding * 2,
@@ -132,7 +132,7 @@ class _ChooseAddressPageState extends State<ChooseAddressPage> {
                               height: AppDimen.smallPadding,
                             ),
                             DropdownMenu(
-                              label: Text("District"),
+                              label: Text(R.district.tr()),
                               menuHeight: 200,
                               width: MediaQuery.of(context).size.width -
                                   AppDimen.screenPadding * 2,
@@ -167,7 +167,7 @@ class _ChooseAddressPageState extends State<ChooseAddressPage> {
                               height: AppDimen.smallPadding,
                             ),
                             DropdownMenu(
-                              label: Text("Ward"),
+                              label: Text(R.ward.tr()),
                               menuHeight: 200,
                               width: MediaQuery.of(context).size.width -
                                   AppDimen.screenPadding * 2,
@@ -219,7 +219,7 @@ class _ChooseAddressPageState extends State<ChooseAddressPage> {
                                   });
                                 } else {
                                   EasyLoading.showInfo(
-                                      "Please choose full province, district and ward");
+                                      R.pleaseChooseFullAddress.tr());
                                 }
                               },
                               child: Hero(
@@ -230,13 +230,13 @@ class _ChooseAddressPageState extends State<ChooseAddressPage> {
                                       AutovalidateMode.onUserInteraction,
                                   validator: (value) {
                                     if (value!.isEmpty) {
-                                      return 'Please fill this section';
+                                      return R.pleaseFillThisSection.tr();
                                     }
                                     return null;
                                   },
                                   controller: addressNoController,
                                   decoration: InputDecoration(
-                                    labelText: "Address No",
+                                    labelText: R.addressNo.tr(),
                                     labelStyle: TextStyle(color: Colors.black),
                                     contentPadding: const EdgeInsets.symmetric(
                                         vertical: 15, horizontal: 12),
@@ -283,7 +283,7 @@ class _ChooseAddressPageState extends State<ChooseAddressPage> {
                                     width: AppDimen.spacing,
                                   ),
                                   Text(
-                                    "Use My Current Location",
+                                    R.useMyCurrentPosition.tr(),
                                     style: AppStyle.normalTextStyleDark,
                                   )
                                 ],

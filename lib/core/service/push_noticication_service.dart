@@ -4,6 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:shopfee/core/utils/navigation_util.dart';
+import 'package:shopfee/features/receipt/presentation/receipt.dart';
 
 class PushNotificationService {
   static final _firebaseMessaging = FirebaseMessaging.instance;
@@ -24,7 +25,7 @@ class PushNotificationService {
             _onBackgroundNotificationTap);
   }
 
-  static Future<void> setUpPushNotification() async{
+  static Future<void> setUpPushNotification() async {
     localNotificationInit();
     //Todo for handling in foreground state
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
@@ -37,7 +38,6 @@ class PushNotificationService {
             payload: payloadData);
       }
     });
-
 
     //Todo for handling in background state
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
@@ -92,16 +92,26 @@ class PushNotificationService {
   // on tap local notification in foreground
   static void _onForegroundNotificationTap(
       NotificationResponse notificationResponse) {
-    notificationResponse;
-    NavigationUtil.pushNamed("/message", arguments: notificationResponse);
+    // Parse the JSON string
+    Map<String, dynamic> parsedJson =
+        jsonDecode(notificationResponse.payload ?? "");
+
+    // Extract the order_id
+    String orderId = parsedJson['order_id'];
+    NavigationUtil.pushNamed(ReceiptPage.route, arguments: orderId);
   }
 
   // on tap local notification in background
   @pragma('vm:entry-point')
   static void _onBackgroundNotificationTap(
       NotificationResponse notificationResponse) {
-    notificationResponse;
-    NavigationUtil.pushNamed("/message", arguments: notificationResponse);
+    // Parse the JSON string
+    Map<String, dynamic> parsedJson =
+        jsonDecode(notificationResponse.payload ?? "");
+
+    // Extract the order_id
+    String orderId = parsedJson['order_id'];
+    NavigationUtil.pushNamed(ReceiptPage.route, arguments: orderId);
   }
 
   // show a simple notification
@@ -125,8 +135,7 @@ class PushNotificationService {
   }
 }
 
-Future<void> _firebaseMessagingBackgroundHandler(
-    RemoteMessage message) async {
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print("Got a message in onBackgroundMessage");
   // String payloadData = jsonEncode(message.data);
   // if (message.notification != null) {

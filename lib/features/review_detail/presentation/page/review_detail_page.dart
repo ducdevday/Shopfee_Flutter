@@ -49,7 +49,7 @@ class _ReviewDetailPageState extends State<ReviewDetailPage> {
         child: Scaffold(
           backgroundColor: AppColor.scaffoldColorBackground,
           appBar: AppBar(
-            title: Text("All Review"),
+            title: Text(R.allReview.tr()),
             backgroundColor: Colors.white,
             bottom: const PreferredSize(
               preferredSize: Size.fromHeight(1),

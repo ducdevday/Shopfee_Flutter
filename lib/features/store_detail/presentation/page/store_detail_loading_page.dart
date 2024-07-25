@@ -24,7 +24,7 @@ class StoreDetailLoadingPage extends StatelessWidget {
                     left: AppDimen.spacing,
                     child: Center(
                         child: Text(
-                      "Loading...",
+                      "${R.loading.tr()}...",
                       style: AppStyle.mediumTextStyleDark
                           .copyWith(color: AppColor.primaryColor),
                     )))

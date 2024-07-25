@@ -23,7 +23,7 @@ class RecommendProductList extends StatelessWidget {
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          "Recommend Products",
+                          R.recommedProduct.tr(),
                           style: AppStyle.mediumTitleStyleDark,
                         ),
                       ),

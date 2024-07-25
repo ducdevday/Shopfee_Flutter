@@ -14,7 +14,7 @@ class PaymentSummary extends StatelessWidget {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Payment Summary",
+              Text(R.paymentSummary.tr(),
                   style: AppStyle.mediumTitleStyleDark
                       .copyWith(color: AppColor.headingColor)),
               const SizedBox(
@@ -25,7 +25,7 @@ class PaymentSummary extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      "Item Price (Origin)",
+                      R.itemPriceOrigin.tr(),
                       style: AppStyle.normalTextStyleDark
                           .copyWith(fontWeight: FontWeight.w400),
                     ),
@@ -48,7 +48,7 @@ class PaymentSummary extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      "Shipping Fee",
+                      R.shippingFee.tr(),
                       style: AppStyle.normalTextStyleDark
                           .copyWith(fontWeight: FontWeight.w400),
                     ),
@@ -74,7 +74,7 @@ class PaymentSummary extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Text(
-                            "Applied Coin",
+                            R.appliedCoin.tr(),
                             style: AppStyle.normalTextStyleDark
                                 .copyWith(fontWeight: FontWeight.w400),
                           ),
@@ -102,7 +102,7 @@ class PaymentSummary extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Text(
-                            "Applied Coupon",
+                            R.appliedCoupon.tr(),
                             style: AppStyle.normalTextStyleDark
                                 .copyWith(fontWeight: FontWeight.w400),
                           ),
@@ -127,7 +127,7 @@ class PaymentSummary extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      "Total",
+                      R.total.tr(),
                       style: AppStyle.mediumTitleStyleDark,
                     ),
                   ),

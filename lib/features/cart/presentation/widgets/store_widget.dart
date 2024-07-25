@@ -56,7 +56,7 @@ class StoreWidget extends StatelessWidget {
               );
             } else {
               return Text(
-                "There are no stores still operating",
+                R.noStoreOpen.tr(),
                 style: AppStyle.normalTextStyleDark,
               );
             }

@@ -49,7 +49,7 @@ class _ReviewPageState extends State<ReviewPage> {
               backgroundColor: AppColor.scaffoldColorBackground,
               appBar: AppBar(
                   backgroundColor: Colors.white,
-                  title: const Text("Review Order"),
+                  title: Text(R.reviewOrder.tr()),
                   centerTitle: true,
                   bottom: const PreferredSize(
                     preferredSize: Size.fromHeight(1),

@@ -5,7 +5,8 @@ class ChangePasswordPage extends StatefulWidget {
   final String email;
   final String code;
 
-  const ChangePasswordPage({Key? key, required this.email, required this.code}) : super(key: key);
+  const ChangePasswordPage({Key? key, required this.email, required this.code})
+      : super(key: key);
 
   @override
   State<ChangePasswordPage> createState() => _ChangePasswordPageState();
@@ -32,20 +33,22 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
     super.dispose();
   }
 
-  String? getErrorText(String text,
-      FieldType type,) {
+  String? getErrorText(
+    String text,
+    FieldType type,
+  ) {
     _cubit.checkValidField(
         password: passwordTextController.text,
         confirmPassword: confirmPasswordTextController.text);
     if (type == FieldType.password &&
         !ValidateFieldUtil.validatePassword(text)) {
-      return "Password must have greater or equal 6 digits";
+      return R.passwordCheck.tr();
     } else if (type == FieldType.confirmPassword &&
         !ValidateFieldUtil.validatePassword(text)) {
-      return "Password must have greater or equal 6 digits";
+      return R.passwordCheck.tr();
     } else if (type == FieldType.confirmPassword &&
         passwordTextController.text != confirmPasswordTextController.text) {
-      return "Password and confirm password not match";
+      return R.passwordConfirm.tr();
     }
     return null;
   }
@@ -56,7 +59,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
       create: (context) => _cubit,
       child: BlocListener<ChangePasswordCubit, ChangePasswordState>(
         listener: (context, state) {
-          if(state is ChangePasswordSuccess){
+          if (state is ChangePasswordSuccess) {
             NavigationUtil.pushNamedAndRemoveUntil(LoginPage.route);
           }
         },
@@ -80,15 +83,15 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       height: 32,
                     ),
                     Text(
-                      "Update Your Password",
+                      R.updateYourPassword.tr(),
                       style: AppStyle.mediumTitleStyleDark,
                     ),
                     const SizedBox(
                       height: 28,
                     ),
                     PasswordInputField(
-                      title: "Password",
-                      hint: "Input Your Password",
+                      title: R.password.tr(),
+                      hint: R.inputPassword.tr(),
                       validateField: (String value) =>
                           getErrorText(value, FieldType.password),
                       controller: passwordTextController,
@@ -97,8 +100,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       height: AppDimen.spacing,
                     ),
                     PasswordInputField(
-                      title: "Confirm Password",
-                      hint: "Input Your Confirm Password",
+                      title: R.confirmPassword.tr(),
+                      hint: R.inputConfirmPassword.tr(),
                       validateField: (String value) =>
                           getErrorText(value, FieldType.confirmPassword),
                       controller: confirmPasswordTextController,
@@ -107,7 +110,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          "*Password must have greater or equal 6 characters",
+                          "*${R.passwordCheck.tr()}",
                           style: AppStyle.smallTextStyleDark,
                         )),
                   ],
@@ -121,19 +124,21 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       height: 48,
                       width: double.infinity,
                       child:
-                      BlocBuilder<ChangePasswordCubit, ChangePasswordState>(
+                          BlocBuilder<ChangePasswordCubit, ChangePasswordState>(
                         builder: (context, state) {
                           return ElevatedButton(
                             onPressed: state is! ChangePasswordInitial
                                 ? () {
-                              _cubit.changePassword(
-                                  widget.email, passwordTextController.text, widget.code);
-                            }
+                                    _cubit.changePassword(
+                                        widget.email,
+                                        passwordTextController.text,
+                                        widget.code);
+                                  }
                                 : null,
-                            child: const Text("Change Password"),
+                            child: Text(R.changePassword.tr()),
                             style: ElevatedButton.styleFrom(
-                                disabledBackgroundColor: const Color(
-                                    0xffCACACA),
+                                disabledBackgroundColor:
+                                    const Color(0xffCACACA),
                                 disabledForegroundColor: AppColor.lightColor,
                                 textStyle: AppStyle.mediumTextStyleDark,
                                 shape: RoundedRectangleBorder(

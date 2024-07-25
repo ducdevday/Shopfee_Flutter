@@ -14,16 +14,23 @@ class ChartTotalOrder extends StatelessWidget {
         Align(
           alignment: Alignment.centerLeft,
           child: Text(
-            'Total Order (${total.toInt()})',
+            '${R.total.tr()} ${R.order.tr()} (${total.toInt()})',
             style: AppStyle.mediumTitleStyleDark,
           ),
         ),
-        SizedBox(height: AppDimen.spacing,),
+        SizedBox(
+          height: AppDimen.spacing,
+        ),
         MyContainer(
           child: Column(
             children: [
               SfCircularChart(
-                  palette: <Color>[AppColor.circularChartColor2,AppColor.circularChartColor1,AppColor.circularChartColor3,AppColor.circularChartColor4],
+                  palette: <Color>[
+                    AppColor.circularChartColor2,
+                    AppColor.circularChartColor1,
+                    AppColor.circularChartColor3,
+                    AppColor.circularChartColor4
+                  ],
                   legend:
                       Legend(isVisible: true, position: LegendPosition.bottom),
                   series: <CircularSeries<ChartCircularData, String>>[
@@ -35,7 +42,8 @@ class ChartTotalOrder extends StatelessWidget {
                         yValueMapper: (ChartCircularData data, _) => data.yData,
                         dataLabelMapper: (ChartCircularData data, _) =>
                             data.text,
-                        dataLabelSettings: DataLabelSettings(isVisible: true,
+                        dataLabelSettings: DataLabelSettings(
+                            isVisible: true,
                             textStyle: AppStyle.normalTextStyle.copyWith(
                                 shadows: [
                                   Shadow(

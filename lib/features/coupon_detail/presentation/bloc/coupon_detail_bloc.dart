@@ -13,7 +13,7 @@ class CouponDetailBloc extends Bloc<CouponDetailEvent, CouponDetailState> {
     try {
       emit(CouponDetailLoadInProcess());
       final coupon = await _couponDetailUseCase.getCouponDetail(event.couponId);
-      await Future.delayed(Duration(seconds: 2));
+      await Future.delayed(Duration(seconds: 1));
       emit(CouponDetailLoadSuccess(coupon: coupon));
     } catch (e) {
       emit(CouponDetailLoadFailure());

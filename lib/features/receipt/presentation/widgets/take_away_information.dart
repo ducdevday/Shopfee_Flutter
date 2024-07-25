@@ -15,7 +15,7 @@ class TakeAwayInformation extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "Receiver Information",
+                  R.receiverInformation.tr(),
                   style: AppStyle.mediumTitleStyleDark.copyWith(
                       color: AppColor.headingColor,
                       fontWeight: FontWeight.w500),
@@ -59,7 +59,7 @@ class TakeAwayInformation extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "Take Away In",
+                  R.takeAwayIn.tr(),
                   style: AppStyle.mediumTitleStyleDark.copyWith(
                       color: AppColor.headingColor,
                       fontWeight: FontWeight.w500),
@@ -101,7 +101,7 @@ class TakeAwayInformation extends StatelessWidget {
                       SizedBox(width: AppDimen.smallSpacing,),
                       Expanded(
                         child: Text(
-                          "Chosen Time: ${FormatUtil.formatTime(state.receipt.receiverInformation?.receiveTime)} - ${FormatUtil.formatDate2(state.receipt.receiverInformation?.receiveTime)}",
+                          "${R.chosenTime.tr()}: ${FormatUtil.formatTime(state.receipt.receiverInformation?.receiveTime)} - ${FormatUtil.formatDate2(state.receipt.receiverInformation?.receiveTime)}",
                           style: AppStyle.normalTextStyleDark,
                         ),
                       ),

@@ -117,31 +117,27 @@ class _OnBoardingScreenState extends State<OnBoardingPage> {
                 Container(
                   height: 48,
                   width: 156,
-                  child: Directionality(
-                    textDirection: TextDirection.rtl,
-                    child: ElevatedButton.icon(
-                        icon: const Icon(Icons.arrow_back_outlined),
-                        label: Text(
-                          currentIndex == widget.contents.length - 1
-                              ? "START"
-                              : "NEXT",
-                          style: AppStyle.normalTextStyle,
+                  child: ElevatedButton(
+                      child: Text(
+                        currentIndex == widget.contents.length - 1
+                            ? "START"
+                            : "NEXT",
+                        style: AppStyle.normalTextStyle,
+                      ),
+                      onPressed: () {
+                        if (currentIndex == widget.contents.length - 1) {
+                          handleStartButtonPressed();
+                        }
+                        _controller.nextPage(
+                          duration: const Duration(milliseconds: 100),
+                          curve: Curves.bounceIn,
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
                         ),
-                        onPressed: () {
-                          if (currentIndex == widget.contents.length - 1) {
-                            handleStartButtonPressed();
-                          }
-                          _controller.nextPage(
-                            duration: const Duration(milliseconds: 100),
-                            curve: Curves.bounceIn,
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                        )),
-                  ),
+                      )),
                 )
               ],
             ),

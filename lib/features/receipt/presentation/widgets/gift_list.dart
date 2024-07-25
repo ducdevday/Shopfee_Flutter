@@ -34,7 +34,7 @@ class _GiftListState extends State<GiftList> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Gift List",
+                          R.giftList.tr(),
                           style: AppStyle.mediumTitleStyleDark.copyWith(
                               color: AppColor.headingColor,
                               fontWeight: FontWeight.w500),
@@ -105,29 +105,26 @@ class _GiftListState extends State<GiftList> {
                             Divider(
                               height: 1,
                             ),
-                            Directionality(
-                              textDirection: TextDirection.rtl,
-                              child: TextButton.icon(
-                                onPressed: () {
-                                  if (maxLength == 3) {
-                                    setState(() {
-                                      maxLength = giftListLength;
-                                      defaultText = "Show less";
-                                      defaultIcon =
-                                          Icon(Icons.keyboard_arrow_up_rounded);
-                                    });
-                                  } else {
-                                    setState(() {
-                                      maxLength = 3;
-                                      defaultText = "Show more";
-                                      defaultIcon = Icon(
-                                          Icons.keyboard_arrow_down_rounded);
-                                    });
-                                  }
-                                },
-                                label: Text(defaultText),
-                                icon: defaultIcon,
-                              ),
+                            TextButton.icon(
+                              onPressed: () {
+                                if (maxLength == 3) {
+                                  setState(() {
+                                    maxLength = giftListLength;
+                                    defaultText = R.showLess.tr();
+                                    defaultIcon =
+                                        Icon(Icons.keyboard_arrow_up_rounded);
+                                  });
+                                } else {
+                                  setState(() {
+                                    maxLength = 3;
+                                    defaultText = R.showMore.tr();
+                                    defaultIcon = Icon(
+                                        Icons.keyboard_arrow_down_rounded);
+                                  });
+                                }
+                              },
+                              label: Text(defaultText),
+                              icon: defaultIcon,
                             ),
                           ],
                         );

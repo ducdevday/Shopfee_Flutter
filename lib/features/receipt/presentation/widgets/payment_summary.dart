@@ -16,7 +16,7 @@ class PaymentSummary extends StatelessWidget {
               children: [
                 Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("Payment Summary",
+                  child: Text(R.paymentSummary.tr(),
                       style: AppStyle.mediumTitleStyleDark
                           .copyWith(color: AppColor.headingColor)),
                 ),
@@ -28,7 +28,7 @@ class PaymentSummary extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        "Item Price",
+                        R.itemPrice.tr(),
                         style: AppStyle.normalTextStyleDark
                             .copyWith(fontWeight: FontWeight.w400),
                       ),
@@ -51,7 +51,7 @@ class PaymentSummary extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        "Shipping fee",
+                        R.shippingFee.tr(),
                         style: AppStyle.normalTextStyleDark
                             .copyWith(fontWeight: FontWeight.w400),
                       ),
@@ -77,7 +77,7 @@ class PaymentSummary extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        "Total",
+                        R.total.tr(),
                         style: AppStyle.mediumTitleStyleDark,
                       ),
                     ),
@@ -97,7 +97,7 @@ class PaymentSummary extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Payment Method",
+                      R.paymentMethod.tr(),
                       style: AppStyle.mediumTitleStyleDark.copyWith(
                           color: AppColor.headingColor,
                           fontWeight: FontWeight.w500),
@@ -117,7 +117,7 @@ class PaymentSummary extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Payment Status",
+                        R.paymentStatus.tr(),
                         style: AppStyle.mediumTitleStyleDark.copyWith(
                             color: AppColor.headingColor,
                             fontWeight: FontWeight.w500),
@@ -148,7 +148,7 @@ class PaymentSummary extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  "Shipping Fee Discount",
+                  R.shippingFeeDiscount.tr(),
                   style: AppStyle.normalTextStyleDark
                       .copyWith(fontWeight: FontWeight.w400),
                 ),
@@ -181,7 +181,7 @@ class PaymentSummary extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  "Order Discount",
+                  R.orderDiscount.tr(),
                   style: AppStyle.normalTextStyleDark
                       .copyWith(fontWeight: FontWeight.w400),
                 ),

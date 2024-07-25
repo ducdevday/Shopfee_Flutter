@@ -36,10 +36,10 @@ class _LoginPageState extends State<LoginPage> {
     FieldType type,
   ) {
     if (type == FieldType.email && !ValidateFieldUtil.validateEmail(text)) {
-      return "Email is not valid";
+      return R.emailCheck.tr();
     } else if (type == FieldType.password &&
         !ValidateFieldUtil.validatePassword(text)) {
-      return "Password must have greater or equal 6 digits";
+      return R.passwordCheck.tr();
     }
     return null;
   }
@@ -101,7 +101,7 @@ class _LoginPageState extends State<LoginPage> {
                         height: 32,
                       ),
                       Text(
-                        "Welcome Back!",
+                        R.welcomeBack.tr(),
                         style: AppStyle.superLargeTitleStylePrimary,
                       ),
                       const SizedBox(
@@ -109,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       EmailInputField(
                         title: "Email",
-                        hint: "Input Your Email",
+                        hint: R.inputEmail.tr(),
                         validateField: (String value) =>
                             getErrorText(value, FieldType.email),
                         controller: emailTextController,
@@ -119,8 +119,8 @@ class _LoginPageState extends State<LoginPage> {
                         height: AppDimen.spacing,
                       ),
                       PasswordInputField(
-                        title: "Password",
-                        hint: "Input Your Password",
+                        title: R.password.tr(),
+                        hint: R.inputPassword.tr(),
                         validateField: (String value) =>
                             getErrorText(value, FieldType.password),
                         controller: passwordTextController,
@@ -134,7 +134,7 @@ class _LoginPageState extends State<LoginPage> {
                                     .pushNamed(ForgotPasswordPage.route);
                               },
                               child: Text(
-                                "Forgot password?",
+                                R.youForgotPassword.tr(),
                                 style: AppStyle.normalTextStylePrimary,
                               ))),
                       Container(
@@ -148,7 +148,7 @@ class _LoginPageState extends State<LoginPage> {
                                 _cubit.doLogin(emailTextController.text,
                                     passwordTextController.text);
                               },
-                              child: const Text("Login"),
+                              child:  Text(R.login.tr()),
                               style: ElevatedButton.styleFrom(
                                   disabledBackgroundColor:
                                       const Color(0xffCACACA),
@@ -183,7 +183,7 @@ class _LoginPageState extends State<LoginPage> {
                           padding:
                               const EdgeInsets.symmetric(horizontal: 8.0),
                           child: Text(
-                            "or",
+                            R.or.tr(),
                             style: AppStyle.normalTextStyleDark,
                           ),
                         ),
@@ -222,7 +222,7 @@ class _LoginPageState extends State<LoginPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "New User? ",
+                          "${R.newUser.tr()}? ",
                           style: AppStyle.normalTextStyleDark,
                         ),
                         TextButton(
@@ -236,7 +236,7 @@ class _LoginPageState extends State<LoginPage> {
                                   .pushNamed(RegisterPage.route);
                             },
                             child: Text(
-                              "Register",
+                             R.register.tr(),
                               style: AppStyle.normalTextStylePrimary,
                             ))
                       ],

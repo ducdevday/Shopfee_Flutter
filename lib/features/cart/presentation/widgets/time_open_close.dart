@@ -11,7 +11,7 @@ class TimeOpenClose extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Time order",
+          R.timeOrder.tr(),
           style: AppStyle.mediumTitleStyleDark
               .copyWith(color: AppColor.headingColor),
         ),
@@ -26,7 +26,7 @@ class TimeOpenClose extends StatelessWidget {
                 return Column(
                   children: [
                     Text(
-                      "*We are open from ${state.cart.store?.openTime} AM - ${state.cart.store?.closeTime} PM",
+                      "*${R.openFrom.tr()} ${state.cart.store?.openTime} AM - ${state.cart.store?.closeTime} PM",
                       style: AppStyle.normalTextStyleDark,
                     ),
                     const SizedBox(

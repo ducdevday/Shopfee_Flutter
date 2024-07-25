@@ -1,5 +1,6 @@
 library saved_address;
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -15,6 +16,7 @@ import 'package:shopfee/core/config/app_dimen.dart';
 import 'package:shopfee/core/config/app_path.dart';
 import 'package:shopfee/core/config/app_style.dart';
 import 'package:shopfee/core/di/service_locator.dart';
+import 'package:shopfee/core/global/r.dart';
 import 'package:shopfee/core/service/shared_service.dart';
 import 'package:shopfee/core/utils/exception_util.dart';
 import 'package:shopfee/core/utils/navigation_util.dart';
