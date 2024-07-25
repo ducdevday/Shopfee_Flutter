@@ -3,14 +3,12 @@ class R {
   static const String language = "language";
   static const String english = "english";
   static const String vietnamese = "vietnamese";
-
   static const String topRated = "topRated";
   static const String bestSelling = "bestSelling";
   static const String viewed = "viewed";
   static const String homeSearchBar = "homeSearchBar";
   static const String blogPost = "blogPost";
   static const String noProductFound = "noProductFound";
-
   static const String account = "account";
   static const String personalInformation = "personalInformation";
   static const String changePassword = "changePassword";
@@ -26,10 +24,8 @@ class R {
   static const String sureLogout = "sureLogout";
   static const String logout = "logout";
   static const String registerOrLogin = "registerOrLogin";
-
   static const String allBlogs = "allBlogs";
   static const String noBlogFound = "noBlogFound";
-
   static const String cart = "cart";
   static const String deleteAll = "deleteAll";
   static const String delete = "delete";

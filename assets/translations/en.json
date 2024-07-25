@@ -269,5 +269,6 @@
   "orderProduct": "Order Product",
   "shareSuccess": "Share to your friend successfully",
   "tracking": "Tracking",
-  "seeOrderDetail": "See Order Detail"
+  "seeOrderDetail": "See Order Detail",
+  "refundRequest": "Refund Request"
 }

@@ -17,6 +17,7 @@ class _ReceiptPageState extends State<ReceiptPage> {
   @override
   void initState() {
     super.initState();
+    print("orderId:${widget.orderId}");
     _bloc = ServiceLocator.sl<ReceiptBloc>()
       ..add(ReceiptLoadInformation(orderId: widget.orderId));
     socketMethod.joinUser(userId: SharedService.getUserId()!);
