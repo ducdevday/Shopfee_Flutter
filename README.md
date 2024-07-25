@@ -25,7 +25,7 @@ Email: ducdevday@gmail.com
 https://github.com/ducdevday/Shopfee_Flutter/assets/86721113/c51078ef-ea10-4a5b-81e9-9d25456a8dd2
 
 # 8. Demo Video
-https://drive.google.com/file/d/1_OyEr4lmwRXb_AFlaeu5wgr0t28voRxS/view?usp=sharing
+https://drive.google.com/file/d/1U9kIXFfBXQg7o5yJuiG-lGB6DSZwf1C6/view?usp=sharing
 
 # 9. App Image 
 <img src="https://github.com/user-attachments/assets/e4499e49-bcaf-4486-bd15-5e77d233d40e" width="200" />
